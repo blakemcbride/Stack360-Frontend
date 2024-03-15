@@ -21,6 +21,7 @@ Stack360 is built with:
 * HTML / CSS / JavaScript
 * Web services
 * Microservices
+* KISS Web Development Framework [kissweb.org](https://kissweb.org)
 
 See [Stack360.io](https://stack360.io)
 
