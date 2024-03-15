@@ -14,6 +14,14 @@ We're excited to share Stack360, our robust web-based business process software!
 * Employee Benefit Administration: Manage employee health benefits, insurance, time off, etc.
 * and a lot more...
 
+Stack360 is built with:
+
+* Java and Groovy
+* SQL
+* HTML / CSS / JavaScript
+* Web services
+* Microservices
+
 See [Stack360.io](https://stack360.io)
 
 A system manual for the Stack360 system is being published on Amazon.com on April 1, 2024.
