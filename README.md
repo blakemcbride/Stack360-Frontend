@@ -30,5 +30,5 @@ and covers system configuration is being published on Amazon.com on April 1, 202
 This repo will be populated on or soon after that date.
 
 Please help fund this project at
-[https://www.gofundme.com/stack360-development-fund](https://www.gofundme.com/stack360-development-fund)
+[https://www.gofundme.com/stack360](https://www.gofundme.com/stack360)
 
