@@ -39,7 +39,7 @@ is for that.
 ### Documentation
 
 A system manual for the Stack360 system which covers system architecture, acts as a developer guide,
-and covers system configuration is being published on Amazon.com on April 1, 2024.
+and covers system configuration is being published on Amazon.com before April 15, 2024.
 This repo will be populated on or soon after that date.
 
 Please help fund this project at
