@@ -1,0 +1,110 @@
+<!--
+    Copyright 2020 STACK360 LLC
+    All rights reserved.
+
+-->
+
+<div class="kiss">
+    <style>
+        .es-grid {
+            display: grid;
+            grid-template-columns: max-content auto;
+            grid-column-gap: 10px;
+            grid-row-gap: 10px;
+        }
+        .es-grid span {
+            color: #000;
+            align-self: center;
+            text-align: right;
+        }
+        .tab-height {
+            height: calc(100% - 45px);
+            position: relative;
+        }
+    </style>
+    <div style="margin-bottom: 10px; margin-top: 10px;">
+        <span>EEO-1 Surveys:</span>
+        <hr>
+    </div>
+
+    <div id="surveysGrid" style="height: calc(100% - 85px);"></div>
+
+    <div style="margin-top: 15px;">
+        <text-label id="surveys-label">Displaying 0 EEO-1 Surveys</text-label>
+
+        <div style="right: 10px; bottom: 10px; position: absolute;">
+            <push-button id="add">Add</push-button>
+            <push-button id="edit" style="margin-left: 10px;" disabled>Edit</push-button>
+            <push-button id="delete" style="margin-left: 10px;" disabled>Delete</push-button>
+            <push-button id="download" style="margin-left: 10px;" disabled>Download</push-button>
+        </div>
+    </div>
+
+    <popup id="surveys-popup" width="670px" height="585px">
+        <popup-title>
+            <span><text-label id="surveys-popup-label">Add New</text-label> EEO-1 Survey</span>
+        </popup-title>
+        <popup-body style="padding: 10px;">            
+            <span>Answer the questions below and click OK. An electronic version of all required EEO-1 Reports will be included in the survey.</span>
+
+            <div class="es-grid" style="grid-template-columns: auto max-content; margin-top: 10px; margin-bottom: 20px;">
+                <span style="text-align: left;">Is your company affiliated through common ownership and/or centralized management with other entries in an enterprise with total employment of 100 or more?</span>
+                <div>
+                    <radio-button group="es-affiliated" style="margin-right: 10px;" value="Y">Yes</radio-button>
+                    <radio-button group="es-affiliated" value="N">No</radio-button>
+                </div>
+
+                <span style="text-align: left;">Does the company or any of its establishments (a) have 50 or more employees AND (b) is not exempt as provided by 41 CFR 60-1.5, AND either (1) is a prime 
+                    government contractor or first-tier subcontractor, and has a contract, subcontract, or purchase order amounting to $50,000 or more, or (2) serves as a depository 
+                    of Government funds in any amount or is a financial institution which is an issuing and paying agent for U.S. Savings Bonds and Savings Notes?</span>
+                <div>
+                    <radio-button group="es-employees" style="margin-right: 10px;" value="Y">Yes</radio-button>
+                    <radio-button group="es-employees" value="N">No</radio-button>
+                </div>
+            </div>
+
+            <span>Specify the dates of a single pay period.  Any pay period  in July through September may be used.</span>
+
+            <div class="es-grid" style="grid-template-columns: repeat(4, max-content); margin-top: 10px; margin-bottom: 20px;">
+                <span>Pay Period Start Date:</span>
+                <native-date-input id="payPeriodStartDate" style="width: 110px;"></native-date-input>
+
+                <span>Pay Period Final Date:</span>
+                <native-date-input id="payPeriodFinalDate" style="width: 110px;"></native-date-input>
+            </div>
+
+            <span>Review the establishments to be included.  This data is defaulted from your Organizational Group settings.</span>
+            <div style="height: 240px; position: relative; margin-top: 10px;">
+                <div id="establishmentGrid" style="height: 195px;"></div>
+
+                <div style="margin-top: 15px;">
+                    <text-label id="establishment-label">Displaying 0 EEO-1 Surveys</text-label>
+            
+                    <div style="right: 10px; bottom: 10px; position: absolute;">
+                        <push-button id="editEstablishment" style="margin-left: 10px;" disabled>Edit</push-button>
+                    </div>
+                </div>
+            </div>
+
+            <div class="es-grid" style="grid-template-columns: repeat(4, max-content); margin-top: 20px;">
+                <span>Certifying Official Number:</span>
+                <text-input id="es-certifyingOfficialNumber" style="width: 170px"></text-input>
+
+                <span>Certifying Phone Number:</span>
+                <text-input id="es-certifyingPhoneNumber" style="width: 170px"></text-input>
+                
+                <span>Certifying Official Job Title:</span>
+                <text-input id="es-certifyingOfficialJobTitle" style="width: 170px"></text-input>
+
+                <span>Certifying Official E-mail:</span>
+                <text-input id="es-certifyingOfficialEmail" style="width: 170px"></text-input>
+            </div>
+            
+
+            <div style="text-align: right; margin-top: 10px;">
+                <push-button id="surveysOk" disabled>OK</push-button>
+                <push-button id="surveysCancel" style="margin-left: 10px;">Cancel</push-button>
+            </div>
+        </popup-body>
+    </popup>
+</div>

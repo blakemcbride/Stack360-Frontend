@@ -1,0 +1,25 @@
+<!--
+     Copyright 2020 STACK360 LLC
+     All rights reserved.
+
+-->
+
+<div class="kiss">
+    <div style="margin-top: 10px; margin-bottom: 10px;">
+        <span style="margin-right: 400px;">Select Employee(s)</span>
+
+        <span>Get Records from Date:</span>
+        <native-date-input id="from-date" style="width: 110px; margin-left: 10px; margin-right: 20px;"></native-date-input>
+
+        <span>To Date:</span>
+        <native-date-input id="to-date" style="width: 110px; margin-left: 10px; margin-right: 200px;"></native-date-input>
+
+        <check-box id="include-yourself">Include Yourself</check-box>
+
+        <div id="employeeGrid" style="margin-top: 10px; width: 50%; height: 500px;"></div>
+
+        <div style="text-align: right; position: absolute; left: 1075px; top: 550px;">
+            <push-button id="report" disabled>Generate Report</push-button>
+        </div>
+    </div>
+</div>

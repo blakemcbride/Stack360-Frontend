@@ -1,0 +1,6 @@
+#!/bin/bash
+if [ 0 -ne `ps lax |grep -v grep |grep SimpleWebServer |wc -l` ]; then
+	ps lax |grep  SimpleWebServer |grep -v grep |awk '{print $3}' |xargs kill
+fi
+
+

@@ -1,0 +1,170 @@
+<!DOCTYPE html>
+<html lang="en">
+
+
+<!--
+     Copyright 2022 STACK360 LLC
+     All rights reserved.
+     See stack360.io
+
+
+     System built utilizing the Kiss Web Development Framework (kissweb.org)
+-->
+
+
+<head>
+    <title>Stack360</title>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+
+    <link rel='shortcut icon' href='Stack360_tab-icon-13.png' type='image/x-icon'/>
+    <link rel="stylesheet" href="vendor/css/normalize.css" type="text/css"/>
+    <link rel="stylesheet" href="styles/common.css" type="text/css"/>
+    <link rel="stylesheet" href="styles/global.css" type="text/css"/>
+
+
+    <!-- ng-Grid dependencies -->
+    <script src="vendor/js/ag-grid-community.min.noStyle.js"></script>
+    <link rel="stylesheet" href="vendor/css/ag-grid.css">
+    <link rel="stylesheet" href="vendor/css/ag-theme-balham.css">
+    <link rel="stylesheet" href="kiss/theme/default-theme.css"/>
+
+    <style>
+        html, body {
+            height: 100%;
+            background-repeat: no-repeat;
+        }
+    </style>
+
+    <!-- Load the necessary scripts -->
+    <script>
+        function getScript(url) {
+            return new Promise(function (resolve, reject) {
+                const head = document.getElementsByTagName("head")[0];
+                const script = document.createElement("script");
+                script.src = url;
+
+                // Handle Script loading
+                {
+                    let done = false;
+
+                    // Attach handlers for all browsers
+                    script.onload = script.onreadystatechange = function () {
+                        if (!done && (!this.readyState ||  this.readyState === "loaded" || this.readyState === "complete")) {
+                            done = true;
+                            // Handle memory leak in IE
+                            script.onload = script.onreadystatechange = null;
+                            resolve();
+                        } else {
+                            console.log("getScript:  error loading " + url);
+                            reject();
+                        }
+                    };
+                    script.onerror = function () {
+                        console.log("getScript: error loading " + url);
+                        reject();
+                    };
+                }
+                head.appendChild(script);
+            });
+        }
+
+        /**
+         * Load the login UI.
+         */
+        function startup() {
+            // cache control
+            const softwareVersion = "XXXXXXXXX";   // version of the entire system
+            const releaseDate = "";
+            const controlCache = false;    // normally true but use false during debugging
+
+            const afterLoad = function () {
+                Utils.softwareVersion = softwareVersion;
+                Utils.controlCache = controlCache;
+                loadScript("framework.js", function () {
+                    loadScript("applicant.js", () => {
+                        //console.log("`applicant.js` loaded...")
+                    });
+                });
+            };
+
+            let numLoaded = 0;
+
+            const loadScript = function (script, fun) {
+                if (fun)
+                    getScript(script + (controlCache ? '?ver=' + softwareVersion : '')).then(fun);
+                else {
+                    numLoaded++;
+                    //console.log('numLoaded++');
+                    getScript(script + (controlCache ? '?ver=' + softwareVersion : '')).then(function () {
+                        //console.log('numLoaded--');
+                        if (!--numLoaded) {
+                            //console.log("running afterLoad");
+                            afterLoad();
+                        }
+                    });
+                }
+            };
+
+            const loadUtils = function () {
+                loadScript("scripts/Utils.js");
+                loadScript("kiss/DateUtils.js");
+                loadScript("kiss/DateTimeUtils.js");
+                loadScript("kiss/TimeUtils.js");
+                loadScript("kiss/NumberUtils.js");
+                loadScript("scripts/Server.js");
+
+                loadScript("vendor/js/xml2js.min.js");
+                loadScript("scripts/AWS.js");
+                loadScript("scripts/ADWS.js");
+                loadScript("scripts/Grid.js");
+                loadScript("scripts/TabContainer.js");
+                loadScript("scripts/TreeView.js");
+                loadScript("scripts/app.js");
+                loadScript("scripts/AGGrid.js");
+            };
+
+            // Utilize browser cache to the fullest when version hasn't changed.
+            $.ajaxSetup({cache: controlCache});
+
+            const getURLParameter = function (sParam) {
+                const sPageURL = window.location.search.substring(1);
+                const sURLVariables = sPageURL.split('&');
+                for (let i = 0; i < sURLVariables.length; i++) {
+                    let sParameterName = sURLVariables[i].split('=');
+                    if (sParameterName[0] === sParam)
+                        return sParameterName[1];
+                }
+            };
+
+            if (controlCache) {
+                let now = getURLParameter("now");
+                if (now) {
+                    let diff = Math.abs(((new Date()).getTime() - Number(now)) / 1000);
+                    if (diff > 30) {
+                        window.onbeforeunload = null;
+                        window.location.href = 'applicant.html?now=' + (new Date()).getTime();
+                    } else {
+                        loadUtils();
+                    }
+                } else {
+                    window.onbeforeunload = null;
+                    window.location.href = 'applicant.html?now=' + (new Date()).getTime();
+                }
+            } else
+                loadUtils();
+        }
+
+    </script>
+</head>
+
+<body onload="startup()">
+
+<!--scripts-->
+
+<script src="vendor/js/jquery-3.4.1.min.js"></script>
+
+</body>
+
+</html>

@@ -1,0 +1,59 @@
+<div class="kiss">
+    <style>
+        #resultsGrid {
+            height: calc(100% - 120px);
+        }
+        #cld-popup-grid {
+            display: grid;
+            grid-template-columns: max-content max-content;
+            grid-column-gap: 10px;
+            grid-row-gap: 5px;
+        }
+        #cld-popup-grid span {
+            color: #000;
+            align-self: center;
+            text-align: right;
+        }
+    </style>
+    <div style="margin-bottom: 10px; margin-top: 10px;">
+        <span>Employee Check List Details:</span>
+        <text-label id="worker-name" style="float: right;"></text-label>
+        <hr>
+    </div>
+    <div style="margin-bottom: 10px;">
+        <span>Show Check List Details for Employee Status:</span>
+        <drop-down id="checkListDropDown" style="width: 200px;"></drop-down>
+    </div>
+    <div id="resultsGrid"></div>
+    <div style="margin-top: 10px;">
+        <text-label id="status-label"></text-label>
+
+        <div style="right: 17px; bottom: 10px; position: absolute;">
+            <push-button id="complete" style="margin-left: 10px;" disabled>Complete</push-button>
+            <push-button id="edit" disabled>Edit</push-button>
+            <push-button id="report" disabled>Report</push-button>
+        </div>
+    </div>
+
+    <popup id="cld-popup" width="385px" height="140px">
+        <popup-title>
+            <text-label id="cld-title"></text-label>
+        </popup-title>
+        <popup-body id="cld-body">
+            <div id="cld-popup-grid">
+                <span>Item:</span>
+                <text-input id="cld-item" style="width: 260px;" maxlength="100"></text-input>
+
+                <span>Date Completed:</span>
+                <native-date-input id="cld-date" style="width: 110px;"></native-date-input>
+
+                <span>Supervisor</span>
+                <smart-chooser id="cld-person" outside-width="260"></smart-chooser>
+            </div>
+            <div style="margin-top: 20px; text-align: right;">
+                <push-button id="cld-ok">OK</push-button>
+                <push-button id="cld-cancel">Cancel</push-button>
+            </div>
+        </popup-body>
+    </popup>
+</div>

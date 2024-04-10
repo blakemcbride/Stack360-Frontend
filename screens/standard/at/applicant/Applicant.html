@@ -1,0 +1,961 @@
+<!--
+     Copyright 2020 STACK360 LLC
+     All rights reserved.
+
+-->
+
+<div class="kiss">
+
+    <style>
+        div.vert-input2 {
+            display:grid;
+            grid-template-columns: max-content max-content;
+            grid-column-gap:5px;
+            grid-row-gap: 10px;
+            margin-top: 10px;
+            margin-left: 10px;
+        }
+
+        div.vert-input2 span {
+            text-align:right;
+            margin-top: 6px;
+        }
+
+        div.vert-input4 {
+            display:grid;
+            grid-template-columns: max-content max-content max-content max-content;
+            grid-column-gap:5px;
+            grid-row-gap: 10px;
+            margin-left: 10px;
+        }
+
+        div.vert-input4 span {
+            text-align:right;
+            margin-top: 6px;
+        }
+
+        div.answer-detail {
+            display: none;
+        }
+
+        div.tab-height {
+            height: 330px;
+        }
+
+        .list-space {
+            margin-bottom: 10px;
+        }
+    </style>
+
+    <div style="margin-top: 10px;">Applicant Search:</div>
+    <hr>
+
+    <div style="display: flex; flex-direction: column;">
+        <div style="height: 150px; padding: 5px 0; position: relative;">
+            <div id="filter-tab-container">
+                <ul class="tab-header">
+                    <li id="by-application-TabButton" class="active">By Application</li>
+                    <li id="by-applicant-TabButton">By Applicant</li>
+                    <li id="by-qa-TabButton">By Questions & Answers</li>
+                </ul>
+                
+                <div id="by-application-TabContent" class="tab-content" style="height: 100px;">
+                    <div class="vert-input4">
+                        <span>HR Position:</span>
+                        <smart-chooser id="filter-sm-position" style="width: 250px;" default-option="(choose)"></smart-chooser>
+                        <text-label style="margin-left: 50px;">Organizational Group:</text-label>
+                        <text-input id="filter-organizational-group" style="width: 250px;" disabled></text-input>
+
+                        <span>Application Status:</span>
+                        <smart-chooser id="filter-sm-application-status" style="width: 250px;" default-option="(choose)"></smart-chooser>
+                        <span></span>
+                        <span></span>
+                    </div>
+                </div>
+
+                <div id="by-applicant-TabContent" class="tab-content" style="height: 100px;" hidden>
+                    <div style="display: flex; flex-direction: column; /*justify-content: space-evenly;*/ height: 100%;">
+                        <div>
+                            <div style="display: inline-block; width: 60px; text-align: right;">Last Name:</div>
+                            <drop-down id="filter-last-name-type" style="width: 100px;">
+                                <option value="2">Starts With</option>
+                                <option value="3">Ends With</option>
+                                <option value="4">Contains</option>
+                                <option value="5">Exact Match</option>
+                            </drop-down>
+                            <text-input id="filter-last-name" style="width: 200px;"></text-input>
+                            <text-label style="margin-left: 54px;">Applicant Status:</text-label>
+                            <smart-chooser id="filter-sm-applicant-status" style="width: 250px;" default-option="(choose)"></smart-chooser>
+
+                            <span style="margin-left: 54px;">State:</span>
+                            <drop-down id="filter-state" style="width: 100px;">
+                                <option value="">(select)</option>
+                                <option value="AL">AL</option>
+                                <option value="AK">AK</option>
+                                <option value="AS">AS</option>
+                                <option value="AZ">AZ</option>
+                                <option value="AR">AR</option>
+                                <option value="CA">CA</option>
+                                <option value="CO">CO</option>
+                                <option value="CT">CT</option>
+                                <option value="DE">DE</option>
+                                <option value="DC">DC</option>
+                                <option value="FM">FM</option>
+                                <option value="FL">FL</option>
+                                <option value="GA">GA</option>
+                                <option value="GU">GU</option>
+                                <option value="HI">HI</option>
+                                <option value="ID">ID</option>
+                                <option value="IL">IL</option>
+                                <option value="IN">IN</option>
+                                <option value="IA">IA</option>
+                                <option value="KS">KS</option>
+                                <option value="KY">KY</option>
+                                <option value="LA">LA</option>
+                                <option value="ME">ME</option>
+                                <option value="MH">MH</option>
+                                <option value="MD">MD</option>
+                                <option value="MA">MA</option>
+                                <option value="MI">MI</option>
+                                <option value="MN">MN</option>
+                                <option value="MS">MS</option>
+                                <option value="MO">MO</option>
+                                <option value="MT">MT</option>
+                                <option value="NE">NE</option>
+                                <option value="NV">NV</option>
+                                <option value="NH">NH</option>
+                                <option value="NJ">NJ</option>
+                                <option value="NM">NM</option>
+                                <option value="NY">NY</option>
+                                <option value="NC">NC</option>
+                                <option value="ND">ND</option>
+                                <option value="MP">MP</option>
+                                <option value="OH">OH</option>
+                                <option value="OK">OK</option>
+                                <option value="OR">OR</option>
+                                <option value="PW">PW</option>
+                                <option value="PA">PA</option>
+                                <option value="PR">PR</option>
+                                <option value="RI">RI</option>
+                                <option value="SC">SC</option>
+                                <option value="SD">SD</option>
+                                <option value="TN">TN</option>
+                                <option value="TX">TX</option>
+                                <option value="UT">UT</option>
+                                <option value="VT">VT</option>
+                                <option value="VI">VI</option>
+                                <option value="VA">VA</option>
+                                <option value="WA">WA</option>
+                                <option value="WV">WV</option>
+                                <option value="WI">WI</option>
+                                <option value="WY">WY</option>
+                            </drop-down>
+                        </div>
+
+                        <div style="margin-top: 10px;">
+                            <div style="display: inline-block; width: 60px; text-align: right;">First Name:</div>
+                            <drop-down id="filter-first-name-type" style="width: 100px;">
+                                <option value="2">Starts With</option>
+                                <option value="3">Ends With</option>
+                                <option value="4">Contains</option>
+                                <option value="5">Exact Match</option>
+                            </drop-down>
+                            <text-input id="filter-first-name" style="width: 200px;"></text-input>
+                            <text-label style="margin-left: 50px;">Applicant Source:</text-label>
+                            <smart-chooser id="filter-sm-applicant-source" style="width: 250px;" default-option="(choose)"></smart-chooser>
+                        </div>
+                    </div>
+                </div>
+
+                <div id="by-qa-TabContent" class="tab-content" style="height: 100px;" hidden>
+                    <div style="display: flex; height: 100%; justify-content: space-between;">
+                        <div id="filter-qa-grid" style="width: 90%;"></div>
+                        <div style="display: flex; flex-direction: column; justify-content: space-between;">
+                            <push-button id="filter-qa-add">Add</push-button>
+                            <push-button id="filter-qa-edit" disabled>Edit</push-button>
+                            <push-button id="filter-qa-remove" disabled>Remove</push-button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <span style="position: absolute; top: 5px; right: 767px;">Sort By:</span>
+            <check-box id="chk-sort-last-event-first" style="position: absolute; top: 5px; right: 656px;">First Last Event</check-box>
+            <check-box id="chk-sort-last-event-last" style="position: absolute; top: 5px; right: 542px;">Last Last Event</check-box>
+            <span style="position: absolute; top: 5px; right: 351px;">Include:</span>
+            <check-box id="chk-include-inactive" style="position: absolute; top: 5px; right: 279px;">Inactive</check-box>
+            <check-box id="chk-include-outdated" style="position: absolute; top: 5px; right: 139px;">Outdated Employees</check-box>
+            <check-box id="chk-include-employees" style="position: absolute; top: 5px; right: 10px;">Current Employees</check-box>
+        </div>
+        <div>
+            <div style="display: flex; justify-content: space-between; align-items: flex-end;">
+                <text-label>Results:</text-label>
+                <div style="float: right; margin-bottom: 5px;">
+                    <push-button id="filter-reset">Reset</push-button>
+                    <push-button id="filter-search" style="margin-left: 10px;">Search</push-button>
+                </div>
+            </div>
+            <hr>
+
+            <div id="applicants-data-grid" style="width: 100%; height: calc(100vh - 374px);"></div>
+
+            <div style="margin-top: 15px;">
+                <text-label id="record-count" style="display: inline-block; float: left; width: 200px;"></text-label>
+                <div style="display: inline-block; position: absolute; left: 300px;">
+                    <push-button id="prev" style="margin-left: 50px;" disabled>Prev</push-button>
+                    <push-button id="next" style="margin-left: 10px;" disabled>Next</push-button>
+                </div>
+                <div style="float: right;">
+                    <push-button id="applicants-make-offer" style="margin-right: 40px;" disabled>Make Offer</push-button>
+                    <push-button id="applicants-add">Add</push-button>
+                    <push-button id="applicants-edit" style="margin-left: 10px;" disabled>Edit</push-button>
+                    <push-button id="applicants-delete" style="margin-left: 10px;" disabled>Delete</push-button>
+                    <push-button id="applicants-report" style="margin-left: 10px;">Report</push-button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <popup id="position-selection">
+        <popup-title>
+            <text-label>Search for Position</text-label>
+        </popup-title>
+        <popup-body style="padding: 0 10px;">
+            <div style="margin-top: 10px">Search Criteria:</div>
+            <hr>
+
+            <div style="margin-top: 10px;" class="vert-input2">
+                <span>Position:</span>
+                <div>
+                    <drop-down id="psp-position-type" style="width: 100px;">
+                        <option value="2">Starts With</option>
+                        <option value="3">Ends With</option>
+                        <option value="4">Contains</option>
+                        <option value="5">Exact Match</option>
+                    </drop-down>
+                    <text-input id="psp-position" style="width: 100px;"></text-input>
+                </div>
+                <span>Job type:</span>
+                <smart-chooser id="psp-sm-job-type" style="width: 220px;" default-option="(choose)"></smart-chooser>
+                <span>Organizational Group:</span>
+                <smart-chooser id="psp-sm-organizational-group" style="width: 220px;" default-option="(choose)"></smart-chooser>
+                <span>Status:</span>
+                <div style="margin-top: 5px;">
+                    <check-box id="psp-chk-new">New</check-box>
+                    <check-box id="psp-chk-accepting">Accepting Applications</check-box>
+                    <check-box id="psp-chk-suspended">Suspended</check-box>
+                    <check-box id="psp-chk-filled">Filled</check-box>
+                    <check-box id="psp-chk-cancelled">Cancelled</check-box>
+                </div>
+            </div>
+
+
+            <div style="margin-top: 10px; text-align: right;">
+                <push-button id="psp-reset" style="margin-left: 10px;">Reset</push-button>
+                <push-button id="psp-search" style="margin-left: 10px;">Search</push-button>
+            </div>
+
+            <div style="margin-bottom: 10px;">Search Results:</div>
+            <hr> 
+            <div id="psp-grid" style="width: 100%; height: 200px;"></div>
+
+            <div style="text-align: right; margin-top: 20px; display: flex; justify-content: space-between; align-items: center;">
+                <div id="psp-count" style="margin-left: 10px;">Displaying 0 Position</div>
+
+                <div>
+                    <push-button id="psp-ok">OK</push-button>
+                    <push-button id="psp-cancel" style="margin-left: 10px; margin-right: 15px;">Cancel</push-button>
+                </div>
+            </div>
+        </popup-body>
+    </popup>
+
+    <popup id="jobtype-selection">
+        <popup-title>
+            <text-label>Search for Job Type</text-label>
+        </popup-title>
+        <popup-body style="padding: 0 10px;">
+            <div style="margin-top: 10px">Search Criteria:</div>
+            <hr>
+
+            <div style="margin-top: 10px;">
+                <div style="display: inline-block; width: 55px; text-align: right;">Name:</div>
+                <drop-down id="jsp-name-type" style="width: 100px;">
+                    <option value="2">Starts With</option>
+                    <option value="3">Ends With</option>
+                    <option value="4">Contains</option>
+                    <option value="5">Exact Match</option>
+                </drop-down>
+                <text-input id="jsp-name" style="width: 130px;"></text-input>
+            </div>
+
+            <div style="margin-top: 10px; text-align: right;">
+                <push-button id="jsp-reset" style="margin-left: 10px;">Reset</push-button>
+                <push-button id="jsp-search" style="margin-left: 10px;">Search</push-button>
+            </div>
+
+            <div style="margin-bottom: 10px;">Search Results:</div>
+            <hr> 
+            <div id="jsp-grid" style="width: 100%; height: 200px;"></div>
+
+            <div style="text-align: right; margin-top: 20px; display: flex; justify-content: space-between; align-items: center;">
+                <div id="jsp-count" style="margin-left: 10px;">Displaying 0 Job Type</div>
+
+                <div>
+                    <push-button id="jsp-ok">OK</push-button>
+                    <push-button id="jsp-cancel" style="margin-left: 10px; margin-right: 15px;">Cancel</push-button>
+                </div>
+            </div>
+        </popup-body>
+    </popup>
+
+    <popup id="orggroup-selection">
+        <popup-title>
+            <text-label>Search for Organizational Group</text-label>
+        </popup-title>
+        <popup-body style="padding: 0 10px;">
+            <div style="margin-top: 10px">Search Criteria:</div>
+            <hr>
+
+            <div style="margin-top: 10px;">
+                <div style="display: inline-block; width: 55px; text-align: right;">Name:</div>
+                <drop-down id="ogsp-name-type" style="width: 100px;">
+                    <option value="2">Starts With</option>
+                    <option value="3">Ends With</option>
+                    <option value="4">Contains</option>
+                    <option value="5">Exact Match</option>
+                </drop-down>
+                <text-input id="ogsp-name" style="width: 170px;"></text-input>
+            </div>
+
+            <div style="margin-top: 10px; text-align: right;">
+                <push-button id="ogsp-reset" style="margin-left: 10px;">Reset</push-button>
+                <push-button id="ogsp-search" style="margin-left: 10px;">Search</push-button>
+            </div>
+
+            <div style="margin-bottom: 10px;">Search Results:</div>
+            <hr> 
+            <div id="ogsp-grid" style="width: 100%; height: 200px;"></div>
+
+            <div style="text-align: right; margin-top: 20px; display: flex; justify-content: space-between; align-items: center;">
+                <div id="ogsp-count" style="margin-left: 10px;">Displaying 0 Organizational Group</div>
+
+                <div>
+                    <push-button id="ogsp-ok">OK</push-button>
+                    <push-button id="ogsp-cancel" style="margin-left: 10px; margin-right: 15px;">Cancel</push-button>
+                </div>
+            </div>
+        </popup-body>
+    </popup>
+
+    <popup id="application-status-selection">
+        <popup-title>
+            <text-label>Search for Application Status</text-label>
+        </popup-title>
+        <popup-body style="padding: 0 10px;">
+            <div style="margin-top: 10px">Search Criteria:</div>
+            <hr>
+
+            <div style="margin-top: 10px;">
+                <div style="display: inline-block; width: 100px; text-align: right;">Application Status:</div>
+                <drop-down id="apsp-name-type" style="width: 100px;">
+                    <option value="2">Starts With</option>
+                    <option value="3">Ends With</option>
+                    <option value="4">Contains</option>
+                    <option value="5">Exact Match</option>
+                </drop-down>
+                <text-input id="apsp-name" style="width: 170px;"></text-input>
+            </div>
+
+            <div style="margin-top: 10px; text-align: right;">
+                <push-button id="apsp-reset" style="margin-left: 10px;">Reset</push-button>
+                <push-button id="apsp-search" style="margin-left: 10px;">Search</push-button>
+            </div>
+
+            <div style="margin-bottom: 10px;">Search Results:</div>
+            <hr> 
+            <div id="apsp-grid" style="width: 100%; height: 200px;"></div>
+
+            <div style="text-align: right; margin-top: 20px; display: flex; justify-content: space-between; align-items: center;">
+                <div id="apsp-count" style="margin-left: 10px;">Displaying 0 Application Status</div>
+
+                <div>
+                    <push-button id="apsp-ok">OK</push-button>
+                    <push-button id="apsp-cancel" style="margin-left: 10px; margin-right: 15px;">Cancel</push-button>
+                </div>
+            </div>
+        </popup-body>
+    </popup>
+
+    <popup id="applicant-status-selection">
+        <popup-title>
+            <text-label>Search for Applicant Status</text-label>
+        </popup-title>
+        <popup-body style="padding: 0 10px;">
+            <div style="margin-top: 10px">Search Criteria:</div>
+            <hr>
+
+            <div style="margin-top: 10px;">
+                <div style="display: inline-block; width: 100px; text-align: right;">Applicant Status:</div>
+                <drop-down id="acsp-name-type" style="width: 100px;">
+                    <option value="2">Starts With</option>
+                    <option value="3">Ends With</option>
+                    <option value="4">Contains</option>
+                    <option value="5">Exact Match</option>
+                </drop-down>
+                <text-input id="acsp-name" style="width: 170px;"></text-input>
+            </div>
+
+            <div style="margin-top: 10px; text-align: right;">
+                <push-button id="acsp-reset" style="margin-left: 10px;">Reset</push-button>
+                <push-button id="acsp-search" style="margin-left: 10px;">Search</push-button>
+            </div>
+
+            <div style="margin-bottom: 10px;">Search Results:</div>
+            <hr> 
+            <div id="acsp-grid" style="width: 100%; height: 200px;"></div>
+
+            <div style="text-align: right; margin-top: 20px; display: flex; justify-content: space-between; align-items: center;">
+                <div id="acsp-count" style="margin-left: 10px;">Displaying 0 Applicant Status</div>
+
+                <div>
+                    <push-button id="acsp-ok">OK</push-button>
+                    <push-button id="acsp-cancel" style="margin-left: 10px; margin-right: 15px;">Cancel</push-button>
+                </div>
+            </div>
+        </popup-body>
+    </popup>
+
+    <popup id="source-selection">
+        <popup-title>
+            <text-label>Search for Applicant/Application Source</text-label>
+        </popup-title>
+        <popup-body style="padding: 0 10px;">
+            <div style="margin-top: 10px">Search Criteria:</div>
+            <hr>
+
+            <div style="margin-top: 10px;">
+                <div style="display: inline-block; width: 50px; text-align: right;">Source:</div>
+                <drop-down id="ssp-description-type" style="width: 100px;">
+                    <option value="2">Starts With</option>
+                    <option value="3">Ends With</option>
+                    <option value="4">Contains</option>
+                    <option value="5">Exact Match</option>
+                </drop-down>
+                <text-input id="ssp-description" style="width: 170px;"></text-input>
+            </div>
+
+            <div style="margin-top: 10px; text-align: right;">
+                <push-button id="ssp-reset" style="margin-left: 10px;">Reset</push-button>
+                <push-button id="ssp-search" style="margin-left: 10px;">Search</push-button>
+            </div>
+
+            <div style="margin-bottom: 10px;">Search Results:</div>
+            <hr> 
+            <div id="ssp-grid" style="width: 100%; height: 200px;"></div>
+
+            <div style="text-align: right; margin-top: 20px; display: flex; justify-content: space-between; align-items: center;">
+                <div id="ssp-count" style="margin-left: 10px;">Displaying 0 Source</div>
+
+                <div>
+                    <push-button id="ssp-ok">OK</push-button>
+                    <push-button id="ssp-cancel" style="margin-left: 10px; margin-right: 15px;">Cancel</push-button>
+                </div>
+            </div>
+        </popup-body>
+    </popup>
+
+    <popup id="question-selection">
+        <popup-title>
+            <text-label>Search for Question</text-label>
+        </popup-title>
+        <popup-body style="padding: 0 10px;">
+            <div style="margin-top: 10px">Search Criteria:</div>
+            <hr>
+
+            <div style="margin-top: 10px;">
+                <div style="display: inline-block; width: 60px; text-align: right;">Question:</div>
+                <drop-down id="qsp-question-type" style="width: 100px;">
+                    <option value="2">Starts With</option>
+                    <option value="3">Ends With</option>
+                    <option value="4">Contains</option>
+                    <option value="5">Exact Match</option>
+                </drop-down>
+                <text-input id="qsp-question" style="width: 170px;"></text-input>
+            </div>
+
+            <div style="margin-top: 10px; text-align: right;">
+                <push-button id="qsp-reset" style="margin-left: 10px;">Reset</push-button>
+                <push-button id="qsp-search" style="margin-left: 10px;">Search</push-button>
+            </div>
+
+            <div style="margin-bottom: 10px;">Search Results:</div>
+            <hr> 
+            <div id="qsp-grid" style="width: 100%; height: 200px;"></div>
+
+            <div style="text-align: right; margin-top: 20px; display: flex; justify-content: space-between; align-items: center;">
+                <div id="qsp-count" style="margin-left: 10px;">Displaying 0 Questions</div>
+
+                <div>
+                    <push-button id="qsp-ok">OK</push-button>
+                    <push-button id="qsp-cancel" style="margin-left: 10px; margin-right: 15px;">Cancel</push-button>
+                </div>
+            </div>
+        </popup-body>
+    </popup>
+
+    <popup id="qa-popup">
+        <popup-title>
+            <text-label id="qap-title"></text-label>
+        </popup-title>
+        <popup-body style="padding: 0 10px;">
+
+            <div class="vert-input2">
+                <span>Position:</span>
+                <drop-down id="qap-position" style="width: 200px;" default-option="(common)"></drop-down>
+                <span>Question:</span>
+                <drop-down id="qap-question" style="width: 500px;" default-option="(choose)"></drop-down>
+                <span>Answer:</span>
+                <div>
+                    <div style="display: block; margin-top: 5px;" class="answer-detail" id="qap-ans-container-none">
+                        <text-label>(choose a question)</text-label>
+                    </div>
+                    <div class="answer-detail" id="qap-ans-container-S">
+                        <drop-down id="qap-answer-S-type" style="width: 100px;">
+                            <option value="2">Starts With</option>
+                            <option value="3">Ends With</option>
+                            <option value="4">Contains</option>
+                            <option value="5">Exact Match</option>
+                        </drop-down>
+                        <text-input id="qap-answer-S" style="width: 300px;" required></text-input>
+                    </div>
+                    <div class="answer-detail" id="qap-ans-container-N">
+                        <drop-down id="qap-answer-N-type" style="width: 120px;">
+                            <option value="11" selected>Greater Than</option>
+                            <option value="12">Less Than</option>
+                            <option value="13">Equal To</option>
+                            <option value="14">Not Equal To</option>
+                        </drop-down>
+                        <numeric-input id="qap-answer-N" style="width: 75px;" required></numeric-input>
+                    </div>
+                    <div class="answer-detail" id="qap-ans-container-D">
+                        <drop-down id="qap-answer-D-type" style="width: 120px;">
+                            <option value="6" selected>Before</option>
+                            <option value="7">After</option>
+                            <option value="8">On</option>
+                            <option value="9">Is Set</option>
+                            <option value="10">Is Not Set</option>
+                        </drop-down>
+                        <native-date-input id="qap-answer-D" style="width:120px;" required></native-date-input>
+                    </div>
+                    <div class="answer-detail" id="qap-ans-container-Y" style="margin-top: 5px;">
+                        <radio-button group="qap-answer-Y" value="1" required>Yes</radio-button>
+                        <radio-button group="qap-answer-Y" value="2">No</radio-button>
+                        <radio-button group="qap-answer-Y" value="3">Unknown</radio-button>
+                    </div>
+                    <div class="answer-detail" id="qap-ans-container-L">
+                        <drop-down id="qap-answer-L" default-option="(select)" style="width: 300px;" required></drop-down>
+                    </div>
+                </div>
+            </div>
+
+            <div style="text-align: right; margin-top: 10px; margin-bottom: 5px;">
+                <push-button id="qap-ok" disabled>Ok</push-button>
+                <push-button id="qap-cancel" style="margin-left: 10px; margin-right: 15px;">Cancel</push-button>
+            </div>
+        </popup-body>
+    </popup>
+
+    <popup id="detail-popup">
+        <popup-title>
+            <text-label>Add Applicant</text-label>
+        </popup-title>
+        <popup-body style="padding: 0px 5px">
+            <div id="dp-tab-container" style="margin-top: 5px;">
+                <ul class="tab-header">
+                    <li id="dp-general-TabButton" class="active">Profile</li>
+                    <li id="dp-address-TabButton">Address</li>
+                    <li id="dp-background-TabButton">Background</li>
+                    <li id="dp-comments-TabButton">Comments</li>
+                </ul>
+                
+                <div id="dp-general-TabContent" class="tab-content tab-height">
+                    <div  style="display: flex; padding: 0 10px;">
+                        <div>
+                            <div class="vert-input2">
+                                <span>First Name:</span>
+                                <text-input id="dp-first-name" maxlength="30" required></text-input>
+                                <span>Middle Name:</span>
+                                <text-input id="dp-middle-name" maxlength="30"></text-input>
+                                <span>Last Name:</span>
+                                <text-input id="dp-last-name" maxlength="30" required></text-input>
+                                <span>Nick Name:</span>
+                                <text-input id="dp-nick-name" maxlength="20"></text-input>
+                                <span>Sex:</span>
+                                <div style="margin-top: 5px;">
+                                    <radio-button group="dp-sex" value="M" checked>Male</radio-button>
+                                    <radio-button group="dp-sex" value="F">Female</radio-button>
+                                </div>
+                                <span>Citizen of:</span>
+                                <drop-down id="dp-citizen-of"></drop-down>
+                                <span>Visa:</span>
+                                <text-input id="dp-visa" maxlength="10"></text-input>
+                                <span>Visa Status:</span>
+                                <div>
+                                    <native-date-input id="dp-visa-status" style="width: 110px;"></native-date-input>
+                                    <check-box id="dp-i9-completed">I-9 Completed</check-box>
+                                </div>
+                                <span>Visa Expiration:</span>
+                                <native-date-input id="dp-visa-expiration" style="width: 110px;"></native-date-input>
+                            </div>
+                        </div>
+                        <div style="margin-left: 20px;">
+                            <div class="vert-input2">
+                                <span>Race:</span>
+                                <drop-down id="dp-eeo-race" style="width: 110px;"></drop-down>
+                                <span>SSN:</span>
+                                <text-input id="dp-ssn" maxlength="11" style="width: 80px;"></text-input>
+                                <span>Date of Birth:</span>
+                                <native-date-input id="dp-dob" style="width: 110px;"></native-date-input>
+                                <span>E-mail:</span>
+                                <text-input id="dp-email" maxlength="60" style="width: 150px;"></text-input>
+                                <span>Company:</span>
+                                <drop-down id="dp-company" style="width: 170px;"></drop-down>
+                                <span>First Aware of Date:</span>
+                                <div>
+                                    <native-date-input id="dp-first-aware-date" style="width: 110px;" required></native-date-input>
+                                    <span style="margin-left: 10px;">Date Available:</span>
+                                    <native-date-input id="dp-available-date" style="width: 110px;" required></native-date-input>
+                                </div>
+                                <span>Applicant Status:</span>
+                                <smart-chooser id="dp-sm-applicant-status" style="width: 250px;" default-option="(choose)" required></smart-chooser>
+                                <span>Applicant Source:</span>
+                                <smart-chooser id="dp-sm-applicant-source" style="width: 250px;" default-option="(choose)" required></smart-chooser>
+                                <span>Desired Salary:</span>
+                                <text-input id="dp-desired-salary" style="width: 80px;"></text-input>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div id="dp-address-TabContent" class="tab-content tab-height" hidden>
+                    <div  style="display: flex; padding: 0 10px;">
+                        <div>
+                            <div class="vert-input2">
+                                <span>Address Line 1:</span>
+                                <text-input id="dp-address-line1"></text-input>
+                                <span>Address Line 2:</span>
+                                <text-input id="dp-address-line2"></text-input>
+                                <span>Country:</span>
+                                <drop-down id="dp-address-country"></drop-down>
+                                <span>City:</span>
+                                <text-input id="dp-address-city" maxlength="60"></text-input>
+                                <span>State / Province:</span>
+                                <drop-down id="dp-address-states" style="width: 60px;"></drop-down>                                
+                                <span>ZIP / Postal Code:</span>
+                                <text-input id="dp-address-zipcode" maxlength="10" style="width: 60px;"></text-input>
+                                <span>County:</span>
+                                <text-input id="dp-address-county" maxlength="30"></text-input>
+                            </div>
+                        </div>
+                        <div style="margin-left: 20px;">
+                            <div class="vert-input2">
+                                <span>Home Phone:</span>
+                                <text-input id="dp-address-home-phone" style="width: 80px;"></text-input>
+                                <span>Work Phone:</span>
+                                <text-input id="dp-address-work-phone" style="width: 80px;"></text-input>
+                                <span>Mobile Phone:</span>
+                                <text-input id="dp-address-mobile-phone" style="width: 80px;"></text-input>
+                                <span>Fax:</span>
+                                <text-input id="dp-address-fax" style="width: 60px;"></text-input>                                
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div id="dp-background-TabContent" class="tab-content tab-height" hidden>
+                    <div style="display: flex; padding: 0 10px;">
+                        <div>
+                            <text-label>Military</text-label>
+                            <hr>
+                            <div class="vert-input2">
+                                <span>Branch:</span>
+                                <drop-down id="dp-military-branch" default-option="(None)" style="width: 270px;">
+                                    <option value="">(None)</option>
+                                    <option value="A">Army</option>                                    
+                                    <option value="F">Air Force</option>                                    
+                                    <option value="N">Navy</option>                                    
+                                    <option value="M">Marines</option>                                    
+                                    <option value="C">Coast Guard</option>                                    
+                                    <option value="G">National Guard</option>                                    
+                                    <option value="O">Other</option>                                    
+                                </drop-down>
+                                <span>Enlisted From:</span>
+                                <div>
+                                    <drop-down id="dp-military-month-from" style="width: 100px;" default-option="(select)">
+                                        <option value="">(select)</option>
+                                        <option value="1">January</option>
+                                        <option value="2">February</option>
+                                        <option value="3">March</option>
+                                        <option value="4">April</option>
+                                        <option value="5">May</option>
+                                        <option value="6">June</option>
+                                        <option value="7">July</option>
+                                        <option value="8">August</option>
+                                        <option value="9">September</option>
+                                        <option value="10">October</option>
+                                        <option value="11">November</option>
+                                        <option value="12">December</option>
+                                    </drop-down>
+                                    <numeric-input id="dp-military-year-from" style="width: 75px;"></numeric-input>
+                                </div>
+                                <span>To:</span>
+                                <div>
+                                    <drop-down id="dp-military-month-to" style="width: 100px;" default-option="(select)">
+                                        <option value="">(select)</option>
+                                        <option value="1">January</option>
+                                        <option value="2">February</option>
+                                        <option value="3">March</option>
+                                        <option value="4">April</option>
+                                        <option value="5">May</option>
+                                        <option value="6">June</option>
+                                        <option value="7">July</option>
+                                        <option value="8">August</option>
+                                        <option value="9">September</option>
+                                        <option value="10">October</option>
+                                        <option value="11">November</option>
+                                        <option value="12">December</option>
+                                    </drop-down>
+                                    <numeric-input id="dp-military-year-to" style="width: 75px;"></numeric-input>
+                                </div>
+                                <span>Rank At Discharge:</span>
+                                <text-input id="dp-military-discharge-rank"></text-input>
+                                <span>Type of Discharge::</span>
+                                <drop-down id="dp-military-discharge-type" default-option="(N/A)">
+                                    <option value="">(N/A)</option>
+                                    <option value="H">Honorable</option>
+                                    <option value="G">General (under honorable conditions)</option>
+                                    <option value="O">Other than honorable</option>
+                                    <option value="B">Bad Conduct</option>
+                                    <option value="D">Dishonorable</option>
+                                </drop-down>
+                            </div>
+                            <div class="vert-input2">
+                                <span>If other than Honorable, explain:</span>
+                                <textbox-input id="dp-military-other-text" style="height: 40px; width: 200px;"></textbox-input>
+                            </div>
+                        </div>
+                        <div style="margin-left: 20px;">
+                            <text-label>Criminal</text-label>
+                            <hr>
+                            <div class="vert-input2">
+                                <span>Convicted of Crime:</span>
+                                <div style="margin-top: 5px;">
+                                    <radio-button group="dp-military-convicted" value="Y">Yes</radio-button>
+                                    <radio-button group="dp-military-convicted" value="N">No</radio-button>
+                                </div>
+                                <span>Description:</span> 
+                                <textbox-input id="dp-military-convicted-description" style="height: 100px; width: 200px;"></textbox-input>
+                            </div>
+                            <text-label>Company</text-label>
+                            <hr>
+                            <div class="vert-input2">
+                                <span>Worked for This Company Before:</span>
+                                <div style="margin-top: 5px;">
+                                    <radio-button group="dp-military-worked-for" value="Y" required>Yes</radio-button>
+                                    <radio-button group="dp-military-worked-for" value="N">No</radio-button>
+                                </div>
+                            </div>
+                            <div class="vert-input2">
+                                <span>If yes, When?:</span> 
+                                <text-input id="dp-military-worked-for-when" style="width: 200px;"></text-input>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div id="dp-comments-TabContent" class="tab-content tab-height" hidden>
+                    <textbox-input id="dp-comments" style="width: 100%; height: 300px;"></textbox-input>
+                </div>
+            </div>
+
+            <div style="text-align: right; margin-top: 10px;">
+                <push-button id="dp-ok">OK</push-button>
+                <push-button id="dp-cancel" style="margin-left: 10px; margin-right: 15px;">Cancel</push-button>
+            </div>
+        </popup-body>
+    </popup>
+
+    <popup id="application-popup">
+        <popup-title>
+            <text-label id="app-title"></text-label>
+        </popup-title>
+        <popup-body style="padding: 0 10px;">
+            <div class="vert-input2">
+                <span>Date:</span>
+                <native-date-input id="app-date" style="width: 110px;" required></native-date-input>
+                <span>Position:</span>
+                <smart-chooser id="app-sm-position" style="width: 200px;" default-option="(no position)"></smart-chooser>
+                <span></span>
+                <div>
+                    <text-label>Organizational Group:</text-label>
+                    <text-input id="app-org-group" style="width: 120px;" readonly></text-input>
+                </div>
+                <span style="margin: 5px 0px;">Job Type:</span>
+                <smart-chooser id="app-sm-job-type" style="width: 200px;" default-option="(choose)" required></smart-chooser>
+                <span>Status:</span>
+                <smart-chooser id="app-sm-status" style="width: 200px;" default-option="(choose)" required></smart-chooser>
+                <span>Source:</span>
+                <smart-chooser id="app-sm-source" style="width: 200px;" default-option="(choose)" required></smart-chooser>
+            </div>
+
+            <div style="text-align: right; margin-top: 10px; margin-bottom: 5px;">
+                <push-button id="app-ok">Ok</push-button>
+                <push-button id="app-cancel" style="margin-left: 10px; margin-right: 15px;">Cancel</push-button>
+            </div>
+        </popup-body>
+    </popup>
+
+    <popup id="application-contact-popup">
+        <popup-title>
+            <text-label id="apc-title"></text-label>
+        </popup-title>
+        <popup-body style="padding: 0 10px;">
+            <div class="vert-input2">
+                <span>Date:</span>
+                <div>
+                    <native-date-input id="apc-date" style="width: 110px;" required></native-date-input>
+                    <span>Time:</span>
+                    <time-input id="apc-time" style="width: 80px" required></time-input>
+                </div>
+                <span>Type:</span>
+                <div>
+                    <drop-down id="apc-type" required>
+                        <option value="">(select)</option>
+                        <option value="C">Company Site</option>
+                        <option value="E">E-mail</option>
+                        <option value="F">Fax</option>
+                        <option value="M">Mail</option>
+                        <option value="P">Phone</option>
+                        <option value="R">Remote Location</option>
+                    </drop-down>
+                    <span>Result:</span>
+                    <drop-down id="apc-result" style="width: 160px;" required>
+                        <option value="">(select)</option>
+                        <option value="S">Appointment Set</option>
+                        <option value="A">Applicant Cancelled/Rescheduled</option>
+                        <option value="C">Company Cancelled/Rescheduled</option>
+                        <option value="N">No Show</option>
+                        <option value="L">Late</option>
+                        <option value="O">On Time</option>
+                        <option value="G">Other</option>
+                    </drop-down>
+                </div>
+                <span>Detail:</span>
+                <textbox-input id="apc-detail" style="width: 300px; height: 180px;" required></textbox-input>
+            </div>
+
+            <div style="text-align: right; margin-top: 10px; margin-bottom: 5px;">
+                <push-button id="apc-ok">Ok</push-button>
+                <push-button id="apc-cancel" style="margin-left: 10px; margin-right: 15px;">Cancel</push-button>
+            </div>
+        </popup-body>
+    </popup>
+
+    <popup id="edit-question-popup">
+        <popup-title>
+            <text-label>Edit Question</text-label>
+        </popup-title>
+        <popup-body style="padding: 0 10px;">
+            <div class="vert-input2">
+                <span>Question:</span>
+                <textbox-input id="eqp-question" style="width: 300px; height: 120px;"></textbox-input>
+                <span>Answer:</span>
+                <div>
+                    <div class="answer-detail" id="eqp-ans-container-S">
+                        <textbox-input id="eqp-answer-S" style="width: 300px; height: 50px;" required></textbox-input>
+                    </div>
+                    <div class="answer-detail" id="eqp-ans-container-N">
+                        <numeric-input id="eqp-answer-N" style="width: 75px;" required></numeric-input>
+                    </div>
+                    <div class="answer-detail" id="eqp-ans-container-D">
+                        <native-date-input id="eqp-answer-D" style="width:120px;" required></native-date-input>
+                    </div>
+                    <div class="answer-detail" id="eqp-ans-container-Y">
+                        <radio-button group="eqp-answer-Y" value="1" required>Yes</radio-button>
+                        <radio-button group="eqp-answer-Y" value="2">No</radio-button>
+                        <radio-button group="eqp-answer-Y" value="3">Unknown</radio-button>
+                    </div>
+                    <div class="answer-detail" id="eqp-ans-container-L">
+                        <drop-down id="eqp-answer-L" default-option="(select)" style="width: 200px;" required></drop-down>
+                    </div>                    
+                </div>
+            </div>
+
+            <div style="text-align: right; margin-top: 10px; margin-bottom: 5px;">
+                <push-button id="eqp-ok">Ok</push-button>
+                <push-button id="eqp-cancel" style="margin-left: 10px; margin-right: 15px;">Cancel</push-button>
+            </div>
+        </popup-body>
+    </popup>
+
+    <popup id="form-popup">
+        <popup-title>
+            <text-label id="fp-title">Edit Question</text-label>
+        </popup-title>
+        <popup-body style="padding: 0 10px;">
+            <div class="vert-input2">
+                <span>Code:</span>
+                <drop-down id="fp-code" default-option="(select)" required></drop-down>
+                <span>Description:</span>
+                <text-input id="fp-description" readonly></text-input>
+                <span>Form:</span>
+                <file-upload id="fp-form" required></file-upload>
+                <span>Date:</span>
+                <native-date-input id="fp-date" readonly></native-date-input>
+                <span>Comments:</span>
+                <textbox-input id="fp-comments" style="height: 80px;"></textbox-input>
+            </div>
+
+            <div style="text-align: right; margin-top: 10px; margin-bottom: 5px;">
+                <push-button id="fp-ok">Ok</push-button>
+                <push-button id="fp-cancel" style="margin-left: 10px; margin-right: 15px;">Cancel</push-button>
+            </div>
+        </popup-body>
+    </popup>
+
+    <popup id="offer-letter-popup" height="190px" width="300px">
+        <popup-title>Offer Letter</popup-title>
+        <popup-body>
+            <div class="vert-input2">
+                <span>Applicant:</span>
+                <text-input id="olp-name" style="width: 200px;" disabled></text-input>
+
+                <span>HR Position:</span>
+                <drop-down id="olp-position" style="width: 212px;" required></drop-down>
+
+                <span>Pay Rate:</span>
+                <numeric-input id="olp-pay-rate" style="width: 80px;" money required></numeric-input>
+            </div>
+            <div style="text-align: right; margin-top: 40px; margin-bottom: 5px;">
+                <push-button id="olp-ok">Ok</push-button>
+                <push-button id="olp-cancel" style="margin-left: 10px; margin-right: 15px;">Cancel</push-button>
+            </div>
+        </popup-body>
+    </popup>
+
+    <popup id="make-offer-popup" height="190px" width="390px">
+        <popup-title>Make offer</popup-title>
+        <popup-body style="font-size: medium; margin: 10px;">
+            <div>
+                Making an offer does all the following three things:
+            </div>
+            <ul>
+                <li class="list-space">Sends an offer to the applicant via email</li class="list-space">
+                <li class="list-space">Allows applicant to view and sign the offer through the applicant interface</li>
+                <li>Generates a copy of the offer for you</li>
+            </ul>
+            <div style="text-align: right; margin-top: 30px; margin-bottom: 5px;">
+                <push-button id="mop-ok">Ok</push-button>
+                <push-button id="mop-cancel" style="margin-left: 10px; margin-right: 15px;">Cancel</push-button>
+            </div>
+        </popup-body>
+    </popup>
+
+</div>

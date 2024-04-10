@@ -1,0 +1,51 @@
+<!--
+    Copyright 2020 STACK360 LLC
+    All rights reserved.
+
+-->
+
+<div class="kiss">
+    <style>
+        .st-grid {
+            display: grid;
+            grid-template-columns: max-content auto;
+            grid-column-gap: 10px;
+            grid-row-gap: 10px;
+        }
+        .st-grid span {
+            color: #000;
+            align-self: center;
+            text-align: right;
+        }
+        .tab-height {
+            height: calc(100% - 45px);
+            position: relative;
+        }
+    </style>
+    <div style="margin-bottom: 10px; margin-top: 10px;">
+        <span>Sales Tasks:</span>
+        <hr>
+    </div>
+
+    <div style="margin-bottom: 10px;">
+        <span>Task:</span>
+        <drop-down id="st-task" style="width: 400px; margin-left: 10px;"></drop-down>
+    </div>
+
+    <div style="text-align: right; margin-bottom: 10px;">
+        <check-box id="st-viewIncomplete" style="margin-right: 10px;" checked>Show Incomplete</check-box>
+        <check-box id="st-viewCompleted">Show Complete</check-box>
+    </div>
+
+    <div id="salesTasksGrid" style="height: calc(100% - 140px);"></div>
+
+    <div style="margin-top: 15px;">
+        <text-label id="salesTasks-label">Displaying 0 Sales Tasks</text-label>
+
+        <div style="right: 10px; bottom: 10px; position: absolute;">
+            <push-button disabled id="detail">Prospect Detail</push-button>
+            <push-button disabled id="view" style="margin-left: 10px;">View Log</push-button>
+            <push-button disabled id="complete" style="margin-left: 40px;">Complete</push-button>
+        </div>
+    </div>
+</div>

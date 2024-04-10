@@ -1,0 +1,422 @@
+<!--
+     Copyright 2020 STACK360 LLC
+     All rights reserved.
+
+-->
+
+<div class="kiss">
+    <style>
+        .ta-grid {
+            display: grid;
+            grid-column-gap: 10px;
+            grid-row-gap: 10px;
+            align-items: center;
+        }
+        .ta-grid span {
+            color: #000;
+            align-self: center;
+            text-align: right;
+        }
+        #ta-applied_filters b {
+            font-weight: 800;
+        }
+        
+        .tab-height {
+            height: calc(640px);
+        }
+        .ta-setButtons {
+            width: 120px !important; 
+            font-size: 25px !important; 
+            font-weight: 800 !important; 
+        }
+        .ta-setButtons:disabled {
+            opacity: 0.6 !important;
+        }
+    </style>
+    <div class="ta-grid" style="grid-template-columns: max-content max-content auto max-content; margin-top: 10px;">
+        <div></div>
+        <span style="text-align: left;">Search timesheet entries by Date:</span>
+
+        <span>Timesheets Currently Final For Employee Up To Date:</span>
+        <native-date-input id="ta-upToDate" style="width:110px;" disabled></native-date-input>
+
+        <span>From:</span>
+        <div>
+            <native-date-input id="ta-fromDate" style="width:110px; margin-right: 20px;" required></native-date-input>
+            <native-date-input id="ta-fromDate1" style="width:110px; margin-right: 20px;" hidden></native-date-input>
+        
+            <span style="margin-right: 10px;">To:</span>
+            <native-date-input id="ta-toDate" style="width:110px;" required></native-date-input>
+            <native-date-input id="ta-toDate1" style="width:110px;" hidden></native-date-input>
+        </div>
+
+        <span>Add/View Rejected Dates:</span>
+        <push-button id="ta-dates" style="width: 80px;" disabled>Dates</push-button>
+
+        <div style="grid-column: 1 / 3; text-align: right;">
+            <check-box id="ta-subordinates" checked style="vertical-align: middle; margin-bottom: 10px;">Show Direct subordinates only</check-box>
+
+            <div>
+                <check-box id="ta-showDetail" style="vertical-align: middle; margin-right: 21px;">Show Detail</check-box>
+                <push-button id="ta-search">Search</push-button>
+            </div>
+        </div>
+    </div>   
+    <div class="ta-grid" style="grid-template-columns: 20% 80%; margin-top: 10px;">
+        <span style=" text-align: left;">Employees with Timesheets:</span>
+        <span style=" text-align: left;">Timesheet Entries:
+            <div style="float: right;">
+                <span style="margin-right: 10px;">Show:</span>
+                <check-box id="ta-finalizedFlag" checked style="vertical-align: middle; margin-right: 10px;">Finalized</check-box>
+                <check-box id="ta-nonFinalizedFlag" checked style="vertical-align: middle; margin-right: 10px;">Non-Finalized</check-box>
+                <check-box id="ta-billableFlag" checked style="vertical-align: middle; margin-right: 10px;">Billable</check-box>
+                <check-box id="ta-nonBillableFlag" checked style="vertical-align: middle; margin-right: 10px;">Non-Billable</check-box>
+            </div>
+        </span>     
+    </div>
+    <hr>
+
+    <div class="ta-grid" style="grid-template-columns: 20% 80%; align-items: flex-start;">
+        <div>
+            <div id="employeesGrid" style="height: calc(100vh - 340px);"></div>
+
+            <div style="margin-top: 10px;">
+                <push-button id="ta-selectAll">Select All</push-button>
+                <push-button id="ta-approveSelected" style="float: right;">Approve Selected</push-button>
+            </div>
+        </div>
+
+        <div>
+            <div id="entriesGrid" style="height: calc(100vh - 340px);"></div>
+
+            <div style="margin-top: 10px;">
+                <text-label id="ta-columnLegend" style="margin-right: 20px;">Column Legend</text-label>
+                <span style="margin-right: 10px;">Total Hours:</span>
+                <numeric-input size="30" id="ta-totalHours" style="width:80px;" show-zero decimal-places="2" disabled></numeric-input>
+                
+                <div style="float: right; margin-right: 10px;">
+                    <push-button id="ta-reject" style="margin-right: 10px;" disabled>Reject</push-button>
+                    <push-button id="ta-approve" style="margin-right: 10px;" disabled>Approve</push-button>
+                    <push-button id="ta-edit" disabled>Edit</push-button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <popup id="edit-entry-popup" height="525px" width="640px;">
+        <popup-title>Edit Timesheet Entry - <text-label id="edit-entry-date"></text-label></popup-title>
+        <popup-body>
+            <div class="ta-grid" style="grid-template-columns: repeat(2, max-content);">
+                <div style="grid-column: 1 / 3;">
+                    <span>Time:</span>
+                    <hr>
+                </div>
+
+                <span>Begin Time:</span>
+                <div>
+                    <time-input id="ta-edit-timeBegin" style="width:60px; text-align: right; margin-right: 10px;" required></time-input>
+                    
+                    <span style="margin-right: 10px;">End Time:</span>
+                    <time-input id="ta-edit-timeEnd" style="width:60px; text-align: right; margin-right: 10px;" required></time-input>
+
+                    <span style="margin-right: 10px;">Hours:</span>
+                    <text-input id="ta-edit-hours" style="width:60px; text-align: right;"></text-input>
+                </div>
+
+                <div style="grid-column: 1 / 3;">
+                    <span>Project:</span>
+                    <hr>
+                </div>
+
+                <span>Quick List:</span>
+                <drop-down id="ta-edit-quickList" style="width: 550px" required></drop-down>
+
+                <span>Project ID:</span>
+                <div>
+                    <text-input id="ta-edit-projectName" style="width:80px; margin-right: 10px; text-align: right;"></text-input>
+                    <text-input id="ta-edit-projectId" hidden></text-input>                    
+                    <push-button id="ta-edit-verify" style="margin-right: 10px;">Verify</push-button>
+                    <span>(Use Verify if typing in Project ID derectly)</span>
+                    <push-button id="ta-edit-choose" style="margin-left: 100px;">Choose</push-button>
+                </div>
+
+                <span>Summary:</span>
+                <text-input id="ta-edit-summary" style="width: 540px;" disabled></text-input>
+
+                <span>Company:</span>
+                <div>
+                    <text-input id="ta-edit-company" style="width:80px; margin-right: 10px;" disabled></text-input>
+                    <span>Billable: </span>
+                    <radio-button group="ta-edit-billable" value="Y">Yes</radio-button>
+                    <radio-button group="ta-edit-billable" value="N">No</radio-button>
+                    <radio-button group="ta-edit-billable" value="U">Unknown</radio-button>
+                </div>   
+                
+                <div style="grid-column: 1 / 3;">
+                    <span>Detail:</span>
+                    <hr>
+                </div>
+
+                <span>Description: </span>
+                <textbox-input style="width: 540px; height: 50px;" id="ta-edit-description"></textbox-input>
+
+                <span>Descriptions: </span>
+                <drop-down id="ta-edit-descriptions" style="width: 550px"></drop-down>
+
+                <div style="grid-column: 1 / 3;">
+                    <span>Rejection:</span>
+                    <hr>
+                </div>
+
+                <span>Reason:</span>
+                <textbox-input style="width: 540px; height: 50px;" id="ta-edit-reason"></textbox-input>
+            </div>
+
+
+        </popup-body>
+        <div style="text-align: right; position: absolute; bottom: 10px; width: 100%">
+            <push-button id="edit-entry-ok" style="margin-right: 10px;">OK</push-button>
+            <push-button id="edit-entry-cancel" style="margin-right: 10px;">Cancel</push-button>
+        </div>
+    </popup>
+
+    <popup id="rejected-dates-popup" height="210px" width="210px;">
+        <popup-title>Add/View Rejected Dates</popup-title>
+        <popup-body>
+            <div id="rejectedDatesGrid" style="height: 170px;"></div>
+        </popup-body>
+        <div style="text-align: right; position: absolute; bottom: 10px; width: 100%">
+            <push-button id="rejected-dates-add" style="margin-right: 10px;">Add</push-button>
+            <push-button id="rejected-dates-close" style="margin-right: 10px;">Close</push-button>
+        </div>
+    </popup>
+
+    <popup id="add-rejected-dates-popup" height="140px" width="320px;">
+        <popup-title>Add/View Rejected Dates</popup-title>
+        <popup-body>
+            <div class="ta-grid" style="grid-template-columns: repeat(2, max-content);">
+                <span>Date:</span>
+                <native-date-input id="ta-rejectedDate" style="width:110px;" required></native-date-input>
+
+                <span>Reason:</span>
+                <textbox-input style="width: 240px; height: 50px;" required id="ta-rejectedMessage"></textbox-input>
+            </div>
+        </popup-body>
+        <div style="text-align: right; position: absolute; bottom: 10px; width: 100%">
+            <push-button id="rejected-dates-ok" style="margin-right: 10px;">OK</push-button>
+            <push-button id="rejected-dates-cancel" style="margin-right: 10px;">Cancel</push-button>
+        </div>
+    </popup>
+
+    <popup id="legend-popup" height="400px" width="450px;">
+        <popup-title>Column Legend</popup-title>
+        <popup-body>
+            <textbox-input style="width: 97%; height: 345px;" disabled>
+                <span style="font-weight: bold;">S - Timesheet State</span><br><br>
+                This column represents the current state of the timesheet entry.  Possible values are:
+                <br><br>
+                <ul>
+                    <li>(<span style="font-weight: bold;">N</span>)ew - Timesheet has been newly created</li>
+                    <li>(<span style="font-weight: bold;">R</span>)ejected - Timesheet has been rejected by a supervisor back to the timesheet creator</li>
+                    <li>(<span style="font-weight: bold;">F</span>)ixed - Timesheet has been fixed after being Rejected by a supervisor</li>
+                    <li>(<span style="font-weight: bold;">C</span>)hanged - Timesheet has been changed after the day has by finalized (possible when the day has been Rejected back to the timesheet creator)</li>
+                    <li>(<span style="font-weight: bold;">A</span>)pproved - Timesheet has been approved by a supervisor and is available for accounting</li>
+                    <li>(<span style="font-weight: bold;">P</span>)roblem - Timesheet has been marked as having a problem by accounting</li>
+                    <li>(<span style="font-weight: bold;">D</span>)eferred - Timesheet has been marked as deferred by accounting (won't be invoiced)</li>
+                    <li>(<span style="font-weight: bold;">I</span>)nvoiced - Timesheet has been included in an invoice</li>
+                </ul>
+                <span style="font-weight: bold;">B - Timesheet Billable Status</span><br><br>
+                This column represents the billable status of the timesheet entry.  Possible values are:
+                <ul>
+                    <li>(<span style="font-weight: bold;">Y</span>)es - The timesheet is billable</li>
+                    <li>(<span style="font-weight: bold;">N</span>)o - The timesheet is not billable</li>
+                    <li>(<span style="font-weight: bold;">U</span>)nknown - It is unknown if the timesheet is billable</li>
+                </ul>
+            </textbox-input>
+        </popup-body>
+        <div style="text-align: right; position: absolute; bottom: 10px; width: 100%">
+            <push-button id="legend-close" style="margin-right: 10px;">Close</push-button>
+        </div>
+    </popup>
+
+    <popup id="project-info-popup" height="400px" width="530px">
+        <popup-title>Additional Information</popup-title>
+        <popup-body>
+            <br>
+            <span style="font-weight:bold;">Project ID:</span>
+            <text-label id="project-info-project-id"></text-label>
+            <span style="margin-left: 50px; font-weight:bold;">Requesting Person:</span>
+            <text-label id="project-info-requesting-person"></text-label>
+            <br><br>
+
+            <span style="font-weight:bold;">Project Summary:</span>
+            <text-label id="project-info-summary"></text-label>
+            <br><br>
+
+            <span style="font-weight:bold;">Requesting Company (Group):</span>
+            <text-label id="project-info-requesting-company"></text-label>
+            <br><br>
+
+            <span style="font-weight:bold;">Phase:</span>
+            <text-label id="project-info-phase"></text-label>
+            <br><br>
+
+            <span style="font-weight:bold;">Status:</span>
+            <text-label id="project-info-status"></text-label>
+            <br><br>
+
+            <span style="font-weight:bold;">Project Detail:</span><br>
+            <textbox-input id="project-info-details" style="height: 195px; width: 495px; background-color: #f7ff80;" disabled></textbox-input>
+
+            <div style="right: 10px; bottom: 10px; position: absolute;">
+                <push-button id="project-info-ok">Ok</push-button>
+            </div>
+        </popup-body>
+    </popup>
+
+    <popup id="project-description-popup" height="260px" width="530px">
+        <popup-title>Additional Timesheet Information</popup-title>
+        <popup-body>
+            <span style="font-weight:bold;">Description:</span><br>
+            <textbox-input id="project-description" style="height: 195px; width: 495px; background-color: #f7ff80;" disabled></textbox-input>
+
+            <div style="right: 10px; bottom: 10px; position: absolute;">
+                <push-button id="project-description-ok">Ok</push-button>
+            </div>
+        </popup-body>
+    </popup>
+
+    <popup id="ta-action" width="340px" height="130px">
+        <popup-title>
+            <span><text-label id="ta-action-label">Add</text-label> Timesheet Entry</span>
+        </popup-title>
+        <popup-body style="padding: 10px;">            
+            <div class="ta-grid" style="grid-template-columns: repeat(4, max-content); align-items: center;">
+                <span>Date In:</span>
+                <native-date-input id="ta-action-dateIn" style="width:110px;" required></native-date-input>
+                
+                <span>Time In:</span>
+                <time-input id="ta-action-timeIn" style="width:60px; text-align: right;" required></time-input>
+                
+                <span>Date Out:</span>
+                <native-date-input id="ta-action-dateOut" style="width:110px;" required></native-date-input>
+                
+                <span>Time Out:</span>
+                <time-input id="ta-action-timeOut" style="width:60px; text-align: right;" required></time-input>
+                
+                <span style="grid-column: 1 / 4;">Elapsed Time:</span>
+                <text-input id="ta-action-elapsed" style="width:60px; text-align: right;" required disabled></text-input>
+            </div>
+            <div style="text-align: right; margin-top: 10px;">
+                <push-button id="ta-action-ok">OK</push-button>
+                <push-button id="ta-action-cancel" style="margin-left: 10px;">Cancel</push-button>
+            </div>
+        </popup-body>
+    </popup>
+
+    <popup id="ta-search-project" width="710px" height="520px">
+        <popup-title>
+            <span>Choose Project</span>
+        </popup-title>
+        <popup-body style="padding: 10px;">
+            <div style="margin-bottom: 10px;">
+                <radio-button group="ta-proj-chooseProject" value="S" checked>Search for a Project</radio-button>
+                <radio-button group="ta-proj-chooseProject" value="A">Use Project Quick List</radio-button>
+            </div>
+    
+            <div>Search Criteria:</div>
+            <hr>
+            
+            <div class="ta-grid" style="margin-top: 8px; display: grid; grid-template-columns: repeat(5, max-content); align-items: center;">
+                <span>ID:</span>
+                <drop-down id="ta-proj-projectNameSearchType" style="width: 95px;"></drop-down>
+                <text-input id="ta-proj-projectName" style="width: 160px"></text-input>
+
+                <span>Category Code:</span>
+                <smart-chooser id="ta-proj-category" outside-width="180"></smart-chooser>  
+                
+                <span>Summary:</span>
+                <drop-down id="ta-proj-summarySearchType" style="width: 95px;"></drop-down>
+                <text-input id="ta-proj-summary" style="width: 160px"></text-input>    
+
+                <span>Type Code:</span>
+                <smart-chooser id="ta-proj-type" outside-width="180"></smart-chooser>  
+
+                <span>Requesting Company:</span>
+                <div style="grid-column: 2 / 4;">
+                    <smart-chooser id="ta-proj-companyId" outside-width="265"></smart-chooser>  
+                </div>
+
+                <span>Status Code:</span>
+                <smart-chooser id="ta-proj-status" outside-width="180"></smart-chooser>                  
+            </div>
+    
+            <div class="btn-bar" style="margin-top: 10px; width: 100%; justify-content: flex-end;">
+                <push-button id="ta-proj-reset">Reset</push-button>
+                <push-button id="ta-proj-search" style="margin-right: unset;">Search</push-button>
+            </div>
+    
+            <div style="margin-top: 10px;">
+                <div>Search Results:</div>
+                <hr>
+            </div>
+    
+            <div id="ta-proj-grid" style="width: 100%; height: 250px;"></div>
+        
+            <div class="vert-input2" style="margin-top: 20px; display: flex; justify-content: space-between; align-items: center;">
+                <text-label id="ta-proj-count" style="margin-left: 10px;">Displaying 0 Projects</text-label>
+    
+                <div>
+                    <push-button id="ta-proj-ok" disabled>OK</push-button>
+                    <push-button id="ta-proj-cancel" style="margin-left: 10px; margin-right: 15px;">Cancel</push-button>
+                </div>
+            </div>
+        </popup-body>
+    </popup>
+
+    <popup id="ta-project-data-search" width="420px" height="465px">
+        <popup-title>
+            <span>Search for Project <text-label id="ta-project-data-search-type"></text-label></span>
+        </popup-title>
+        <popup-body style="padding: 10px;">
+            <div style="margin-bottom: 10px;">
+                <radio-button group="ta-project-specific" value="A">All <text-label id="ta-proj-chooseSpecificLabelAll"></text-label></radio-button>
+                <radio-button group="ta-project-specific" value="S" checked>Search for <text-label id="ta-proj-chooseSpecificLabelSearch"></text-label></radio-button>
+            </div>
+    
+            <div>Search Criteria:</div>
+            <hr>
+            
+            <div class="ta-grid" style="margin-top: 8px; display: grid; grid-template-columns: repeat(3, max-content); align-items: center;">
+                <span>Code:</span>
+                <drop-down id="ta-proj-code-criteria" style="width: 95px;"></drop-down>
+                <text-input id="ta-proj-code-search" style="width: 140px"></text-input>
+                
+                <span>Description</span>
+                <drop-down id="ta-proj-descr-criteria" style="width: 95px;"></drop-down>
+                <text-input id="ta-proj-descr-search" style="width: 140px"></text-input> 
+            </div>
+    
+            <div class="btn-bar" style="margin-top: 10px; width: 100%; justify-content: flex-end;">
+                <push-button id="ta-projD-reset">Reset</push-button>
+                <push-button id="ta-projD-search" style="margin-right: unset;">Search</push-button>
+            </div>
+    
+            <div style="margin-top: 10px;">
+                <div>Search Results:</div>
+                <hr>
+            </div>
+    
+            <div id="ta-projRes-grid" style="width: 100%; height: 250px;"></div>
+        
+            <div class="vert-input2" style="margin-top: 10px; display: flex; justify-content: space-between; align-items: center;">
+                <text-label id="ta-projD-count" style="margin-left: 10px;">Displaying 0 Items</text-label>
+    
+                <div>
+                    <push-button id="ta-projD-ok" disabled>OK</push-button>
+                    <push-button id="ta-projD-cancel" style="margin-left: 10px; margin-right: 15px;">Cancel</push-button>
+                </div>
+            </div>
+        </popup-body>
+    </popup>
+</div>

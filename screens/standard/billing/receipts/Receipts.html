@@ -1,0 +1,148 @@
+<!--
+     Copyright 2020 STACK360 LLC
+     All rights reserved.
+
+-->
+
+<div class="kiss" style="font-size: small;">
+
+    <style>
+
+        label {
+            margin-top: 5px;
+        }
+
+        div.vert-input2 {
+            display:grid;
+            grid-template-columns: 75px max-content 100px max-content;
+            grid-column-gap:5px;
+            grid-row-gap: 10px;
+            margin-top: 10px;
+            margin-left: 10px;
+        }
+        div.vert-input2 label       { text-align:right; }
+
+        .grid-container {
+            display: grid;
+            grid-column-gap: 5px;
+            grid-row-gap: 10px;
+            grid-template-columns: 100px 280px 160px auto;
+        }
+
+        .col-1 {
+            grid-column: 1;
+            justify-self: end;
+        }
+
+        .col-2 {
+            grid-column: 2;
+        }
+
+        .col-3 {
+            grid-column: 3;
+            justify-self: end;
+        }
+
+        .col-4 {
+            grid-column: 4;
+        }
+
+    </style>
+
+
+
+    <div class="grid-container" style="margin-top: 20px;">
+
+        <label class="col-1">Project:</label>
+        <div class="col-2">
+            <smart-chooser id="project" style="width: 260px;"></smart-chooser>
+        </div>
+
+        <label class="col-3">Worker:</label>
+        <div class="col-4">
+            <smart-chooser id="worker" style="width: 240px;"></smart-chooser>
+        </div>
+
+
+        <label class="col-1">Start Date:</label>
+        <div class="col-2"><native-date-input id="start-date" style="width: 120px;"></native-date-input></div>
+
+        <label class="col-3">Expense Account:</label>
+        <drop-down id="expense-account" style="width: 240px;" class="col-4"></drop-down>
+
+        <label class="col-1">End Date:</label>
+        <div class="col-2"><native-date-input id="end-date" style="width: 120px;"></native-date-input></div>
+
+        <div class="col-4">
+            <push-button id="search">Search</push-button>
+            <push-button id="reset">Reset</push-button>
+        </div>
+    </div>
+
+    <div id="receipt-grid" style="margin-top: 20px; height: calc(100% - 190px); width: 100%"></div>
+
+    <div style="left: 20px; bottom: 20px; position: absolute;">
+        * = approved
+    </div>
+    <div style="right: 10px; bottom: 10px; position: absolute;">
+        <push-button id="approve" disabled>Approve</push-button>
+        <push-button id="unapprove" disabled>Unapprove</push-button>
+        <push-button id="details" disabled>Details</push-button>
+        <push-button id="view-download" disabled>View</push-button>
+        <push-button id="report" disabled>Report</push-button>
+    </div>
+
+    <popup id="detail-popup" width="650px" height="290px">
+        <popup-title>
+            Receipt Detail
+        </popup-title>
+        <popup-body>
+            <div class="vert-input2">
+                <label>Worker:</label>
+                <text-input id="dp-worker" style="width: 200px;" disabled></text-input>
+
+                <label>Account:</label>
+                <drop-down id="dp-account" style="width: 200px;"></drop-down>
+
+                <label>Project:</label>
+                <text-input id="dp-project" style="width: 200px;" disabled></text-input>
+
+                <label>Method:</label>
+                <drop-down id="dp-payment-method" style="width: 200px;">
+                    <option value="A">Company Debit Card</option>
+                    <option value="B">Employee Comdata Card</option>
+                    <option value="E">Employee Personal Account</option>
+                </drop-down>
+
+                <label>Uploaded:</label>
+                <text-input id="dp-who-uploaded" style="width: 200px;" disabled></text-input>
+
+                <label>Date:</label>
+                <date-input id="dp-date" style="width: 140px;" required></date-input>
+
+                <label>Uploaded:</label>
+                <text-input id="dp-when-uploaded" style="width: 200px;" disabled></text-input>
+
+                <label>Amount:</label>
+                <div>
+                    <numeric-input id="dp-amount" style="width: 80px;" decimal-places="2" dollar-sign required></numeric-input>
+                    <check-box id="dp-approved" style="margin-left: 20px;">Approved</check-box>
+                </div>
+
+            </div>
+
+            <div>
+                <label style="margin-left: 15px;">Purpose:</label>
+                <textbox-input id="dp-purpose" style="width: 545px; height: 75px; margin-top: 15px; vertical-align: middle;"></textbox-input>
+            </div>
+
+            <div style="right: 10px; bottom: 10px; position: absolute;">
+                <push-button id="dp-ok">Ok</push-button>
+                <push-button id="dp-cancel" style="margin-left: 12px;">Cancel</push-button>
+            </div>
+
+        </popup-body>
+    </popup>
+
+
+</div>

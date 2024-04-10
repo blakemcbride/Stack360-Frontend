@@ -1,0 +1,34 @@
+<!--
+     Copyright 2020 STACK360 LLC
+     All rights reserved.
+
+-->
+
+<div class="kiss">
+
+    <style>
+        .ph-grid {
+            display: grid;
+            grid-template-columns: repeat(5, max-content) auto;
+            grid-row-gap: 10px;
+            grid-column-gap: 10px;
+            align-items: center;
+            max-width: 635px;
+        }
+        .ph-grid > span {
+            text-align: right;
+        }
+    </style>
+
+    <div style="margin-top: 10px;">Project Assignment History:</div>
+    <text-label id="ph-project" style="position: absolute; top: 3px; right: 10px;"></text-label>
+    <hr>
+
+    <div id="resultsGrid" style="width: 100%; height: calc(100% - 80px);"></div>
+
+    <text-label id="ph-status" style="position: absolute; bottom: 20px; left: 10px;">Displaying 0 Project Assignment History Items</text-label>
+
+    <div style="text-align: right; position: absolute; bottom: 10px; width: 100%; right: 0;">
+        <push-button id="report" style="margin-right: 10px;">Report</push-button>
+    </div>
+</div>

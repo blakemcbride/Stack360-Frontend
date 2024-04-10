@@ -1,0 +1,764 @@
+<!--
+     Copyright 2020 STACK360 LLC
+     All rights reserved.
+
+-->
+
+<div class="kiss">
+
+    <style>
+        div.vert-input1 {
+            display:grid;
+            grid-template-columns: max-content;
+            grid-column-gap:5px;
+            grid-row-gap: 10px;
+            margin-top: 10px;
+        }
+
+        div.vert-input2 {
+            display:grid;
+            grid-template-columns: max-content max-content;
+            grid-column-gap:5px;
+            grid-row-gap: 10px;
+            margin-top: 10px;
+        }
+
+        div.vert-input2 span {
+            text-align:right;
+            margin-top: 6px;
+        }
+
+        div.vert-input4 {
+            display:grid;
+            grid-template-columns: max-content max-content max-content 200px max-content;
+            grid-column-gap:5px;
+            grid-row-gap: 10px;
+            margin-top: 10px;
+        }
+
+        div.vert-input4 span {
+            text-align:right;
+            margin-top: 6px;
+        }
+
+        .tab-height {
+            height: 290px;
+        }
+    </style>
+
+    <div style="margin-top: 10px;">Recently Selected Prospects:</div>
+    <hr>
+    <div class="vert-input2" style="margin-bottom: 10px;">
+        <span>Prospect:</span>
+        <div>
+            <drop-down id="recent-prospects" style="width: 320px;" default-option="(select)"></drop-down>
+            <push-button id="edit-previous-prospect" disabled>Edit</push-button>
+        </div>
+    </div>
+
+    <text-label>Prospect Search Criteria:</text-label>
+    <hr>
+    <div style="display: flex; justify-content: space-between; max-width: 700px; margin-bottom: 10px;">
+        <div class="vert-input2">
+            <span>Name:</span>
+            <div>
+                <drop-down id="filter-name-type" style="width: 100px;">
+                    <option value="2">Starts With</option>
+                    <option value="3">Ends With</option>
+                    <option value="4">Contains</option>
+                    <option value="5">Exact Match</option>
+                </drop-down>
+                <text-input id="filter-name" style="width: 120px;"></text-input>
+            </div>
+            <span>Status:</span>
+            <smart-chooser id="filter-status" default-option="(any)" style="width: 210px;"></smart-chooser>
+            <span>Type:</span>
+            <smart-chooser id="filter-type" default-option="(any)" style="width: 210px;"></smart-chooser>
+            <span>Source:</span>
+            <smart-chooser id="filter-source" default-option="(any)" style="width: 210px;"></smart-chooser>
+        </div>
+        <div>
+            <div class="vert-input2">
+                <div style="width: 63px;">
+                    <push-button id="filters-button">Filter</push-button>
+                    <push-button id="sorts-button" style="margin-top: 10px;">Sort</push-button>
+                </div>
+                <textbox-input id="filter-details" style="width: 320px; height: 80px; background-color: #eeeeee;" disabled></textbox-input>
+            </div>
+            <div style="text-align: right; margin-top: 10px; width: 100%;">
+                <push-button id="filter-columns">Columns</push-button>
+                <push-button id="filter-reset" style="margin-left: 10px;">Reset</push-button>
+                <push-button id="filter-search" style="margin-left: 10px;">Search</push-button>
+            </div>
+            <check-box style="float: right; margin-top: 10px;" id="filter-active-only">Actives Only</check-box>
+        </div>
+    </div>
+
+    <text-label>Prospect Search Results:</text-label>
+    <hr>
+
+    <div id="grid" style="margin-top: 10px; width: 100%; height: calc(100vh - 445px);"></div>
+
+    <div style="position: absolute; bottom: 10px; width: 100%;">
+        <text-label id="status"></text-label>
+        <div style="float: right;">
+            <push-button id="report">Report</push-button>
+            <push-button id="export" style="margin-left: 10px; margin-right: 40px;">Export</push-button>
+
+            <push-button id="add">Add</push-button>
+            <push-button id="edit" disabled style="margin-left: 10px;">Edit</push-button>
+            <push-button id="merge" disabled  style="margin-left: 10px;">Merge</push-button>
+            <push-button id="delete" disabled style="margin-left: 10px; margin-right: 30px;">Delete</push-button>
+        </div>
+    </div>
+
+    <popup id="filters" height="420px">
+        <popup-title>
+            <text-label>Filter Search Results</text-label>
+        </popup-title>
+        <popup-body style="padding: 10px;">
+            <div class="vert-input2">
+                <span>ID:</span>
+                <div>
+                    <drop-down id="fp-id-type" style="width: 100px;">
+                        <option value="2">Starts With</option>
+                        <option value="3">Ends With</option>
+                        <option value="4">Contains</option>
+                        <option value="5">Exact Match</option>
+                    </drop-down>
+                    <text-input id="fp-id" style="width: 120px;"></text-input>
+                </div>
+
+                <span>Main Contact First Name:</span>
+                <div>
+                    <drop-down id="fp-contact-fname-type" style="width: 100px;">
+                        <option value="2">Starts With</option>
+                        <option value="3">Ends With</option>
+                        <option value="4">Contains</option>
+                        <option value="5">Exact Match</option>
+                    </drop-down>
+                    <text-input id="fp-contact-fname" style="width: 120px;"></text-input>
+                </div>
+
+                <span>Main Contact Last Name:</span>
+                <div>
+                    <drop-down id="fp-contact-lname-type" style="width: 100px;">
+                        <option value="2">Starts With</option>
+                        <option value="3">Ends With</option>
+                        <option value="4">Contains</option>
+                        <option value="5">Exact Match</option>
+                    </drop-down>
+                    <text-input id="fp-contact-lname" style="width: 120px;"></text-input>
+                </div>
+
+                <span>Salesperson:</span>
+                <smart-chooser style="width: 210px;" id="fp-salesperson"></smart-chooser>
+
+                <span>First Contact Date From:</span>
+                <div>
+                    <native-date-input id="fp-contact-fdate-from" style="width: 110px;"></native-date-input>
+                    <span>to</span>
+                    <native-date-input id="fp-contact-fdate-to" style="width: 110px;"></native-date-input>
+                </div>
+
+                <span>Last Contact Date From:</span>
+                <div>
+                    <native-date-input id="fp-contact-ldate-from" style="width: 110px;"></native-date-input>
+                    <span>to</span>
+                    <native-date-input id="fp-contact-ldate-to" style="width: 110px;"></native-date-input>
+                </div>
+
+                <span>Last Log Date From:</span>
+                <div>
+                    <native-date-input id="fp-last-log-date-from" style="width: 110px;"></native-date-input>
+                    <span>to</span>
+                    <native-date-input id="fp-last-log-date-to" style="width: 110px;"></native-date-input>
+                </div>
+
+                <span>Status Date From:</span>
+                <div>
+                    <native-date-input id="fp-status-date-from" style="width: 110px;"></native-date-input>
+                    <span>to</span>
+                    <native-date-input id="fp-status-date-to" style="width: 110px;"></native-date-input>
+                </div>
+
+                <span>When Added From:</span>
+                <div>
+                    <native-date-input id="fp-when-added-date-from" style="width: 110px;"></native-date-input>
+                    <span>to</span>
+                    <native-date-input id="fp-when-added-date-to" style="width: 110px;"></native-date-input>
+                </div>
+
+                <span>Activity Date From:</span>
+                <div>
+                    <native-date-input id="fp-activity-date-from" style="width: 110px;"></native-date-input>
+                    <span>to</span>
+                    <native-date-input id="fp-activity-date-to" style="width: 110px;"></native-date-input>
+                </div>
+
+                <span>Time Zone:</span>
+                <drop-down id="fp-time-zone"></drop-down>
+            </div>
+            <div style="text-align: right; margin-top: 10px;">
+                <push-button id="fp-ok">OK</push-button>
+                <push-button id="fp-cancel">Cancel</push-button>
+            </div>
+        </popup-body>
+    </popup>
+
+    <popup id="sort" height="334px" width="748px">
+        <popup-title>
+            <text-label>Sort Results</text-label>
+        </popup-title>
+        <popup-body style="padding: 10px;">
+            <div>Primary sort:</div>
+            <hr>
+
+            <div class="vert-input4">
+                <radio-button group="sort1" required value="og.group_name">Name</radio-button>
+                <radio-button group="sort1" value="pr.last_contact_date">Last contact date</radio-button>
+                <radio-button group="sort1" value="pr.next_contact_date">Next contact date</radio-button>
+                <radio-button group="sort1" value="cd.last_log_date">Last log date</radio-button>
+                <radio-button group="sort-direction1" required value="true">Sort ascending</radio-button>
+
+                <radio-button group="sort1" value="pstat.seqno">Status</radio-button>
+                <radio-button group="sort1" value="pr.status_change_date">Status date</radio-button>
+                <radio-button group="sort1" value="pr.prospect_type_id">Type</radio-button>
+                <radio-button group="sort1" value="pr.when_added">When added</radio-button>
+                <radio-button group="sort-direction1" value="false">Sort descending</radio-button>
+
+                <radio-button group="sort1" value="pr.number_of_employees">Number of employees</radio-button>
+                <radio-button group="sort1" value="pr.gross_income">Gross revenue</radio-button>
+                <radio-button group="sort1" value="psrc.source_code">Lead source</radio-button>
+                <radio-button group="sort1" value="pers.lname, pers.fname">Sales person</radio-button>
+                <span></span>
+
+                <radio-button group="sort1" value="pr.opportunity_value">Opportunity value</radio-button>
+                <radio-button group="sort1" value="pstat.certainty">Closing certainty</radio-button>
+                <radio-button group="sort1" value="pr.opportunity_value * pstat.certainty">Weighted value</radio-button>
+                <radio-button group="sort1" value="ad.state">State</radio-button>
+                <span></span>
+
+                <radio-button group="sort1" value="ad.time_zone_offset">Time zone</radio-button>
+                <span></span>
+                <span></span>
+                <span></span>
+                <span></span>
+            </div>
+
+            <div style="margin-top: 20px;">Secondary sort:</div>
+            <hr>
+
+            <div class="vert-input4">
+                <radio-button group="sort2" required value="og.group_name">Name</radio-button>
+                <radio-button group="sort2" value="pr.last_contact_date">Last contact date</radio-button>
+                <radio-button group="sort2" value="pr.next_contact_date">Next contact date</radio-button>
+                <radio-button group="sort2" value="cd.last_log_date">Last log date</radio-button>
+                <radio-button group="sort-direction2" required value="true">Sort ascending</radio-button>
+
+                <radio-button group="sort2" value="pstat.seqno">Status</radio-button>
+                <radio-button group="sort2" value="pr.status_change_date">Status date</radio-button>
+                <radio-button group="sort2" value="pr.prospect_type_id">Type</radio-button>
+                <radio-button group="sort2" value="pr.when_added">When added</radio-button>
+                <radio-button group="sort-direction2" value="false">Sort descending</radio-button>
+
+                <radio-button group="sort2" value="pr.number_of_employees">Number of employees</radio-button>
+                <radio-button group="sort2" value="pr.gross_income">Gross revenue</radio-button>
+                <radio-button group="sort2" value="psrc.source_code">Lead source</radio-button>
+                <radio-button group="sort2" value="pers.lname, pers.fname">Sales person</radio-button>
+                <span></span>
+
+                <radio-button group="sort2" value="pr.opportunity_value">Opportunity value</radio-button>
+                <radio-button group="sort2" value="pstat.certainty">Closing certainty</radio-button>
+                <radio-button group="sort2" value="pr.opportunity_value * pstat.certainty">Weighted value</radio-button>
+                <radio-button group="sort2" value="ad.state">State</radio-button>
+                <span></span>
+
+                <radio-button group="sort2" value="ad.time_zone_offset">Time zone</radio-button>
+                <span></span>
+                <span></span>
+                <span></span>
+                <span></span>
+            </div>
+
+            <div style="text-align: right; margin-top: 10px;">
+                <push-button id="sp-ok">OK</push-button>
+                <push-button id="sp-cancel">Cancel</push-button>
+            </div>
+        </popup-body>
+    </popup>
+
+    <popup id="columns">
+        <popup-title>
+            <text-label>Edit Displayed Columns</text-label>
+        </popup-title>
+        <popup-body style="padding: 10px;">
+            <div class="vert-input2">
+                <div style="display: flex; flex-direction: column;">
+                    <check-box id="cp-chk-0" style="margin-left: 0;" disabled>Prospect Name (Always Displayed)</check-box>
+                    <check-box id="cp-chk-1" style="margin-top: 5px;">ID</check-box>
+                    <check-box id="cp-chk-2" style="margin-top: 5px;">First Contact Date</check-box>
+                    <check-box id="cp-chk-3" style="margin-top: 5px;">Last Contact Date</check-box>
+                    <check-box id="cp-chk-4" style="margin-top: 5px;">Last Log Date</check-box>
+                    <check-box id="cp-chk-5" style="margin-top: 5px;">Next Contact Date</check-box>
+                    <check-box id="cp-chk-6" style="margin-top: 5px;">Status</check-box>
+                    <check-box id="cp-chk-7" style="margin-top: 5px;">Status Date</check-box>
+                    <check-box id="cp-chk-8" style="margin-top: 5px;">Source</check-box>
+                    <check-box id="cp-chk-9" style="margin-top: 5px;">Type</check-box>
+                    <check-box id="cp-chk-10" style="margin-top: 5px;">Company Phone</check-box>
+                    <check-box id="cp-chk-11" style="margin-top: 5px;" style="display: none;">Company Fax</check-box>
+                </div>
+                <div style="display: flex; flex-direction: column;">
+                    <check-box id="cp-chk-12" style="margin-left: 0;">Main Contact Last Name</check-box>
+                    <check-box id="cp-chk-13" style="margin-top: 5px;">Main Contact First Name</check-box>
+                    <check-box id="cp-chk-14" style="margin-top: 5px;">Main Contact Detail</check-box>
+                    <check-box id="cp-chk-15" style="margin-top: 5px;">Other Contact Detail</check-box>
+                    <check-box id="cp-chk-16" style="margin-top: 5px;">Salesperson</check-box>
+                    <check-box id="cp-chk-17" style="margin-top: 5px;">Certainty</check-box>
+                    <check-box id="cp-chk-18" style="margin-top: 5px;">Opportunity Value</check-box>
+                    <check-box id="cp-chk-19" style="margin-top: 5px;">Weighted Opportunity</check-box>
+                    <check-box id="cp-chk-20" style="margin-top: 5px;">Timezone</check-box>
+                    <check-box id="cp-chk-21" style="margin-top: 5px;">When Added</check-box>
+                </div>
+            </div>
+            
+            <div style="text-align: right; margin-top: 10px;">
+                <push-button id="cp-ok">Ok</push-button>
+                <push-button id="cp-cancel">Cancel</push-button>
+            </div>
+        </popup-body>
+    </popup>
+
+    <popup id="detail-popup" height="380px">
+        <popup-title>
+            <text-label>Add Prospect</text-label>
+        </popup-title>
+        <popup-body style="padding: 5px; width: 670px;">
+
+            <div id="detailTabContainer" class="tab-container">
+                <ul class="tab-header">
+                    <li id="detailTabButton" class="active">Prospect Detail</li>
+                    <li id="primaryContactTabButton">Primary Contact Detail</li>
+                </ul>
+
+                <div id="detailTabContent" class="tab-content tab-height">
+                    <div style="display: flex; justify-content: space-between;">
+                        <div>
+                            <div class="vert-input2">
+                                <span>* Name:</span>
+                                <text-input id="dp-name" style="width: 210px;" required maxlength="60"></text-input>
+                                <span>Street 1:</span>
+                                <text-input id="dp-street1" maxlength="60"></text-input>
+                                <span>Street 2:</span>
+                                <text-input id="dp-street2" maxlength="60"></text-input>
+                                <span>Country</span>
+                                <drop-down id="dp-country" style="width: 210px;"></drop-down>
+                                <span>City:</span>
+                                <text-input id="dp-city" maxlength="60"></text-input>
+                                <span>State:</span>
+                                <div>
+                                    <drop-down id="dp-state-drop-down" style="width: 70px;" hidden></drop-down>
+                                    <text-input id="dp-state" style="width: 70px;" hidden maxlength="20"></text-input>
+                                    <span style="margin-left: 32px;">Zip:</span>
+                                    <text-input id="dp-zip" maxlength="10" style="width: 70px;"></text-input>
+                                </div>
+                                <span>Phone:</span>
+                                <div>
+                                    <text-input id="dp-phone" maxlength="20" style="width: 70px;"></text-input>
+                                </div>
+                                <span>Timezone:</span>
+                                <drop-down id="dp-time-zone"></drop-down>
+                            </div>
+                        </div>
+                        <div style="margin-left: 20px;">
+                            <div class="vert-input2">
+                                <span>ID: </span>
+                                <text-input id="dp-id" style="width: 210px;" maxlength="20"></text-input>
+                                <span>* Source:</span>
+                                <smart-chooser id="dp-source" style="width: 210px;" default-option="(choose)" required></smart-chooser>
+                                <span>Source Detail:</span>
+                                <textbox-input id="dp-source-detail" style="height: 40px"></textbox-input>
+                                <span>* Status:</span>
+                                <smart-chooser id="dp-status" style="width: 210px;" default-option="(choose)" required></smart-chooser>
+                                <span>First Contact Date:</span>
+                                <div>
+                                    <native-date-input id="dp-first-contact-date" style="width: 110px; margin-right: 10px;"></native-date-input>
+                                    <span>Certainty:</span>
+                                    <numeric-input id="dp-certainty" style="width: 40px;"></numeric-input>
+                                </div>
+                                <span>* Type:</span>
+                                <smart-chooser id="dp-type" style="width: 210px;" default-option="(choose)" required></smart-chooser>
+                                <span>* Salesperson:</span>
+                                <smart-chooser id="dp-salesperson" style="width: 210px;" default-option="(choose)" required></smart-chooser>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div id="primaryContactTabContent" class="tab-content tab-height" style="display: none;" hidden>
+                    <div style="display: flex; justify-content: space-between;">
+                        <div>
+                            <div class="vert-input2">
+                                <span>First Name:</span>
+                                <text-input id="dp-contact-first-name" style="width: 220px;" maxlength="30"></text-input>
+                                <span>Last Name:</span>
+                                <text-input id="dp-contact-last-name" maxlength="30"></text-input>
+                                <span>E-mail:</span>
+                                <text-input id="dp-contact-email" maxlength="60"></text-input>
+                                <span>Type:</span>
+                                <drop-down id="dp-contact-type">
+                                    <option value="">(choose)</option>
+                                    <option value="1">Decision Maker</option>
+                                    <option value="2">Department Head</option>
+                                    <option value="3">User</option>
+                                    <option value="4">Consultant / Other Employee</option>
+                                    <option value="5">Unknown</option>
+                                </drop-down>
+                            </div>
+                        </div>
+                        <div style="margin-left: 20px;">
+                            <div class="vert-input2">
+                                <span>Job Title:</span>
+                                <text-input id="dp-contact-job-title" maxlength="60" style="width: 220px;"></text-input>
+                                <span>Phone:</span>
+                                <text-input id="dp-contact-phone" maxlength="20"></text-input>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div style="text-align: right; margin-top: 10px; display: flex; justify-content: space-between; align-items: center;">
+                <div style="margin-left: 10px;">
+                    <check-box id="dp-open-detail">Open Prospect detail when this pop-up closes</check-box>
+                </div>
+
+                <div>
+                    <push-button id="dp-ok">OK</push-button>
+                    <push-button id="dp-cancel" style="margin-left: 10px; margin-right: 15px;">Cancel</push-button>
+                </div>
+            </div>
+        </popup-body>
+    </popup>
+
+    <popup id="merge-popup">
+        <popup-title>
+            <text-label>Merge Prospects</text-label>
+        </popup-title>
+        <popup-body style="padding: 5px 20px;">
+            <div>
+                <text-label style="margin-left: 160px; font-weight: bold;">Prospect 1</text-label>
+                <text-label style="margin-left: 160px; font-weight: bold;">Prospect 2</text-label>
+            </div>
+            <div style="display: flex;">
+                <div class="vert-input2">
+                    <span>Name:</span> <div></div>
+                    <span>Street 1:</span> <div></div>
+                    <span>Street 2:</span> <div></div>
+                    <span>Country:</span> <div></div>
+                    <span>City:</span> <div></div>
+                    <span>State:</span> <div></div>
+                    <span>Zip:</span> <div></div>
+                    <span>ID:</span> <div></div>
+                    <span>Source:</span> <div></div>
+                    <span>Source Detail:</span> <div style="height: 30px;"></div>
+                    <span>Status:</span> <div></div>
+                    <span>First Contact Date:</span> <div></div>
+                    <span>Salesperson:</span> <div></div>
+                    <span>Certainty:</span> <div></div>
+                </div>
+                <div class="vert-input1" style="border: 1px solid black; padding: 2px 5px;">
+                    <text-input id="mp-left-name" maxlength="60" required style="width: 185px;"></text-input>
+                    <text-input id="mp-left-street1" maxlength="60"></text-input>
+                    <text-input id="mp-left-street2" maxlength="60"></text-input>
+                    <text-input id="mp-left-country"></text-input>
+                    <text-input id="mp-left-city" maxlength="60"></text-input>
+                    <text-input id="mp-left-state" maxlength="20"></text-input>
+                    <text-input id="mp-left-zip" maxlength="10"></text-input>
+                    <text-input id="mp-left-id" maxlength="20"></text-input>
+                    <smart-chooser id="mp-left-source" required style="width: 170px;" default-option="(any)"></smart-chooser>
+                    <textbox-input id="mp-left-source-detail" style="width: 180px; height: 30px"></textbox-input>
+                    <smart-chooser id="mp-left-status" required style="width: 170px;" default-option="(any)"></smart-chooser>
+                    <native-date-input id="mp-left-first-contact-date" style="width: 170px;"></native-date-input>
+                    <smart-chooser id="mp-left-salesperson" style="width: 170px;" default-option="(any)"></smart-chooser>
+                    <numeric-input id="mp-left-certainty" style="width: 30px; margin-left: 160px;"></numeric-input>
+                </div>
+                <div class="vert-input1" style="border: 1px solid black; padding: 2px 5px; margin-left: 10px;">
+                    <text-input id="mp-right-name" maxlength="60" required style="width: 185px;"></text-input>
+                    <text-input id="mp-right-street1" maxlength="60"></text-input>
+                    <text-input id="mp-right-street2" maxlength="60"></text-input>
+                    <text-input id="mp-right-country"></text-input>
+                    <text-input id="mp-right-city" maxlength="60"></text-input>
+                    <text-input id="mp-right-state" maxlength="20"></text-input>
+                    <text-input id="mp-right-zip" maxlength="10"></text-input>
+                    <text-input id="mp-right-id" maxlength="20"></text-input>
+                    <smart-chooser id="mp-right-source" required style="width: 170px;" default-option="(any)"></smart-chooser>
+                    <textbox-input id="mp-right-source-detail" style="width: 180px; height: 30px"></textbox-input>
+                    <smart-chooser id="mp-right-status" required style="width: 170px;" default-option="(any)"></smart-chooser>
+                    <native-date-input id="mp-right-first-contact-date" style="width: 170px;"></native-date-input>
+                    <smart-chooser id="mp-right-salesperson" style="width: 170px;" default-option="(any)"></smart-chooser>
+                    <numeric-input id="mp-right-certainty" style="width: 30px;"></numeric-input>
+                </div>
+            </div>
+            <div style="margin-top: 5px;">
+                <radio-button group="mp-prospect-selection" value="left" checked style="margin-left: 100px;">Use Prospect 1</radio-button>
+                <radio-button group="mp-prospect-selection" value="right" style="margin-left: 120px;">Use Prospect 2</radio-button>
+            </div>
+            <div style="text-align: right; margin-top: 10px;">
+                <push-button id="mp-search">Search</push-button>
+            </div>
+            <div style="text-align: right; margin-top: 10px;">
+                <push-button id="mp-ok" disabled>Ok</push-button>
+                <push-button id="mp-cancel">Cancel</push-button>
+            </div>
+        </popup-body>
+    </popup>
+
+    <popup id="prospect-search">
+        <popup-title>
+            <text-label>Search for Prospects</text-label>
+        </popup-title>
+        <popup-body style="padding: 10px;">
+
+            <div>Prospect Search Criteria:</div>
+            <hr>
+
+            <div style="display: flex;">
+                <div>
+                    <div class="flex-row" style="margin-top: 8px;">
+                        <label style="width: 65px; margin-right: 10px;">Name:</label>
+                        <drop-down id="psp-name-criteria" style="width: 95px; margin-right: 10px;"></drop-down>
+                        <text-input id="psp-name-search" style="width: 140px"></text-input>
+                    </div>
+
+                    <div class="flex-row" style="margin-top: 8px;">
+                        <label style="width: 65px; margin-right: 10px;">ID:</label>
+                        <drop-down id="psp-id-criteria" style="width: 95px; margin-right: 10px;"></drop-down>
+                        <text-input id="psp-id-search" style="width: 140px"></text-input>
+                    </div>
+
+                    <div class="flex-row" style="margin-top: 8px;">
+                        <label style="width: 65px; margin-right: 10px;">Status:</label>
+                        <smart-chooser id="psp-status" default-option="(any)" style="width: 240px;"></smart-chooser>
+                    </div>
+                </div>
+
+                <div>
+                    <div class="flex-row" style="margin-top: 8px;">
+                        <label style="width: 160px; margin-right: 10px;">Primary Contact First Name:</label>
+                        <drop-down id="psp-pcontact-fname-criteria" style="width: 95px; margin-right: 10px;"></drop-down>
+                        <text-input id="psp-pcontact-fname-search" style="width: 140px"></text-input>
+                    </div>
+
+                    <div class="flex-row" style="margin-top: 8px;">
+                        <label style="width: 160px; margin-right: 10px;">Primary Contact Last Name:</label>
+                        <drop-down id="psp-pcontact-lname-criteria" style="width: 95px; margin-right: 10px;"></drop-down>
+                        <text-input id="psp-pcontact-lname-search" style="width: 140px"></text-input>
+                    </div>
+
+                    <div class="flex-row" style="margin-top: 8px;">
+                        <label style="width: 160px; margin-right: 10px;">Source:</label>
+                        <smart-chooser id="psp-source" default-option="(any)" style="width: 240px;"></smart-chooser>
+                    </div>
+                </div>
+            </div>
+
+            <div class="btn-bar" style="margin-top: 8px; width: 100%; justify-content: flex-end;">
+                <push-button id="psp-reset">Reset</push-button>
+                <push-button id="psp-search" style="margin-right: unset;">Search</push-button>
+            </div>
+
+            <div style="margin-top: 10px;">
+                <div>Prospect Search Results:</div>
+                <hr>
+            </div>
+
+            <div id="psp-grid" style="width: 100%; height: 250px;"></div>
+        
+            <div style="text-align: right; margin-top: 20px; display: flex; justify-content: space-between; align-items: center;">
+                <div id="psp-stat-count" style="margin-left: 10px;">Displaying 0 Prospects</div>
+
+                <div>
+                    <push-button id="psp-ok" disabled>OK</push-button>
+                    <push-button id="psp-cancel" style="margin-left: 10px; margin-right: 15px;">Cancel</push-button>
+                </div>
+            </div>
+        </popup-body>
+    </popup>
+
+    <popup id="prospect-status-search" width="600px" height="455px">
+        <popup-title>
+            <text-label>Search for Prospect Status</text-label>
+        </popup-title>
+        <popup-body style="padding: 10px;">
+
+            <div>Search Criteria:</div>
+            <hr>
+            
+            <div class="flex-row" style="margin-top: 8px;">
+                <label style="width: 65px; margin-right: 10px;">Code:</label>
+                <drop-down id="pst-code-criteria" style="width: 95px; margin-right: 10px;"></drop-down>
+                <text-input id="pst-code-search" style="width: 140px"></text-input>
+            </div>
+
+            <div class="flex-row" style="margin-top: 8px;">
+                <label style="width: 65px; margin-right: 10px;">Description:</label>
+                <drop-down id="pst-description-criteria" style="width: 95px; margin-right: 10px;"></drop-down>
+                <text-input id="pst-description-search" style="width: 140px"></text-input>
+            </div>
+
+            <div class="btn-bar" style="margin-top: 8px; width: 100%; justify-content: flex-end;">
+                <push-button id="pst-reset">Reset</push-button>
+                <push-button id="pst-search" style="margin-right: unset;">Search</push-button>
+            </div>
+
+            <div style="margin-top: 10px;">
+                <div>Search Results:</div>
+                <hr>
+            </div>
+
+            <div id="pst-grid" style="width: 100%; height: 250px;"></div>
+        
+            <div style="text-align: right; margin-top: 20px; display: flex; justify-content: space-between; align-items: center;">
+                <div id="pst-count" style="margin-left: 10px;">Displaying 0 Prospect Status</div>
+
+                <div>
+                    <push-button id="pst-ok" disabled>OK</push-button>
+                    <push-button id="pst-cancel" style="margin-left: 10px; margin-right: 15px;">Cancel</push-button>
+                </div>
+            </div>
+        </popup-body>
+    </popup>
+
+    <popup id="prospect-type-search">
+        <popup-title>
+            <text-label>Search for Prospect Type</text-label>
+        </popup-title>
+        <popup-body style="padding: 10px;">
+    
+            <div>Search Criteria:</div>
+            <hr>
+            
+            <div class="flex-row" style="margin-top: 8px;">
+                <label style="width: 65px; margin-right: 10px;">Code:</label>
+                <drop-down id="pt-code-criteria" style="width: 95px; margin-right: 10px;"></drop-down>
+                <text-input id="pt-code-search" style="width: 140px"></text-input>
+            </div>
+    
+            <div class="flex-row" style="margin-top: 8px;">
+                <label style="width: 65px; margin-right: 10px;">Description:</label>
+                <drop-down id="pt-description-criteria" style="width: 95px; margin-right: 10px;"></drop-down>
+                <text-input id="pt-description-search" style="width: 140px"></text-input>
+            </div>
+    
+            <div class="btn-bar" style="margin-top: 8px; width: 100%; justify-content: flex-end;">
+                <push-button id="pt-reset">Reset</push-button>
+                <push-button id="pt-search" style="margin-right: unset;">Search</push-button>
+            </div>
+    
+            <div style="margin-top: 10px;">
+                <div>Search Results:</div>
+                <hr>
+            </div>
+    
+            <div id="pt-grid" style="width: 100%; height: 250px;"></div>
+        
+            <div style="text-align: right; margin-top: 20px; display: flex; justify-content: space-between; align-items: center;">
+                <div id="pt-count" style="margin-left: 10px;">Displaying 0 Prospect Types</div>
+    
+                <div>
+                    <push-button id="pt-ok" disabled>OK</push-button>
+                    <push-button id="pt-cancel" style="margin-left: 10px; margin-right: 15px;">Cancel</push-button>
+                </div>
+            </div>
+        </popup-body>
+    </popup>
+
+    <popup id="prospect-source-search">
+        <popup-title>
+            <text-label>Search for Prospect Source</text-label>
+        </popup-title>
+        <popup-body style="padding: 10px;">
+    
+            <div>Search Criteria:</div>
+            <hr>
+            
+            <div class="flex-row" style="margin-top: 8px;">
+                <label style="width: 65px; margin-right: 10px;">Code:</label>
+                <drop-down id="pss-code-criteria" style="width: 95px; margin-right: 10px;"></drop-down>
+                <text-input id="pss-code-search" style="width: 140px"></text-input>
+            </div>
+    
+            <div class="flex-row" style="margin-top: 8px;">
+                <label style="width: 65px; margin-right: 10px;">Description:</label>
+                <drop-down id="pss-description-criteria" style="width: 95px; margin-right: 10px;"></drop-down>
+                <text-input id="pss-description-search" style="width: 140px"></text-input>
+            </div>
+    
+            <div class="btn-bar" style="margin-top: 8px; width: 100%; justify-content: flex-end;">
+                <push-button id="pss-reset">Reset</push-button>
+                <push-button id="pss-search" style="margin-right: unset;">Search</push-button>
+            </div>
+    
+            <div style="margin-top: 10px;">
+                <div>Search Results:</div>
+                <hr>
+            </div>
+    
+            <div id="pss-grid" style="width: 100%; height: 250px;"></div>
+        
+            <div style="text-align: right; margin-top: 20px; display: flex; justify-content: space-between; align-items: center;">
+                <div id="pss-count" style="margin-left: 10px;">Displaying 0 Prospect Sources</div>
+    
+                <div>
+                    <push-button id="pss-ok" disabled>OK</push-button>
+                    <push-button id="pss-cancel" style="margin-left: 10px; margin-right: 15px;">Cancel</push-button>
+                </div>
+            </div>
+        </popup-body>
+    </popup>
+
+    <popup id="employee-search">
+        <popup-title>
+            <text-label>Search for Employee</text-label>
+        </popup-title>
+        <popup-body style="padding: 10px;">
+    
+            <div>Search Criteria:</div>
+            <hr>
+            
+            <div class="flex-row" style="margin-top: 8px;">
+                <label style="width: 65px; margin-right: 10px;">Last Name:</label>
+                <drop-down id="esp-lname-criteria" style="width: 95px; margin-right: 10px;"></drop-down>
+                <text-input id="esp-lname-search" style="width: 140px"></text-input>
+            </div>
+    
+            <div class="flex-row" style="margin-top: 8px;">
+                <label style="width: 65px; margin-right: 10px;">First Name:</label>
+                <drop-down id="esp-fname-criteria" style="width: 95px; margin-right: 10px;"></drop-down>
+                <text-input id="esp-fname-search" style="width: 140px"></text-input>
+            </div>
+    
+            <div class="btn-bar" style="margin-top: 8px; width: 100%; justify-content: flex-end;">
+                <push-button id="esp-reset">Reset</push-button>
+                <push-button id="esp-search" style="margin-right: unset;">Search</push-button>
+            </div>
+    
+            <div style="margin-top: 10px;">
+                <div>Search Results:</div>
+                <hr>
+            </div>
+    
+            <div id="esp-grid" style="width: 100%; height: 250px;"></div>
+        
+            <div style="text-align: right; margin-top: 20px; display: flex; justify-content: space-between; align-items: center;">
+                <div id="esp-count" style="margin-left: 10px;">Displaying 0 Employees</div>
+    
+                <div>
+                    <push-button id="esp-ok" disabled>OK</push-button>
+                    <push-button id="esp-cancel" style="margin-left: 10px; margin-right: 15px;">Cancel</push-button>
+                </div>
+            </div>
+        </popup-body>
+    </popup>
+</div>

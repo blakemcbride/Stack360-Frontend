@@ -1,0 +1,64 @@
+<div class="kiss">
+    <style>
+        #resultsGrid {
+            height: calc(100% - 105px);
+        }
+
+        #rt-popup-grid {
+            display: grid;
+            grid-template-columns: 1fr 2fr;
+            grid-column-gap: 10px;
+            grid-row-gap: 5px;
+        }
+        #rt-popup-grid span {
+            color: #000;
+            align-self: center;
+            text-align: right;
+        }
+        #rt-popup-grid input[type="date"] {
+            width: 110px;
+        }
+    </style>
+    <div style="margin-bottom: 10px; margin-top: 10px;">
+        <div>Rate Types Currently in the System:</div>
+        <hr>
+    </div>
+    <div style="margin-bottom: 10px;">
+        <span>Type:</span>
+        <radio-button group="rateType" value="1" checked>Active</radio-button>
+        <radio-button group="rateType" value="2">Inactive</radio-button>
+        <radio-button group="rateType" value="3">Both</radio-button>
+    </div>
+    <div id="resultsGrid"></div>
+    <div style="margin-top: 10px;">
+        <text-label id="status-label"></text-label>
+
+        <div style="right: 17px; bottom: 10px; position: absolute;">
+            <push-button id="add" style="margin-left: 10px;">Add</push-button>
+            <push-button id="edit" disabled>Edit</push-button>
+            <push-button id="delete" disabled>Delete</push-button>
+        </div>
+    </div>
+
+    <popup id="rt-popup" width="385px" height="140px">
+        <popup-title>
+            <text-label id="rt-title"></text-label>
+        </popup-title>
+        <popup-body id="rt-body">
+            <div id="rt-popup-grid">
+                <span>Code:</span>
+                <text-input id="rt-code" minlength="1" maxlength="10" required></text-input>
+
+                <span>Description:</span>
+                <text-input id="rt-description" minlength="1" maxlength="60" required></text-input>
+
+                <span>Last Active Date:</span>
+                <native-date-input id="rt-date"></native-date-input>
+            </div>
+            <div style="margin-top: 20px; text-align: right;">
+                <push-button id="rt-ok">OK</push-button>
+                <push-button id="rt-cancel">Cancel</push-button>
+            </div>
+        </popup-body>
+    </popup>
+</div>

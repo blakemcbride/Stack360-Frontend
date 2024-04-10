@@ -1,0 +1,129 @@
+<div class="kiss">
+    <style>
+
+        label {
+            width: 60px;
+            margin-top: 3px;
+        }
+
+        .button-bar {
+            flex-grow: 0;
+            justify-content: flex-end;
+            display: flex;
+            flex-direction: row;
+            padding: 10px 0 0 0;
+        }
+
+        .button-bar > input[type=button] {
+            margin-left: 10px;
+        }
+
+        .time-input {
+            width: 60px;
+            margin-right: 10px;
+        }
+
+        .sub-header {
+            margin-top: 20px;
+        }
+
+        div.vert-input2 {
+            display:grid;
+            grid-template-columns: max-content max-content;
+            grid-column-gap:5px;
+            grid-row-gap: 10px;
+            margin-top: 10px;
+            margin-left: 10px;
+        }
+
+        div.vert-input2 span {
+            text-align:right;
+            margin-top: 4px;
+        }
+    </style>
+
+
+    <div style="margin-top: 10px;">
+        <label class="input">Worker:</label>
+        <text-input id="worker" style="width: 250px;" disabled></text-input>
+        <push-button id="searchWorker">?</push-button>
+    </div>
+
+    <hr>
+
+    <div id="training-time-grid" style="height: calc(100% - 100px); width: 100%;"></div>
+
+    <div style="text-align: right; margin-top: 10px;">
+        <push-button id="add" disabled>Add</push-button>
+        <push-button id="edit" disabled>Edit</push-button>
+        <push-button id="delete" disabled>Delete</push-button>
+    </div>
+
+    <popup id="add-edit-training-time" width="525px" height="425px">
+        <popup-title>
+            <text-label id="popup-header"></text-label>
+        </popup-title>
+        <popup-body>
+            <div class="sub-header">Date & time:</div>
+            <hr>
+
+            <div style="margin-top: 10px;">
+                <div style="width: 75px; display: inline-block; text-align: right;">Date:</div>
+                <native-date-input id="training-date" style="width: 110px;" required></native-date-input>
+            </div>
+
+            <div style="margin-top: 10px;">
+                <div style="width: 75px; display: inline-block; text-align: right;">Begin time:</div>
+                <time-input id="begin-time" class="time-input"></time-input>
+                <span style="margin-left: 20px;">End time:</span>
+                <time-input id="end-time" class="time-input"></time-input>
+                <span style="margin-left: 20px;">Hours:</span>
+                <numeric-input id="hours" class="time-input" required></numeric-input>
+            </div>
+
+            <div class="sub-header">Project</div>
+            <hr>
+
+            <div class="vert-input2">
+                <span>Name:</span>
+                <div>
+                    <text-input id="project-name" disabled></text-input>
+                    <push-button id="searchProject">?</push-button>
+                </div>
+
+                <span>Summary:</span>
+                <text-input id="summary" style="width: 375px;" disabled></text-input>
+
+                <span>Company:</span>
+                <text-input id="company" style="width: 375px;" disabled></text-input>
+
+                <span>Billable:</span>
+                <div style="margin-top: 5px;">
+                    <radio-button group="billable-status" id="rd-yes" value="Y" checked>Yes</radio-button>
+                    <radio-button group="billable-status" id="rd-no" value="N">No</radio-button>
+                    <radio-button group="billable-status" id="rd-unknown" value="U">Unknown</radio-button>
+                </div>
+            </div>
+
+            <div class="sub-header">Training</div>
+            <hr>
+
+            <div>
+                <div class="vert-input">
+                    <label>Category</label>
+                    <drop-down style="width: 260px" id="category" required></drop-down>
+                </div>
+
+                <div class="vert-input">
+                    <label>Expiration</label>
+                    <native-date-input id="expiration" style="width: 110px;"></native-date-input>
+                </div>
+            </div>
+
+            <div class="button-bar">
+                <push-button id="popup-ok">OK</push-button>
+                <push-button id="popup-cancel">Cancel</push-button>
+            </div>
+        </popup-body>
+    </popup>
+</div>

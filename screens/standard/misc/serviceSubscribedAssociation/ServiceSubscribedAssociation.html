@@ -1,0 +1,94 @@
+<!--
+     Copyright 2020 STACK360 LLC
+     All rights reserved.
+
+-->
+
+<div class="kiss">
+    <style>
+        .ssa-grid {
+            display: grid;
+            grid-column-gap: 10px;
+            grid-row-gap: 10px;
+            align-items: center;
+        }
+        .ssa-grid span {
+            color: #000;
+            align-self: center;
+            text-align: right;
+        }
+    </style>
+
+    <div style="margin-top: 10px; margin-bottom: 10px;">
+        <span>Service Search Criteria:</span>
+        <hr>
+    </div>
+
+    <div class="ssa-grid" style="grid-template-columns: 370px auto; grid-column-gap: 30px; height: calc(100% - 40px);">
+        <div style="height: 100%;">
+            <div class="ssa-grid" style="margin-bottom: 10px; grid-template-columns: repeat(3, max-content);">
+                <span>Name:</span>
+                <drop-down id="ssa-nameAvailable-criteria" style="width: 95px;"></drop-down>
+                <text-input id="ssa-nameAvailable" style="width: 130px;"></text-input>
+        
+                <div style="text-align: right; grid-column: 1 / 4;">
+                    <push-button id="resetAvailable" style="width: fit-content;">Reset</push-button>
+                    <push-button id="searchAvailable" style="width: fit-content; margin-left: 10px;">Search</push-button>
+                </div>
+            </div>
+        
+            <div style="margin-bottom: 10px;">
+                <span>Available Services:</span>
+                <hr>
+            </div>
+        
+            <div id="availableServicesGrid" style="height: calc(100% - 145px);"></div>
+            <div style="text-align: right; margin-top: 10px;">
+                <text-label style="float: left; margin-top: 10px;" id="ss-searchResCount">Displaying 0 Services</text-label>
+                <push-button id="subscribe" disabled>Subscribe</push-button>
+            </div>
+        </div>
+        <div style="height: 100%;">
+            <div class="ssa-grid" style="margin-bottom: 10px; grid-template-columns: repeat(3, max-content);">
+                <span>Name:</span>
+                <drop-down id="ssa-nameSubscribed-criteria" style="width: 95px;"></drop-down>
+                <text-input id="ssa-nameSubscribed" style="width: 130px;"></text-input>
+        
+                <div style="text-align: right; grid-column: 1 / 4;">
+                    <push-button id="resetSubscribed" style="width: fit-content;">Reset</push-button>
+                    <push-button id="searchSubscribed" style="width: fit-content; margin-left: 10px;">Search</push-button>
+                </div>
+            </div>
+        
+            <div style="margin-bottom: 10px;">
+                <span>Subscribed Services:</span>
+                <hr>
+            </div>
+        
+            <div id="subscribedServicesGrid" style="height: calc(100% - 145px);"></div>
+            <div style="text-align: right; margin-top: 10px;">
+                <push-button id="unsubscribe" disabled>Unsubscribe</push-button>
+            </div>
+        </div>        
+    </div>
+
+    <popup id="subscribe-popup" width="250px" height="65px">
+        <popup-title>
+            <span>Set <text-label id="subscribe-label">Begin</text-label> Date</span>
+        </popup-title>
+        <popup-body style="padding: 10px;">
+            <div class="ssa-grid" style="grid-template-columns: max-content auto;">
+                <span>Service <text-label id="subscribe-label2">Begin</text-label> Date:</span>
+                <native-date-input id="subscribe-date" style="width: 110px;" required></native-date-input>
+
+                <text-label id="subscribe-externalId-label">External ID:</text-label>
+                <text-input id="subscribe-externalId" style="width: 110px;"></text-input>
+            </div>
+        
+            <div style="margin-top: 10px; text-align: right;">    
+                <push-button id="subscribe-ok">OK</push-button>
+                <push-button id="subscribe-cancel" style="margin-left: 10px;">Cancel</push-button>
+            </div>
+        </popup-body>
+    </popup>
+</div>

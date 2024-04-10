@@ -1,0 +1,191 @@
+<!--
+     Copyright 2020 STACK360 LLC
+     All rights reserved.
+
+-->
+
+<div class="kiss">
+
+    <style>
+        div.vert-input2 {
+            display:grid;
+            grid-template-columns: max-content max-content;
+            grid-column-gap:5px;
+            grid-row-gap: 10px;
+            margin-top: 10px;
+            margin-left: 10px;
+        }
+        div.vert-input2 span {
+            text-align:right;
+            margin-top: 4px;
+        }
+    </style>
+
+    <div style="margin-top: 10px; width: 100%; height: calc(100% - 240px); display: flex; justify-content: space-between;">
+        <div style="width: 49%; display: flex; flex-direction: column; justify-content: space-between; margin-bottom: 10px;">
+            <div>
+                <span>Available Fields:</span>
+                <hr>
+            </div>
+
+            <div id="available-fields" style="position: relative; width: 100%; height: 100%; margin-bottom: 10px;"></div>
+
+            <div style="width: 100%;">
+                <text-label id="available-status">Displaying 0 Available Fields</text-label>
+                <div style="float: right;">
+                    <push-button id="add-field" disabled>Add</push-button>
+                </div>
+            </div>
+        </div>
+        <div style="width: 49%; display: flex; flex-direction: column; justify-content: space-between; margin-bottom: 10px;">
+            <div>
+                <span>Selected Fields:</span>
+                <hr>
+            </div>
+
+            <div id="selected-fields" style="position: relative; width: 100%; height: 100%; margin-bottom: 10px;"></div>
+
+            <div style="width: 100%;">
+                <text-label id="selected-status">Displaying 0 Selected Fields</text-label>
+                <div style="float: right;">
+                    <push-button id="up-field" disabled>Up</push-button>
+                    <push-button id="down-field" style="margin-left: 10px;" disabled>Down</push-button>
+                    <push-button id="remove-field" style="margin-left: 10px;" disabled>Remove</push-button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <span style="color: red; margin: 5px 0;">* Denotes a group of fields.  Please note that this group of fields could be very large.</span>
+
+    <div style="margin-top: 15px; width: 100%; display: flex; justify-content: space-between;">
+        <div style="width: 49%; display: flex; flex-direction: column; justify-content: space-between; margin-bottom: 10px;">
+            <div>
+                <span>Filter:</span>
+                <hr>
+            </div>
+            <div class="vert-input2">
+                <span>Status (Current) is Active:</span>
+                <div>
+                    <radio-button group="filter-status-type" value="1" style="margin-top: 3px;" checked></radio-button>
+                    <span style="margin-left: 15px;">Inactive:</span>
+                    <radio-button group="filter-status-type" value="2" style="margin-top: 3px;"></radio-button>
+                    <span style="margin-left: 15px;">Either:</span>
+                    <radio-button group="filter-status-type" value="0" style="margin-top: 3px;"></radio-button>
+                </div>
+                <span>DOB From:</span>
+                <div>
+                    <native-date-input id="filter-dob-from" style="width:110px;"></native-date-input>
+                    <span style="margin-left: 20px">To:</span>
+                    <native-date-input id="filter-dob-to" style="width:110px;"></native-date-input>
+                </div>
+                <span>Last Name From:</span>
+                <div>
+                    <text-input id="filter-last-name-from" style="width: 110px"></text-input>
+                    <span style="margin-left: 20px">To:</span>
+                    <text-input id="filter-last-name-to" style="width: 110px"></text-input>
+                </div>
+                <span>Organizational Group:</span>
+                <div style="z-index: 1;">
+                    <text-input id="filter-org-group" style="width: 500px" readonly></text-input>
+                    <push-button id="choose-org-group">Choose</push-button>
+                </div>
+                <span>Benefits:</span>
+                <div style="z-index: 1;">
+                    <text-input id="filter-benefits" style="width: 500px" readonly></text-input>
+                    <push-button id="choose-benefit">Choose</push-button>
+                    <push-button id="report" style="position: absolute; margin-left: 40px;">Report</push-button>
+                    <push-button id="export" style="position: absolute; margin-left: 125px;">Export</push-button>
+                </div>
+            </div>
+        </div>
+        <div style="width: 49%; display: flex; flex-direction: column; margin-bottom: 10px;">
+            <div>
+                <span>Sort:</span>
+                <hr>
+            </div>
+            <div class="vert-input2">
+                <span>Name:</span>
+                <div>
+                    <radio-button group="filter-sort-type" value="0" style="margin-top: 3px;" checked></radio-button>
+                    <span style="margin-left: 50px;">SSN:</span>
+                    <radio-button group="filter-sort-type" value="1" style="margin-top: 3px;"></radio-button>
+                    <span style="margin-left: 40px;">DOB:</span>
+                    <radio-button group="filter-sort-type" value="2" style="margin-top: 3px;"></radio-button>
+                </div>
+
+                <span>Ascending:</span>
+                <div>
+                    <radio-button group="filter-sort-direction" value="true" style="margin-top: 3px;" checked></radio-button>
+                    <span style="margin-left: 15px;">Descending:</span>
+                    <radio-button group="filter-sort-direction" value="false" style="margin-top: 3px;"></radio-button>
+                </div>
+            </div>
+
+        </div>
+    </div>
+
+    <popup id="choose-org-group-popup">
+        <popup-title>
+            <text-label>Choose Organizational Group</text-label>
+        </popup-title>
+        <popup-body style="padding: 10px 5px;">
+            <div id="cop-bread-crumb-2" style="margin-left: 5px; display: inline-block;"></div>
+
+            <div id="cop-grid" style="margin-top: 15px; width: 500px; height: 220px;"></div>
+
+            <div style="margin-top: 10px; width: 100%; display: flex; justify-content: space-between; align-items: center;">
+                <div>
+                    <push-button id="cop-go-up" disabled>Go Up</push-button>
+                    <push-button id="cop-open" style="margin-left: 10px;" disabled>Open</push-button>
+                </div>
+                <text-label id="cop-status" style="float: right;">Displaying 0 Organizational Groups</text-label>
+            </div>
+
+            <div style="position: absolute; text-align: right; margin-top: 10px; bottom: 10px; width: 100%;">
+                <push-button id="cop-ok">OK</push-button>
+                <push-button id="cop-cancel" style="margin-left: 10px; margin-right: 15px;">Cancel</push-button>
+            </div>
+        </popup-body>
+    </popup>
+
+    <popup id="choose-benefit-popup">
+        <popup-title>
+            <text-label>Benefit Filtering</text-label>
+        </popup-title>
+        <popup-body style="padding: 10px 5px;">
+            <span>Here you may filter down to the Coverage Configurations an Employee must have:</span>
+            <hr>
+            <div class="vert-input2" style="margin-bottom: 10px;">
+                <span>Benefit Category:</span>
+                <drop-down style="width: 340px;" id="cbp-benefit-category"></drop-down>
+                <span>Benefit:</span>
+                <drop-down style="width: 340px;" id="cbp-benefit"></drop-down>
+                <span>Coverage:</span>
+                <div style="display: flex; justify-content: space-between;">
+                    <div id="cbp-configs-grid" style="width: 300px; height: 110px;"></div>
+                    <div style="display: flex; flex-direction: column; margin-left: 10px;">
+                        <push-button id="cbp-add-all" disabled>Add All</push-button>
+                        <push-button id="cbp-add-selected" style="margin-top: 10px;" disabled>Add Selected</push-button>
+                    </div>
+                </div>
+            </div>
+            <span>Include only Employees with one or more the following Coverage Configurations:</span>
+            <hr>
+            <div style="margin-bottom: 30px;">
+                <div id="cbp-selected-configs-grid" style="position: relative; width: 100%; height: 150px; margin-bottom: 10px;"></div>
+
+                <div style="width: 100%;">
+                    <text-label id="cbp-coverage-config-status">Displaying 0 Coverage Configurations</text-label>
+                    <div style="float: right;">
+                        <push-button id="cbp-remove-selected" disabled>Remove</push-button>
+                    </div>
+                </div>
+            </div>
+            <div style="text-align: right; margin-top: 10px;width: 100%;">
+                <push-button id="cbp-ok">OK</push-button>
+                <push-button id="cbp-cancel" style="margin-left: 10px; margin-right: 15px;">Cancel</push-button>
+            </div>
+        </popup-body>
+    </popup>
+</div>

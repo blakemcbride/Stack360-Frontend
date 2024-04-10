@@ -1,0 +1,41 @@
+<!--
+    Copyright 2020 STACK360 LLC
+    All rights reserved.
+
+-->
+
+<div class="kiss">
+    <style>
+        #options-container {
+            display: grid;
+            grid-template-columns: repeat(2, max-content);
+            grid-row-gap: 10px;
+            grid-column-gap: 10px;
+            align-items: center;
+        }
+        #options-container * {
+            margin-left: 0 !important;
+        } 
+    </style>
+    <div>
+        <div style="margin-top: 10px; margin-bottom: 10px;">
+            <span>Dependent Report</span>
+            <hr>
+        </div>
+        <div id="options-container">
+            <span>Sort By:</span>
+            <radio-button group="sortBy" checked align-vertical value="E">Employee Last Name</radio-button>
+
+            <span></span>
+            <radio-button group="sortBy" align-vertical value="D">Dependent Last Name</radio-button>
+
+            <span>Include Employee:</span>
+            <check-box id="includeEmployee" checked></check-box>
+
+            <div style="text-align: right; grid-column: 1 / 3;">
+                <push-button id="report" style="width: max-content; margin-right: 10px;">Report</push-button>
+                <push-button id="export" style="width: max-content;">Export</push-button>
+            </div>
+        </div>
+    </div>
+</div>

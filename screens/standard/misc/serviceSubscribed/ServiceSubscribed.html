@@ -1,0 +1,83 @@
+<!--
+     Copyright 2020 STACK360 LLC
+     All rights reserved.
+
+-->
+
+<div class="kiss">
+    <style>
+        .ss-grid {
+            display: grid;
+            grid-column-gap: 10px;
+            grid-row-gap: 10px;
+            align-items: center;
+        }
+        .ss-grid span {
+            color: #000;
+            align-self: center;
+            text-align: right;
+        }
+    </style>
+
+    <div style="margin-top: 10px; margin-bottom: 10px;">
+        <span>Service Search Criteria:</span>
+        <hr>
+    </div>
+
+    <div class="ss-grid" style="margin-bottom: 10px; grid-template-columns: repeat(3, max-content);">
+        <span>Name:</span>
+        <drop-down id="ss-name-criteria" style="width: 95px;"></drop-down>
+        <text-input id="ss-name" style="width: 130px;"></text-input>
+
+        <div style="text-align: right; grid-column: 1 / 4;">
+            <push-button id="reset" style="width: fit-content;">Reset</push-button>
+            <push-button id="search" style="width: fit-content; margin-left: 10px;">Search</push-button>
+        </div>
+    </div>
+
+    <div style="margin-bottom: 10px;">
+        <span>Search Results:</span>
+        <span style="float: right;">
+            <check-box id="ss-showActive" style="vertical-align: middle;" checked>Active</check-box>
+            <check-box id="ss-showInactive" style="vertical-align: middle; margin-left: 10px;">Inactive</check-box>
+        </span>
+        <hr>
+    </div>
+
+    <div id="searchResGrid" style="height: calc(100% - 185px);"></div>
+    <div style="text-align: right; margin-top: 10px;">
+        <text-label style="float: left; margin-top: 10px;" id="ss-searchResCount">Displaying 0 Services</text-label>
+        <push-button id="add">Add</push-button>
+        <push-button id="edit" style="margin-left: 10px;" disabled>Edit</push-button>
+        <push-button id="delete" style="margin-left: 10px;" disabled>Delete</push-button>
+    </div>
+
+    <popup id="service-popup" width="470px" height="285px">
+        <popup-title>
+            <span><text-label id="service-label">Add</text-label> Service</span>
+        </popup-title>
+        <popup-body style="padding: 10px;">
+            <div class="ss-grid" style="grid-template-columns: max-content auto;">
+                <span>Name:</span>
+                <text-input id="service-name" style="width: 170px;" required></text-input>
+
+                <span>Type:</span>
+                <drop-down id="service-type" style="width: 180px;"></drop-down>
+               
+                <span style="align-self: baseline;">Description:</span>
+                <textbox-input id="service-description" style="height: 90px;" required></textbox-input>
+
+                <span>First Active Date:</span>
+                <native-date-input id="service-firstActiveDate" style="width: 110px;" required></native-date-input>
+
+                <span>Last Active Date:</span>
+                <native-date-input id="service-lastActiveDate" style="width: 110px;" required></native-date-input>
+            </div>
+        
+            <div style="margin-top: 10px; text-align: right;">    
+                <push-button id="service-ok">OK</push-button>
+                <push-button id="service-cancel" style="margin-left: 10px;">Cancel</push-button>
+            </div>
+        </popup-body>
+    </popup>
+</div>

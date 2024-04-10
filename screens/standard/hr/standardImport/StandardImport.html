@@ -1,0 +1,60 @@
+<!--
+     Copyright 2020 STACK360 LLC
+     All rights reserved.
+
+-->
+
+<div class="kiss">
+    <style>
+        #si-grid {
+            display: grid;
+            grid-template-columns: max-content max-content;
+            grid-column-gap: 10px;
+            grid-row-gap: 10px;
+            align-self: baseline;
+        }
+        #si-grid span {
+            color: #000;
+            align-self: center;
+            text-align: right;
+        }
+        #si-file_label {
+            padding: 6px 12px 4px;
+            border: 1px solid #a5a5a5;
+            font-family: Arial;
+            font-size: 12px;
+            display: inline;
+            vertical-align: middle;
+            background: var(--btn-bg);
+            font-weight: bold;
+            border-radius: 4px;
+            line-height: 1.3;
+            cursor: default;
+            -webkit-appearance: button;
+            vertical-align: bottom;
+        }
+        #si-file_label:hover {
+            background: var(--btn-bg-hover);
+            border: 1px solid var(--btn-border-color-hover);
+        }
+        #si-file_label:active {
+            background: var(--btn-bg-active);
+            padding: 3px 11px;
+            border: 2px solid var(--btn-border-color-active);
+        }
+    </style>
+    <div style="margin-top: 10px; margin-bottom: 10px;">
+        <span>Standard Import:</span>
+        <hr>
+    </div>
+    <div id="si-grid" style="margin-right: 20px;">
+        <span>File:</span>
+        <div>
+            <text-input id="si-file_name" maxlength="200" disabled style="width: 200px;"></text-input>
+            <file-upload id="si-file" required accept=".csv" style="display: none;">File</file-upload>
+            <text-label for="si-file" id="si-file_label">Browse</text-label>    
+        </div>
+
+        <push-button id="si-import" style="grid-column: 1 / 3; width: fit-content; margin-left: auto;">Import</push-button>
+    </div>
+</div>

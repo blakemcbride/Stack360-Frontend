@@ -1,0 +1,51 @@
+<!--
+     Copyright 2020 STACK360 LLC
+     All rights reserved.
+
+-->
+
+<div class="kiss">
+
+    <div style="margin-top: 10px;">
+        <span>Employee Wage & Position History:</span>
+        <text-label id="worker-name" style="float: right;"></text-label>
+    </div>
+    <hr style="margin-left: 0;">
+
+    <div id="status-grid" style="width: 100%; height: calc(100% - 90px);"></div>
+
+    <text-label id="status" style="position: absolute; bottom: 25px; left: 20px;"></text-label>
+
+    <div style="position: absolute; bottom: 15px; right: 10px;">
+        <push-button id="add" style="margin-left: 10px;">Add</push-button>
+        <push-button id="edit" style="margin-left: 10px;" disabled>Edit</push-button>
+        <push-button id="delete" style="margin-left: 10px;" disabled>Delete</push-button>
+        <push-button id="report" style="margin-left: 10px;">Report</push-button>
+    </div>
+
+    <popup id="wage-popup" height="290px" width="350px">
+        <popup-title id="wage-popup-title"></popup-title>
+        <popup-body>
+            <div class="vert-input">
+                <label>Effective Date</label>
+                <native-date-input id="wage-popup-effective-date" style="width: 110px;" required></native-date-input>
+
+                <label>Wage Type</label>
+                <drop-down id="wage-popup-wage-type" style="width: 150px;" required></drop-down>
+
+                <label>Amount</label>
+                <numeric-input id="wage-popup-amount" style="width: 90px;" money min="1" required></numeric-input>
+
+                <label>Position</label>
+                <drop-down id="wage-popup-position" style="width: 150px;" required></drop-down>
+
+                <label>Notes</label>
+                <textbox-input id="wage-popup-notes" style="width: 225px; height: 85px;"></textbox-input>
+            </div>
+            <div style="right: 17px; bottom: 10px; position: absolute;">
+                <push-button id="wage-popup-ok">Ok</push-button>
+                <push-button id="wage-popup-cancel" style="margin-left: 10px;">Cancel</push-button>
+            </div>
+        </popup-body>
+    </popup>
+</div>

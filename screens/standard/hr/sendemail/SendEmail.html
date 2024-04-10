@@ -1,0 +1,31 @@
+<!--
+     Copyright 2020 STACK360 LLC
+     All rights reserved.
+
+-->
+
+<div class="kiss">
+
+    <h2 style="margin-left: 10px;">Email all active people who have time entered for the following dates:</h2>
+
+    <div style="margin-top: 20px;">
+        <span>Beginning date:</span>
+        <native-date-input id="begdate" style="width: 110px;" min="20180101" max="20251231" required></native-date-input>
+        <span style="margin-left: 40px;">Ending date:</span>
+        <native-date-input id="enddate" style="width: 110px;" min="20180101" max="20251231" required></native-date-input>
+    </div>
+
+    <div>
+        <span>Subject:</span>
+        <text-input id="subject" maxlength="90" size="80" style="margin-top: 20px; width: 610px;" required></text-input>
+    </div>
+
+    <div>
+        <textbox-input id="msg" style="width:650px; margin-top: 30px; height: 300px;" required></textbox-input>
+    </div>
+
+    <div style="margin-top: 25px;">
+        <push-button id="send-email">Send email</push-button>
+    </div>
+
+</div>

@@ -1,0 +1,73 @@
+<!--
+    Copyright 2020 STACK360 LLC
+    All rights reserved.
+
+-->
+
+<div class="kiss">
+    <style>
+        .mllr-grid {
+            display: grid;
+            grid-template-columns: 200px auto 200px;
+            grid-row-gap: 10px;
+            grid-column-gap: 10px;
+            align-items: center;
+        }
+        .mllr-grid > span {
+            text-align: right;
+        }
+    </style>
+    <div style="height: 100%;">
+        <div style="margin-top: 10px; margin-bottom: 10px;">
+            <span>Mailing Label Export Options:</span>
+            <hr>
+        </div>
+        <div class="mllr-grid" style="height: calc(100% - 200px); grid-template-rows: max-content auto max-content;">
+            <div style="margin-bottom: 10px;">
+                <span>Include Employees with Status(es):</span>
+                <hr>
+            </div>
+
+            <div style="margin-bottom: 10px;">
+                <span>Include Employees with Benefit(s):</span>
+                <hr>
+            </div>
+            
+            <div style="margin-bottom: 10px;">
+                <span>Include Employees in Group(s):</span>
+                <hr>
+            </div>
+           
+            <div id="employeeStatusesGrid" style="height: 100%;"></div>
+            <div id="employeeBenefitsGrid" style="height: 100%;"></div>
+            <div id="employeeGroupsGrid" style="height: 100%;"></div>
+
+            <span></span>
+
+            <check-box id="includeEmployeeId">Include Employee ID (Employee Ordering Export)</check-box>
+
+            <push-button id="export" style="width: max-content; margin-left: auto;">Export</push-button>
+        </div>
+        <div style="margin-top: 10px; margin-bottom: 10px;">
+            <span>Employee Ordering Import Options:</span>
+            <hr>
+        </div>
+        <div class="mllr-grid" style="grid-template-columns: repeat(2, max-content);">
+            <span>CSV File:</span>
+            <file-upload id="file" required accept=".csv"></file-upload>
+            <span></span>
+            <span>* Spreadsheets must be uploaded as a Comma Separated File (CSV File)</span>
+
+            <span>Column for Employee ID:</span>
+            <div>
+                <numeric-input id="columnEmployeeID" style="width: 30px; margin-right: 20px;" show-zero required no-comma min="0"></numeric-input>
+
+                <span>Column for Order:</span>
+                <numeric-input id="columnOrder" style="width: 30px; margin-left: 10px;" show-zero required no-comma min="0"></numeric-input>
+            </div>
+            <div style="text-align: right; grid-column: 1 / 3;">
+                <push-button id="import">Import</push-button>
+            </div>
+        </div>
+    </div>
+</div>

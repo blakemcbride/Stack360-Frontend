@@ -1,0 +1,29 @@
+<div class="kiss">
+    <style>
+        #lf-popup-grid {
+            display: grid;
+            grid-template-columns: max-content auto;
+            grid-column-gap: 10px;
+            grid-row-gap: 5px;
+        }
+        #lf-popup-grid span {
+            color: #000;
+            align-self: center;
+            text-align: right;
+        }
+    </style>
+    <div style="margin-bottom: 10px; margin-top: 10px;">
+        <span>EDI Helper:</span>
+        <hr>
+    </div>
+
+    <div id="logsGrid" style="height: calc(100% - 85px);"></div>
+    <div style="margin-top: 20px;">
+        <text-label id="status-label">Displaying 0 Log Files</text-label>
+
+        <div style="right: 15px; bottom: 10px; position: absolute;">
+            <push-button id="view" disabled>View</push-button>
+            <push-button id="clear" style="margin-left: 10px;" disabled>Clear</push-button>
+        </div>
+    </div>
+</div>

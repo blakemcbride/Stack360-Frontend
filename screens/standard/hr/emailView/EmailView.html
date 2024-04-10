@@ -1,0 +1,61 @@
+<!--
+     Copyright 2020 STACK360 LLC
+     All rights reserved.
+
+-->
+
+<div class="kiss">
+
+
+    <div style="margin-top: 5px;">
+        <span>Worker Email</span>
+        <text-label id="worker" style="float: right"></text-label>
+    </div>
+
+    <hr style="margin-top: 0; border-top-color: black; border-bottom-width: 0;">
+
+    <div id="email-grid" style="width: 100%; height: calc(100% - 70px);"></div>
+
+
+    <div style="right: 10px; bottom: 10px; position: absolute;">
+        <push-button id="new" style="margin-left: 12px;">New</push-button>
+        <push-button id="view" style="margin-left: 12px;" disabled>View</push-button>
+        <push-button id="resend" style="margin-left: 12px;" disabled>Resend</push-button>
+        <push-button id="delete" style="margin-left: 12px;" disabled>Delete</push-button>
+    </div>
+
+
+    <popup id="new-email" height="320px" width="600px">
+        <popup-title>New Email</popup-title>
+        <popup-body>
+            <text-label for="new-email-subject">Subject:</text-label>
+            <text-input id="new-email-subject" style="width: 500px;" required></text-input>
+            <br>
+            <text-label style="display: inline-block; margin-top: 10px;">Message:</text-label>
+            <br>
+            <textbox-input id="new-email-message" style="width: 560px; height: 215px;"></textbox-input>
+            <div style="right: 10px; bottom: 10px; position: absolute;">
+                <push-button id="new-email-ok">Ok</push-button>
+                <push-button id="new-email-cancel" style="margin-left: 12px;" >Cancel</push-button>
+            </div>
+        </popup-body>
+    </popup>
+
+    <popup id="view-email" height="320px" width="600px">
+        <popup-title>View Email</popup-title>
+        <popup-body>
+            <text-label for="view-email-subject">Subject:</text-label>
+            <text-input id="view-email-subject" style="width: 500px;" disabled></text-input>
+            <br>
+            <text-label style="display: inline-block; margin-top: 10px;">Message:</text-label>
+            <br>
+            <textbox-input id="view-email-message" style="width: 560px; height: 215px;" disabled></textbox-input>
+            <div style="right: 10px; bottom: 10px; position: absolute;">
+                <push-button id="view-email-ok">Ok</push-button>
+            </div>
+        </popup-body>
+    </popup>
+
+
+</div>
+

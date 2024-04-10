@@ -1,0 +1,3 @@
+@echo off
+java -jar SimpleWebServer.jar -p 8001 -d .
+

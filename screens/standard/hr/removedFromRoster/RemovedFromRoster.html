@@ -1,0 +1,91 @@
+<!--
+     Copyright 2023 STACK360 LLC
+     All rights reserved.
+
+-->
+
+
+<div class="kiss">
+
+    <style>
+        .popup-width {
+            width: 300px;
+        }
+    </style>
+
+    <div style="margin-top: 10px;">Workers Removed From Roster In The Field</div>
+    <hr>
+
+    <div id="grid" style="margin-top: 10px; width: 100%; height: calc(100% - 90px);"></div>
+
+    <div style="margin-top: 10px;">
+        <text-label id="status" style="position: absolute; bottom: 15px;"></text-label>
+        <div style="display: inline-block; float: right; margin-top: 10px;">
+            <push-button id="delete" disabled>Delete</push-button>
+            <push-button id="view" style="margin-left: 10px;" disabled>View</push-button>
+        </div>
+    </div>
+
+    <popup id="view-popup" height="445px" width="410px">
+        <popup-title>View Removed Worker</popup-title>
+        <popup-body>
+            <div class="vert-input">
+                <span>Worker:</span>
+                <text-input id="vp-worker" class="popup-width" disabled></text-input>
+
+                <span>Project:</span>
+                <text-input id="vp-project" class="popup-width" disabled></text-input>
+
+                <span>Date:</span>
+                <text-input id="vp-date" class="popup-width" disabled></text-input>
+
+                <span>Supervisor:</span>
+                <text-input id="vp-supervisor" class="popup-width" disabled></text-input>
+
+                <span>Summary:</span>
+                <text-input id="vp-summary" class="popup-width" disabled></text-input>
+
+                <span>Detail:</span>
+                <textbox-input id="vp-detail" class="popup-width" style="height: 200px;" disabled></textbox-input>
+            </div>
+            <div style="position: absolute; right: 13px; bottom: 10px;">
+                <push-button id="vp-ok">OK</push-button>
+            </div>
+        </popup-body>
+    </popup>
+
+    <popup id="delete-popup" height="445px" width="410px">
+        <popup-title>Delete Removed Worker</popup-title>
+        <popup-body>
+            <div class="vert-input">
+                <span>Worker:</span>
+                <text-input id="dp-worker" class="popup-width" disabled></text-input>
+
+                <span>Project:</span>
+                <text-input id="dp-project" class="popup-width" disabled></text-input>
+
+                <span>Date:</span>
+                <text-input id="dp-date" class="popup-width" disabled></text-input>
+
+                <span>Supervisor:</span>
+                <text-input id="dp-supervisor" class="popup-width" disabled></text-input>
+
+                <span>Summary:</span>
+                <text-input id="dp-summary" class="popup-width" disabled></text-input>
+
+                <span>Detail:</span>
+                <textbox-input id="dp-detail" class="popup-width" style="height: 200px;" disabled></textbox-input>
+            </div>
+            <div style="margin-top: 20px; margin-left: 25px;">
+                <check-box id="dp-term-review" checked>Add TERM REVIEW Label</check-box>
+            </div>
+            <div style="position: absolute; right: 13px; bottom: 10px;">
+                <push-button id="dp-delete">Delete</push-button>
+                <push-button id="dp-cancel" style="margin-left: 10px;">Cancel</push-button>
+            </div>
+        </popup-body>
+    </popup>
+
+</div>
+
+

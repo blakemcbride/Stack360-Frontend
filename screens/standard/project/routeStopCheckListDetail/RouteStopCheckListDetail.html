@@ -1,0 +1,137 @@
+<!--
+     Copyright 2021 STACK360 LLC
+     All rights reserved.
+
+-->
+
+<div class="kiss">
+
+    <style>
+        div.vert-input2 {
+            display:grid;
+            grid-template-columns: max-content max-content;
+            grid-column-gap:5px;
+            grid-row-gap: 10px;
+            margin-top: 10px;
+            margin-left: 10px;
+        }
+
+        div.vert-input2 span { 
+            text-align:right; 
+            margin-top: 6px; 
+        }
+        div.vert-input2 span:after { 
+            content: ":"; 
+        }
+
+        div.summary-container {
+            display:grid;
+            grid-template-columns: max-content max-content max-content;
+            grid-column-gap:5px;
+            grid-row-gap: 10px;
+        }
+
+        div.summary-container span {
+            text-align:right;
+            width: 64px;
+            margin-top: 6px;
+        }
+
+        div.completed-container span:after {
+            content: ":";
+        }
+
+        div.completed-container {
+            display:grid;
+            grid-template-columns: max-content max-content max-content max-content;
+            grid-column-gap:5px;
+            grid-row-gap: 10px;
+        }
+
+        .project-general {
+            display:grid;
+            grid-template-columns: 180px 580px;
+            grid-column-gap: 5px;
+            grid-row-gap: 5px;
+            margin-top: 10px;
+            margin-left: 10px;
+        }
+        .project-general span       { text-align:right; margin-top: 6px; }
+        .project-general span:after { content: ":"; }
+    </style>
+
+    <div style="margin-top: 10px;">
+        <span>Project Check List Details:</span>
+        <text-label id="project-info" style="float: right;"></text-label>
+    </div>
+    <hr>
+
+    <div style="margin-top: 10px;">
+        Choose a Route Stop from the Project's associated Route to view that Route Stop's Check List Details.
+    </div>
+
+    <div style="margin-top: 10px;">
+        <div class="project-general">
+            <span>Company (Organizational Group)</span>
+            <drop-down id="company-list"></drop-down>
+
+            <span>Decision Point (Phase)</span>
+            <drop-down id="decision-point"></drop-down>
+        </div>
+    </div>
+
+    <div id="check-list-grid" style="width: 100%; height: calc(100% - 180px);margin-top: 20px;"></div>
+
+    <text-label id="check-list-status" style="position: absolute; bottom: 10px; left: 10px;">
+        Displaying 0 Check List Details
+    </text-label>
+
+    <div style="position: absolute; bottom: 10px; right: 10px;">
+        <push-button id="detail-edit" disabled>Edit</push-button>
+        <push-button id="detail-report" style="margin-left: 10px;">Report</push-button>
+    </div>
+
+    <popup id="check-list-popup" height="380px" width="700px">
+        <popup-title>
+            <text-label id="dp-title"></text-label>
+        </popup-title>
+        <popup-body style="padding: 0 10px;">
+            <div class="vert-input2">
+                <span>Summary</span>
+                <div class="summary-container">
+                    <text-input id="dp-summary" style="width: 400px" readonly></text-input>
+                    <span>Required</span>
+                    <text-input id="dp-required" style="width: 100px;" readonly></text-input>
+                </div>
+
+                <span>Detail</span>
+                <textbox-input id="dp-detail" style="width: 582px; height: 100px" disabled></textbox-input>
+
+                <span>Completed By</span>
+                <div class="completed-container">
+                    <text-input id="dp-completed-by" style="width: 200px" maxlength="30" required></text-input>
+                    <span style="margin-left: 25px;">Completed Date</span>
+                    <native-date-input id="dp-completed-date" style="width: 110px;" required></native-date-input>
+                    <push-button style="margin-left: 25px;" id="dp-auto-complete">Auto Complete</push-button>
+                </div>
+
+                <span>Comments</span>
+                <textbox-input id="dp-comments" style="width: 582px; height: 100px" maxlength="500"></textbox-input>
+
+                <span>Entered By</span>
+                <div class="completed-container">
+                    <text-input id="dp-entered-by" style="width: 200px" readonly></text-input>
+                    <span style="margin-left: 25px;">Entered Date</span>
+                    <text-input id="dp-entered-date" style="width: 110px;" readonly></text-input>
+                </div>
+
+            </div>
+
+            <div style="text-align: right;">
+                <push-button id="dp-ok">OK</push-button>
+                <push-button id="dp-cancel" style="margin-left: 10px; margin-right: 0;">Cancel</push-button>
+            </div>
+        </popup-body>
+    </popup>
+
+</div>

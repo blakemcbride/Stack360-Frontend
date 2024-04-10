@@ -1,0 +1,70 @@
+<popup id="component-project-selection" height="500px" width="900px" style="font-size: small;">
+
+    <popup-title>Project Selection</popup-title>
+    <popup-body>
+        <style>
+            #cm-sp-top {
+                display:grid;
+                grid-template-columns: 80px 300px 120px 240px;
+                grid-column-gap: 5px;
+                grid-row-gap: 5px;
+                margin-top: 5px;
+                margin-left: 0;
+            }
+            #cm-sp-top span       { text-align:right; margin-top: 6px; }
+            #cm-sp-top span:after { content: ":"; }
+        </style>
+
+        <div>Search Criteria:</div>
+        <hr>
+
+        <div id="cm-sp-top">
+            <span>ID</span>
+            <text-input id="cm-sp-id" style="width: 70px;"></text-input>
+            <span>Category Code</span>
+            <drop-down id="cm-sp-category" style="width: 100%;"></drop-down>
+
+            <span>Summary</span>
+            <div>
+                <drop-down id="cm-sp-summary-type" style="width: 90px;">
+                    <option value="1">Starts With</option>
+                    <option value="2">Ends With</option>
+                    <option value="3" selected>Contains</option>
+                    <option value="4">Exact Match</option>
+                </drop-down>
+                <text-input id="cm-sp-summary" style="width: 185px;"></text-input>
+            </div>
+            <span>Type Code</span>
+            <drop-down id="cm-sp-type" style="width: 100%;"></drop-down>
+
+            <span>Company</span>
+            <smart-chooser id="cm-sp-company" style="width: 100%;"></smart-chooser>
+            <span>Status Code</span>
+            <drop-down id="cm-sp-status" style="width: 100%;"></drop-down>
+
+        </div>
+
+        <div style="text-align: right; margin-top: 10px;">
+            <div style="display: inline-block; float: left; margin-left: 100px;">
+                <radio-button group="cm-sp-active" value="1" checked>Active</radio-button>
+                <radio-button group="cm-sp-active" value="2">Inactive</radio-button>
+                <radio-button group="cm-sp-active" value="3">Both</radio-button>
+            </div>
+            <push-button id="cm-sp-reset">Reset</push-button>
+            <push-button id="cm-sp-search" style="margin-left: 10px; margin-right: 131px;">Search</push-button>
+        </div>
+
+        <div>Search Results:</div>
+        <hr>
+
+        <div id="cm-sp-project-grid" style="height: 290px; width: 100%;"></div>
+
+        <div style="margin-top: 9px; margin-left: 15px;"><text-label id="cm-sp-msg"></text-label></div>
+
+        <div style="right: 10px; bottom: 10px; position: absolute;">
+            <push-button id="cm-sp-ok">OK</push-button>
+            <push-button id="cm-sp-cancel" style="margin-left: 12px;">Cancel</push-button>
+        </div>
+    </popup-body>
+
+</popup>

@@ -1,0 +1,355 @@
+<!--
+     Copyright 2021 STACK360 LLC
+     All rights reserved.
+
+-->
+
+<div class="kiss">
+
+    <style>
+        div.vert-input2 {
+            display:grid;
+            grid-template-columns: max-content max-content;
+            grid-column-gap:5px;
+            grid-row-gap: 10px;
+            margin-top: 10px;
+            /* margin-left: 10px; */
+        }
+
+        div.vert-input2 span {
+            text-align:right;
+            margin-top: 6px;
+        }
+
+        div.vert-input4 {
+            display:grid;
+            grid-template-columns: max-content max-content max-content max-content;
+            grid-column-gap:5px;
+            grid-row-gap: 10px;
+            margin-top: 10px;
+            /* margin-left: 10px; */
+        }
+
+        div.vert-input4 span {
+            text-align:right;
+            margin-top: 6px;
+        }
+
+        div.vert-input3 {
+            display:grid;
+            grid-template-columns: max-content max-content max-content;
+            grid-column-gap:5px;
+            grid-row-gap: 10px;
+            margin-top: 10px;
+            /* margin-left: 10px; */
+        }
+
+        div.vert-input3 span {
+            text-align:right;
+            margin-top: 6px;
+        }
+    </style>
+
+    <div class="vert-input2" style="margin-top: 10px; justify-content: space-between;" >
+        <div>Client Organizational Group Location:</div>
+        <div>
+            <text-label id="dp-group-name" style="font-weight: bold;">Top Level</text-label>
+        </div>
+    </div>
+    <hr>
+    <div class="vert-input2" style="align-items: center;">
+        <push-button style="float: left;" id="search-org-group">Search</push-button>
+        <div id="bread-crumb-2" style="margin-left: 5px; display: inline-block;"></div>
+    </div>
+
+    <div style="margin-top: 10px; width: 100%; height: calc(100% - 75px); display: flex; justify-content: space-between;">
+        <div style="width: 49%; display: flex; flex-direction: column; justify-content: space-between; margin-bottom: 10px;">
+            <div>
+                <text-label id="org-group-label">Organizational Groups inside </text-label>
+                <hr>
+            </div>
+
+            <div id="org-groups-grid" style="position: relative; width: 100%; height: 100%; margin-bottom: 10px;"></div>
+
+            <div style="width: 100%;">
+                <push-button id="org-group-open" disabled>Open</push-button>
+
+                <div style="float: right;">
+                    <push-button id="org-group-add">Add</push-button>
+                    <push-button id="org-group-edit" style="margin-left: 10px;" disabled>Edit</push-button>
+                    <push-button id="org-group-delete" style="margin-left: 10px;" disabled>Delete</push-button>
+                </div>
+            </div>
+
+            <div style="width: 100%; margin-top: 10px;">
+                <push-button id="org-group-up" disabled>Up</push-button>
+
+                <div style="float: right;">
+                    <push-button id="org-group-associate" disabled>Associate</push-button>
+                    <push-button id="org-group-disassociate" style="margin-left: 10px;" disabled>Disassociate</push-button>
+                </div>
+            </div>
+        </div>
+        <div style="width: 49%; display: flex; flex-direction: column; justify-content: space-between; margin-bottom: 10px;">
+            <div>
+                <text-label id="contacts-label">Contacts inside </text-label>
+                <text-label style="float: right;" id="filter-label">Not Filtered </text-label>
+                <hr>
+            </div>
+
+            <div id="contacts-grid" style="position: relative; width: 100%; height: 100%; margin-bottom: 10px;"></div>
+
+            <div style="width: 100%;">
+                <text-label id="contacts-status">Displaying 0 Contacts</text-label>
+                <div style="float: right;">
+                    <push-button id="contact-add" disabled>Add</push-button>
+                    <push-button id="contact-edit" style="margin-left: 10px;" disabled>Edit</push-button>
+                    <push-button id="contact-delete" style="margin-left: 10px;" disabled>Delete</push-button>
+                </div>
+            </div>
+
+            <div style="width: 100%; margin-top: 10px;">
+                <push-button id="edit-filter" disabled>Edit Filter</push-button>
+                <div style="float: right;">
+                    <push-button id="contact-associate" disabled>Associate</push-button>
+                    <push-button id="contact-disassociate" style="margin-left: 10px;" disabled>Disassociate</push-button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <popup id="org-group-popup">
+        <popup-title>
+            <text-label id="ogp-title">Add Client Organizational Group</text-label>
+        </popup-title>
+        <popup-body style="padding: 10px 15px;">
+            <div class="vert-input2">
+                <span>Name:</span>
+                <text-input id="ogp-name" style="width: 300px;" required maxlength="60"></text-input>
+                <span>ID:</span>
+                <text-input id="ogp-id" style="width: 80px;" maxlength="20"></text-input>
+            </div>
+
+            <div style="position: absolute; text-align: right; margin-top: 10px; bottom: 10px; width: 100%;">
+                <push-button id="ogp-ok">OK</push-button>
+                <push-button id="ogp-cancel" style="margin-left: 10px; margin-right: 35px;">Cancel</push-button>
+            </div>
+        </popup-body>
+    </popup>
+
+    <popup id="search-group-popup" width="405px" height="395px">
+        <popup-title>
+            <text-label>Search for Client Organizational Unit</text-label>
+        </popup-title>
+        <popup-body style="padding: 10px 15px;">
+
+            <div>Search Criteria:</div>
+            <hr>
+
+            <div class="vert-input2">
+                <span>Name:</span>
+                <div>
+                    <drop-down id="sgp-name-criteria" style="width: 125px; margin-right: 10px;"></drop-down>
+                    <text-input id="sgp-name-search" style="width: 182px;" maxlength="60"></text-input>
+                </div>
+                <span>Status:</span>
+                <div>
+                    <radio-button group="sgp-associate-indicator-type" value="1" style="margin-top: 6px;">Associated</radio-button>
+                    <radio-button group="sgp-associate-indicator-type" value="2" checked>Disassociated</radio-button>
+                    <radio-button group="sgp-associate-indicator-type" value="0">Both</radio-button>
+                </div>
+            </div>
+
+            <div class="btn-bar" style="margin-top: 8px; width: 100%; justify-content: flex-end;">
+                <push-button id="sgp-reset">Reset</push-button>
+                <push-button id="sgp-search" style="margin-right: unset;">Search</push-button>
+            </div>
+
+            <div style="margin-top: 10px;">
+                <div>Search Results:</div>
+                <hr>
+            </div>
+
+            <div id="sgp-grid" style="width: 100%; background: bisque; height: 210px;"></div>
+
+            <div style="text-align: right; margin-top: 10px; display: flex; justify-content: space-between; align-items: center;">
+                <text-label id="sgp-count" style="margin-left: 0;">Displaying 0 Client Organizational Units</text-label>
+
+                <div>
+                    <push-button id="sgp-ok" disabled>OK</push-button>
+                    <push-button id="sgp-cancel" style="margin-left: 10px; margin-right: 0;">Cancel</push-button>
+                </div>
+            </div>
+        </popup-body>
+    </popup>
+
+    <popup id="associate-group" height="445px">
+        <popup-title>
+            <text-label>Associate Client Organizational Group</text-label>
+        </popup-title>
+        <popup-body style="padding: 10px 15px;">
+
+            <div>Search Criteria:</div>
+            <hr>
+
+            <div class="vert-input2">
+                <span>Name:</span>
+                <div>
+                    <drop-down id="agp-name-criteria" style="width: 125px; margin-right: 10px;"></drop-down>
+                    <text-input id="agp-name-search" style="width: 150px;" maxlength="60"></text-input>
+                </div>
+                <span>Status:</span>
+                <radio-button group="agp-associate-indicator-type" value="1" style="margin-top: 6px;">Associated to Client Organizational Group other than the current</radio-button>
+                <span></span>
+                <radio-button group="agp-associate-indicator-type" value="2" checked>Not Associated to any Client Organizational Group</radio-button>
+                <span></span>
+                <radio-button group="agp-associate-indicator-type" value="0">Either</radio-button>
+            </div>
+
+            <div class="btn-bar" style="margin-top: 8px; width: 100%; justify-content: flex-end;">
+                <push-button id="agp-reset">Reset</push-button>
+                <push-button id="agp-search" style="margin-right: unset;">Search</push-button>
+            </div>
+
+            <div style="margin-top: 10px;">
+                <div>Search Results:</div>
+                <hr>
+            </div>
+
+            <div id="agp-grid" style="width: 100%; background: bisque; height: 210px;"></div>
+
+            <div style="text-align: right; margin-top: 10px; display: flex; justify-content: space-between; align-items: center;">
+                <text-label id="agp-count" style="margin-left: 0;">Displaying 0 Client Organizational Units</text-label>
+
+                <div>
+                    <push-button id="agp-ok" disabled>OK</push-button>
+                    <push-button id="agp-cancel" style="margin-left: 10px; margin-right: 0;">Cancel</push-button>
+                </div>
+            </div>
+        </popup-body>
+    </popup>
+
+    <popup id="employee-popup" height="180px">
+        <popup-title>
+            <text-label id="ep-title">Add Contact</text-label>
+        </popup-title>
+        <popup-body style="padding: 10px 15px;">
+
+            <div class="vert-input4">
+                <span>First Name:</span>
+                <text-input id="ep-fname" style="width: 160px;" required maxlength="30"></text-input>
+                <span style="margin-left: 10px;">Job Title:</span>
+                <text-input id="ep-job-title" style="width: 160px;" maxlength="60"></text-input>
+
+                <span>Last Name:</span>
+                <text-input id="ep-lname" style="width: 160px;" required maxlength="30"></text-input>
+                <span style="margin-left: 10px;">Phone:</span>
+                <text-input id="ep-phone" style="width: 160px;" maxlength="20"></text-input>
+
+                <span>E-mail:</span>
+                <text-input id="ep-email" style="width: 160px;" maxlength="60"></text-input>
+                <span style="margin-left: 10px;">Fax:</span>
+                <text-input id="ep-fax" style="width: 160px;" maxlength="20"></text-input>
+            </div>
+
+            <div class="vert-input2" style="align-items: center; justify-content: space-between;">
+                <div class="vert-input2" style="margin-top: 0;">
+                    <span style="width: 56px;">Type:</span>
+                    <drop-down id="ep-type" style="width: 250px;" required>
+                        <option value="">(select)</option>
+                        <option value="1">Deision Maker</option>
+                        <option value="2">Department Head</option>
+                        <option value="3">User</option>
+                        <option value="4">Consultant / Other Employee</option>
+                        <option value="5">Unknown</option>
+                    </drop-down>
+                </div>
+                <check-box id="ep-primary">Primary</check-box>
+            </div>
+
+            <div style="text-align: right; margin-top: 10px; align-items: center;">
+                <div style="float: right;">
+                    <push-button id="ep-ok">OK</push-button>
+                    <push-button id="ep-cancel" style="margin-left: 10px; margin-right: 0;">Cancel</push-button>
+                </div>
+            </div>
+        </popup-body>
+    </popup>
+
+    <popup id="associate-contact" height="478px">
+        <popup-title>
+            <text-label>Associate Client Contact</text-label>
+        </popup-title>
+        <popup-body style="padding: 10px 15px;">
+
+            <div>Search Criteria:</div>
+            <hr>
+
+            <div class="vert-input2">
+                <span>Last Name:</span>
+                <div>
+                    <drop-down id="aep-lname-criteria" style="width: 125px; margin-right: 10px;"></drop-down>
+                    <text-input id="aep-lname-search" style="width: 150px;" maxlength="60"></text-input>
+                </div>
+                <span>First Name:</span>
+                <div>
+                    <drop-down id="aep-fname-criteria" style="width: 125px; margin-right: 10px;"></drop-down>
+                    <text-input id="aep-fname-search" style="width: 150px;" maxlength="60"></text-input>
+                </div>
+                <span>Status:</span>
+                <radio-button group="aep-associate-indicator-type" value="1" style="margin-top: 6px;">Associated to Client Organizational Group other than the current</radio-button>
+                <span></span>
+                <radio-button group="aep-associate-indicator-type" value="2" checked>Not Associated to any Client Organizational Group</radio-button>
+                <span></span>
+                <radio-button group="aep-associate-indicator-type" value="0">Either</radio-button>
+            </div>
+
+            <div class="btn-bar" style="margin-top: 8px; width: 100%; justify-content: flex-end;">
+                <push-button id="aep-reset">Reset</push-button>
+                <push-button id="aep-search" style="margin-right: unset;">Search</push-button>
+            </div>
+
+            <div style="margin-top: 10px;">
+                <div>Search Results:</div>
+                <hr>
+            </div>
+
+            <div id="aep-grid" style="width: 100%; background: bisque; height: 210px;"></div>
+
+            <div style="text-align: right; margin-top: 10px; display: flex; justify-content: space-between; align-items: center;">
+                <text-label id="aep-count" style="margin-left: 0;">Displaying 0 Contacts</text-label>
+
+                <div>
+                    <push-button id="aep-ok" disabled>OK</push-button>
+                    <push-button id="aep-cancel" style="margin-left: 10px; margin-right: 0;">Cancel</push-button>
+                </div>
+            </div>
+        </popup-body>
+    </popup>
+
+    <popup id="filter-popup" height="120px" width="276px">
+        <popup-title>
+            <text-label>Associated Contacts Filter</text-label>
+        </popup-title>
+        <popup-body style="padding: 10px 15px;">
+            <div class="vert-input2" style="margin-top: 5px;">
+                <check-box id="fp-filter">Filter Associated Employees</check-box>
+            </div>
+
+            <div class="vert-input2">
+                <span style="width: 172px;">Last Name Starts With:</span>
+                <text-input id="fp-lname" style="width: 60px;" maxlength="60"></text-input>
+                <span style="margin-top: 0;">Show Only Primary:</span>
+                <check-box id="fp-primary"></check-box>
+            </div>
+
+            <div style="text-align: right; margin-top: 10px; align-items: center;">
+                <div style="float: right;">
+                    <push-button id="fp-ok">OK</push-button>
+                    <push-button id="fp-cancel" style="margin-left: 10px; margin-right: 0;">Cancel</push-button>
+                </div>
+            </div>
+        </popup-body>
+    </popup>
+
+</div>

@@ -1,0 +1,52 @@
+<!--
+     Copyright 2020 STACK360 LLC
+     All rights reserved.
+
+-->
+
+<div class="kiss">
+
+    <style>
+        div.vert-input2 {
+            display:grid;
+            grid-template-columns: max-content max-content;
+            grid-column-gap: 5px;
+            grid-row-gap: 10px;
+            margin-top: 10px;
+            margin-left: 10px;
+        }
+        div.vert-input3 {
+            display:grid;
+            grid-template-columns: max-content max-content max-content;
+            grid-column-gap: 5px;
+            grid-row-gap: 10px;
+            margin-top: 10px;
+            margin-left: 10px;
+        }
+    </style>
+
+    <div style="width: 420px;">
+        <div style="margin-top: 5px;">Inside Columns:</div>
+        <hr>
+        <div class="vert-input3">
+            <check-box id="chk-client-id">Client ID</check-box>
+            <check-box id="chk-primary-contact">Primary Contact</check-box>
+            <check-box id="chk-company-phone">Company Phone</check-box>
+            <check-box id="chk-address">Address</check-box>
+            <check-box id="chk-contract-date">Contract Date</check-box>
+        </div>
+
+        <div style="margin-top: 5px;">Sort:</div>
+        <hr>
+        <div class="vert-input2">
+            <radio-button group="sort-column" value="1" checked>Client Name</radio-button>
+            <radio-button group="sort-column" value="0">Client ID</radio-button>
+            <radio-button group="sort-direction" value="true" checked>Ascending</radio-button>
+            <radio-button group="sort-direction" value="false">Descending</radio-button>
+        </div>
+
+        <div style="margin-top: 10px; margin-right: 10px; float: right;">
+            <push-button id="btn-report">Report</push-button>
+        </div>
+    </div>
+</div>

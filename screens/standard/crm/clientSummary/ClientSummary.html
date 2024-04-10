@@ -1,0 +1,195 @@
+<!--
+     Copyright 2020 STACK360 LLC
+     All rights reserved.
+
+-->
+
+<div class="kiss">
+
+    <style>
+        #page-body {
+            display:grid;
+            grid-template-columns: 60px 240px 150px 400px;
+            grid-column-gap: 5px;
+            grid-row-gap: 10px;
+            margin-top: 0;
+            margin-left: 10px;
+        }
+        #page-body span       { text-align:right; margin-top: 6px; }
+
+        .left-width {
+            width: 200px;
+        }
+
+        .right-width {
+            width: 150px;
+        }
+
+        .numeric-width {
+            width: 60px;
+        }
+    </style>
+
+    <div style="margin-top: 10px;">
+        <span>Client Summary:</span>
+        <div style="display: inline-block; float: right;">
+            <text-label id="client-name"></text-label>
+        </div>
+    </div>
+    <hr>
+
+    <div id="page-body">
+        <span>Name:</span>
+        <text-input id="name" class="left-width" maxlength="60" required></text-input>
+        <span>ID:</span>
+        <text-input id="id" class="right-width" maxlength="20"></text-input>
+
+        <span>Street 1:</span>
+        <text-input id="street-1" class="left-width" maxlength="60"></text-input>
+        <span>Federal Employer ID:</span>
+        <text-input id="fei" class="right-width" maxlength="20"></text-input>
+
+        <span>Street 2:</span>
+        <text-input id="street-2" class="left-width" maxlength="60"></text-input>
+        <span>GL Sales Account:</span>
+        <drop-down id="gl-sales-account" class="right-width"></drop-down>
+
+        <span>City:</span>
+        <text-input id="city" class="left-width" maxlength="60"></text-input>
+        <span>Billing Rate:</span>
+        <numeric-input id="billing-rate" class="numeric-width" money></numeric-input>
+
+        <span>State:</span>
+        <div>
+            <drop-down id="state" style="width: 80px;">
+                <option value="">(select)</option>
+                <option value="AL">AL</option>
+                <option value="AK">AK</option>
+                <option value="AS">AS</option>
+                <option value="AZ">AZ</option>
+                <option value="AR">AR</option>
+                <option value="CA">CA</option>
+                <option value="CO">CO</option>
+                <option value="CT">CT</option>
+                <option value="DE">DE</option>
+                <option value="DC">DC</option>
+                <option value="FM">FM</option>
+                <option value="FL">FL</option>
+                <option value="GA">GA</option>
+                <option value="GU">GU</option>
+                <option value="HI">HI</option>
+                <option value="ID">ID</option>
+                <option value="IL">IL</option>
+                <option value="IN">IN</option>
+                <option value="IA">IA</option>
+                <option value="KS">KS</option>
+                <option value="KY">KY</option>
+                <option value="LA">LA</option>
+                <option value="ME">ME</option>
+                <option value="MH">MH</option>
+                <option value="MD">MD</option>
+                <option value="MA">MA</option>
+                <option value="MI">MI</option>
+                <option value="MN">MN</option>
+                <option value="MS">MS</option>
+                <option value="MO">MO</option>
+                <option value="MT">MT</option>
+                <option value="NE">NE</option>
+                <option value="NV">NV</option>
+                <option value="NH">NH</option>
+                <option value="NJ">NJ</option>
+                <option value="NM">NM</option>
+                <option value="NY">NY</option>
+                <option value="NC">NC</option>
+                <option value="ND">ND</option>
+                <option value="MP">MP</option>
+                <option value="OH">OH</option>
+                <option value="OK">OK</option>
+                <option value="OR">OR</option>
+                <option value="PW">PW</option>
+                <option value="PA">PA</option>
+                <option value="PR">PR</option>
+                <option value="RI">RI</option>
+                <option value="SC">SC</option>
+                <option value="SD">SD</option>
+                <option value="TN">TN</option>
+                <option value="TX">TX</option>
+                <option value="UT">UT</option>
+                <option value="VT">VT</option>
+                <option value="VI">VI</option>
+                <option value="VA">VA</option>
+                <option value="WA">WA</option>
+                <option value="WV">WV</option>
+                <option value="WI">WI</option>
+                <option value="WY">WY</option>
+            </drop-down>
+            <span style="margin-left: 20px;">Zip:</span>
+            <text-input id="zip" style="width: 60px;"></text-input>
+        </div>
+        <span>Default Billing Rate:</span>
+        <text-input id="default-billing-rate" class="right-width" disabled></text-input>
+
+        <span>Phone:</span>
+        <text-input id="phone" style="width: 100px;" maxlength="20"></text-input>
+        <span>Client Status:</span>
+        <drop-down id="client-status" class="right-width" required></drop-down>
+
+        <span>Fax:</span>
+        <text-input id="fax" style="width: 100px;" maxlength="20"></text-input>
+        <span>Payment Terms:</span>
+        <div>
+            <numeric-input id="payment-terms" class="numeric-width"></numeric-input>
+            <span>(in days)</span>
+        </div>
+
+        <span></span>
+        <hr style="width: 100%;">
+        <span>Contract Date:</span>
+        <div>
+            <date-input id="contract-date" style="width: 70px;"></date-input>
+            <span style="margin-left: 30px;">Inactive Date:</span>
+            <date-input id="inactive-date" style="width: 70px;"></date-input>
+        </div>
+
+        <span></span>
+        <check-box id="copy-images-to-disk" style="display: inline;" disabled>Copy images to disk</check-box>
+        <span>Our Vendor Number:</span>
+        <text-input id="our-vendor-number" class="right-width" maxlength="20"></text-input>
+
+        <span>Path:</span>
+        <text-input id="path" class="left-width" maxlength="100" disabled></text-input>
+        <span>Default Project Code:</span>
+        <text-input id="default-project-code" class="right-width" maxlength="12"></text-input>
+
+        <span></span>
+        <check-box id="copy-only-external" style="display: inline;" disabled>Copy only external</check-box>
+        <span></span>
+        <span></span>
+
+        <span></span>
+        <check-box id="copy-inactive-images" style="display: inline;" disabled>Copy inactive images</check-box>
+        <span>Client Record ID:</span>
+        <text-input id="client-id" style="width: 100px;" disabled></text-input>
+    </div>
+
+    <div style="margin-top: 40px;">
+        <push-button id="report" style="margin-left: 80px;">Report</push-button>
+        <push-button id="save" style="margin-left: 340px;" disabled>Save</push-button>
+        <push-button id="reset" style="margin-left: 10px;" disabled>Reset</push-button>
+    </div>
+
+    <popup id="report-options-popup" height="80px" width="180px">
+        <popup-title>Reporting Options</popup-title>
+        <popup-body>
+            <div style="margin-top: 10px;">
+                <check-box id="rop-include-contacts" checked>Include Contacts</check-box>
+            </div>
+            <div style="text-align: right; margin-top: 20px;">
+                <push-button id="rop-ok">OK</push-button>
+                <push-button id="rop-cancel">Cancel</push-button>
+            </div>
+        </popup-body>
+    </popup>
+
+
+</div>

@@ -1,0 +1,70 @@
+<!--
+     Copyright 2021 STACK360 LLC
+     All rights reserved.
+
+-->
+
+<div class="kiss">
+
+    <style>
+        div.vert-input2 {
+            display:grid;
+            grid-template-columns: max-content max-content;
+            grid-column-gap:5px;
+            grid-row-gap: 10px;
+            margin-top: 10px;
+        }
+
+        div.vert-input2 span {
+            text-align:right;
+            margin-top: 6px;
+        }
+    </style>
+
+    <div style="margin-top: 10px;">Project Phases Currently in the System:</div>
+    <hr>
+
+    <div class="vert-input2">
+        <span>Type:</span>
+        <div style="margin-top: 5px;">
+            <radio-button group="type" value="1">Active</radio-button>
+            <radio-button group="type" value="2">Inactive</radio-button>
+            <radio-button group="type" value="3" checked>Both</radio-button>
+        </div>
+    </div>
+
+    <div id="grid" style="margin-top: 10px; width: 100%; height: calc(100% - 120px);"></div>
+
+    <text-label id="status" style="position: absolute; bottom: 25px; left: 20px;">Displaying 0 Project Phases</text-label>
+
+    <div style="position: absolute; bottom: 15px; right: 10px;">
+        <push-button id="add" style="margin-left: 10px;">Add</push-button>
+        <push-button id="edit" style="margin-left: 10px;" disabled>Edit</push-button>
+        <push-button id="delete" style="margin-left: 10px;" disabled>Delete</push-button>
+        <push-button id="report" style="margin-left: 10px;">Report</push-button>
+    </div>
+
+    <popup id="phase-popup" height="250px" width="320px">
+        <popup-title>
+            <text-label id="pp-title">Add Project Phase</text-label>
+        </popup-title>
+        <popup-body>
+            <div class="vert-input2">
+                <span>Code:</span>
+                <text-input id="pp-code" style="width: 200px;" required maxlength="20"></text-input>
+                <span>Description:</span>
+                <textbox-input id="pp-description" style="width: 200px; height: 50px;" required maxlength="80"></textbox-input>
+                <span>Security Category:</span>
+                <drop-down id="pp-category" style="width: 180px"></drop-down>
+                <span>Last Active Date:</span>
+                <native-date-input id="pp-last-active-date" style="width: 110px;"></native-date-input>
+                <span></span>
+                <check-box id="pp-apply-all" style="display: none;">Apply to All Companies</check-box>
+            </div>
+            <div style="right: 17px; bottom: 10px; position: absolute;">
+                <push-button id="pp-ok">Ok</push-button>
+                <push-button id="pp-cancel" style="margin-left: 10px;">Cancel</push-button>
+            </div>
+        </popup-body>
+    </popup>
+</div>

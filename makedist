@@ -1,0 +1,7 @@
+#
+rm -f ../Stack360Frontend.jar Stack360Frontend.jar
+find . -type f | grep -vE "(Stack360Frontend\.iml|makedist|serve|SimpleWebServer\.jar|notes|builder|WhiteLabel|build\.xml|.idea|.svn|nbproject|.*\.tar\.gz|^\./bld$|^\./bld.cmd$i|^\./expand$|^\./shrink$|^\./list-both$|^\./README.md$|.gitattributes|make-open-source)" > filelist.txt
+jar cf ../Stack360Frontend.jar @filelist.txt
+rm filelist.txt
+mv ../Stack360Frontend.jar .
+

@@ -1,0 +1,48 @@
+<!--
+     Copyright 2020 STACK360 LLC
+     All rights reserved.
+
+-->
+
+<div class="kiss">
+    <style>
+        .ph-grid {
+            display: grid;
+            grid-column-gap: 10px;
+            grid-row-gap: 10px;
+            align-items: center;
+        }
+        .ph-grid span {
+            color: #000;
+            align-self: center;
+            text-align: right;
+        }
+    </style>
+
+    <div style="margin-top: 10px; margin-bottom: 10px;">
+        <span>Employee Pay History:</span>
+        <text-label id="worker-name" style="float: right;"></text-label>
+        <hr>
+    </div>
+
+    <div style="margin-bottom: 10px;">
+        <radio-button group="searchType" required value="1">Search for specific Check Number:</radio-button>
+        <numeric-input no-comma size="30" id="ph-checkNumber" style="width:60px; margin-left: 10px; margin-right: 10px;" show-zero disabled></numeric-input>
+        <push-button id="checkNumberSearch" style="margin-right: 30px;" disabled>Search</push-button>
+
+        <radio-button group="searchType" required value="2" checked>Search Payment Dates from:</radio-button>
+        <native-date-input id="ph-fromDate" style="width: 110px; margin-left: 10px; margin-right: 10px;"></native-date-input>
+
+        <span>to:</span>
+        <native-date-input id="ph-toDate" style="width: 110px; margin-left: 10px; margin-right: 10px;"></native-date-input>
+        <push-button id="datesSearch">Search</push-button>
+    </div>
+    
+    <div id="paymentsGrid" style="height: calc(100% - 115px); width: 100%; margin-top: 10px; margin-bottom: 15px;"></div>
+
+    <text-label id="ph-status">Displaying 0 Payments</text-label>
+    <div style="position: absolute; right: 10px; bottom: 10px; text-align: right;">
+        <push-button id="view" disabled>View</push-button>
+        <push-button id="report" style="margin-left: 10px;">Report</push-button>
+    </div>
+</div>

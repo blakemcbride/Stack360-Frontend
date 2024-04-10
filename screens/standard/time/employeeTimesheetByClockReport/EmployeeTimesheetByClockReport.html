@@ -1,0 +1,41 @@
+<div class="kiss">
+    <style>
+        #wrapper {
+            max-width: 460px;
+        }
+        #options-container {
+            display: grid;
+            grid-template-columns: repeat(2, max-content);
+            grid-row-gap: 10px;
+            grid-column-gap: 10px;
+            align-items: center;
+        }
+        #options-container > span {
+            text-align: right;
+        }
+        #options-container * {
+            margin-left: 0 !important;
+        } 
+    </style>
+    <div id="wrapper">
+        <div style="margin-bottom: 10px; margin-top: 10px;">
+            <span>Employee/Timesheet Report Criteria:</span>
+            <hr>
+        </div>
+        <div id="options-container" style="margin-bottom: 10px;">
+            <span>Organizational Group:</span>
+            <smart-chooser id="etbcr-org_group" style="width: 285px;" dsiabled></smart-chooser>
+
+            <span>Timesheet Entry Date From:</span>
+            <div>
+                <native-date-input id="etbcr-from_date" style="width: 110px; margin-right: 50px;"></native-date-input>
+
+                <span>To:</span>
+                <native-date-input id="etbcr-to_date" style="width: 110px;"></native-date-input>
+            </div>
+        </div>
+        <div style="margin-top: 10px; text-align: right;">
+            <push-button id="report">Report</push-button>
+        </div>
+    </div>
+</div>

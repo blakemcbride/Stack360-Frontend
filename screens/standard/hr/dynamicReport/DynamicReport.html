@@ -1,0 +1,477 @@
+<!--
+     Copyright 2020 STACK360 LLC
+     All rights reserved.
+
+-->
+
+<div class="kiss">
+    <style>
+        .dr-grid {
+            display: grid;
+            grid-column-gap: 10px;
+            grid-row-gap: 10px;
+            align-items: center;
+            align-content: baseline;
+            margin-bottom: 20px;
+        }
+        .dr-grid span {
+            color: #000;
+            align-self: center;
+            text-align: right;
+        }
+
+        #viewResults {
+            height: calc(100% - 85px);
+        }
+        #eventGrid {
+            height: calc(100% - 40px);
+            margin-top: 10px;
+            overflow-x: scroll;
+        }
+        #eventGrid > .ag-root-wrapper {
+            width: 2000px;
+        }
+        #eventGrid.ag-theme-balham .ag-cell {
+            padding: 0;
+        }
+        
+        .tab-height {
+            height: 100%;
+        }
+
+        #dr-file_label {
+            padding: 6px 12px 4px;
+            border: 1px solid #a5a5a5;
+            font-family: Arial;
+            font-size: 12px;
+            display: inline;
+            vertical-align: middle;
+            background: var(--btn-bg);
+            font-weight: bold;
+            border-radius: 4px;
+            line-height: 1.3;
+            cursor: default;
+            -webkit-appearance: button;
+            vertical-align: bottom;
+        }
+        #dr-file_label:hover {
+            background: var(--btn-bg-hover);
+            border: 1px solid var(--btn-border-color-hover);
+        }
+        #dr-file_label:active {
+            background: var(--btn-bg-active);
+            padding: 3px 11px;
+            border: 2px solid var(--btn-border-color-active);
+        }
+    </style>
+
+    <div style="margin-bottom: 10px; margin-top: 10px;">
+        <span>Dynamic Report</span>
+        <hr>
+    </div>
+
+    <div id="dr-tab-container" style="height: calc(100% - 130px);">
+        <ul class="tab-header">
+            <li id="dr-basic-TabButton" class="active">Basic</li>
+            <li id="dr-columns-TabButton">Columns</li>
+            <li id="dr-benefits-TabButton">Benefits</li>
+            <li id="dr-selection-TabButton">Selection</li>
+            <li id="dr-sort-TabButton">Sort</li>
+            <li id="dr-graphics-TabButton">Graphics</li>
+        </ul>
+        
+        <div id="dr-basic-TabContent" class="tab-content tab-height dr-grid" style="grid-template-columns: repeat(2, max-content);">
+            <span>Report Name:</span>
+            <text-input id="dr-reportName" style="width: 200px;"></text-input>
+
+            <span>Report Type:</span>
+            <drop-down id="dr-reportType" style="width: 300px;" default-option="(select)">
+                <option value="0">(select)</option>
+                <option value="1">Benefit Enrollment</option>
+            </drop-down>
+
+            <span>Description:</span>
+            <textbox-input id="dr-description" style="height: 70px; box-sizing: border-box; width: 300px;"></textbox-input>
+
+            <span>Page Offset Left:</span>
+            <div>
+                <numeric-input id="dr-offsetLeft" decimal-places="2" style="width: 50px;" required></numeric-input>
+                <span>(inches)</span>
+            </div>
+
+            <span>Page Offset Top:</span>
+            <div>
+                <numeric-input id="dr-offsetTop" decimal-places="2" style="width: 50px;" required></numeric-input>
+                <span>(inches)</span>
+            </div>      
+            
+            <span>Base Column Spacing:</span>
+            <div>
+                <numeric-input id="dr-columnSpacing" decimal-places="2" style="width: 50px;" required></numeric-input>
+                <span>(inches)</span>
+            </div>       
+
+            <span>Default Font Size:</span>
+            <div>
+                <numeric-input id="dr-fontSize" style="width: 50px;" required></numeric-input>
+                <span>(pt)</span>
+            </div>
+            <span>Lines in Column Title:</span>
+            <numeric-input id="dr-titleLines" style="width: 50px;" required></numeric-input>
+
+            <span style="align-self: baseline;">Page Orientation:</span>
+            <div style="align-self: baseline;">
+                <radio-button group="dr-orientation" value="P" style="margin-bottom: 10px;" align-vertical>Portrait</radio-button>
+                <radio-button group="dr-orientation" value="L" align-vertical>Landscape</radio-button>
+            </div>
+        </div>
+        <div id="dr-columns-TabContent" class="tab-content tab-height" hidden>
+            <div style="margin-top: 10px; margin-bottom: 10px;">
+                <span style="margin-right: 10px;">Maximum Lines in Column Title:</span>
+                <numeric-input id="dr-linesInColumnTitle" style="width: 50px; margin-right: 50px;"></numeric-input>
+
+                <span style="margin-right: 10px;">Default Space Between Columns:</span>
+                <numeric-input id="dr-defaultSpaceBetweenColumns" decimal-places="2" style="width: 50px;"></numeric-input>
+            </div>
+
+            <div class="dr-grid" style="grid-template-columns: repeat(2, 50%); height: calc(50% - 45px); padding-right: 10px;">
+                <span style="text-align: left;">Available Columns</span>
+                <span style="text-align: left;">Selected Columns</span>
+
+                <div id="availableColumnsGrid" style="height: 320px;"></div>
+                <div id="selectedColumnsGrid" style="height: 320px;"></div>
+
+                <text-label style="text-align: left;" id="columns-clue-label">Drag and Drop columns back and forth to make your selections.</text-label>
+                <div style="text-align: right;">
+                    <push-button id="removeColumn" style="margin-right: 10px;" disabled>Remove Column</push-button>
+                    <push-button id="editColumn" disabled>Edit Column</push-button>
+                </div>
+            </div>
+        </div>
+        <div id="dr-benefits-TabContent" class="tab-content tab-height" hidden>
+            <div style="margin-top: 10px; margin-bottom: 10px;">
+                <span style="margin-right: 10px;">Drag and Drop the available items from the top three grids to the grid at the bottom to include them in the export:</span>
+            </div>
+
+            <div class="dr-grid" style="grid-template-columns: repeat(3, 33.33%); height: calc(10% - 45px); padding-right: 10px;">
+                <div id="availableCategorisGrid" style="height: 250px;"></div>
+                <div id="availableBenefitsGrid" style="height: 250px;"></div>
+                <div id="availableConfigsGrid" style="height: 250px;"></div>
+
+                <div id="selectedBenefitsGrid" style="height: 100px; grid-column: 1 / 4;"></div>
+
+                <div style="text-align: right; grid-column: 1 / 4;">
+                    <push-button id="removeBenefits" style="margin-right: 10px;" disabled>Remove</push-button>
+                </div>
+            </div>
+        </div>
+        <div id="dr-selection-TabContent" class="tab-content tab-height" hidden>
+            <span style="margin-right: 10px;">Quick Selection:</span>
+            <drop-down id="dr-quickSelection" style="width: 600px; margin-right: 10px;"></drop-down>
+            <push-button id="dr-quickSelectionAdd">Add</push-button>
+            <check-box id="dr-advancedMode" style="vertical-align: middle; margin-top: 10px; float: right;">Advanced Mode</check-box>
+
+            <div id="selectionGrid" style="height: calc(100% - 65px);"></div>
+            <div style="margin-top: 10px; text-align: right;">
+                <push-button id="selectionAdd" style="margin-right: 10px;">Add</push-button>
+                <push-button id="selectionEdit" style="margin-right: 10px;" disabled>Edit</push-button>
+                <push-button id="selectionDelete" disabled>Delete</push-button>
+            </div>
+        </div>
+        <div id="dr-sort-TabContent" class="tab-content tab-height" hidden>
+            <div class="dr-grid" style="grid-template-columns: repeat(4, max-content);">
+                <span>Sort 1 Column:</span>
+                <drop-down id="dr-sortDirection1" style="width: 300px;"></drop-down>
+                <radio-button group="dr-sortOrder1" value="A" style="margin-bottom: 10px;" align-horizontal checked>Ascending</radio-button>
+                <radio-button group="dr-sortOrder1" value="D" style="margin-bottom: 10px;" align-horizontal>Descending</radio-button>
+
+                <span>Sort 2 Column:</span>
+                <drop-down id="dr-sortDirection2" style="width: 300px;"></drop-down>
+                <radio-button group="dr-sortOrder2" value="A" style="margin-bottom: 10px;" align-horizontal checked>Ascending</radio-button>
+                <radio-button group="dr-sortOrder2" value="D" style="margin-bottom: 10px;" align-horizontal>Descending</radio-button>
+
+                <span>Sort 3 Column:</span>
+                <drop-down id="dr-sortDirection3" style="width: 300px;"></drop-down>
+                <radio-button group="dr-sortOrder3" value="A" style="margin-bottom: 10px;" align-horizontal checked>Ascending</radio-button>
+                <radio-button group="dr-sortOrder3" value="D" style="margin-bottom: 10px;" align-horizontal>Descending</radio-button>
+
+                <span>Sort 4 Column:</span>
+                <drop-down id="dr-sortDirection4" style="width: 300px;"></drop-down>
+                <radio-button group="dr-sortOrder4" value="A" style="margin-bottom: 10px;" align-horizontal checked>Ascending</radio-button>
+                <radio-button group="dr-sortOrder4" value="D" style="margin-bottom: 10px;" align-horizontal>Descending</radio-button>
+
+                <span>Sort 5 Column:</span>
+                <drop-down id="dr-sortDirection5" style="width: 300px;"></drop-down>
+                <radio-button group="dr-sortOrder5" value="A" style="margin-bottom: 10px;" align-horizontal checked>Ascending</radio-button>
+                <radio-button group="dr-sortOrder5" value="D" style="margin-bottom: 10px;" align-horizontal>Descending</radio-button>
+            </div>
+        </div>
+        <div id="dr-graphics-TabContent" class="tab-content tab-height" hidden>
+            <div id="graphicsGrid" style="height: calc(100% - 40px);"></div>
+            <div style="margin-top: 10px; text-align: right;">
+                <push-button id="graphicsAdd" style="margin-right: 10px;">Add</push-button>
+                <push-button id="graphicsEdit" style="margin-right: 10px;" disabled>Edit</push-button>
+                <push-button id="graphicsDelete" disabled>Delete</push-button>
+            </div>
+        </div>
+    </div>
+
+    <div style="position: absolute; bottom: 10px; width: 100%;">
+        <text-label id="status"></text-label>
+        <div style="float: right;">
+            <push-button id="report" style="margin-left: 10px;">Report</push-button>
+            <push-button id="export" style="margin-left: 10px;">Export</push-button>
+            <push-button id="save" style="margin-left: 50px;">Save</push-button>
+            <push-button id="reset" style="margin-left: 10px; margin-right: 20px;">Reset</push-button>
+        </div>
+    </div>
+
+    <popup id="edit-report-column-popup" width="390px" height="450px">
+        <popup-title>
+            <span>Edit Report Column</span>
+        </popup-title>
+        <popup-body>
+            <div class="dr-grid" style="grid-template-columns: repeat(4, max-content);">
+                <span>Title:</span>
+                <text-input id="dr-reportTitle" style="grid-column: 2 / 5;"></text-input>
+
+                <span style="align-self: baseline;">Title Justification:</span>
+                <div style="grid-column: 2 / 5;">
+                    <radio-button group="dr-titleJustification" value="L" style="margin-bottom: 10px;" align-vertical>Left</radio-button>
+                    <radio-button group="dr-titleJustification" value="R" style="margin-bottom: 10px;" align-vertical>Right</radio-button>
+                    <radio-button group="dr-titleJustification" value="C" align-vertical>Center</radio-button>
+                </div>
+
+                <span style="align-self: baseline;">Horizontal Justification:</span>
+                <div>
+                    <radio-button group="dr-horizontalJustification" value="L" style="margin-bottom: 10px;" align-vertical>Left</radio-button>
+                    <radio-button group="dr-horizontalJustification" value="R" style="margin-bottom: 10px;" align-vertical>Right</radio-button>
+                    <radio-button group="dr-horizontalJustification" value="C" align-vertical>Center</radio-button>
+                </div>
+
+                <span style="align-self: baseline;">Vertical Justification:</span>
+                <div>
+                    <radio-button group="dr-verticalJustification" value="T" style="margin-bottom: 10px;" align-vertical>Top</radio-button>
+                    <radio-button group="dr-verticalJustification" value="M" style="margin-bottom: 10px;" align-vertical>Middle</radio-button>
+                    <radio-button group="dr-verticalJustification" value="B" align-vertical>Bottom</radio-button>
+                </div>
+
+                <span>Leading Space:</span>
+                <div style="grid-column: 2 / 5;">
+                    <numeric-input id="dr-leadingSpace" show-zero decimal-places="2" style="width: 50px; margin-right: 10px;"></numeric-input>
+                    <span>(inches)</span>
+                </div>
+
+                <span>Maximum Lines in Row:</span>
+                <div style="grid-column: 2 / 5;">
+                    <numeric-input id="dr-maxLinesRow" style="width: 50px;"></numeric-input>
+                    <check-box id="dr-alwaysUseMaxLines" style="height: fit-content;">Always Use Max Lines</check-box>
+                </div>
+
+                <span>Format Code:</span>
+                <drop-down id="dr-formatCode" style="grid-column: 2 / 5;"></drop-down>
+
+                <span>Numeric Digits:</span>
+                <div style="grid-column: 2 / 5;">
+                    <numeric-input id="dr-numericDigits" show-zero style="width: 50px; margin-right: 10px;"></numeric-input>
+                    <span>(digits after decimal)</span>
+                </div>
+
+                <span style="align-self: baseline;">Dispaly Totals:</span>
+                <div style="grid-column: 2 / 5;">
+                    <radio-button group="dr-displayTotals" value="Y" style="margin-bottom: 10px;" align-vertical>Yes</radio-button>
+                    <radio-button group="dr-displayTotals" value="N" align-vertical checked>No</radio-button>
+                </div>
+
+                <span>Display Total When:</span>
+                <drop-down id="dr-displayTotalsWhen" style="grid-column: 2 / 4;"></drop-down>
+                <span style="text-align: left;">changes</span>
+            </div>
+
+            <div style="text-align: right;">
+                <push-button id="edit-report-column-ok" style="margin-right: 10px;">OK</push-button>
+                <push-button id="edit-report-column-cancel">Cancel</push-button>
+            </div>
+        </popup-body>
+    </popup>
+
+    <popup id="selection-criteria-popup" width="370px" height="390px">
+        <popup-title>
+            <span><text-label id="selection-criteria-popup-label">Add</text-label> Report Column</span>
+        </popup-title>
+        <popup-body>
+            <div class="dr-grid" style="grid-template-columns: repeat(2, 50%);">
+                <div id="dr-criteriaAdvancedMode"
+                     style="grid-column: 1 / 4; grid-template-columns: repeat(3, max-content); text-align: left;"
+                     class="dr-grid">
+                    <span style="align-self: baseline;">Logic Operator:</span>
+                    <div>
+                        <radio-button group="dr-selectionCriteriaLogic" checked value="A"
+                                      style="margin-bottom: 10px;" align-vertical>And
+                        </radio-button>
+                        <radio-button group="dr-selectionCriteriaLogic" value="O" style="margin-bottom: 10px;"
+                                      align-vertical>Or
+                        </radio-button>
+                        <radio-button group="dr-selectionCriteriaLogic" value="N" align-vertical>None</radio-button>
+                    </div>
+                    <div>
+                        <div style="margin-bottom: 10px; text-align: right;">
+                            <span style="margin-right: 10px;">Left Parenthesis:</span>
+                            <numeric-input id="dr-selectionCriteriaLeftParen" show-zero
+                                           style="width: 50px;"></numeric-input>
+                        </div>
+                        <div>
+                            <span style="margin-right: 10px; text-align: right;">Right Parenthesis:</span>
+                            <numeric-input id="dr-selectionCriteriaRightParen" show-zero
+                                           style="width: 50px;"></numeric-input>
+                        </div>
+                    </div>
+
+                </div>
+
+                <div class="dr-grid" style="grid-template-columns: repeat(3, max-content);">
+                                       <span>Column:</span>
+                    <drop-down id="dr-selectionCriteriaColumn" style="width: 240px; grid-column: 2 / 4;"></drop-down>
+
+                    <span style="align-self: baseline;">Selection Operator:</span>
+
+                    <div>
+                        <radio-button id="operatorEQ" group="dr-selectionCriteriaOperator" disabled value="EQ"
+                                      style="margin-bottom: 10px;" align-vertical>Equal
+                        </radio-button>
+                        <radio-button id="operatorNE" group="dr-selectionCriteriaOperator" disabled value="NE"
+                                      style="margin-bottom: 10px;" align-vertical>Not Equal
+                        </radio-button>
+                        <radio-button id="operatorIN" group="dr-selectionCriteriaOperator" disabled value="IN"
+                                      style="margin-bottom: 10px;" align-vertical>In
+                        </radio-button>
+                        <radio-button id="operatorLK" group="dr-selectionCriteriaOperator" disabled value="LK"
+                                      align-vertical>Like
+                        </radio-button>
+                    </div>
+                    <div>
+                        <radio-button id="operatorLT" group="dr-selectionCriteriaOperator" disabled value="LT"
+                                      style="margin-bottom: 10px;" align-vertical>Less Than
+                        </radio-button>
+                        <radio-button id="operatorLE" group="dr-selectionCriteriaOperator" disabled value="LE"
+                                      style="margin-bottom: 10px;" align-vertical>Less Then or Equal To
+                        </radio-button>
+                        <radio-button id="operatorGT" group="dr-selectionCriteriaOperator" disabled value="GT"
+                                      style="margin-bottom: 10px;" align-vertical>Greater Than
+                        </radio-button>
+                        <radio-button id="operatorGE" group="dr-selectionCriteriaOperator" disabled value="GE"
+                                      align-vertical>Greater Than or Equal To
+                        </radio-button>
+                    </div>
+
+                    <span style="align-self: baseline;">Selection Type:</span>
+                    <div style="grid-column: 2 / 4;">
+                        <radio-button group="dr-selectionCriteriaType" checked value="V" style="margin-bottom: 10px;"
+                                      align-vertical>Specific Value
+                        </radio-button>
+                        <radio-button group="dr-selectionCriteriaType" value="R" style="margin-bottom: 10px;"
+                                      align-vertical>Specified Value at Run Time
+                        </radio-button>
+                        <radio-button group="dr-selectionCriteriaType" value="D" style="margin-bottom: 10px;"
+                                      align-vertical>Current Date
+                        </radio-button>
+                        <radio-button group="dr-selectionCriteriaType" value="C" align-vertical>Other Column
+                        </radio-button>
+                    </div>
+
+                    <div id="dr-selectionValueContainer"
+                         style="grid-column: 1 / 4; grid-template-columns: repeat(3, max-content); text-align: left;"
+                         class="dr-grid">
+                        <span style="align-self: baseline;">Value:</span>
+                        <native-date-input id="dr-selectionValueDate" style="width: 110px;"></native-date-input>
+
+                        <div>
+                            <radio-button group="dr-selectionValueRadioType" value="N" style="margin-bottom: 10px;"
+                                          align-vertical>New
+                            </radio-button>
+                            <radio-button group="dr-selectionValueRadioType" value="M" style="margin-bottom: 10px;"
+                                          align-vertical>Modify
+                            </radio-button>
+                            <radio-button group="dr-selectionValueRadioType" value="D" align-vertical>Delete
+                            </radio-button>
+                        </div>
+
+                        <div>
+                            <drop-down id="dr-selectionValueTextCriteria"></drop-down>
+                            <text-input id="dr-selectionValueText" style="margin-left: 10px;"></text-input>
+                        </div>
+
+                        <numeric-input id="dr-selectionValueNumeric" show-zero decimal-places="2"
+                                       style="width: 50px;"></numeric-input>
+
+                        <div>
+                            <radio-button group="dr-selectionValueRadioCobra" value="Y" style="margin-bottom: 10px;"
+                                          align-vertical>Yes
+                            </radio-button>
+                            <radio-button group="dr-selectionValueRadioCobra" value="N" align-vertical>No</radio-button>
+                        </div>
+
+                        <div>
+                            <radio-button group="dr-selectionValueRadioDepType" value="S" style="margin-bottom: 10px;"
+                                          align-vertical>Spouse
+                            </radio-button>
+                            <radio-button group="dr-selectionValueRadioDepType" value="C" align-vertical>Child
+                            </radio-button>
+                        </div>
+
+                        <div>
+                            <radio-button group="dr-selectionValueRadioGender" value="M" style="margin-bottom: 10px;"
+                                          align-vertical>Male
+                            </radio-button>
+                            <radio-button group="dr-selectionValueRadioGender" value="F" align-vertical>Female
+                            </radio-button>
+                        </div>
+                    </div>
+                </div>
+
+                <div id="selectionListItemsGrid" style="width: calc(100% - 10px); height: 100%;"></div>
+            </div>
+
+            <div style="text-align: right;">
+                <push-button id="add-report-column-ok" style="margin-right: 10px;">OK</push-button>
+                <push-button id="add-report-column-cancel">Cancel</push-button>
+            </div>
+        </popup-body>
+    </popup>
+
+    <popup id="edit-graphic-popup" width="335px" height="185px">
+        <popup-title>
+            <span><text-label id="graphic-popup-label">Add</text-label> Report Graphic</span>
+        </popup-title>
+        <popup-body>
+            <div class="dr-grid" style="grid-template-columns: repeat(2, max-content);">
+                <span>Description:</span>
+                <text-input id="dr-graphicDescription" style="width: 245px;" required></text-input>
+
+                <span>Form:</span>
+                <div>
+                    <text-input id="dr-file_name" maxlength="200" disabled style="width: 160px;"></text-input>
+                    <file-upload id="dr-file" required style="display: none;">File</file-upload>
+                    <text-label for="dr-file" id="dr-file_label" style="margin-left: 10px;">Browse</text-label>    
+                </div>
+
+                <span>X Position:</span>
+                <div>
+                    <numeric-input id="dr-graphicXPosition" show-zero decimal-places="2" style="width: 50px; margin-right: 10px;"></numeric-input>
+                    <span>inches (from Page Offset Left)</span>
+                </div>
+
+                <span>Y Position:</span>
+                <div>
+                    <numeric-input id="dr-graphicYPosition" show-zero decimal-places="2" style="width: 50px; margin-right: 10px;"></numeric-input>
+                    <span>inches (from Page Offset Top)</span>
+                </div>
+            </div>
+
+            <div style="text-align: right;">
+                <push-button id="edit-graphic-ok" style="margin-right: 10px;">OK</push-button>
+                <push-button id="edit-graphic-cancel">Cancel</push-button>
+            </div>
+        </popup-body>
+    </popup>
+</div>

@@ -1,0 +1,212 @@
+<div class="kiss">
+    <style>
+        .bdb-grid {
+            display: grid;
+            grid-template-columns: max-content auto;
+            grid-column-gap: 10px;
+            grid-row-gap: 10px;
+        }
+
+        .bdb-grid span {
+            color: #000;
+            align-self: center;
+            text-align: right;
+        }
+    </style>
+    <div style="margin-bottom: 10px; margin-top: 10px;">
+        <span>Bank Draft Batches</span>
+        <hr>
+    </div>
+
+    <div id="batchesGrid" style="height: 200px;"></div>
+
+    <div style="margin-top: 15px; position: relative;">
+        <text-label id="batches-label">Displaying 0 Bank Draft Batches</text-label>
+
+        <div style="right: 10px; bottom: -5px; position: absolute;">
+            <push-button id="add">Add</push-button>
+            <push-button id="edit" style="margin-left: 10px;" disabled>Edit</push-button>
+            <push-button id="delete" style="margin-left: 10px;" disabled>Delete</push-button>
+            <push-button id="history" style="margin-left: 10px;" disabled>History</push-button>
+            <push-button id="post" style="margin-left: 10px;" disabled>Post</push-button>
+            <push-button id="report" style="margin-left: 10px;" disabled>Report</push-button>
+        </div>
+    </div>
+
+    <div style="margin-bottom: 10px; margin-top: 20px;">
+        <span>Employee/Dependents in selected Bank Draft Batch:</span>
+        <hr>
+    </div>
+
+    <div style="margin-bottom: 10px;">
+        <push-button id="filter" style="margin-right: 10px;" disabled>Filter</push-button>
+        <text-label id="filter-label">(not filtered)</text-label>
+    </div>
+
+    <div id="employeeGrid" style="height: calc(100% - 395px);"></div>
+
+    <div style="margin-top: 20px; position: relative;">
+        <text-label id="employees-label">Displaying 0 Employee/Dependents</text-label>
+
+        <div style="right: 10px; bottom: -5px; position: absolute;">
+            <push-button id="empAdd">Add</push-button>
+            <push-button id="empRemove" style="margin-left: 10px;" disabled>Remove</push-button>
+        </div>
+    </div>
+
+    <popup id="batch-popup" width="310px" height="65px">
+        <popup-title>
+            <span><text-label id="batches-action-label">Add</text-label> Bank Draft Batch</span>
+        </popup-title>
+        <popup-body style="padding: 10px;">            
+            <div class="bdb-grid" style="grid-template-columns: repeat(2, max-content);">
+                <span>Description:</span>
+                <text-input id="bdb-description" style="width: 210px;" maxlength="100" required></text-input>
+            </div>
+     
+            <div style="text-align: right; margin-top: 10px;">
+                <check-box id="bdb-applyToAll" style="display: none;">Apply to All Companies</check-box>
+
+                <push-button id="batchOk" style="margin-left: 20px;">OK</push-button>
+                <push-button id="batchCancel" style="margin-left: 10px;">Cancel</push-button>
+            </div>
+        </popup-body>
+    </popup>
+
+    <popup id="history-popup" width="575px" height="650px">
+        <popup-title>
+            <span>View Bank Draft Batch History</span>
+        </popup-title>
+        <popup-body style="padding: 10px;">            
+            <div class="bdb-grid" style="grid-template-columns: repeat(2, max-content);">
+                <span>Description:</span>
+                <text-input id="bdb-historyDescription" readonly></text-input>
+
+                <span>History:</span>
+                <div id="batchHistoryGrid" style="width: 490px; height: 570px;"></div>
+
+                <span></span>
+                <div style="margin-top: 10px;">
+                    <text-label id="batchHistory-label">Displaying 0 Posts</text-label>
+                </div>
+            </div>
+     
+            <div style="text-align: right; position: absolute; right: 10px; bottom: 15px;">
+                <push-button id="batchHistoryCancel" style="margin-left: 10px;">Close</push-button>
+            </div>
+        </popup-body>
+    </popup>
+
+    <popup id="post-popup" width="450px" height="135px">
+        <popup-title>
+            <span>Post Batch</span>
+        </popup-title>
+        <popup-body style="padding: 10px;">            
+            <div class="bdb-grid" style="grid-template-columns: repeat(4, max-content);">
+                <span>Description:</span>
+                <text-input id="bdb-postDescription" style="grid-column: 2 / 5;" disabled></text-input>
+
+                <span>Amount:</span>
+                <text-input id="bdb-postAmount" style="width: 110px;" disabled show-zero dollar-sign decimal-places="2"></text-input>
+
+                <span>Date:</span>
+                <native-date-input id="bdb-postDate" style="width: 110px;" required></native-date-input>
+
+                <span>Poeple:</span>
+                <text-input id="bdb-postPeople" style="width: 110px;" disabled show-zero></text-input>
+
+                <span>Reference Number:</span>
+                <text-input id="bdb-postRefNumber" style="width: 110px;" maxlength="40"></text-input>
+            </div>
+     
+            <div style="text-align: right; margin-top: 10px;">
+                <push-button id="postOk" style="margin-left: 20px;">OK</push-button>
+                <push-button id="postCancel" style="margin-left: 10px;">Cancel</push-button>
+            </div>
+        </popup-body>
+    </popup>
+
+    <popup id="filter-popup" width="560px" height="130px">
+        <popup-title>
+            <span>Filter</span>
+        </popup-title>
+        <popup-body style="padding: 10px;">            
+            <div class="bdb-grid" style="grid-template-columns: repeat(4, max-content);">
+                <span>Last Name:</span>
+                <drop-down id="bdb-filter-lname-criteria" style="width: 95px;"></drop-down>
+                <text-input id="bdb-filter-lname-search" style="width: 140px"></text-input>
+
+                <radio-button group="bdb-filter-search-type" value="1">Search Employees</radio-button>
+
+                <span>First Name:</span>
+                <drop-down id="bdb-filter-fname-criteria" style="width: 95px; grid-column: 2 / 3;"></drop-down>
+                <text-input id="bdb-filter-fname-search" style="width: 140px; grid-column: 3 / 4;"></text-input>
+
+                <radio-button group="bdb-filter-search-type" value="2">Search Non-Employee Dependents</radio-button>
+                
+                <span></span>
+                <span></span>
+                <span></span>
+
+                <radio-button group="bdb-filter-search-type" value="0" checked>Search Both</radio-button>
+            </div>
+     
+            <div style="text-align: right; margin-top: 15px;">
+                <push-button id="filterReset" style="float: left;">Reset</push-button>
+
+                <push-button id="filterOk" style="margin-left: 20px;">OK</push-button>
+                <push-button id="filterCancel" style="margin-left: 10px;">Cancel</push-button>
+            </div>
+        </popup-body>
+    </popup>
+
+    <popup id="addEmployee-popup" width="780px" height="525px">
+        <popup-title>
+            <span>Search for Employee/Dependent</span>
+        </popup-title>
+        <popup-body style="padding: 10px;">            
+            <div style="margin-bottom: 10px;">
+                <span>Search Criteria:</span>
+                <hr>
+            </div>
+            <div class="bdb-grid" style="grid-template-columns: repeat(4, max-content);">
+                <span>Last Name:</span>
+                <drop-down id="bdb-addEmployee-lname-criteria" style="width: 95px;"></drop-down>
+                <text-input id="bdb-addEmployee-lname-search" style="width: 140px"></text-input>
+
+                <radio-button group="bdb-addEmployee-search-type" value="1">Search Employees</radio-button>
+
+                <span>First Name:</span>
+                <drop-down id="bdb-addEmployee-fname-criteria" style="width: 95px; grid-column: 2 / 3;"></drop-down>
+                <text-input id="bdb-addEmployee-fname-search" style="width: 140px; grid-column: 3 / 4;"></text-input>
+
+                <radio-button group="bdb-addEmployee-search-type" value="2">Search Non-Employee Dependents</radio-button>
+                
+                <span></span>
+                <span></span>
+                <span></span>
+
+                <radio-button group="bdb-addEmployee-search-type" value="0" checked>Search Both</radio-button>
+            </div>
+
+            <div style="margin-top: 10px; text-align: right;">
+                <push-button id="addEmployeeReset" style="margin-left: 20px;">Reset</push-button>
+                <push-button id="addEmployeeSearch" style="margin-left: 10px;">Search</push-button>
+            </div>
+
+            <div style="margin-bottom: 10px; margin-top: 10px;">
+                <span>Search Results:</span>
+                <hr>
+            </div>
+
+            <div id="employeeAddGrid" style="height: 300px;"></div>
+     
+            <div style="text-align: right; margin-top: 10px;">
+                <text-label id="employeeAdd-label">Displaying 0 Employee/Dependents</text-label>
+
+                <push-button id="addEmployeeOk" style="margin-left: 20px;" disabled>OK</push-button>
+                <push-button id="addEmployeeCancel" style="margin-left: 10px;">Cancel</push-button>
+            </div>
+        </popup-body>
+    </popup>
+</div>

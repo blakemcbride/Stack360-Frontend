@@ -1,0 +1,47 @@
+<!--
+     Copyright 2020 STACK360 LLC
+     All rights reserved.
+
+-->
+
+<div class="kiss">
+
+    <div style="margin-top: 10px;">
+        <span>Employee Status History:</span>
+        <text-label id="worker-name" style="float: right;"></text-label>
+    </div>
+    <hr style="margin-left: 0;">
+
+    <div id="status-grid" style="width: 100%; height: calc(100% - 90px);"></div>
+
+    <text-label id="status" style="position: absolute; bottom: 25px; left: 20px;"></text-label>
+
+    <div style="position: absolute; bottom: 15px; right: 10px;">
+        <span style="margin-left: 10px;">Seniority:</span>
+        <text-input id="seniority" style="margin-left: 10px; width: 50px;" disabled></text-input>
+        <push-button id="add" style="margin-left: 10px;">Add</push-button>
+        <push-button id="edit" style="margin-left: 10px;" disabled>Edit</push-button>
+        <push-button id="delete" style="margin-left: 10px;" disabled>Delete</push-button>
+        <push-button id="report" style="margin-left: 10px;">Report</push-button>
+    </div>
+
+    <popup id="status-popup" height="210px" width="350px">
+        <popup-title><span id="status-popup-title"></span></popup-title>
+        <popup-body>
+            <div class="vert-input">
+                <label>Status</label>
+                <drop-down id="status-popup-status" style="width: 150px;" required></drop-down>
+
+                <label>Start Date</label>
+                <native-date-input id="status-popup-start-date" style="width: 110px;" required></native-date-input>
+
+                <label>Notes</label>
+                <textbox-input id="status-popup-notes" style="width: 240px; height: 70px;"></textbox-input>
+            </div>
+            <div style="right: 17px; bottom: 10px; position: absolute;">
+                <push-button id="status-popup-ok">Ok</push-button>
+                <push-button id="status-popup-cancel" style="margin-left: 10px;">Cancel</push-button>
+            </div>
+        </popup-body>
+    </popup>
+</div>

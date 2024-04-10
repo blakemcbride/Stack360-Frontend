@@ -1,0 +1,327 @@
+<!--
+     Copyright 2021 STACK360 LLC
+     All rights reserved.
+
+-->
+
+<div class="kiss">
+
+    <style>
+        div.vert-input2 {
+            display:grid;
+            grid-template-columns: max-content max-content;
+            grid-column-gap:5px;
+            grid-row-gap: 10px;
+            margin-top: 10px;
+        }
+
+        div.vert-input2 span {
+            text-align:right;
+            margin-top: 6px;
+        }
+    </style>
+
+    <div style="margin-top: 10px;">Project Route Selection:</div>
+    <hr>
+    <div class="vert-input2">
+        <span style="margin-left: 95px;">Project Route:</span>
+        <div>
+            <drop-down id="routes" style="width: 300px;"></drop-down>
+            <push-button id="routes-add">Add</push-button>
+            <push-button id="routes-edit" disabled>Edit</push-button>
+            <push-button id="routes-delete" disabled>Delete</push-button>
+            <push-button id="routes-report" disabled>Report</push-button>
+        </div>
+    </div>
+
+    <div style="margin-top: 10px;">Project Route Stop:</div>
+    <hr>
+    <div class="vert-input2">
+        <span>Company (Organizational Group):</span>
+        <drop-down id="org-group" style="width: 540px;" default-option="(select)" disabled></drop-down>
+        <span>Decision Point (Phase):</span>
+        <div>
+            <drop-down id="decision-points" style="width: 370px;" default-option="(select)" disabled></drop-down>
+            <push-button id="decision-point-add" disabled>Add</push-button>
+            <push-button id="decision-point-edit" disabled>Edit</push-button>
+            <push-button id="decision-point-delete" disabled>Delete</push-button>
+        </div>
+    </div>
+
+    <div style="margin-top: 10px;">Next Project Route Stops:</div>
+    <hr>
+
+    <div id="grid" style="margin-top: 10px; width: 100%; height: calc(100% - 250px);"></div>
+
+    <text-label id="status" style="position: absolute; bottom: 25px; left: 20px;">Displaying 0 Next Route Stops</text-label>
+
+    <div style="position: absolute; bottom: 15px; right: 10px;">
+        <push-button id="add" style="margin-left: 10px;" disabled>Add</push-button>
+        <push-button id="edit" style="margin-left: 10px;" disabled>Edit</push-button>
+        <push-button id="delete" style="margin-left: 10px;" disabled>Delete</push-button>
+        <push-button id="next-stop" style="margin-left: 10px;" disabled>Open Next Route Stop</push-button>
+    </div>
+
+    <popup id="project-route-popup" height="350px" width="520px">
+        <popup-title>
+            <text-label id="prp-title">Add Project Route</text-label>
+        </popup-title>
+        <popup-body>
+            <div id="prpTabContainer" class="tab-container">
+                <ul class="tab-header">
+                    <li id="prpBasicsTabButton" class="active">Route Basics</li>
+                    <li id="prpTriggersTabButton">Route Triggers</li>
+                    <li id="prpDefaultsTabButton">Project Defaults</li>
+                </ul>
+
+                <div id="prpBasicsTabContent" class="tab-content" style="height: 270px;">
+                    <div class="vert-input2">
+                        <span>Route:</span>
+                        <text-input id="prp-route" required maxlength="30"></text-input>
+                        <span>Description:</span>
+                        <textbox-input id="prp-route-desc" maxlength="80" style="width: 400px; height: 60px;"></textbox-input>
+                        <span></span>
+                        <div>
+                            <check-box id="prp-apply-to-all" style="display: none;">Applies to All Companies</check-box>
+                            <span style="margin-left: 50px;">Last Active Date:</span>
+                            <native-date-input id="prp-lactive-date" style="width: 110px;"></native-date-input>
+                        </div>                        
+                    </div>
+                </div>
+
+                <div id="prpTriggersTabContent" class="tab-content" style="height: 270px; display: none;" hidden>
+                    <text-label>Projects created with these Category/Type combinations will trigger this Project Route.</text-label>
+
+                    <div id="prp-triggers-grid" style="margin-top: 10px; height: 200px; width: 100%;"></div>
+
+                    <div style="text-align: right; margin-top: 10px; float: right;">
+                        <push-button id="prp-triggers-add">Add</push-button>
+                        <push-button id="prp-triggers-edit" disabled style="margin-left: 10px;">Edit</push-button>
+                        <push-button id="prp-triggers-delete" disabled style="margin-left: 10px; margin-right: 15px;">Delete</push-button>
+                    </div>
+                </div>
+
+                <div id="prpDefaultsTabContent" class="tab-content" style="height: 270px; display: none;" hidden>
+                    <text-label>Projects assigned to this route will receive these defaults.</text-label>
+
+                    <div style="margin-top: 30px;">Initial Route Stop:</div>
+                    <hr>
+                    <div class="vert-input2">
+                        <span>Company:</span>
+                        <smart-chooser id="prp-company" style="width: 330px;" default-option="(choose)" disabled></smart-chooser>
+                        <span>Organizational Group:</span>
+                        <smart-chooser id="prp-org-group" style="width: 330px;" default-option="(choose)" disabled></smart-chooser>
+                        <span>Decision Point (Phase):</span>
+                        <smart-chooser id="prp-decision-point" style="width: 330px;" default-option="(choose)" disabled></smart-chooser>                        
+                    </div>
+
+                    <div style="margin-top: 30px;">Initial Route Status:</div>
+                    <hr>
+                    <div class="vert-input2">
+                        <span style="margin-left: 50px;">Status Code:</span>
+                        <smart-chooser id="prp-status" style="width: 330px;" default-option="(choose)" disabled></smart-chooser>                 
+                    </div>
+                </div>
+            </div>
+
+            <div style="right: 17px; bottom: 10px; position: absolute;">
+                <push-button id="prp-ok">Ok</push-button>
+                <push-button id="prp-cancel" style="margin-left: 10px;">Cancel</push-button>
+            </div>
+        </popup-body>
+    </popup>
+
+    <popup id="route-assignment-popup" height="120px" width="360px">
+        <popup-title>
+            <text-label id="rap-title">Add Project Route</text-label>
+        </popup-title>
+        <popup-body>
+            <div class="vert-input2">
+                <span>Project Category Code:</span>
+                <smart-chooser id="rap-project-category" style="width: 200px;" default-option="(choose)" required></smart-chooser>
+                <span>Project Type Code:</span>
+                <smart-chooser id="rap-project-type" style="width: 200px;" default-option="(choose)" required></smart-chooser>
+            </div>
+
+            <div style="right: 17px; bottom: 10px; position: absolute;">
+                <push-button id="rap-ok">Ok</push-button>
+                <push-button id="rap-cancel" style="margin-left: 10px;">Cancel</push-button>
+            </div>
+        </popup-body>
+    </popup>
+
+    <popup id="route-stop-popup" height="420px" width="720px">
+        <popup-title>
+            <text-label id="rsp-title">Add Decision Point</text-label>
+        </popup-title>
+        <popup-body>
+
+            <div style="display: flex; margin-bottom: 5px;">
+                <div class="vert-input2" style="margin-left: 10px;">
+                    <span>Company:</span>
+                    <smart-chooser id="rsp-company" required style="width: 240px;"></smart-chooser>
+                    <span>Group:</span>
+                    <smart-chooser id="rsp-group" default-option="(choose)" required style="width: 240px;"></smart-chooser>
+                </div>
+                <div class="vert-input2" style="margin-left: 10px;">
+                    <span>Decision Point:</span>
+                    <text-input id="rsp-name" required style="width: 260px;"></text-input>
+                    <span>Project Phase:</span>
+                    <smart-chooser id="rsp-project-phase" required style="width: 240px;" default-option="(choose)"></smart-chooser>
+                </div>
+            </div>
+
+            <check-box id="rsp-auto-assign">When a Project reaches this route stop, automatically assign the Company/Group supervisor(s)</check-box>
+
+            <div id="rspTabContainer" class="tab-container" style="margin-top: 5px;">
+                <ul class="tab-header">
+                    <li id="rspStatusTabButton" class="active">Statuses</li>
+                    <li id="rspCheckListTabButton">Check List</li>
+                </ul>
+
+                <div id="rspStatusTabContent" class="tab-content" style="height: 240px;">
+                    <div style="display: flex; justify-content: space-between;">
+                        <div style="width: 49%;">
+                            <text-label>Disassociated Statuses:</text-label>
+                            <hr>
+
+                            <div class="flex-row" style="margin-top: 8px; margin-bottom: 5px;">
+                                <label style="width: 65px; margin-right: 10px;">Code:</label>
+                                <drop-down id="rsp-status-code-criteria" style="width: 95px; margin-right: 10px;"></drop-down>
+                                <text-input id="rsp-status-code-search" style="width: 100px; margin-right: 10px;"></text-input>
+                                <push-button id="rsp-status-search">Search</push-button>
+                            </div>
+
+                            <div id="rsp-disassociated-grid" style="height: 150px; width: 100%;"></div>
+
+                            <div style="text-align: right; margin-top: 5px; display: flex; justify-content: space-between; align-items: center;">
+                                <div style="margin-left: 10px;">
+                                    <text-label id="rsp-disassociated-grid-status">Displaying 0 Project Statuses</text-label>
+                                </div>
+                    
+                                <div>
+                                    <push-button id="rsp-status-associate" disabled>Associate</push-button>
+                                </div>
+                            </div>
+                        </div>
+                        <div style="width: 49%;">
+                            <text-label>Associated Statuses:</text-label>
+                            <hr>
+
+                            <div id="rsp-associated-grid" style="margin-top: 40px; height: 150px; width: 100%;"></div>
+
+                            <div style="text-align: right; margin-top: 5px; display: flex; justify-content: space-between; align-items: center;">
+                                <div style="margin-left: 10px;">
+                                    <text-label id="rsp-associated-grid-status">Displaying 0 Project Statuses</text-label>
+                                </div>
+                    
+                                <div>
+                                    <push-button id="rsp-status-disassociate" disabled>Disassociate</push-button>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div id="rspCheckListTabContent" class="tab-content" style="height: 240px; display: none;" hidden>
+                    <div id="rsp-checklist-grid" style="margin-top: 10px; height: 190px; width: 100%;"></div>
+
+                    <div style="text-align: right; margin-top: 5px; display: flex; justify-content: space-between; align-items: center;">
+                        <div style="margin-left: 10px;">
+                            <text-label id="rsp-checklist-grid-status">Displaying 0 Check List Items</text-label>
+                        </div>
+            
+                        <div>
+                            <push-button id="rsp-checklist-add">Add</push-button>
+                            <push-button id="rsp-checklist-edit" style="margin-left: 5px;" disabled>Edit</push-button>
+                            <push-button id="rsp-checklist-moveup" style="margin-left: 5px;" disabled>Move Up</push-button>
+                            <push-button id="rsp-checklist-movedown" style="margin-left: 5px;" disabled>Move Down</push-button>
+                            <push-button id="rsp-checklist-delete" style="margin-left: 5px;" disabled>Delete</push-button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div style="right: 17px; bottom: 10px; position: absolute;">
+                <push-button id="rsp-ok">Ok</push-button>
+                <push-button id="rsp-cancel" style="margin-left: 10px;">Cancel</push-button>
+            </div>
+        </popup-body>
+    </popup>
+
+    <popup id="checklist-popup" height="350px" width="500px">
+        <popup-title>
+            <text-label id="clp-title">Add Check List Item</text-label>
+        </popup-title>
+        <popup-body>
+            <div class="vert-input2">
+                <span>Summary:</span>
+                <text-input id="clp-summary" maxlength="30" required></text-input>
+                <span>Detail:</span>
+                <textbox-input id="clp-detail" maxlength="80" style="width: 410px; height: 220px;"></textbox-input>
+                <span>Required:</span>
+                <div>
+                    <check-box id="clp-required" style="margin-top: 3px;"></check-box>
+                    <span>Active Date:</span>
+                    <native-date-input id="clp-active-date" style="width: 110px;"></native-date-input>
+                    <span>Last Active Date:</span>
+                    <native-date-input id="clp-lactive-date" style="width: 110px;"></native-date-input>
+                </div>
+            </div>
+
+            <div style="right: 17px; bottom: 10px; position: absolute;">
+                <push-button id="clp-ok">Ok</push-button>
+                <push-button id="clp-cancel" style="margin-left: 10px;">Cancel</push-button>
+            </div>
+        </popup-body>
+    </popup>
+
+    <popup id="routepath-popup" height="410px" width="420px" style="padding: 5px;">
+        <popup-title>
+            <text-label id="rpp-title">Add Next Route Stop</text-label>
+        </popup-title>
+        <popup-body>
+
+            <text-label>For Projects at Route Stop:</text-label>
+            <hr>
+            <div class="vert-input2" style="margin-bottom: 5px;">
+                <span>Company:</span>
+                <text-input id="rpp-from-company" style="width: 260px;" readonly></text-input>
+                <span>Organizational Group:</span>
+                <text-input id="rpp-from-org-group" readonly></text-input>
+                <span>Decision Point(Phase):</span>
+                <text-input id="rpp-from-decision-point" readonly></text-input>
+            </div>
+
+            <text-label>When Status Becomes:</text-label>
+            <hr>
+            <div class="vert-input2" style="margin-bottom: 5px;">
+                <span style="margin-left: 50px;">Status Code:</span>
+                <smart-chooser id="rpp-from-status-code" style="width: 240px;" disabled default-option="(choose)"></smart-chooser>
+            </div>
+
+            <text-label>Send Project to Route Stop:</text-label>
+            <hr>
+            <div class="vert-input2" style="margin-bottom: 5px;">
+                <span>Company:</span>
+                <smart-chooser id="rpp-to-company" style="width: 240px;" required default-option="(choose)"></smart-chooser>
+                <span>Organizational Group:</span>
+                <smart-chooser id="rpp-to-org-group" style="width: 240px;" default-option="(choose)"></smart-chooser>
+                <span>Decision Point(Phase):</span>
+                <smart-chooser id="rpp-to-decision-point" style="width: 240px;" required default-option="(choose)"></smart-chooser>
+            </div>
+
+            <text-label>Change Status To:</text-label>
+            <hr>
+            <div class="vert-input2">
+                <span style="margin-left: 50px;">Status Code:</span>
+                <smart-chooser id="rpp-to-status-code" style="width: 240px;" required default-option="(choose)"></smart-chooser>
+            </div>
+
+            <div style="right: 17px; bottom: 10px; position: absolute;">
+                <push-button id="rpp-ok">Ok</push-button>
+                <push-button id="rpp-cancel" style="margin-left: 10px;">Cancel</push-button>
+            </div>
+        </popup-body>
+    </popup>
+</div>

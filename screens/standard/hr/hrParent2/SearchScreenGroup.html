@@ -1,0 +1,47 @@
+<div id="screenGroupSelection" class="modal" hidden>
+    <div id="screenGroupSelectionContent" class="modal-content" style="width: 400px; height: 450px;">
+        <div id="screenGroupSelectionTitle" class="modal-title">Search for Screen Group</div>
+
+        <div class="modal-body">
+            <div>Search Criteria:</div>
+            <hr>
+
+            <div class="flex-row" style="margin-top: 8px;">
+                <label style="width: 40px; margin-right: 10px;">Name:</label>
+                <drop-down id="screenGroupNameCriteria" style="width: 125px; margin-right: 10px;"></drop-down>
+                <text-input id="screenGroupNameSearch" style="width: 185px"></text-input>
+            </div>
+
+            <div class="flex-row" style="margin-top: 8px;">
+                <label style="width: 40px; margin-right: 10px;">ID:</label>
+                <text-input id="screenGroupIdSearch" style="width: 114px"></text-input>
+            </div>
+
+            <div class="flex-row" style="margin-top: 8px;">
+                <label style="width: 40px; margin-right: 10px;">Include:</label>
+                <radio-button id="allScreenGroups" group="screenGroupIncludeGrp" value="false" style="margin-right: 10px;">All Screen Groups</radio-button>
+                <radio-button id="dissociatedScreenGroups" group="screenGroupIncludeGrp" value="true" checked>Only Dissociated Screen Groups</radio-button>
+            </div>
+
+            <div class="btn-bar" style="margin-top: 8px; width: 100%; justify-content: flex-end;">
+                <push-button id="searchScreenGroupReset">Reset</push-button>
+                <push-button id="searchScreenGroupSearch" style="margin-right: unset;">Search</push-button>
+            </div>
+
+            <div style="margin-top: 10px;">
+                <div>Search Results:</div>
+                <hr>
+            </div>
+
+            <div id="searchScreenGroupsResultsGrid" style="width: 100%; background: bisque; height: 200px;"></div>
+        </div>
+
+        <div class="modal-footer" style="display: flex; align-items: center; justify-content: space-between;">
+            <div id="scrGrpCount" style="margin-left: 10px;">Displaying 0 Screen Groups</div>
+            <div class="btn-bar-comp">
+                <push-button id="searchScreenGroupOK" class="btn-primary" disabled>OK</push-button>
+                <push-button id="searchScreenGroupCancel" class="btn-primary">Cancel</push-button>
+            </div>
+        </div>
+    </div>
+</div>

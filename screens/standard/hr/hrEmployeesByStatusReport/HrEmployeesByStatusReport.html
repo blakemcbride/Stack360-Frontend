@@ -1,0 +1,75 @@
+<div class="kiss">
+    <style>
+        #wrapper {
+            max-width: 460px;
+        }
+        #options-container {
+            display: grid;
+            grid-template-columns: repeat(2, max-content);
+            grid-row-gap: 10px;
+            grid-column-gap: 10px;
+            align-items: center;
+        }
+        #options-container > span {
+            text-align: right;
+        }
+        #options-container * {
+            margin-left: 0 !important;
+        } 
+    </style>
+    <div id="wrapper">
+        <div style="margin-bottom: 10px; margin-top: 10px;">
+            <span>Report Options:</span>
+            <hr>
+        </div>
+        <div id="options-container" style="margin-bottom: 10px;">
+            <span>Show Employees with Status:</span>
+            <drop-down id="ebsr-empl_status" style="width: 295px;" required></drop-down>
+
+            <span>As of:</span>
+            <native-date-input id="ebsr-date" style="width: 110px;"></native-date-input>
+
+            <span>Filter by Organizational Group:</span>
+            <div>
+                <text-input id="ebsr-org_group" style="width: 210px;" value="(all)" disabled></text-input>
+                <push-button id="choose">Choose</push-button>
+            </div>
+
+            <span></span>
+            <check-box id="ebsr-include_suborg_group">Include Sub-Organizational Groups</check-box>
+            
+            <span>Maximum Depth:</span>
+            <div>
+                <numeric-input id="ebsr-depth" style="width: 48px;" show-zero min="0" max="100" no-comma disabled></numeric-input>
+                <span>(0 if no maximum)</span>
+            </div>
+        </div>
+        <div style="margin-top: 10px; text-align: right;">
+            <push-button id="report">Report</push-button>
+        </div>
+    </div>
+
+    <popup id="choose-org-group-popup">
+        <popup-title>
+            <text-label>Choose Organizational Group</text-label>
+        </popup-title>
+        <popup-body style="padding: 10px 5px;">
+            <div id="cop-bread-crumb-2" style="margin-left: 5px; display: inline-block;"></div>
+
+            <div id="cop-grid" style="margin-top: 15px; width: 500px; height: 220px;"></div>
+
+            <div style="margin-top: 10px; width: 100%; display: flex; justify-content: space-between; align-items: center;">
+                <div>
+                    <push-button id="cop-go-up" disabled>Go Up</push-button>
+                    <push-button id="cop-open" style="margin-left: 10px;" disabled>Open</push-button>
+                </div>
+                <text-label id="cop-status" style="float: right;">Displaying 0 Organizational Groups</text-label>
+            </div>
+
+            <div style="position: absolute; text-align: right; margin-top: 10px; bottom: 10px; width: 100%;">
+                <push-button id="cop-ok" disabled>OK</push-button>
+                <push-button id="cop-cancel" style="margin-left: 10px; margin-right: 15px;">Cancel</push-button>
+            </div>
+        </popup-body>
+    </popup>
+</div>

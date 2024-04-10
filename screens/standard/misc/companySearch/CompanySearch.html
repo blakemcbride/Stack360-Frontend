@@ -1,0 +1,487 @@
+<!--
+    Copyright 2020 STACK360 LLC
+    All rights reserved.
+
+-->
+
+<div class="kiss">
+    <style>
+        .cs-grid {
+            display: grid;
+            grid-template-columns: repeat(6, max-content);
+            grid-column-gap: 10px;
+            grid-row-gap: 10px;
+            grid-auto-rows: max-content;
+        }
+        .cs-grid span {
+            color: #000;
+            align-self: center;
+            text-align: right;
+        }
+        .tab-height {
+            height: calc(100% - 40px);
+            position: relative;
+        }
+    </style>
+    <div style="margin-bottom: 10px; margin-top: 10px;">
+        <span>Company Search Criteria:</span>
+        <hr>
+    </div>
+
+    <div class="cs-grid">
+        <span>Name:</span>
+        <drop-down id="name-criteria" style="width: 95px; margin-right: 10px;"></drop-down>
+        <text-input id="name-search" style="width: 140px"></text-input>
+
+        <span>Primary Contact First Name:</span>
+        <drop-down id="pcfName-criteria" style="width: 95px; margin-right: 10px;"></drop-down>
+        <text-input id="pcfName-search" style="width: 140px"></text-input>  
+
+        <span>ID:</span>
+        <drop-down id="id-criteria" style="width: 95px; margin-right: 10px;"></drop-down>
+        <text-input id="id-search" style="width: 140px"></text-input>  
+
+        <span>Primary Contact Last Name:</span>
+        <drop-down id="pclName-criteria" style="width: 95px; margin-right: 10px;"></drop-down>
+        <text-input id="pclName-search" style="width: 140px"></text-input>  
+
+        <div style="grid-column: 1 / 7; text-align: right;">
+            <push-button id="reset">Reset</push-button>
+            <push-button id="search" style="margin-left: 10px;">Search</push-button>
+        </div>        
+    </div>
+
+    <div style="margin-top: 10px;">
+        <div>Company Search Results:</div>
+        <hr>
+    </div>
+
+    <div id="companiesGrid" style="height: calc(100% - 215px);"></div>
+
+    <div style="margin-top: 15px;">
+        <text-label id="companies-label">Displaying 0 Companies</text-label>
+
+        <div style="right: 10px; bottom: 10px; position: absolute;">
+            <push-button id="add">Add</push-button>
+            <push-button disabled id="edit" style="margin-left: 10px;">Edit</push-button>
+            <push-button disabled id="delete" style="margin-left: 10px;">Delete</push-button>
+        </div>
+    </div>
+
+    <popup id="company-popup" width="660px" height="370px">
+        <popup-title>
+            <span><text-label id="company-popup-label">Add</text-label> Company</span>
+        </popup-title>
+        <popup-body style="padding: 10px;">
+            <span>Company Name:</span>              
+            <text-input id="cs-companyName" style="width: 240px; margin-left: 10px; margin-right: 10px;" required></text-input>
+
+            <span>Membership Id:</span>
+            <text-input id="cs-membershipId" style="width: 160px; margin-left: 10px;"></text-input>
+
+            <div id="cs-tab-container" style="height: calc(100% - 85px); margin-top: 10px; grid-column: 1 / 5;">
+                <ul class="tab-header">
+                    <li id="cs-address-TabButton" class="active">Address</li>
+                    <li id="cs-accounting-TabButton">Accounting</li>
+                    <li id="cs-tax-TabButton">Tax & EEO-1 Reporting</li>
+                    <li id="cs-misc-TabButton">Misc</li>
+                </ul>
+                
+                <div id="cs-address-TabContent" class="tab-content tab-height cs-grid" style="grid-template-columns: repeat(4, max-content);">    
+                    <span>Address Line 1:</span>
+                    <text-input id="csp-address" style="width: 240px;"></text-input>
+
+                    <span>Phone:</span>
+                    <text-input id="csp-phone" style="width: 120px;"></text-input>
+
+                    <span>Address Line 2:</span>
+                    <text-input id="csp-address2" style="width: 240px;"></text-input>
+
+                    <span>Fax:</span>
+                    <text-input id="csp-fax" style="width: 120px;"></text-input>
+
+                    <span>Country:</span>
+                    <drop-down id="csp-country" style="width: 240px;">
+                        <option value="">(select)</option>
+                        <option value="Afghanistan">Afghanistan</option>
+                        <option value="Albania">Albania</option>
+                        <option value="Algeria">Algeria</option>
+                        <option value="Andorra">Andorra</option>
+                        <option value="Angola">Angola</option>
+                        <option value="Antigua and Barbuda">Antigua and Barbuda</option>
+                        <option value="Argentina">Argentina</option>
+                        <option value="Armenia">Armenia</option>
+                        <option value="Australia">Australia</option>
+                        <option value="Austria">Austria</option>
+                        <option value="Azerbaijan">Azerbaijan</option>
+                        <option value="The Bahamas">The Bahamas</option>
+                        <option value="Bahrain">Bahrain</option>
+                        <option value="Bangladesh">Bangladesh</option>
+                        <option value="Barbados">Barbados</option>
+                        <option value="Belarus">Belarus</option>
+                        <option value="Belgium">Belgium</option>
+                        <option value="Belize">Belize</option>
+                        <option value="Benin">Benin</option>
+                        <option value="Bhutan">Bhutan</option>
+                        <option value="Bolivia">Bolivia</option>
+                        <option value="Bosnia and Herzegovina">Bosnia and Herzegovina</option>
+                        <option value="Botswana">Botswana</option>
+                        <option value="Brazil">Brazil</option>
+                        <option value="Brunei">Brunei</option>
+                        <option value="Bulgaria">Bulgaria</option>
+                        <option value="Burkina Faso">Burkina Faso</option>
+                        <option value="Burundi">Burundi</option>
+                        <option value="Cabo Verde">Cabo Verde</option>
+                        <option value="Cambodia">Cambodia</option>
+                        <option value="Cameroon">Cameroon</option>
+                        <option value="Canada">Canada</option>
+                        <option value="Central African Republic">Central African Republic</option>
+                        <option value="Chad">Chad</option>
+                        <option value="Chile">Chile</option>
+                        <option value="China">China</option>
+                        <option value="Colombia">Colombia</option>
+                        <option value="Comoros">Comoros</option>
+                        <option value="Congo, Democratic Republic of the">Congo, Democratic Republic of the</option>
+                        <option value="Congo, Republic of the">Congo, Republic of the</option>
+                        <option value="Costa Rica">Costa Rica</option>
+                        <option value="Côte d’Ivoire">Côte d’Ivoire</option>
+                        <option value="Croatia">Croatia</option>
+                        <option value="Cuba">Cuba</option>
+                        <option value="Cyprus">Cyprus</option>
+                        <option value="Czech Republic">Czech Republic</option>
+                        <option value="Denmark">Denmark</option>
+                        <option value="Djibouti">Djibouti</option>
+                        <option value="Dominica">Dominica</option>
+                        <option value="Dominican Republic">Dominican Republic</option>
+                        <option value="East Timor (Timor-Leste)">East Timor (Timor-Leste)</option>
+                        <option value="Ecuador">Ecuador</option>
+                        <option value="Egypt">Egypt</option>
+                        <option value="El Salvador">El Salvador</option>
+                        <option value="Equatorial Guinea">Equatorial Guinea</option>
+                        <option value="Eritrea">Eritrea</option>
+                        <option value="Estonia">Estonia</option>
+                        <option value="Eswatini">Eswatini</option>
+                        <option value="Ethiopia">Ethiopia</option>
+                        <option value="Fiji">Fiji</option>
+                        <option value="Finland">Finland</option>
+                        <option value="France">France</option>
+                        <option value="Gabon">Gabon</option>
+                        <option value="The Gambia">The Gambia</option>
+                        <option value="Georgia">Georgia</option>
+                        <option value="Germany">Germany</option>
+                        <option value="Ghana">Ghana</option>
+                        <option value="Greece">Greece</option>
+                        <option value="Grenada">Grenada</option>
+                        <option value="Guatemala">Guatemala</option>
+                        <option value="Guinea">Guinea</option>
+                        <option value="Guinea-Bissau">Guinea-Bissau</option>
+                        <option value="Guyana">Guyana</option>
+                        <option value="Haiti">Haiti</option>
+                        <option value="Honduras">Honduras</option>
+                        <option value="Hungary">Hungary</option>
+                        <option value="Iceland">Iceland</option>
+                        <option value="India">India</option>
+                        <option value="Indonesia">Indonesia</option>
+                        <option value="Iran">Iran</option>
+                        <option value="Iraq">Iraq</option>
+                        <option value="Ireland">Ireland</option>
+                        <option value="Israel">Israel</option>
+                        <option value="Italy">Italy</option>
+                        <option value="Jamaica">Jamaica</option>
+                        <option value="Japan">Japan</option>
+                        <option value="Jordan">Jordan</option>
+                        <option value="Kazakhstan">Kazakhstan</option>
+                        <option value="Kenya">Kenya</option>
+                        <option value="Kiribati">Kiribati</option>
+                        <option value="Korea, North">Korea, North</option>
+                        <option value="Korea, South">Korea, South</option>
+                        <option value="Kosovo">Kosovo</option>
+                        <option value="Kuwait">Kuwait</option>
+                        <option value="Kyrgyzstan">Kyrgyzstan</option>
+                        <option value="Laos">Laos</option>
+                        <option value="Latvia">Latvia</option>
+                        <option value="Lebanon">Lebanon</option>
+                        <option value="Lesotho">Lesotho</option>
+                        <option value="Liberia">Liberia</option>
+                        <option value="Libya">Libya</option>
+                        <option value="Liechtenstein">Liechtenstein</option>
+                        <option value="Lithuania">Lithuania</option>
+                        <option value="Luxembourg">Luxembourg</option>
+                        <option value="Madagascar">Madagascar</option>
+                        <option value="Malawi">Malawi</option>
+                        <option value="Malaysia">Malaysia</option>
+                        <option value="Maldives">Maldives</option>
+                        <option value="Mali">Mali</option>
+                        <option value="Malta">Malta</option>
+                        <option value="Marshall Islands">Marshall Islands</option>
+                        <option value="Mauritania">Mauritania</option>
+                        <option value="Mauritius">Mauritius</option>
+                        <option value="Mexico">Mexico</option>
+                        <option value="Micronesia, Federated States of">Micronesia, Federated States of</option>
+                        <option value="Moldova">Moldova</option>
+                        <option value="Monaco">Monaco</option>
+                        <option value="Mongolia">Mongolia</option>
+                        <option value="Montenegro">Montenegro</option>
+                        <option value="Morocco">Morocco</option>
+                        <option value="Mozambique">Mozambique</option>
+                        <option value="Myanmar (Burma)">Myanmar (Burma)</option>
+                        <option value="Namibia">Namibia</option>
+                        <option value="Nauru">Nauru</option>
+                        <option value="Nepal">Nepal</option>
+                        <option value="Netherlands">Netherlands</option>
+                        <option value="New Zealand">New Zealand</option>
+                        <option value="Nicaragua">Nicaragua</option>
+                        <option value="Niger">Niger</option>
+                        <option value="Nigeria">Nigeria</option>
+                        <option value="North Macedonia">North Macedonia</option>
+                        <option value="Norway">Norway</option>
+                        <option value="Oman">Oman</option>
+                        <option value="Pakistan">Pakistan</option>
+                        <option value="Palau">Palau</option>
+                        <option value="Panama">Panama</option>
+                        <option value="Papua New Guinea">Papua New Guinea</option>
+                        <option value="Paraguay">Paraguay</option>
+                        <option value="Peru">Peru</option>
+                        <option value="Philippines">Philippines</option>
+                        <option value="Poland">Poland</option>
+                        <option value="Portugal">Portugal</option>
+                        <option value="Qatar">Qatar</option>
+                        <option value="Romania">Romania</option>
+                        <option value="Russia">Russia</option>
+                        <option value="Rwanda">Rwanda</option>
+                        <option value="Saint Kitts and Nevis">Saint Kitts and Nevis</option>
+                        <option value="Saint Lucia">Saint Lucia</option>
+                        <option value="Saint Vincent and the Grenadines">Saint Vincent and the Grenadines</option>
+                        <option value="Samoa">Samoa</option>
+                        <option value="San Marino">San Marino</option>
+                        <option value="Sao Tome and Principe">Sao Tome and Principe</option>
+                        <option value="Saudi Arabia">Saudi Arabia</option>
+                        <option value="Senegal">Senegal</option>
+                        <option value="Serbia">Serbia</option>
+                        <option value="Seychelles">Seychelles</option>
+                        <option value="Sierra Leone">Sierra Leone</option>
+                        <option value="Singapore">Singapore</option>
+                        <option value="Slovakia">Slovakia</option>
+                        <option value="Slovenia">Slovenia</option>
+                        <option value="Solomon Islands">Solomon Islands</option>
+                        <option value="Somalia">Somalia</option>
+                        <option value="South Africa">South Africa</option>
+                        <option value="Spain">Spain</option>
+                        <option value="Sri Lanka">Sri Lanka</option>
+                        <option value="Sudan">Sudan</option>
+                        <option value="Sudan, South">Sudan, South</option>
+                        <option value="Suriname">Suriname</option>
+                        <option value="Sweden">Sweden</option>
+                        <option value="Switzerland">Switzerland</option>
+                        <option value="Syria">Syria</option>
+                        <option value="Taiwan">Taiwan</option>
+                        <option value="Tajikistan">Tajikistan</option>
+                        <option value="Tanzania">Tanzania</option>
+                        <option value="Thailand">Thailand</option>
+                        <option value="Togo">Togo</option>
+                        <option value="Tonga">Tonga</option>
+                        <option value="Trinidad and Tobago">Trinidad and Tobago</option>
+                        <option value="Tunisia">Tunisia</option>
+                        <option value="Turkey">Turkey</option>
+                        <option value="Turkmenistan">Turkmenistan</option>
+                        <option value="Tuvalu">Tuvalu</option>
+                        <option value="Uganda">Uganda</option>
+                        <option value="Ukraine">Ukraine</option>
+                        <option value="United Arab Emirates">United Arab Emirates</option>
+                        <option value="United Kingdom">United Kingdom</option>
+                        <option value="US" selected>United States</option>
+                        <option value="Uruguay">Uruguay</option>
+                        <option value="Uzbekistan">Uzbekistan</option>
+                        <option value="Vanuatu">Vanuatu</option>
+                        <option value="Vatican City">Vatican City</option>
+                        <option value="Venezuela">Venezuela</option>
+                        <option value="Vietnam">Vietnam</option>
+                        <option value="Yemen">Yemen</option>
+                        <option value="Zambia">Zambia</option>
+                        <option value="Zimbabwe">Zimbabwe</option>
+                    </drop-down>
+
+                    <span></span>
+                    <span></span>
+
+                    <span>City:</span>
+                    <text-input id="csp-city" style="width: 240px;"></text-input> 
+
+                    <span></span>
+                    <span></span>
+
+                    <span>State / Province</span>
+                    <drop-down id="csp-state" style="width: 80px;">
+                        <option value="">(select)</option>
+                        <option value="AL">AL</option>
+                        <option value="AK">AK</option>
+                        <option value="AS">AS</option>
+                        <option value="AZ">AZ</option>
+                        <option value="AR">AR</option>
+                        <option value="CA">CA</option>
+                        <option value="CO">CO</option>
+                        <option value="CT">CT</option>
+                        <option value="DE">DE</option>
+                        <option value="DC">DC</option>
+                        <option value="FM">FM</option>
+                        <option value="FL">FL</option>
+                        <option value="GA">GA</option>
+                        <option value="GU">GU</option>
+                        <option value="HI">HI</option>
+                        <option value="ID">ID</option>
+                        <option value="IL">IL</option>
+                        <option value="IN">IN</option>
+                        <option value="IA">IA</option>
+                        <option value="KS">KS</option>
+                        <option value="KY">KY</option>
+                        <option value="LA">LA</option>
+                        <option value="ME">ME</option>
+                        <option value="MH">MH</option>
+                        <option value="MD">MD</option>
+                        <option value="MA">MA</option>
+                        <option value="MI">MI</option>
+                        <option value="MN">MN</option>
+                        <option value="MS">MS</option>
+                        <option value="MO">MO</option>
+                        <option value="MT">MT</option>
+                        <option value="NE">NE</option>
+                        <option value="NV">NV</option>
+                        <option value="NH">NH</option>
+                        <option value="NJ">NJ</option>
+                        <option value="NM">NM</option>
+                        <option value="NY">NY</option>
+                        <option value="NC">NC</option>
+                        <option value="ND">ND</option>
+                        <option value="MP">MP</option>
+                        <option value="OH">OH</option>
+                        <option value="OK">OK</option>
+                        <option value="OR">OR</option>
+                        <option value="PW">PW</option>
+                        <option value="PA">PA</option>
+                        <option value="PR">PR</option>
+                        <option value="RI">RI</option>
+                        <option value="SC">SC</option>
+                        <option value="SD">SD</option>
+                        <option value="TN">TN</option>
+                        <option value="TX">TX</option>
+                        <option value="UT">UT</option>
+                        <option value="VT">VT</option>
+                        <option value="VI">VI</option>
+                        <option value="VA">VA</option>
+                        <option value="WA">WA</option>
+                        <option value="WV">WV</option>
+                        <option value="WI">WI</option>
+                        <option value="WY">WY</option>
+                    </drop-down>
+
+                    <span></span>
+                    <span></span>
+
+                    <span>Zip / Postal Code:</span>
+                    <text-input id="csp-zip" style="width: 80px; text-align: right;"></text-input>  
+
+                    <span></span>
+                    <span></span>
+
+                    <span>County:</span>
+                    <text-input id="csp-county" style="width: 240px;"></text-input>  
+                </div>
+
+                <div id="cs-accounting-TabContent" class="tab-content tab-height cs-grid" hidden style="display: none; grid-template-columns: max-content auto;">
+                    <span>Accounting Type:</span>
+                    <div>
+                        <radio-button group="csp-accountingType" value="C" style="margin-right: 10px;">Cash</radio-button>
+                        <radio-button group="csp-accountingType" value="A" checked>Accrual</radio-button>
+                    </div>
+
+                    <span>A/R Account:</span>
+                    <smart-chooser id="csp-account1" style="width: 100%;"></smart-chooser>  
+
+                    <span>Employee Advance Account:</span>
+                    <smart-chooser id="csp-account2" style="width: 100%;"></smart-chooser>  
+
+                    <span>Cash Account:</span>
+                    <smart-chooser id="csp-account3" style="width: 100%;"></smart-chooser>  
+
+                    <span>Billing Rate:</span>
+                    <div>
+                        <numeric-input id="csp-billingRate" style="width: 100px; margin-right: 40px;" decimal-places="2" dollar-sign></numeric-input>
+
+                        <span>Default Billing Rate:</span>
+                        <text-input id="csp-defaultbillingRate" style="width: 100px; margin-left: 10px;" disabled></text-input>
+                    </div>
+                </div>
+
+                <div id="cs-tax-TabContent" class="tab-content tab-height cs-grid" hidden style="display: none; grid-template-columns: repeat(2, max-content);">
+                    <span>Federal Employer ID:</span>
+                    <text-input id="csp-federalEmployerId" style="width: 160px;"></text-input>
+
+                    <span>EEO-1 Company Number:</span>
+                    <text-input id="csp-eeo1CompanyNumber" style="width: 160px;"></text-input>
+
+                    <span>EEO-1 Unit Number:</span>
+                    <text-input id="csp-eeo1UnitNumber" style="width: 160px;"></text-input>
+
+                    <span>Dun & Bradstreet Number:</span>
+                    <text-input id="csp-dunBradstreetNumber" style="width: 160px;"></text-input>
+
+                    <span>NAICS Code:</span>
+                    <text-input id="csp-naicsCode" style="width: 160px;"></text-input>
+                </div>
+
+                <div id="cs-misc-TabContent" class="tab-content tab-height cs-grid" hidden style="display: none; grid-template-columns: auto;">
+                    <span style="text-align: left;">STACK360 URL (used for Inter-STACK360 Communication):</span>
+                    <text-input id="csp-arahantUrl"></text-input>
+
+                    <check-box id="csp-timeOffAutoAccrual" style="margin-top: 5px;">Time off auto accrual</check-box>
+                </div>
+            </div>
+            <div style="text-align: right; margin-top: 20px;">
+                <push-button id="cs-ok" style="margin-left: 20px;">OK</push-button>
+                <push-button id="cs-cancel" style="margin-left: 10px;">Cancel</push-button>
+            </div>
+        </popup-body>
+    </popup>
+
+    <popup id="GLAccount-search" width="620px" height="455px">
+        <popup-title>
+            <text-label>Search for Company</text-label>
+        </popup-title>
+        <popup-body style="padding: 10px;">
+    
+            <div>Search Criteria:</div>
+            <hr>
+            
+            <div class="cs-grid" style="margin-top: 8px; grid-template-columns: repeat(3, max-content);">
+                <span>Number:</span>
+                <drop-down id="GLAccount-number-criteria" style="width: 95px;"></drop-down>
+                <text-input id="GLAccount-number-search" style="width: 140px"></text-input>    
+
+                <span>Name:</span>
+                <drop-down id="GLAccount-name-criteria" style="width: 95px;"></drop-down>
+                <text-input id="GLAccount-name-search" style="width: 140px"></text-input>                
+            </div>
+    
+            <div class="btn-bar" style="margin-top: 8px; width: 100%; justify-content: flex-end;">
+                <push-button id="GLAccount-reset">Reset</push-button>
+                <push-button id="GLAccount-search" style="margin-right: unset;">Search</push-button>
+            </div>
+    
+            <div style="margin-top: 10px;">
+                <div>Search Results:</div>
+                <hr>
+            </div>
+    
+            <div id="GLAccount-grid" style="width: 100%; height: 250px;"></div>
+        
+            <div class="vert-input2" style="margin-top: 20px; display: flex; justify-content: space-between; align-items: center;">
+                <text-label id="GLAccount-count" style="margin-left: 10px;">Displaying 0 GL Accounts</text-label>
+    
+                <div>
+                    <push-button id="GLAccount-ok" disabled>OK</push-button>
+                    <push-button id="GLAccount-cancel" style="margin-left: 10px; margin-right: 15px;">Cancel</push-button>
+                </div>
+            </div>
+        </popup-body>
+    </popup>
+</div>

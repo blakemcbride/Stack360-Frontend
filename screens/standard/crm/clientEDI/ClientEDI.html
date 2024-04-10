@@ -1,0 +1,81 @@
+<!--
+    Copyright 2020 STACK360 LLC
+    All rights reserved.
+
+-->
+
+<div class="kiss">
+    <style>
+        .cedi-grid {
+            display: grid;
+            grid-template-columns: repeat(4, max-content);
+            grid-column-gap: 10px;
+            grid-row-gap: 10px;
+        }
+        .cedi-grid span {
+            color: #000;
+            align-self: center;
+            text-align: right;
+        }
+    </style>
+    <div style="margin-bottom: 10px; margin-top: 10px;">
+        <span>Client EDI:</span>
+        <text-label id="client-name" style="float: right;"></text-label>
+        <hr>
+    </div>
+    
+    <div class="cedi-grid">
+        <span>Application Sender ID:</span>
+        <text-input id="appSenderId" maxlength="16" style="width: 140px;"></text-input>
+
+        <span>Interchange Sender ID:</span>
+        <text-input id="interSenderId" maxlength="16" style="width: 140px;"></text-input>
+
+        <span>Application Receiver ID:</span>
+        <text-input id="appReceiverId" maxlength="16" style="width: 140px;"></text-input>
+
+        <span>Interchange Receiver ID:</span>
+        <text-input id="interReceiverId" maxlength="16" style="width: 140px;"></text-input>
+
+        <div style="grid-column: 1 / 5;">
+            <span>Transfer:</span>
+            <hr>
+        </div>
+
+        <span>Scheme:</span>
+        <drop-down id="scheme" style="width: 140px;"></drop-down>
+
+        <span>Username:</span>
+        <text-input id="username" maxlength="50" style="width: 140px;" disabled></text-input>
+
+        <span>Host:</span>
+        <text-input id="host" maxlength="128" style="width: 140px;" disabled></text-input>
+
+        <span>Password:</span>
+        <text-input id="password" maxlength="50" style="width: 140px;" password disabled></text-input>
+
+        <span>Port:</span>
+        <div>
+            <numeric-input id="port" max="65535" style="width: 40px; margin-right: 50px;" show-zero disabled></numeric-input>
+            <span>Directory:</span>
+        </div>
+
+        <text-input id="directory" maxlength="256" style="grid-column: 3 / 5;" disabled></text-input>
+
+        <div style="grid-column: 1 / 5;">
+            <span>Transfer Encryption:</span>
+            <hr>
+        </div>
+
+        <span>Public Key ID (Hexadecimal):</span>
+        <text-input id="publicKeyId" maxlength="80" style="width: 140px; grid-column: 2 / 5;" disabled></text-input>
+
+        <span style="align-self: baseline;">Public Key <Text></Text>:</span>
+        <textbox-input id="publicKeyText" style="grid-column: 2 / 5; height: calc(100vh - 520px)" disabled></textbox-input>
+
+        <div style="grid-column: 1 / 5; text-align: right;">
+            <push-button id="save" disabled>Save</push-button>
+            <push-button id="reset" style="margin-left: 10px;" disabled>Reset</push-button>
+        </div>
+    </div>
+</div>

@@ -1,0 +1,37 @@
+<popup id="component-prospect-selection" height="430px" width="400px" style="font-size: small;">
+
+    <popup-title id="cm-cs-title">Prospect Selection</popup-title>
+    <popup-body>
+        <div style="margin-bottom: 10px;" id="cm-radio-all-selection">
+            <radio-button group="cm-all-selection" value="1">All Companies</radio-button>
+            <radio-button group="cm-all-selection" value="" checked>Search for Company</radio-button>
+        </div>
+
+        <div style="margin-top: 10px;">
+            <span style="margin-left: 10px;">Name:</span>
+            <drop-down id="cm-cs-search-type" style="width: 100px;">
+                <option value="1">Starts With</option>
+                <option value="2">Ends With</option>
+                <option value="3">Contains</option>
+                <option value="4">Exact Match</option>
+            </drop-down>
+            <text-input id="cm-cs-name" style="width: 220px;"></text-input>
+        </div>
+
+        <div style="margin-top: 15px; text-align: right;">
+            <push-button id="cm-cs-search" style="margin-right: 10px;">Search</push-button>
+        </div>
+
+        <div id="cm-cs-grid" style="margin-top: 20px; height: 295px; width: 100%;"></div>
+
+        <div style="left: 10px; bottom: 20px; position: absolute;">
+            <text-label id="cm-cs-msg"></text-label>
+        </div>
+
+        <div style="right: 10px; bottom: 10px; position: absolute;">
+            <push-button id="cm-cs-ok" disabled>OK</push-button>
+            <push-button id="cm-cs-cancel" style="margin-left: 12px;">Cancel</push-button>
+        </div>
+    </popup-body>
+
+</popup>

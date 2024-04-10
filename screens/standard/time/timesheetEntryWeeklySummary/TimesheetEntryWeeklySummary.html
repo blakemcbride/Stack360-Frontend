@@ -1,0 +1,112 @@
+<!--
+     Copyright 2020 STACK360 LLC
+     All rights reserved.
+
+-->
+
+<div class="kiss">
+
+    <div id="screen-start"></div>
+
+    <div style="margin-top: 10px;">
+        <span>Project:</span>
+        <smart-chooser id="project" style="width: 500px;"></smart-chooser>
+        <span style="margin-left: 50px;">Shift:</span>
+        <drop-down id="shift" style="width: 100px;"></drop-down>
+
+        <div style="float: right;">
+            <span>Week Ending:</span>
+            <date-input id="week-ending" style="width: 100px;"></date-input>
+            <push-button id="previous">Previous</push-button>
+            <push-button id="next">Next</push-button>
+        </div>
+
+        <div style="margin-top: 15px;">
+            <span>Timesheet Entries:</span>
+            <div style="float: right; position: relative; top: -5px; margin-right: 75px;">
+                <check-box id="show-all" checked>Show all</check-box>
+            </div>
+        </div>
+    </div>
+    <hr>
+
+    <div id="grid" style="width: 100%;"></div>
+
+    <div id="bottom-start"></div>
+    <div style="margin-top: 10px;">
+        <text-label id="column-legend" style="font-weight: bold;">Column Legend</text-label>
+        <span style="margin-left: 100px; width: 75px;">Total Hours:</span>
+        <numeric-input id="total-hours" style="width: 60px;" decimal-places="2" show-zero disabled></numeric-input>
+        <div style="float: right;">
+            <push-button id="approve-entire-week" style="display: none;">Approve Entire Week</push-button>
+            <push-button id="add" disabled>Add</push-button>
+            <push-button id="edit" disabled>Edit</push-button>
+            <push-button id="delete" disabled>Delete</push-button>
+        </div>
+    </div>
+
+    <div id="bottom-end" style="clear: both;"></div>
+    <div id="screen-end" style="position: absolute; bottom: 0;">&nbsp;</div>
+
+    <popup id="column-legend-popup" height="300px" width="350px">
+        <popup-title>Column Legend</popup-title>
+        <popup-body>
+            <textbox-input style="height: 245px; width: 325px;" disabled>
+                <div style="font-weight: bold;">S - Timesheet Status</div>
+                This column represents the current state of the timesheet entry.  Possible values are:
+                <ul>
+                    <li><span style="font-weight: bold;">(N)</span>ew - Timesheet has been newly created</li>
+                    <li><span style="font-weight: bold;">(R)</span>ejected - Timesheet has been rejected by a supervisor back to the timesheet creator</li>
+                    <li><span style="font-weight: bold;">(F)</span>ixed - Timesheet has been fixed after being Rejected by a supervisor</li>
+                    <li><span style="font-weight: bold;">(C)</span>hanged - Timesheet has been changed after the day it was finalized (possible when the day has been Rejected back to the timesheet creator)</li>
+                    <li><span style="font-weight: bold;">(A)</span>pproved - Timesheet has been approved by a supervisor and is available for accounting</li>
+                    <li><span style="font-weight: bold;">(P)</span>roblem - Timesheet has been marked as having a problem by accounting</li>
+                    <li><span style="font-weight: bold;">(D)</span>eferred - Timesheet has been marked as deferred by accounting (won't be invoiced)</li>
+                    <li><span style="font-weight: bold;">(I)</span>nvoiced - Timesheet has been included in an invoice</li>
+                </ul>
+            </textbox-input>
+            <div style="position: absolute; bottom: 10px; right: 10px;">
+                <push-button id="clp-close">Close</push-button>
+            </div>
+        </popup-body>
+    </popup>
+
+    <popup id="timesheet-entry-popup" height="360px" width="370px">
+        <popup-title><span id="tep-title"></span></popup-title>
+        <popup-body>
+            <div class="vert-input">
+                <label>Company</label>
+                <text-input id="tep-company" style="width: 250px;" disabled></text-input>
+
+                <label>Project</label>
+                <text-input id="tep-project" style="width: 250px;" disabled></text-input>
+
+                <label>Shift</label>
+                <text-input id="tep-shift" style="width: 250px;" disabled></text-input>
+
+                <label>Worker</label>
+                <smart-chooser id="tep-worker" style="width: 250px;" required></smart-chooser>
+
+                <label>Home</label>
+                <text-input id="tep-home" style="width: 100px;" disabled></text-input>
+
+                <label>Cell</label>
+                <text-input id="tep-cell" style="width: 100px;" disabled></text-input>
+
+                <label>Hours</label>
+                <numeric-input id="tep-hours" style="width: 60px;" decimal-places="2"></numeric-input>
+
+                <label>Expenses</label>
+                <numeric-input id="tep-expenses" style="width: 60px;" decimal-places="2"></numeric-input>
+
+                <label>Pay</label>
+                <numeric-input id="tep-pay" style="width: 60px;" decimal-places="2"></numeric-input>
+            </div>
+            <div style="text-align: right;">
+                <push-button id="tep-ok">OK</push-button>
+                <push-button id="tep-cancel" style="margin-right: 10px;">Cancel</push-button>
+            </div>
+        </popup-body>
+    </popup>
+
+</div>

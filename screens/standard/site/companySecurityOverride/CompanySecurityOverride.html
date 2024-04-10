@@ -1,0 +1,118 @@
+<!--
+     Copyright 2020 STACK360 LLC
+     All rights reserved.
+
+-->
+
+<div class="kiss">
+    <style>
+        .cso-grid {
+            display: grid;
+            grid-column-gap: 10px;
+            grid-row-gap: 10px;
+            align-items: center;
+        }
+        .cso-grid span {
+            color: #000;
+            align-self: center;
+            text-align: right;
+        }
+    </style>
+
+    <div style="margin-top: 10px; margin-bottom: 10px;">
+        <span>Company Security Override:</span>
+        <text-label id="cso-employee" style="float: right;"></text-label>
+        <hr>
+    </div>
+
+    <div style="margin-bottom: 10px;">
+        <span>Default Screen Group:</span>
+        <text-label id="defaultScreenGroup" style="font-weight: 800;"></text-label>
+    </div>
+
+    <div style="margin-bottom: 10px;">
+        <span>Default Security Group:</span>
+        <text-label id="defaultSecurityGroup" style="font-weight: 800;"></text-label>
+    </div>
+
+    <div style="margin-bottom: 10px;">
+        <span>Listed below are the screen group / security group login overrides. Companies not listed default to the above screen group and security group.</span>
+    </div>
+
+    <div id="companySecurityGrid" style="height: calc(100% - 155px); width: 100%; margin-top: 10px; margin-bottom: 15px;"></div>
+
+    <text-label id="cso-status">Displaying 0 Overrides</text-label>
+    <div style="position: absolute; right: 10px; bottom: 10px; text-align: right;">
+        <push-button id="add" style="margin-left: 10px;">Add</push-button>
+        <push-button id="edit" disabled style="margin-left: 10px;">Edit</push-button>
+    </div>
+    
+    <popup id="override-popup" height="140px" width="370px">
+        <popup-title><text-label id="override-label">Add</text-label> Company Security Override</popup-title>
+        <popup-body>
+            <div class="cso-grid" style="grid-template-columns: repeat(2, max-content);">
+                <span>Company:</span>
+                <smart-chooser id="cso-companyId" outside-width="260" required></smart-chooser>  
+
+
+                <span>Security Group:</span>
+                <smart-chooser id="cso-securityGroup" outside-width="260" disabled required></smart-chooser>  
+                
+                <span>Screen Group:</span>
+                <smart-chooser id="cso-screenGroup" outside-width="260" disabled required></smart-chooser> 
+            </div>       
+
+            <div style="right: 10px; bottom: 10px; position: absolute;">
+                <push-button id="override-ok">OK</push-button>
+                <push-button id="override-cancel">Cancel</push-button>
+            </div>
+        </popup-body>
+    </popup>
+
+    <popup id="cso-data-search" width="620px" height="455px">
+        <popup-title>
+            <span>Search for <text-label id="cso-data-search-type"></text-label></span>
+        </popup-title>
+        <popup-body style="padding: 10px;">    
+            <div>Search Criteria:</div>
+            <hr>
+            
+            <div class="cso-grid" style="margin-top: 8px; display: grid; grid-template-columns: repeat(3, max-content); align-items: center;">
+                <text-label id="cso-name-label"></text-label>
+                <drop-down id="cso-name-criteria" style="width: 95px;"></drop-down>
+                <text-input id="cso-name-search" style="width: 140px"></text-input>
+                
+                <text-label id="cso-id-label"></text-label>
+                <text-input id="cso-id-search" style="width: 140px"></text-input>    
+
+                <text-label id="cso-searchTopLevelOnlyLabel">Include:</text-label>
+                <div>
+                    <radio-button group="cso-searchTopLevelOnly" value="False">All Screen Groups</radio-button>
+                    <radio-button group="cso-searchTopLevelOnly" value="True" checked>Only Disassosiated Screen Groups</radio-button>
+                </div> 
+                
+            </div>
+    
+            <div class="btn-bar" style="margin-top: 10px; width: 100%; justify-content: flex-end;">
+                <push-button id="cso-reset">Reset</push-button>
+                <push-button id="cso-search" style="margin-right: unset;">Search</push-button>
+            </div>
+    
+            <div style="margin-top: 10px;">
+                <div>Search Results:</div>
+                <hr>
+            </div>
+    
+            <div id="cso-grid" style="width: 100%; height: 250px;"></div>
+        
+            <div class="vert-input2" style="margin-top: 20px; display: flex; justify-content: space-between; align-items: center;">
+                <text-label id="cso-count" style="margin-left: 10px;">Displaying 0 Employees</text-label>
+    
+                <div>
+                    <push-button id="cso-ok" disabled>OK</push-button>
+                    <push-button id="cso-cancel" style="margin-left: 10px; margin-right: 15px;">Cancel</push-button>
+                </div>
+            </div>
+        </popup-body>
+    </popup>
+</div>

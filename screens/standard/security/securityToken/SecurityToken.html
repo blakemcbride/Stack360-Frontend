@@ -1,0 +1,56 @@
+<!--
+     Copyright 2021 STACK360 LLC
+     All rights reserved.
+
+-->
+
+<div class="kiss">
+
+    <style>
+        div.vert-input2 {
+            display:grid;
+            grid-template-columns: max-content max-content;
+            grid-column-gap:5px;
+            grid-row-gap: 10px;
+            margin-top: 10px;
+        }
+
+        div.vert-input2 span {
+            text-align:right;
+            margin-top: 6px;
+        }
+    </style>
+
+    <div style="margin-top: 10px;">Security Tokens Currently in the System:</div>
+    <hr>
+
+    <div id="grid" style="width: 100%; height: calc(100% - 75px); margin-top: 10px;"></div>
+
+    <text-label id="status" style="position: absolute; bottom: 10px; left: 10px;">Displaying 0 Security Tokens</text-label>
+
+    <div style="position: absolute; bottom: 6px; right: 10px;">
+        <push-button id="add" style="margin-left: 10px;">Add</push-button>
+        <push-button id="edit" style="margin-left: 10px;" disabled>Edit</push-button>
+        <push-button id="delete" style="margin-left: 10px;" disabled>Delete</push-button>
+        <push-button id="report" style="margin-left: 10px;">Report</push-button>
+    </div>
+
+    <popup id="token-popup" width="390px" height="166px">
+        <popup-title>
+            <text-label id="tp-title">Add Security Token</text-label>
+        </popup-title>
+        <popup-body>
+            <div class="vert-input2">
+                <span>Name: </span>
+                <text-input id="tp-name" style="width: 300px" required maxlength="20"></text-input>
+                <span>Description: </span>
+                <textbox-input id="tp-description" style="width: 300px; height: 58px;" required maxlength="80"></textbox-input>
+            </div>
+            <div style="right: 17px; bottom: 10px; position: absolute;">
+                <push-button id="tp-ok">Ok</push-button>
+                <push-button id="tp-cancel" style="margin-left: 10px;">Cancel</push-button>
+            </div>
+        </popup-body>
+    </popup>
+
+</div>

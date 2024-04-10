@@ -1,0 +1,66 @@
+<!--
+     Copyright 2020 STACK360 LLC
+     All rights reserved.
+
+-->
+
+<div class="kiss">
+    <style>
+        .ate-grid {
+            display: grid;
+            grid-template-columns: repeat(2, max-content);
+            grid-row-gap: 10px;
+            grid-column-gap: 10px;
+            align-items: center;
+        }
+        .ate-grid > span {
+            text-align: right;
+        }
+    </style>
+
+    <div style="margin-top: 10px;">
+        <span>ADP Time Export:</span>
+        <hr>
+        <div class="ate-grid" style="grid-template-columns: repeat(4, max-content);">
+            <span>Type:</span>
+            <div style="grid-column: 2 / 3; grid-row: 1 / 3; align-self: baseline;">
+                <radio-button group="ate-type" value="H" align-vertical checked style="margin-bottom: 10px; margin-top: 5px;">Hours</radio-button>
+                <radio-button group="ate-type" value="A" align-vertical>Accruals</radio-button>
+            </div>
+
+            <span>From Date:</span>            
+            <native-date-input id="from-date" style="width: 110px;" required></native-date-input>
+
+            <span style="grid-column: 3 / 4;">To Date:</span>
+            <native-date-input id="to-date" style="width: 110px; grid-column: 4 / 5;" required></native-date-input> 
+        </div>
+
+        <div class="ate-grid" style="grid-column-gap: 20px; margin-top: 20px; grid-template-columns: repeat(4, max-content);">
+            <span style="text-align: left;">Location:</span>
+
+            <span style="text-align: left;">Available Organizational Groups:</span>
+
+            <div></div>
+
+            <span style="text-align: left;">Selected Organizational Groups:</span>
+
+            <div id="locationGrid" style="width: 260px; height: 575px;"></div>
+            <div id="orgGroupGrid" style="width: 360px; height: 575px;"></div>
+
+            <push-button id="selectOrgGroup" style="width: fit-content;" disabled>--></push-button> 
+
+            <div id="selectedOrgGroupGrid" style="width: 360px; height: 575px;"></div>
+
+            <push-button id="open-location" style="width: fit-content; align-self: baseline;" disabled>Open</push-button>    
+            <push-button id="open-orgGroup" style="width: fit-content; align-self: baseline;" disabled>Open</push-button>   
+
+            <div></div>
+            
+            <div style="text-align: right;">
+                <push-button id="remove" disabled>Remove</push-button>
+                <br>
+                <push-button id="export" style="margin-top: 10px;">Export</push-button>
+            </div>
+        </div>
+    </div>
+</div>

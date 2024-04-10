@@ -1,0 +1,18 @@
+#!/bin/bash
+#set -x
+
+# Shrink all JavaScript files saving the original (uncompressed) files with a -orig suffix.
+# This has some small obfuscation value, but it doesn't make the files meaningfully smaller.
+
+FILES=`find . -name '*.js' -type f |grep -v '^\./vendor/' |grep -v richtexteditor`
+for file in $FILES; do
+	ofile=$file-orig
+	if [ -f $ofile ]; then
+		echo 'Original file' $ofile 'exists; cannot continue.'
+		exit 0
+	fi
+	mv $file $ofile
+	echo $ofile " -> " $file
+	uglifyjs $ofile -cm >$file
+done
+

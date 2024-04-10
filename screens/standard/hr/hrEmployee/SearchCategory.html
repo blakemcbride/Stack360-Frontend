@@ -1,0 +1,56 @@
+<!--
+    Copyright 2019 STACK360 LLC
+    All rights reserved.
+-->
+
+<div id="categorySelection" class="modal" hidden>
+    <div id="categorySelectionContent" class="modal-content" style="width: 410px; height: 500px;">
+        <div id="categorySelectionTitle" class="modal-title">Search for Project Category</div>
+
+        <div class="modal-body">
+            <div class="flex-row" style="margin-bottom: 10px;">
+                <radio-button id="allCategories" group="categorySearchTypeGrp" style="margin-right: 15px;" value="false">
+                    All Project Categories
+                </radio-button>
+                <radio-button id="searchCategory" group="categorySearchTypeGrp" value="true" checked>
+                    Search for Project Category
+                </radio-button>
+            </div>
+
+            <div>Search Criteria:</div>
+            <hr>
+
+            <div class="flex-row" style="margin-top: 8px;">
+                <label style="width: 65px; margin-right: 10px;">Code:</label>
+                <drop-down id="categoryCodeCriteria" style="width: 125px; margin-right: 10px;"></drop-down>
+                <text-input id="categoryCodeSearch" style="width: 170px"></text-input>
+            </div>
+
+            <div class="flex-row" style="margin-top: 8px;">
+                <label style="width: 65px; margin-right: 10px;">Description:</label>
+                <drop-down id="categoryDescCriteria" style="width: 125px; margin-right: 10px;"></drop-down>
+                <text-input id="categoryDescSearch" style="width: 170px"></text-input>
+            </div>
+
+            <div class="btn-bar" style="margin-top: 8px; width: 100%; justify-content: flex-end;">
+                <push-button id="searchCategoryReset">Reset</push-button>
+                <push-button id="searchCategorySearch" style="margin-right: unset;">Search</push-button>
+            </div>
+
+            <div style="margin-top: 10px;">
+                <div>Search Results:</div>
+                <hr>
+            </div>
+
+            <div id="searchCategoryResultsGrid" style="width: 100%; background: bisque; height: 250px;"></div>
+        </div>
+
+        <div class="modal-footer" style="display: flex; align-items: center; justify-content: space-between;">
+            <div id="catCount" style="margin-left: 10px;">Displaying 0 Project Categories</div>
+            <div class="btn-bar-comp">
+                <push-button id="categoryOK" class="btn-primary" disabled>OK</push-button>
+                <push-button id="categoryCancel" class="btn-primary">Cancel</push-button>
+            </div>
+        </div>
+    </div>
+</div>

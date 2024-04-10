@@ -1,0 +1,147 @@
+<!--
+     Copyright 2020 STACK360 LLC
+     All rights reserved.
+
+-->
+
+<div class="kiss">
+
+    <style>
+        div.vert-input2 {
+            display:grid;
+            grid-template-columns: max-content max-content;
+            grid-column-gap:5px;
+            grid-row-gap: 10px;
+            margin-top: 10px;
+            margin-left: 10px;
+        }
+
+        div.vert-input2 span {
+            text-align:right;
+            margin-top: 6px;
+        }
+    </style>
+
+    <div style="margin-top: 10px;">Time Off Configuration:</div>
+    <hr>
+
+    <div style="margin-top: 10px;">
+        <span>Applicable Benefit Configuration:</span>
+        <drop-down id="benefit-config-list" style="width: 150px;" default-option="(select)"></drop-down>
+    </div>
+
+    <div style="display: flex; flex-direction: column;">
+        <div style="height: 200px; padding: 5px 0;">
+            <div id="variant-data-grid" style="width: 100%; height: calc( 100% - 40px ); margin-bottom: 10px;"></div>
+
+            <div style="width: 100%;">
+                <text-label id="variant-grid-status">Displaying 0 Time Off Configurations</text-label>
+                <div style="float: right;">
+                    <push-button id="variant-add" disabled>Add</push-button>
+                    <push-button id="variant-edit" style="margin-left: 10px;" disabled>Edit</push-button>
+                    <push-button id="variant-delete" style="margin-left: 10px; margin-right: 10px;" disabled>Delete</push-button>
+                </div>
+            </div>
+        </div>
+        <div>
+            <div id="seniority-data-grid" style="width: 100%; height: calc(100vh - 450px); margin-bottom: 10px;"></div>
+
+            <div style="width: 100%;">
+                <text-label id="seniority-grid-status">Displaying 0 Tiers</text-label>
+                <div style="float: right;">
+                    <push-button id="seniority-add">Add</push-button>
+                    <push-button id="seniority-edit" style="margin-left: 10px;" disabled>Edit</push-button>
+                    <push-button id="seniority-delete" style="margin-left: 10px;" disabled>Delete</push-button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <popup id="timeoff-config-popup">
+        <popup-title>
+            <text-label id="tcp-title"></text-label>
+        </popup-title>
+        <popup-body style="padding: 0 10px;">
+            
+            <div style="display: flex">
+                <div class="vert-input2">
+                    <span>Allotment:</span>
+                    <radio-button group="tcp-allotment" value="A" style="margin-top: 5px;" required>Annual</radio-button>
+                    <span></span>
+                    <radio-button group="tcp-allotment" value="H">Hourly</radio-button>
+                    <span></span>
+                    <radio-button group="tcp-allotment" value="M">Monthly</radio-button>
+                    <span></span>
+                    <radio-button group="tcp-allotment" value="P">Pay Period</radio-button>
+
+                    <span>Start:</span>
+                    <radio-button group="tcp-start-flag" value="C" style="margin-top: 5px;" required>Calendar Year</radio-button>
+                    <span></span>
+                    <radio-button group="tcp-start-flag" value="H">Hire Date</radio-button>
+                    <span></span>
+                    <radio-button group="tcp-start-flag" value="F">Fiscal Year</radio-button>
+                    <span></span>
+                    <radio-button group="tcp-start-flag" value="S">Specific Date</radio-button>
+                    <span></span>
+                    <div>
+                        Date To Use (MMDD): 
+                        <text-input id="tcp-start-month-day" type="number" style="width: 40px; text-align: right;" value="0" disabled></text-input>
+                    </div>
+                </div>
+
+                <div class="vert-input2">
+                    <span>Trial Period (days):</span>
+                    <text-input id="tcp-trial-period" type="number" style="width: 60px; text-align: right;" value="0"></text-input>
+                    <span>Carry Over Percentage:</span>
+                    <text-input id="tcp-carry-over-percentage" type="number" style="width: 60px; text-align: right;" value="0"></text-input>
+                    <span>Max Carry Over Hours:</span>
+                    <text-input id="tcp-carry-over-amount" type="number" style="width: 60px; text-align: right;" value="0"></text-input>
+                    <span></span>
+                    <div></div>
+
+                    <span>Accrual Method:</span>
+                    <radio-button group="tcp-accrual-type" value="D" required>Advance</radio-button>
+                    <span></span>
+                    <radio-button group="tcp-accrual-type" value="R">Arrears</radio-button>
+
+                    <span></span> <div></div>
+                    <span></span> <div></div>
+                    <span></span> <div></div>
+                    <span></span> <div></div>
+                </div>
+            </div>            
+
+            <div style="text-align: right; margin-top: 10px; margin-bottom: 10px;">
+                <push-button id="tcp-ok">Ok</push-button>
+                <push-button id="tcp-cancel" style="margin-left: 10px; margin-right: 15px;">Cancel</push-button>
+            </div>
+        </popup-body>
+    </popup>    
+
+    <popup id="tier-popup">
+        <popup-title>
+            <text-label id="tp-title"></text-label>
+        </popup-title>
+        <popup-body style="padding: 5px 15px; width: 340px;">
+            
+            <div class="vert-input2">
+                <span>Starting from</span>
+                <div>
+                    <text-input id="tp-years-of-service" type="number" style="width: 40px; text-align: right;" required></text-input>
+                    years of service,
+                </div>
+                <span>you will accrue</span>
+                <div>
+                    <text-input id="tp-hours-accrued" type="number" style="width: 40px; text-align: right;" required></text-input>
+                    <text-label id="tp-hours-label">hours annually.</text-label>
+                </div>
+            </div>
+
+            <div style="text-align: right; margin-top: 10px;">
+                <push-button id="tp-ok">Ok</push-button>
+                <push-button id="tp-cancel" style="margin-left: 10px; margin-right: 15px;">Cancel</push-button>
+            </div>
+        </popup-body>
+    </popup>
+
+</div>

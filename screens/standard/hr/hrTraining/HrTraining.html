@@ -1,0 +1,76 @@
+
+<div class="kiss">
+    <style>
+        #resultsGrid {
+            height: calc(100% - 85px);
+        }
+        #training-popup .popup-body {
+            padding: 6px 15px;
+        }
+        #training-popup-grid {
+            display: grid;
+            grid-template-columns: 0.65fr 2fr;
+            grid-column-gap: 10px;
+            grid-row-gap: 5px;
+
+        }
+        #training-popup-grid span {
+            color: #000;
+            align-self: center;
+            text-align: right;
+        }
+        #trainingClientDropDown {
+            width: 100%;
+        }
+        #training-popup-grid input[type="date"] {
+            width: 110px;
+        }
+        #training-hours {
+            width: 55px;
+        }
+    </style>
+    <div style="margin-bottom: 10px; margin-top: 10px;">
+        <span>Employee Training:</span>
+        <text-label id="worker-name" style="float: right;"></text-label>
+        <hr>
+    </div>
+    <div id="resultsGrid"></div>
+    <div style="margin-top: 10px;">
+        <text-label id="status-label"></text-label>
+
+        <div style="right: 17px; bottom: 10px; position: absolute;">
+            <push-button id="add" style="margin-left: 10px;">Add</push-button>
+            <push-button id="edit" disabled>Edit</push-button>
+            <push-button id="delete" disabled>Delete</push-button>
+            <push-button id="report">Report</push-button>
+        </div>
+    </div>
+    <popup id="training-popup" width="385px" height="200px">
+        <popup-title>
+            <text-label id="training-title"></text-label>
+        </popup-title>
+        <popup-body id="training-body">
+            <div id="training-popup-grid">
+                <span>Client:</span>
+                <smart-chooser id="trainingClientDropDown" outside-width="240" required></smart-chooser>
+
+                <span>Category Name:</span>
+                <drop-down id="trainingCatNameDropDown" style="width: 250px;" required></drop-down>
+
+                <span>Training Date:</span>
+                <native-date-input id="training-date" min="10000101" max="30000101" style="width: 110px;" required></native-date-input>
+
+                <span>Actual Hours:</span>
+
+                <numeric-input id="training-hours" required style="width: 40px;" show-zero min="0" max="10000000" decimal-places="2"></numeric-input>
+
+                <span>Expiration Date:</span>
+                <native-date-input id="training-expDate" style="width: 110px;"></native-date-input>
+            </div>
+            <div style="margin-top: 20px; text-align: right;">
+                <push-button id="training-ok">OK</push-button>
+                <push-button id="training-cancel">Cancel</push-button>
+            </div>
+        </popup-body>
+    </popup>
+</div>

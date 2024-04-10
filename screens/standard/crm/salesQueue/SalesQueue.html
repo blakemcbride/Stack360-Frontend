@@ -1,0 +1,238 @@
+<!--
+     Copyright 2020 STACK360 LLC
+     All rights reserved.
+
+-->
+
+<div class="kiss">
+
+    <style>
+        .sq-grid {
+            display: grid;
+            grid-template-columns: repeat(2, max-content);
+            grid-column-gap: 10px;
+            grid-row-gap: 10px;
+            align-items: center;
+        }
+        .sq-grid > span {
+            text-align: right;
+        }
+    </style>
+
+    <div style="margin-top: 10px; margin-bottom: 10px;">
+        <span>Sales Queue Search Criteria:</span>
+        <hr>
+    </div>
+
+    <div class="sq-grid" style="width: max-content;">
+        <div class="sq-grid">
+            <span>Sales Person:</span>
+            <smart-chooser id="sq-person" style="width: 200px;"></smart-chooser>
+
+            <span>Search By:</span>
+            <div>
+                <radio-button group="sq-searchBy" value="A" checked>Active</radio-button>
+                <radio-button group="sq-searchBy" value="I">Inactive (never contacted)</radio-button>
+            </div>
+            
+            <span>Prospect Name:</span>
+            <div>
+                <drop-down id="sq-prospectName-criteria" style="width: 95px;"></drop-down>
+                <text-input id="sq-prospectName-search" style="width: 140px"></text-input>
+            </div>
+
+            <span>Prospect Status:</span>
+            <smart-chooser id="sq-prospectStatus" style="width: 240px;"></smart-chooser>
+
+            <text-label id="sq-contactDate-label">Schedules Contact Date:</text-label>
+            <native-date-input id="sq-contactDate" style="width: 110px;"></native-date-input>
+        </div>
+
+        <div id="sq-forActiveFilters" class="sq-grid">
+            <span>Last Log From Date:</span>
+            <div>
+                <native-date-input id="sq-logFromDate" style="width: 110px; margin-right: 20px;"></native-date-input>
+
+                <span>To Date:</span>
+                <native-date-input id="sq-logToDate" style="width: 110px; margin-left: 10px;"></native-date-input>
+            </div>
+
+            <span>Sales Activity:</span>
+            <drop-down id="sq-salesActivity" style="width: 200px;"></drop-down>
+
+            <span>Activity Result:</span>
+            <drop-down id="sq-activityResult" style="width: 200px;" disabled></drop-down>
+        </div>
+
+        <div style="grid-column: 1 / 3; text-align: right;">
+            <push-button id="reset">Reset</push-button>
+            <push-button id="search" style="margin-left: 10px;">Search</push-button>
+        </div>
+    </div>
+
+    <div style="margin-top: 10px;">
+        <span>Search Results:</span>
+        <hr>
+    </div>   
+
+    <div id="searchResultsGrid" style="height: calc(100% - 345px);"></div>
+
+    <div class="sq-grid" style="margin-top: 10px; grid-template-columns: max-content auto;">
+        <text-label id="pagination-label"></text-label>
+        <div style="display: inline-block; width: auto; text-align: right;">
+            <push-button id="prev" disabled>Previous</push-button>
+            <push-button id="next" style="margin-left: 10px;" disabled>Next</push-button>
+        </div>
+    </div>
+
+    <div style="margin-top: 10px; text-align: right;">
+        <push-button id="view" disabled>View Detail</push-button>
+        <push-button id="contacts" style="margin-left: 10px;" disabled>Contacts</push-button>
+        <push-button id="newlog" style="margin-left: 40px;" disabled>New Log</push-button>
+        <push-button id="viewlog" style="margin-left: 10px;" disabled>View Log</push-button>
+    </div>
+
+    <popup id="contacts-popup" width="750px" height="400px">
+        <popup-title>
+            <text-label>Prospect Contacts</text-label>
+        </popup-title>
+        <popup-body style="padding: 10px;">
+            <div style="margin-bottom: 10px;">
+                <span>Prospect:</span>
+                <text-input id="sq-contacts-prospectName" style="width: 200px;" disabled></text-input>
+            </div>
+
+            <div id="contactsResultsGrid" style="height: calc(100% - 75px);"></div>
+
+            <div style="text-align: right; margin-top: 10px;">
+                <push-button id="contacts-ok">OK</push-button>
+            </div>
+        </popup-body>
+    </popup>
+
+    <popup id="log-popup" width="660px" height="420px">
+        <popup-title>
+            Add Prospect Log Entry for <text-label id="log-prospectName">Prospect</text-label>
+        </popup-title>
+        <popup-body style="padding: 10px;">
+            <div class="sq-grid" style="grid-template-columns: repeat(2, max-content); grid-column-gap: 10px; grid-row-gap: 10px;">
+                <span>Contact Date:</span>
+                <div>
+                    <native-date-input id="sq-log-date" style="width: 110px; margin-right: 10px;" required></native-date-input>
+                    
+                    <span>Contact Time:</span>
+                    <time-input id="sq-log-time" style="width: 60px; margin-left: 10px; margin-right: 10px;"></time-input>
+
+                    <span>Sales Activity:</span>
+                    <drop-down id="sq-log-activity" style="width: 150px;"></drop-down>
+                </div>
+
+                <span>Activity Result:</span>
+                <div id="logDescriptionGrid" style="width: 100%; height: 165px;"></div>
+
+                <span>Detail:</span>
+                <textbox-input id="sq-log-detail" style="width: 100%; height: 70px; box-sizing: border-box;" required></textbox-input>
+
+                <span>Company Employees:</span>
+                <textbox-input id="sq-log-cEmployees" style="width: 100%; height: 40px; box-sizing: border-box;"></textbox-input>
+
+                <span>Prospect Employees:</span>
+                <textbox-input id="sq-log-pEmployees" style="width: 100%; height: 40px; box-sizing: border-box;"></textbox-input>
+            </div>
+
+            <div style="text-align: right; margin-top: 10px;">
+                <push-button id="log-ok">OK</push-button>
+                <push-button id="log-cancel" style="margin-left: 10px;">Cancel</push-button>
+            </div>
+        </popup-body>
+    </popup>
+
+    <popup id="employee-search" width="620px" height="455px">
+        <popup-title>
+            <text-label>Search for Employee</text-label>
+        </popup-title>
+        <popup-body style="padding: 10px;">
+    
+            <div>Search Criteria:</div>
+            <hr>
+            
+            <div class="vert-input" style="margin-top: 8px; display: grid; grid-template-columns: repeat(3, max-content); align-items: center;">
+                <span>Last Name:</span>
+                <drop-down id="esp-lastName-criteria" style="width: 95px; margin-right: 10px;"></drop-down>
+                <text-input id="esp-lastName-search" style="width: 140px"></text-input>
+                
+                <span>First Name:</span>
+                <drop-down id="esp-firstName-criteria" style="width: 95px; margin-right: 10px;"></drop-down>
+                <text-input id="esp-firstName-search" style="width: 140px"></text-input>    
+                
+            </div>
+    
+            <div class="btn-bar" style="margin-top: 8px; width: 100%; justify-content: flex-end;">
+                <push-button id="esp-reset">Reset</push-button>
+                <push-button id="esp-search" style="margin-right: unset;">Search</push-button>
+            </div>
+    
+            <div style="margin-top: 10px;">
+                <div>Search Results:</div>
+                <hr>
+            </div>
+    
+            <div id="esp-grid" style="width: 100%; height: 250px;"></div>
+        
+            <div class="vert-input2" style="margin-top: 20px; display: flex; justify-content: space-between; align-items: center;">
+                <text-label id="esp-count" style="margin-left: 10px;">Displaying 0 Employees</text-label>
+    
+                <div>
+                    <push-button id="esp-ok" disabled>OK</push-button>
+                    <push-button id="esp-cancel" style="margin-left: 10px; margin-right: 15px;">Cancel</push-button>
+                </div>
+            </div>
+        </popup-body>
+    </popup>
+
+    <popup id="sq-data-search" width="620px" height="465px">
+        <popup-title>
+            <span>Search for Prospect Status</span>
+        </popup-title>
+        <popup-body style="padding: 10px;">
+            <div style="margin-bottom: 10px;">
+                <radio-button group="sq-chooseSpecific" value="A">All Prospect Statuses</radio-button>
+                <radio-button group="sq-chooseSpecific" value="S" checked>Search for Prospect Status</radio-button>
+            </div>
+    
+            <div>Search Criteria:</div>
+            <hr>
+            
+            <div class="sq-grid" style="margin-top: 8px; display: grid; grid-template-columns: repeat(3, max-content); grid-column-gap: 10px; grid-row-gap: 10px;">
+                <span>Code:</span>
+                <drop-down id="sq-code-criteria" style="width: 95px;"></drop-down>
+                <text-input id="sq-code-search" style="width: 140px"></text-input>
+                
+                <span>Description:</span>
+                <drop-down id="sq-description-criteria" style="width: 95px;"></drop-down>
+                <text-input id="sq-description-search" style="width: 140px"></text-input>                    
+            </div>
+    
+            <div class="btn-bar" style="margin-top: 10px; width: 100%; justify-content: flex-end;">
+                <push-button id="sq-reset">Reset</push-button>
+                <push-button id="sq-search" style="margin-right: unset;">Search</push-button>
+            </div>
+    
+            <div style="margin-top: 10px;">
+                <div>Search Results:</div>
+                <hr>
+            </div>
+    
+            <div id="sq-grid" style="width: 100%; height: 250px;"></div>
+        
+            <div class="vert-input2" style="margin-top: 10px; display: flex; justify-content: space-between; align-items: center;">
+                <text-label id="sq-count" style="margin-left: 10px;">Displaying 0 Prospect Statuses</text-label>
+    
+                <div>
+                    <push-button id="sq-ok" disabled>OK</push-button>
+                    <push-button id="sq-cancel" style="margin-left: 10px;">Cancel</push-button>
+                </div>
+            </div>
+        </popup-body>
+    </popup>
+</div>

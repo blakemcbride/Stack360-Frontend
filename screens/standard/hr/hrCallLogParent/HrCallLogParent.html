@@ -1,0 +1,41 @@
+ <!--
+    Copyright 2020 STACK360 LLC
+    All rights reserved.
+
+-->
+
+<div class="kiss">
+    <style>
+        .clp-grid {
+            display: grid;
+            grid-template-columns: max-content auto;
+            grid-column-gap: 10px;
+            grid-row-gap: 10px;
+        }
+        .clp-grid span {
+            color: #000;
+            align-self: center;
+            text-align: right;
+        }
+        .tab-height {
+            height: calc(100% - 45px);
+            position: relative;
+        }
+    </style>
+    <div style="margin-bottom: 10px; margin-top: 10px;">
+        <span>Person Call Logs:</span>
+        <text-label id="worker-name" style="float: right;"></text-label>
+        <hr>
+    </div>
+
+    <div id="callLogsGrid" style="height: calc(100% - 85px);"></div>
+
+    <div style="margin-top: 15px;">
+        <text-label id="callLogs-label">Displaying 0 Call Logs</text-label>
+
+        <div style="right: 10px; bottom: 10px; position: absolute;">
+            <push-button id="add" enabled>Add</push-button>
+            <push-button id="edit" style="margin-left: 10px;" disabled>Edit</push-button>
+        </div>
+    </div>
+</div>

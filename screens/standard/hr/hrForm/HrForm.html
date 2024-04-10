@@ -1,0 +1,219 @@
+<!--
+     Copyright 2020 STACK360 LLC
+     All rights reserved.
+
+-->
+
+<div class="kiss">
+
+    <div style="margin-top: 10px;">
+        <span>Employee Forms:</span>
+        <text-label id="worker-name" style="float: right;"></text-label>
+    </div>
+    <hr style="margin-left: 0;">
+
+    <div id="grid" style="width: 100%; height: calc(100% - 90px);"></div>
+
+    <text-label id="status" style="position: absolute; bottom: 25px; left: 20px;"></text-label>
+
+    <div style="position: absolute; bottom: 15px; right: 10px;">
+        <push-button id="view" style="margin-left: 10px;" disabled>View</push-button>
+        <push-button id="add" style="margin-left: 10px;">Add</push-button>
+        <push-button id="edit" style="margin-left: 10px;" disabled>Edit</push-button>
+        <push-button id="delete" style="margin-left: 10px;" disabled>Delete</push-button>
+        <push-button id="copy" style="margin-left: 10px;" disabled>Copy</push-button>
+        <push-button id="re-assign" style="margin-left: 10px;" disabled>Re-Assign</push-button>
+        <push-button id="combine" style="margin-left: 10px;" disabled>Combine</push-button>
+        <push-button id="separate" style="margin-left: 10px;" disabled>Separate</push-button>
+    </div>
+
+    <popup id="add-popup" height="370px" width="350px">
+        <popup-title><span id="ap-title"></span></popup-title>
+        <popup-body>
+            <div class="vert-input">
+                <label>Code</label>
+                <drop-down id="ap-code" style="width: 200px;" required></drop-down>
+
+                <label>Description</label>
+                <text-input id="ap-description" disabled></text-input>
+
+                <label>Form</label>
+                <file-upload id="ap-file" required></file-upload>
+
+                <label>Comments</label>
+                <textbox-input id="ap-comments" style="width: 245px; height: 195px;"></textbox-input>
+            </div>
+            <div style="right: 17px; bottom: 10px; position: absolute;">
+                <push-button id="ap-ok">Ok</push-button>
+                <push-button id="ap-cancel" style="margin-left: 10px;">Cancel</push-button>
+            </div>
+        </popup-body>
+    </popup>
+
+    <popup id="edit-popup" height="370px" width="350px">
+        <popup-title><span id="ep-title"></span></popup-title>
+        <popup-body>
+            <div class="vert-input">
+                <label>Code</label>
+                <drop-down id="ep-code" style="width: 200px;" required></drop-down>
+
+                <label>Description</label>
+                <text-input id="ep-description" disabled></text-input>
+
+                <label>Date</label>
+                <text-input id="ep-date" style="width: 60px;" disabled></text-input>
+
+                <label>Comments</label>
+                <textbox-input id="ep-comments" style="width: 245px; height: 195px;"></textbox-input>
+            </div>
+            <div style="right: 17px; bottom: 10px; position: absolute;">
+                <push-button id="ep-ok">Ok</push-button>
+                <push-button id="ep-cancel" style="margin-left: 10px;">Cancel</push-button>
+            </div>
+        </popup-body>
+    </popup>
+
+    <popup id="copy-form-popup" width="400px" height="280px">
+        <popup-title>Copy Form</popup-title>
+        <popup-body>
+            <span>Existing Form:</span>
+            <hr>
+
+            <div class="vert-input">
+                <label>Code</label>
+                <text-input id="cfp-code-1" style="width: 130px;" disabled></text-input>
+
+                <label>Description</label>
+                <text-input id="cfp-description-1" style="width: 290px;" disabled></text-input>
+            </div>
+
+            <div style="margin-top: 20px;">
+                <span>New Form:</span>
+            </div>
+            <hr>
+
+            <div class="vert-input">
+                <label>Code</label>
+                <drop-down id="cfp-code-2" style="width: 130px;"></drop-down>
+
+                <label>Description</label>
+                <text-input id="cfp-description-2" style="width: 290px;" disabled></text-input>
+
+                <label>Person</label>
+                <smart-chooser id="cfp-person" style="width: 270px;"></smart-chooser>
+            </div>
+            <div style="right: 17px; bottom: 10px; position: absolute;">
+                <push-button id="cfp-ok">Ok</push-button>
+                <push-button id="cfp-cancel" style="margin-left: 10px;">Cancel</push-button>
+            </div>
+        </popup-body>
+    </popup>
+
+    <popup id="reassign-form-popup" width="400px" height="250px">
+        <popup-title>RE-assign Form</popup-title>
+        <popup-body>
+            <span>Form to Re-assign:</span>
+            <hr>
+
+            <div class="vert-input">
+                <label>Code</label>
+                <text-input id="rfp-code-1" style="width: 130px;" disabled></text-input>
+
+                <label>Description</label>
+                <text-input id="rfp-description-1" style="width: 290px;" disabled></text-input>
+
+                <label>Person</label>
+                <text-input id="rfp-person-1" style="width: 200px;" disabled></text-input>
+            </div>
+
+            <div style="margin-top: 20px;">
+                <span>Re-assign To:</span>
+            </div>
+            <hr>
+
+            <div class="vert-input">
+                <label style="margin-left: 20px;">Person</label>
+                <smart-chooser id="rfp-person" style="width: 270px;" required></smart-chooser>
+            </div>
+            <div style="right: 17px; bottom: 10px; position: absolute;">
+                <push-button id="rfp-ok">Ok</push-button>
+                <push-button id="rfp-cancel" style="margin-left: 10px;">Cancel</push-button>
+            </div>
+        </popup-body>
+    </popup>
+
+    <popup id="combine-popup" width="500px" height="310px">
+        <popup-title>Combine Adobe PDF Forms</popup-title>
+
+        <popup-body>
+            <span>Existing Forms</span>
+            <hr>
+
+            <div id="cf-grid" style="width: 100%; height: 140px;"></div>
+
+            <div style="margin-top: 10px;">
+                <span>New Form:</span>
+            </div>
+            <hr>
+
+            <div class="vert-input">
+                <label>Code</label>
+                <drop-down id="cf-code" style="width: 150px;" required></drop-down>
+
+                <label>Description</label>
+                <text-input id="cf-description" style="width: 390px;" disabled></text-input>
+            </div>
+
+            <div style="right: 17px; bottom: 10px; position: absolute;">
+                <push-button id="cf-ok">Ok</push-button>
+                <push-button id="cf-cancel" style="margin-left: 10px;">Cancel</push-button>
+            </div>
+        </popup-body>
+    </popup>
+
+    <popup id="separate-popup" width="400px" height="330px">
+        <popup-title>Separate Adobe PDF Form</popup-title>
+        <popup-body>
+            <div style="margin-top: 10px;">
+                <span>Existing Form:</span>
+            </div>
+            <hr>
+
+            <div class="vert-input">
+                <label>Code</label>
+                <text-input id="sp-code-1" style="width: 150px;" disabled></text-input>
+
+                <label>Description</label>
+                <text-input id="sp-description-1" style="width: 300px;" disabled></text-input>
+            </div>
+
+            <div style="margin-top: 20px;">
+                <span>New Form (from separate pages):</span>
+            </div>
+            <hr>
+
+            <div class="vert-input">
+                <label>Code</label>
+                <drop-down id="sp-code-2" style="width: 150px;"></drop-down>
+
+                <label>Description</label>
+                <text-input id="sp-description-2" style="width: 300px;" disabled></text-input>
+            </div>
+
+
+            <div style="margin-top: 20px;">
+                <span>Enter the page numbers separated by a comma (e.g. 1, 3, 4):</span>
+            </div>
+            <hr>
+
+            <span style="margin-left: 33px;">Pages:</span>
+            <text-input id="sp-pages" required></text-input>
+
+            <div style="right: 17px; bottom: 10px; position: absolute;">
+                <push-button id="sp-ok">Ok</push-button>
+                <push-button id="sp-cancel" style="margin-left: 10px;">Cancel</push-button>
+            </div>
+        </popup-body>
+    </popup>
+
+</div>

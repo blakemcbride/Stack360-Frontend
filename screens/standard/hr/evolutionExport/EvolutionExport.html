@@ -1,0 +1,38 @@
+<!--
+    Copyright 2020 STACK360 LLC
+    All rights reserved.
+
+-->
+
+<div class="kiss">
+    <style>
+        #options-container {
+            display: grid;
+            grid-template-columns: repeat(2, max-content);
+            grid-row-gap: 10px;
+            grid-column-gap: 10px;
+            align-items: center;
+        }
+        #options-container * {
+            margin-left: 0 !important;
+        } 
+    </style>
+    <div>
+        <div id="options-container">
+            <div style="grid-column: 1 / 3; text-align: center; margin-top: 20px;">
+                <span style="font-size: 24px;">Evolution Export</span>
+            </div>
+
+            <span style="font-weight: 600; grid-column: 1 / 3;">This export could take several minutes.</span>
+
+            <div></div>
+            <push-button id="export" style="width: max-content;">Run Export</push-button>
+
+            <span>Output FIle 1:</span>
+            <text-input id="file1" maxlength="200" disabled style="width: 400px;"></text-input>
+
+            <span>Output FIle 2:</span>
+            <text-input id="file2" maxlength="200" disabled style="width: 400px;"></text-input>
+        </div>
+    </div>
+</div>

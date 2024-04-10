@@ -1,0 +1,174 @@
+<!--
+     Copyright 2020 STACK360 LLC
+     All rights reserved.
+
+-->
+
+<div class="kiss">
+    <style>
+        #screen-top-left {
+            display:grid;
+            grid-template-columns: 60px 280px;
+            grid-column-gap: 5px;
+            grid-row-gap: 5px;
+            margin-top: 5px;
+            margin-left: 0;
+        }
+        #screen-top-left span       { text-align:right; margin-top: 6px; }
+        #screen-top-left span:after { content: ":"; }
+
+        .right-vert-sep {
+            margin-top: 10px;
+        }
+
+        .smart-width {
+            width: 230px;
+        }
+
+        b {
+            font-weight: bold;
+        }
+
+    </style>
+    
+    <div style="margin-top: 10px;">
+        <span>Search for Timesheets in an Accounting State:</span>
+    </div>
+    <hr style="margin-left: 0;">
+
+    <div>
+        <div style="display: inline-block; vertical-align: top; margin-top: 0;">
+            <div id="screen-top-left" >
+                <span>Company</span>
+                <smart-chooser id="select-company" class="smart-width" default-option="(choose)"></smart-chooser>
+
+                <span>Project ID</span>
+                <smart-chooser id="select-project" class="smart-width" default-option="(choose)"></smart-chooser>
+
+                <span>Employee</span>
+                <smart-chooser id="select-employee" class="smart-width" default-option="(choose)"></smart-chooser>
+            </div>
+        </div>
+
+        <div style="display: inline-block;">
+            <div class="right-vert-sep">
+                <span>Billable Status:</span>
+                <radio-button group="billable" value="1">Billable</radio-button>
+                <radio-button group="billable" value="2">Non-Billable</radio-button>
+                <radio-button group="billable" value="0" checked>Either</radio-button>
+            </div>
+            <div class="right-vert-sep">
+                <span>State:</span>
+                <radio-button group="timesheet-state" value="U">Unapproved</radio-button>
+                <radio-button group="timesheet-state" value="A">Approved</radio-button>
+                <radio-button group="timesheet-state" value="D">Deferred</radio-button>
+                <radio-button group="timesheet-state" value="I">Invoiced</radio-button>
+                <radio-button group="timesheet-state" value="any" checked>Any</radio-button>
+            </div>
+            <div class="right-vert-sep">
+                <span>Invoice ID:</span>
+                <drop-down id="invoice-id-search-type" style="width: 100px;">
+                    <option value="2">Starts With</option>
+                    <option value="3">Ends With</option>
+                    <option value="4">Contains</option>
+                    <option value="5">Exact Match</option>
+                </drop-down>
+                <text-input id="invoice-id"></text-input>
+            </div>
+        </div>
+    </div>
+
+    <div style="margin-top: 10px;">
+        <span style="margin-left: 5px;">Date From:</span>
+        <div style="display: inline-block;">
+            <native-date-input id="start-date" style="width: 110px;"></native-date-input>
+
+            <span style="margin-left: 20px;">To</span>
+            <native-date-input id="end-date" style="width: 110px;"></native-date-input>
+        </div>
+
+        <push-button id="reset" style="margin-left: 200px;">Reset</push-button>
+        <push-button id="search" style="margin-left: 10px;">Search</push-button>
+    </div>
+
+    <div style="margin-top: 10px;">
+        <span>Timesheets Search Results:</span>
+    </div>
+    <hr style="margin-left: 0;">
+
+    <div id="timesheet-grid" style="height: calc(100% - 270px); width: 100%;"></div>
+
+    <div style="position: absolute; bottom: 40px;">
+        <span>Billable Hours:</span>
+        <numeric-input id="billable-hours" style="width: 60px;" decimal-places="2" show-zero disabled></numeric-input>
+
+        <span style="margin-left: 20px;">Non Billable Hours:</span>
+        <numeric-input id="nonbillable-hours" style="width: 60px;" decimal-places="2" show-zero disabled></numeric-input>
+
+        <span style="margin-left: 20px;">Total Hours:</span>
+        <numeric-input id="total-hours" style="width: 60px;" decimal-places="2" show-zero disabled></numeric-input>
+    </div>
+
+    <!-- <div style="position: absolute; width: 100%; bottom: 10px; text-align: center;">
+
+    </div>-->
+    <div style="position: absolute; bottom: 18px;"><text-label id="display-count"></text-label></div>
+    <div style="position: absolute; width: 100%; bottom: 10px; text-align: right;">
+        <push-button id="column-legend" style="margin-right: 200px; background: none; border: none;">Column Legend</push-button>
+        <push-button id="export">Export</push-button>
+        <push-button id="report">Report</push-button>
+        <push-button id="reject" disabled>Reject</push-button>
+        <push-button id="defer" disabled>Defer</push-button>
+        <push-button id="reclaim" style="margin-right: 20px;" disabled>Reclaim</push-button>
+    </div>
+
+    <popup id="column-legend-popup" height="370px" width="400px">
+        <popup-title>Column Legend</popup-title>
+        <popup-body>
+            <div style="width: 370px; height: 320px; padding: 10px;">
+                <b>S - Timesheet State</b><br>
+                This column represents the current state of the timesheet entry.  Possible values are:
+                <br>
+                <ul>
+                    <li><b>(N)ew</b> - Timesheet has been newly created</li>
+                    <li><b>(R)ejected</b> - Timesheet has been rejected by a supervisor back to the timesheet creator</li>
+                    <li><b>(F)ixed</b> - Timesheet has been fixed after being Rejected by a supervisor</li>
+                    <li><b>(C)hanged</b> - Timesheet has been changed after the day has by finalized (possible when the day has been Rejected back to the timesheet creator)</li>
+                    <li><b>(A)pproved</b> - Timesheet has been approved by a supervisor and is available for accounting</li>
+                    <li><b>(P)roblem</b> - Timesheet has been marked as having a problem by accounting</li>
+                    <li><b>(D)eferred</b> - Timesheet has been marked as deferred by accounting (won't be invoiced)</li>
+                    <li><b>(I)nvoiced</b> - Timesheet has been included in an invoice</li>
+                </ul>
+                <br>
+                <b>Billable - Timesheet Billable Status</b>
+                This column represents the billable status of the timesheet entry.  Possible values are:
+                <br>
+                <ul>
+                    <li><b>(Y)es</b> - The timesheet is billable</li>
+                    <li><b>(N)o</b> - The timesheet is not billable</li>
+                    <li><b>(U)nknown</b> - It is unknown if the timesheet is billable</li>
+                </ul>
+            </div>
+
+            <div style="position: absolute; bottom: 10px; right: 10px;">
+                <push-button id="column-legend-close">Close</push-button>
+            </div>
+
+        </popup-body>
+    </popup>
+
+    <popup id="reject-reason-popup" width="300px" height="250px">
+        <popup-title>Reject Timesheet(s)</popup-title>
+        <popup-body>
+            <div style="margin-top: 10px; margin-bottom: 10px;">
+                <text-label id="rr-text"></text-label>
+            </div>
+            <textbox-input id="rr-reason" style="width: 275px; height: 165px;"></textbox-input>
+            <div style="position: absolute; bottom: 10px; right: 10px;">
+                <push-button id="rr-ok">OK</push-button>
+                <push-button id="rr-cancel">Cancel</push-button>
+            </div>
+        </popup-body>
+    </popup>
+
+</div>

@@ -1,0 +1,167 @@
+<!--
+     Copyright 2020 STACK360 LLC
+     All rights reserved.
+
+-->
+
+<div class="kiss">
+
+    <style>
+        #page-body {
+            display:grid;
+            grid-template-columns: 380px 380px;
+            grid-column-gap: 5px;
+            grid-row-gap: 10px;
+            margin-top: 0;
+            margin-left: 10px;
+        }
+        #page-body span       { text-align:right; margin-top: 6px; }
+
+        #page-left {
+            display:grid;
+            grid-template-columns: 100px 280px;
+            grid-column-gap: 5px;
+            grid-row-gap: 5px;
+            margin-top: 10px;
+            margin-left: 10px;
+            align-content: start;
+        }
+        #page-left span       { text-align:right; margin-top: 6px; }
+
+        #page-left-span {
+            grid-column: 1 / span 2;
+        }
+
+        #page-right {
+            display:grid;
+            grid-template-columns: 150px 230px;
+            grid-column-gap: 5px;
+            grid-row-gap: 5px;
+            margin-top: 10px;
+            margin-left: 10px;
+            align-content: start;
+        }
+        #page-right span       { text-align:right; margin-top: 6px; }
+
+        .field-width {
+            width: 200px;
+        }
+
+        .vert-space {
+            margin-top: 10px;
+        }
+    </style>
+
+    <div style="margin-top: 10px;">
+        <span>Project Summary:</span>
+        <text-label id="project-info" style="float: right;" maxlength="80"></text-label>
+    </div>
+    <hr style="margin-left: 0;">
+
+    <span style="margin-left: 70px;">Summary:</span>
+    <text-input id="summary" style="width: 637px;" required></text-input>
+
+    <div id="page-body">
+
+        <div id="page-left">
+            <span>Category Code:</span>
+            <text-input id="category-code" class="field-width" disabled></text-input>
+
+            <span>Type Code:</span>
+            <text-input id="type-code" class="field-width" disabled></text-input>
+
+            <span>External Reference:</span>
+            <text-input id="external-reference" class="field-width" maxlength="20"></text-input>
+
+            <span>Date Created:</span>
+            <div>
+                <date-input id="date-created" style="width: 70px;" disabled></date-input>
+                <span style="margin-left: 10px;">Time:</span>
+                <time-input id="time-created" style="width: 50px;" disabled></time-input>
+            </div>
+
+            <span>Created By:</span>
+            <text-input id="created-by" class="field-width" disabled></text-input>
+
+            <div id="page-left-span">
+                <div style="margin-top: 10px;">
+                    <span style="vertical-align: top;">Show on Timesheet Project Quick List for All Employees:</span>
+                    <check-box id="show-all-employees"></check-box>
+                </div>
+                <div class="vert-space">
+                    Assigned People:
+                </div>
+                <hr>
+                <div id="worker-grid" style="height: calc(100vh - 500px); width: 100%;"></div>
+                <div id="status" class="vert-space"></div>
+                <div class="vert-space" style="text-align: center;">
+                    <push-button id="save" disabled>Save</push-button>
+                    <push-button id="reset" style="margin-left: 10px;" disabled>Reset</push-button>
+                </div>
+            </div>
+
+        </div>
+
+        <div id="page-right">
+            <span>Client:</span>
+            <text-input id="client" class="field-width" disabled></text-input>
+
+            <span>Client Organizational Group:</span>
+            <text-input id="org-group" class="field-width" disabled></text-input>
+
+            <span>Requesting Person:</span>
+            <text-input id="requesting-person" class="field-width" maxlength="50"></text-input>
+
+            <span>Managing Employee:</span>
+            <div>
+                <text-input id="managing-employee" style="width: 170px;" disabled></text-input>
+                <push-button id="select-manager" class="btn-smart-chooser"></push-button>
+            </div>
+
+            <span style="margin-top: 0;">Billable:</span>
+            <div>
+                <radio-button group="billable" value="Y" disabled>Yes</radio-button>
+                <radio-button group="billable" value="N" disabled>No</radio-button>
+                <radio-button group="billable" value="U" disabled>Unknown</radio-button>
+            </div>
+
+            <span>Project Code:</span>
+            <text-input id="project-code" style="width: 70px;" maxlength="12"></text-input>
+
+            <span>Estimated Start Date:</span>
+            <native-date-input id="start-date" style="width: 110px;"></native-date-input>
+
+            <span>Estimated Last Date:</span>
+            <native-date-input id="end-date" style="width: 110px;"></native-date-input>
+
+            <span>Site Address - Street 1:</span>
+            <text-input id="street1" class="field-width" maxlength="60"></text-input>
+
+            <span>Street 2:</span>
+            <text-input id="street2" class="field-width" maxlength="60"></text-input>
+
+            <span>City:</span>
+            <text-input id="city" class="field-width" maxlength="60"></text-input>
+
+            <span>State:</span>
+            <text-input id="state" style="width: 30px;" minlength="2" maxlength="2" upcase required></text-input>
+
+            <span>Zip Code:</span>
+            <text-input id="zip-code" style="width: 75px;" maxlength="10"></text-input>
+
+            <div style="margin-top: 30px;"></div>
+            <div></div>
+
+            <span>Required Workers:</span>
+            <numeric-input id="required-workers" style="width: 40px;"></numeric-input>
+
+            <span>Project Record ID:</span>
+            <text-input id="project-id" style="width: 100px;" disabled></text-input>
+
+        </div>
+
+
+    </div>
+
+
+</div>

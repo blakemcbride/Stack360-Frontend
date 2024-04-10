@@ -1,0 +1,77 @@
+<!--
+     Copyright 2021 STACK360 LLC
+     All rights reserved.
+
+-->
+
+<div class="kiss">
+
+    <style>
+        .left-width {
+            width: 200px;
+        }
+
+        .right-width {
+            width: 150px;
+        }
+
+        .numeric-width {
+            width: 60px;
+        }
+
+        div.vert-input2 {
+            display:grid;
+            grid-template-columns: max-content max-content;
+            grid-column-gap:5px;
+            grid-row-gap: 10px;
+            margin-top: 10px;
+        }
+
+        div.vert-input2 span {
+            text-align:right;
+            margin-top: 6px;
+        }
+    </style>
+
+    <div style="margin-top: 10px;">
+        <span>Client Question Detail:</span>
+        <div style="float: right;">
+            <text-label id="client-name"></text-label>
+        </div>
+    </div>
+    <hr>
+
+    <div id="question-grid" style="width: 100%; height: calc(100% - 75px);">
+    </div>
+
+    <text-label id="question-grid-status" style="position: absolute; bottom: 10px; left: 10px;">
+        Displaying 0 Client Question Details
+    </text-label>
+    <div style="right: 10px; bottom: 10px; position: absolute;">
+        <push-button id="question-edit" disabled>Edit</push-button>
+        <push-button id="question-report" style="margin-left: 10px;">Report</push-button>
+    </div>
+
+    <popup id="question-edit-popup" height="350px" width="600px">
+        <popup-title>
+            <text-label id="qp-title">Enter Client QUestion Detail</text-label>
+        </popup-title>
+        <popup-body>
+            <div style="display: flex; justify-content: flex-end; align-items: center;">
+                <span>Entered: </span>
+                <text-input id="qp-entered" style="width: 150px; margin-left: 5px; text-align: right;" readOnly></text-input>
+            </div>
+            <div class="vert-input2">
+                <span>Question:</span>
+                <text-input id="qp-question" style="width: 516px;" readOnly></text-input>
+                <span>Response:</span>
+                <textbox-input id="qp-response" style="width: 514px; height: 224px;"></textbox-input>
+            </div>
+            <div style="right: 7px; bottom: 10px; position: absolute;">
+                <push-button id="qp-ok">OK</push-button>
+                <push-button id="qp-cancel" style="margin-left: 10px;">Cancel</push-button>
+            </div>
+        </popup-body>
+    </popup>
+
+</div>

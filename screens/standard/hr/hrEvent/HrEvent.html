@@ -1,0 +1,101 @@
+<!--
+     Copyright 2020 STACK360 LLC
+     All rights reserved.
+
+-->
+
+<div class="kiss">
+
+    <style>
+        div.vert-input2 {
+            display:grid;
+            grid-template-columns: max-content max-content;
+            grid-column-gap:5px;
+            grid-row-gap: 10px;
+            margin-top: 10px;
+            margin-left: 10px;
+        }
+        div.vert-input2 label {
+            text-align:right;
+            margin-top: 4px;
+        }
+    </style>
+
+    <div style="margin-top: 10px;">
+        <span>Employee Events:</span>
+        <check-box id="include-assignments" style="margin-left: 200px;">Include assignments</check-box>
+        <check-box id="include-status-changes" style="margin-left: 50px;">Include status changes</check-box>
+        <check-box id="include-checkins" style="margin-left: 50px;">Include Worker Check Ins</check-box>
+        <text-label id="worker-name" style="float: right;"></text-label>
+    </div>
+    <hr style="margin-left: 0;">
+    <div id="event-grid" style="width: 100%; height: calc(100% - 85px);"></div>
+
+    <text-label id="status" style="position: absolute; bottom: 25px; left: 20px;"></text-label>
+
+    <div style="position: absolute; bottom: 10px; right: 10px;">
+        <push-button id="add" style="margin-left: 10px;">Add</push-button>
+        <push-button id="edit" style="margin-left: 10px;" disabled>Edit</push-button>
+        <push-button id="delete" style="margin-left: 10px;" disabled>Delete</push-button>
+        <push-button id="report" style="margin-left: 10px;">Report</push-button>
+    </div>
+
+    <popup id="event-popup" height="310px" width="400px">
+        <popup-title id="event-popup-title"></popup-title>
+        <popup-body>
+            <div class="vert-input2">
+                <label>Event Date:</label>
+                <native-date-input id="event-popup-date" style="width: 110px;" required></native-date-input>
+
+                <label>Summary:</label>
+                <text-input id="event-popup-summary" style="width: 270px;" maxlength="60" required></text-input>
+
+                <label>Supervisor:</label>
+                <text-input id="event-popup-supervisor" style="width: 250px;" disabled></text-input>
+
+                <label>Worker Notified:</label>
+                <div>
+                    <check-box id="event-popup-notified"></check-box>
+                    <span style="margin-left: 30px;">Notified Date:</span>
+                    <native-date-input id="event-popup-notified-date" style="width: 110px;"></native-date-input>
+                </div>
+
+                <label>Detail:</label>
+                <textbox-input id="event-popup-detail" style="width: 265px; height: 105px;" maxlength="2000"></textbox-input>
+            </div>
+            <div style="right: 17px; bottom: 10px; position: absolute;">
+                <push-button id="event-popup-ok">Ok</push-button>
+                <push-button id="event-popup-cancel" style="margin-left: 10px;">Cancel</push-button>
+            </div>
+        </popup-body>
+    </popup>
+
+    <popup id="report-popup" height="140px" width="350px">
+        <div>Report Options</div>
+        <div>
+            <div class="vert-input">
+                <label>Start Date</label>
+                <div>
+                    <date-input id="report-popup-start-date" style="width: 90px;"></date-input>
+                    <span>(Leave Blank for First Record</span>
+                </div>
+
+                <label>End Date</label>
+                <div>
+                    <date-input id="report-popup-end-date" style="width: 90px;"></date-input>
+                    <span>(Leave Blank for Last Record</span>
+                </div>
+            </div>
+            <div style="margin-top: 10px;">
+                <span style="margin-left: 15px;">Sort on Event Date:</span>
+                <radio-button group="report-popup-sort-group" value="true" checked>Ascending</radio-button>
+                <radio-button group="report-popup-sort-group" value="false">Descending</radio-button>
+            </div>
+            <div style="right: 17px; bottom: 10px; position: absolute;">
+                <push-button id="report-popup-ok">Ok</push-button>
+                <push-button id="report-popup-cancel" style="margin-left: 10px;">Cancel</push-button>
+            </div>
+        </div>
+    </popup>
+
+</div>

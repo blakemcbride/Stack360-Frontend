@@ -1,0 +1,265 @@
+<!--
+     Copyright 2020 STACK360 LLC
+     All rights reserved.
+
+-->
+
+<div class="kiss">
+    <style>
+        .bdr-grid {
+            display: grid;
+            grid-column-gap: 10px;
+            grid-row-gap: 10px;
+            align-items: center;
+        }
+        .bdr-grid span {
+            color: #000;
+            align-self: center;
+            text-align: right;
+        }
+        #bdr-applied_filters b {
+            font-weight: 800;
+        }
+        
+        .tab-height {
+            height: 280px;
+        }
+    </style>
+
+    <div style="width: max-content;">
+        <div style="margin-top: 10px; margin-bottom: 10px;">
+            <span>Billing Detail Report:</span>
+            <hr>
+        </div>
+    
+        <div class="bdr-grid" style="margin-bottom: 10px; grid-template-columns: repeat(4, max-content);">
+            <span>From Date:</span>
+            <native-date-input id="bdr-fromDate" style="width:110px;"></native-date-input>
+    
+            <span style="margin-left: 30px;">Employee:</span>
+            <smart-chooser id="bdr-employeeId" outside-width="260"></smart-chooser>
+    
+            <span>To Date:</span>
+            <native-date-input id="bdr-toDate" style="width:110px;"></native-date-input>
+    
+            <span>Client:</span>
+            <smart-chooser id="bdr-clientCompanyId" outside-width="260"></smart-chooser>
+    
+            <div></div>
+            <div></div>
+    
+            <span>Project ID:</span>
+            <smart-chooser id="bdr-projectId" outside-width="260"></smart-chooser>
+        </div>
+    
+        <div style="margin-bottom: 20px;">
+            <span>Timesheet Status:</span>
+            <hr>
+            <check-box id="bdr-notApproved">Non-Approved</check-box>
+            <check-box id="bdr-approved">Approved</check-box>
+            <check-box id="bdr-invoiced">Invoiced</check-box>
+        </div>
+    
+        <div style="margin-bottom: 20px;">
+            <span>Billing State:</span>
+            <hr>
+            <check-box id="bdr-billable">Billable</check-box>
+            <check-box id="bdr-notBillable">Non-Billable</check-box>
+        </div>
+    
+        <div style="text-align: right;">
+            <push-button id="report">Report</push-button>
+        </div>
+    </div>
+
+    <popup id="project-info-popup" height="400px" width="530px">
+        <popup-title>Additional Information</popup-title>
+        <popup-body>
+            <br>
+            <span style="font-weight:bold;">Project ID:</span>
+            <text-label id="project-info-project-id"></text-label>
+            <span style="margin-left: 50px; font-weight:bold;">Requesting Person:</span>
+            <text-label id="project-info-requesting-person"></text-label>
+            <br><br>
+
+            <span style="font-weight:bold;">Project Summary:</span>
+            <text-label id="project-info-summary"></text-label>
+            <br><br>
+
+            <span style="font-weight:bold;">Requesting Company (Group):</span>
+            <text-label id="project-info-requesting-company"></text-label>
+            <br><br>
+
+            <span style="font-weight:bold;">Phase:</span>
+            <text-label id="project-info-phase"></text-label>
+            <br><br>
+
+            <span style="font-weight:bold;">Status:</span>
+            <text-label id="project-info-status"></text-label>
+            <br><br>
+
+            <span style="font-weight:bold;">Project Detail:</span><br>
+            <textbox-input id="project-info-details" style="height: 195px; width: 495px; background-color: #f7ff80;" disabled></textbox-input>
+
+            <div style="right: 10px; bottom: 10px; position: absolute;">
+                <push-button id="project-info-ok">Ok</push-button>
+            </div>
+        </popup-body>
+    </popup>
+
+    <popup id="bdr-data-search" width="620px" height="455px">
+        <popup-title>
+            <span>Search for <text-label id="bdr-data-search-type"></text-label></span>
+        </popup-title>
+        <popup-body style="padding: 10px;">
+            <div style="margin-bottom: 10px;">
+                <radio-button group="bdr-chooseSpecific" value="A">All <text-label id="bdr-chooseSpecificLabelAll"></text-label></radio-button>
+                <radio-button group="bdr-chooseSpecific" value="S" checked>Search for <text-label id="bdr-chooseSpecificLabelSearch"></text-label></radio-button>
+            </div>
+    
+            <div>Search Criteria:</div>
+            <hr>
+            
+            <div class="bdr-grid" style="margin-top: 8px; display: grid; grid-template-columns: repeat(3, max-content); align-items: center;">
+                <text-label id="bdr-first-label"></text-label>
+                <drop-down id="bdr-first-criteria" style="width: 95px;"></drop-down>
+                <text-input id="bdr-first-search" style="width: 140px"></text-input>
+                
+                <text-label id="bdr-second-label"></text-label>
+                <drop-down id="bdr-second-criteria" style="width: 95px;"></drop-down>
+                <text-input id="bdr-second-search" style="width: 140px"></text-input>    
+
+                <text-label id="bdr-third-label"></text-label>
+                <text-input id="bdr-third-search" style="width: 90px"></text-input>   
+                
+            </div>
+    
+            <div class="btn-bar" style="margin-top: 10px; width: 100%; justify-content: flex-end;">
+                <push-button id="bdr-reset">Reset</push-button>
+                <push-button id="bdr-search" style="margin-right: unset;">Search</push-button>
+            </div>
+    
+            <div style="margin-top: 10px;">
+                <div>Search Results:</div>
+                <hr>
+            </div>
+    
+            <div id="bdr-grid" style="width: 100%; height: 250px;"></div>
+        
+            <div class="vert-input2" style="margin-top: 20px; display: flex; justify-content: space-between; align-items: center;">
+                <text-label id="bdr-count" style="margin-left: 10px;">Displaying 0 Employees</text-label>
+    
+                <div>
+                    <push-button id="bdr-ok" disabled>OK</push-button>
+                    <push-button id="bdr-cancel" style="margin-left: 10px; margin-right: 15px;">Cancel</push-button>
+                </div>
+            </div>
+        </popup-body>
+    </popup>
+
+    <popup id="bdr-search-project" width="710px" height="520px">
+        <popup-title>
+            <span>Choose Project</span>
+        </popup-title>
+        <popup-body style="padding: 10px;">
+            <div style="margin-bottom: 10px;">
+                <radio-button group="bdr-proj-chooseProject" value="A">All Projects</radio-button>
+                <radio-button group="bdr-proj-chooseProject" value="S" checked>Search for a Project</radio-button>
+            </div>
+    
+            <div>Search Criteria:</div>
+            <hr>
+            
+            <div class="bdr-grid" style="margin-top: 8px; display: grid; grid-template-columns: repeat(5, max-content); align-items: center;">
+                <span>ID:</span>
+                <drop-down id="bdr-proj-projectNameSearchType" style="width: 95px;"></drop-down>
+                <text-input id="bdr-proj-projectName" style="width: 160px"></text-input>
+
+                <span>Category Code:</span>
+                <smart-chooser id="bdr-proj-category" outside-width="180"></smart-chooser>  
+                
+                <span>Summary:</span>
+                <drop-down id="bdr-proj-summarySearchType" style="width: 95px;"></drop-down>
+                <text-input id="bdr-proj-summary" style="width: 160px"></text-input>    
+
+                <span>Type Code:</span>
+                <smart-chooser id="bdr-proj-type" outside-width="180"></smart-chooser>  
+
+                <span>Requesting Company:</span>
+                <div style="grid-column: 2 / 4;">
+                    <smart-chooser id="bdr-proj-companyId" outside-width="265"></smart-chooser>  
+                </div>
+
+                <span>Status Code:</span>
+                <smart-chooser id="bdr-proj-status" outside-width="180"></smart-chooser>                  
+            </div>
+    
+            <div class="btn-bar" style="margin-top: 10px; width: 100%; justify-content: flex-end;">
+                <push-button id="bdr-proj-reset">Reset</push-button>
+                <push-button id="bdr-proj-search" style="margin-right: unset;">Search</push-button>
+            </div>
+    
+            <div style="margin-top: 10px;">
+                <div>Search Results:</div>
+                <hr>
+            </div>
+    
+            <div id="bdr-proj-grid" style="width: 100%; height: 250px;"></div>
+        
+            <div class="vert-input2" style="margin-top: 20px; display: flex; justify-content: space-between; align-items: center;">
+                <text-label id="bdr-proj-count" style="margin-left: 10px;">Displaying 0 Projects</text-label>
+    
+                <div>
+                    <push-button id="bdr-proj-ok" disabled>OK</push-button>
+                    <push-button id="bdr-proj-cancel" style="margin-left: 10px; margin-right: 15px;">Cancel</push-button>
+                </div>
+            </div>
+        </popup-body>
+    </popup>
+
+    <popup id="bdr-project-data-search" width="420px" height="465px">
+        <popup-title>
+            <span>Search for Project <text-label id="bdr-project-data-search-type"></text-label></span>
+        </popup-title>
+        <popup-body style="padding: 10px;">
+            <div style="margin-bottom: 10px;">
+                <radio-button group="bdr-project-specific" value="A">All <text-label id="bdr-proj-chooseSpecificLabelAll"></text-label></radio-button>
+                <radio-button group="bdr-project-specific" value="S" checked>Search for <text-label id="bdr-proj-chooseSpecificLabelSearch"></text-label></radio-button>
+            </div>
+    
+            <div>Search Criteria:</div>
+            <hr>
+            
+            <div class="bdr-grid" style="margin-top: 8px; display: grid; grid-template-columns: repeat(3, max-content); align-items: center;">
+                <span>Code:</span>
+                <drop-down id="bdr-proj-code-criteria" style="width: 95px;"></drop-down>
+                <text-input id="bdr-proj-code-search" style="width: 140px"></text-input>
+                
+                <span>Description</span>
+                <drop-down id="bdr-proj-descr-criteria" style="width: 95px;"></drop-down>
+                <text-input id="bdr-proj-descr-search" style="width: 140px"></text-input> 
+            </div>
+    
+            <div class="btn-bar" style="margin-top: 10px; width: 100%; justify-content: flex-end;">
+                <push-button id="bdr-projD-reset">Reset</push-button>
+                <push-button id="bdr-projD-search" style="margin-right: unset;">Search</push-button>
+            </div>
+    
+            <div style="margin-top: 10px;">
+                <div>Search Results:</div>
+                <hr>
+            </div>
+    
+            <div id="bdr-projRes-grid" style="width: 100%; height: 250px;"></div>
+        
+            <div class="vert-input2" style="margin-top: 10px; display: flex; justify-content: space-between; align-items: center;">
+                <text-label id="bdr-projD-count" style="margin-left: 10px;">Displaying 0 Items</text-label>
+    
+                <div>
+                    <push-button id="bdr-projD-ok" disabled>OK</push-button>
+                    <push-button id="bdr-projD-cancel" style="margin-left: 10px; margin-right: 15px;">Cancel</push-button>
+                </div>
+            </div>
+        </popup-body>
+    </popup>
+</div>

@@ -1,0 +1,97 @@
+<!--
+     Copyright 2020 STACK360 LLC
+     All rights reserved.
+
+-->
+
+<div class="kiss" style="font-size: small;">
+
+    <style>
+        .page-body {
+            display: grid;
+            grid-template-columns: 120px 150px 300px 150px;
+            grid-column-gap: 10px;
+            grid-row-gap: 10px;
+            margin-top: 30px;
+            margin-left: 10px;
+            row-gap: 30px;
+        }
+
+        .page-body .across {
+            grid-column: 1/-1;
+            text-align: center;
+            display: inline-block;
+        }
+
+        .page-body span {
+            align-self: center;
+            text-align: end;
+        }
+
+
+    </style>
+
+    <div style="margin-top: 10px;">
+        <span>Paychex Export</span>
+    </div>
+    <hr>
+
+    <div style="margin-top: 30px; text-align: center; width: 400px;">
+        <div style="display: inline-block;">
+            <span>Employee Demographics Export</span>
+            <hr>
+            <div style="margin-top: 40px;">
+                <push-button id="run-demo-export">Run</push-button>
+            </div>
+        </div>
+    </div>
+
+    <hr style="margin-top: 45px;">
+
+    <div class="page-body">
+        <span></span>
+        <div>
+            <div style="display: inline-block;">
+                Timesheet Export
+                <hr>
+            </div>
+        </div>
+
+        <span></span>
+        <div>
+            <div style="display: inline-block;">
+                Per Diem Export
+                <hr>
+            </div>
+        </div>
+
+        <div class="across">Note: Only APPROVED timesheet entries will be included.</div>
+
+        <span>Period Beginning:</span>
+        <native-date-input id="time-beg-date" style="width: 120px;" required></native-date-input>
+
+        <span>Period Beginning:</span>
+        <native-date-input id="per-diem-beg-date" style="width: 120px;" required></native-date-input>
+
+        <span>Period End:</span>
+        <native-date-input id="time-end-date" style="width: 120px;" required></native-date-input>
+
+        <span>Period End:</span>
+        <native-date-input id="per-diem-end-date" style="width: 120px;" required></native-date-input>
+
+        <span></span>
+        <div style="display: inline-block">
+            <push-button id="run-time-export">Run</push-button>
+        </div>
+
+        <span></span>
+        <div style="display: inline-block">
+            <push-button id="run-per-diem-export">Run</push-button>
+        </div>
+
+
+    </div>
+
+
+
+</div>

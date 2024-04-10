@@ -1,0 +1,39 @@
+<!--
+    Copyright 2020 STACK360 LLC
+    All rights reserved.
+
+-->
+
+<div class="kiss">
+    <style>
+        #options-container {
+            display: grid;
+            grid-template-columns: repeat(2, max-content);
+            grid-row-gap: 10px;
+            grid-column-gap: 10px;
+            align-items: center;
+        }
+        #options-container * {
+            margin-left: 0 !important;
+        } 
+    </style>
+    <div>
+        <div style="margin-top: 10px; margin-bottom: 10px;">
+            <span>Applicant EEO Report / Export</span>
+            <hr>
+        </div>
+        <div id="options-container">
+            <span>From:</span>
+            <native-date-input id="fromDate" style="width: 110px;"></native-date-input>
+
+            <span>To:</span>
+            <native-date-input id="toDate" style="width: 110px;"></native-date-input>
+
+            <span></span>
+            <div style="margin-top: 20px;">
+                <push-button id="report" style="width: max-content;">Report</push-button>
+                <push-button id="export" style="width: max-content; margin-left: 10px !important;">Export</push-button>
+            </div>
+        </div>
+    </div>
+</div>

@@ -1,0 +1,56 @@
+<!--
+     Copyright 2020 STACK360 LLC
+     All rights reserved.
+
+-->
+
+<div class="kiss">
+
+    <style>
+        div.vert-input2 {
+            display:grid;
+            grid-template-columns: max-content max-content;
+            grid-column-gap:5px;
+            grid-row-gap: 10px;
+            margin-top: 10px;
+            margin-left: 10px;
+        }
+        div.vert-input2 label {
+            text-align:right;
+            margin-top: 4px;
+        }
+    </style>
+
+    <div style="margin-top: 10px;">
+        <span>Employee Notes:</span>
+        <text-label id="worker-name" style="float: right;"></text-label>
+    </div>
+    <hr style="margin-left: 0;">
+    <div id="grid" style="width: 100%; height: calc(100% - 90px);"></div>
+
+    <text-label id="status" style="position: absolute; bottom: 25px; left: 20px;"></text-label>
+
+    <div style="position: absolute; bottom: 15px; right: 10px;">
+        <push-button id="edit" style="margin-left: 10px;" disabled>Edit</push-button>
+        <push-button id="report" style="margin-left: 10px;">Report</push-button>
+    </div>
+
+    <popup id="note-popup" height="210px" width="350px">
+        <div>Edit Note Detail</div>
+        <div>
+            <div class="vert-input2">
+
+                <label>Note:</label>
+                <text-input id="note-popup-note" style="width: 270px;" disabled></text-input>
+
+                <label>Detail:</label>
+                <textbox-input id="note-popup-detail" style="width: 270px; height: 105px;"></textbox-input>
+            </div>
+            <div style="right: 17px; bottom: 10px; position: absolute;">
+                <push-button id="note-popup-ok">Ok</push-button>
+                <push-button id="note-popup-cancel" style="margin-left: 10px;">Cancel</push-button>
+            </div>
+        </div>
+    </popup>
+
+</div>

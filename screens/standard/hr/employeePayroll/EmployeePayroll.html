@@ -1,0 +1,238 @@
+<!--
+     Copyright 2021 STACK360 LLC
+     All rights reserved.
+
+-->
+
+<div class="kiss">
+
+    <style>
+        div.vert-input2 {
+            display:grid;
+            grid-template-columns: max-content max-content;
+            grid-column-gap:5px;
+            grid-row-gap: 8px;
+            margin-top: 10px;
+        }
+
+        div.vert-input2 span {
+            text-align:right;
+            margin-top: 6px;
+        }
+
+        div.vert-input2-between {
+            display:grid;
+            grid-template-columns: max-content max-content;
+            grid-column-gap:5px;
+            grid-row-gap: 8px;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        div.vert-input2-between span {
+            text-align:right;
+        }
+
+        div.vert-input4 {
+            display:grid;
+            grid-template-columns: max-content max-content max-content max-content;
+            grid-column-gap:5px;
+            grid-row-gap: 8px;
+            margin-top: 10px;
+        }
+
+        div.vert-input4 span {
+            text-align:right;
+            margin-top: 6px;
+        }
+
+        div.vert-input7 {
+            display:grid;
+            grid-template-columns: max-content max-content max-content max-content max-content 105px max-content;
+            grid-column-gap:8px;
+            grid-row-gap: 8px;
+            margin-top: 10px;
+            align-items: center;
+        }
+
+        div.vert-input7 span {
+            text-align:right;
+        }
+
+        div.vert-input2-benefit {
+            display:grid;
+            grid-template-columns: max-content max-content;
+            grid-column-gap:5px;
+            grid-row-gap: 8px;
+            align-items: center;
+            margin-left: 8px;
+        }
+
+        div.vert-input2-benefit-right {
+            display:grid;
+            grid-template-columns: max-content max-content;
+            grid-column-gap:5px;
+            grid-row-gap: 8px;
+            align-items: center;
+            justify-content: flex-end;
+            margin-left: 8px;
+        }
+
+    </style>
+
+    <div style="margin-top: 10px;">
+        <span>Employee Payroll:</span>
+        <text-label id="worker-name" style="float: right;"></text-label>
+    </div>
+    <hr>
+
+    <div id="ep-payroll-tab" class="tab-content" style="width: 763px;height: 281px;">
+        <ul class="tab-header">
+            <li id="general-TabButton" class="active">General</li>
+            <li id="tax-TabButton">Addtional Tax</li>
+            <li id="transfer-TabButton">Electronic Funds Transfers</li>
+        </ul>
+        <div id="general-TabContent" class="tab-content">
+            <div class="vert-input4">
+                <span>Pay Periods / Year:</span>
+                <numeric-input id="pay-period" style="width: 60px;" show-zero></numeric-input>
+                <span>Payroll Bank Account:</span>
+                <drop-down id="payroll-bank-account" style="width: 230px;"></drop-down>
+                <span>Expected Hours / Period:</span>
+                <numeric-input id="expected-period" style="width: 60px;" show-zero></numeric-input>
+                <span>Federal Excemptions:</span>
+                <numeric-input id="federal-exemptions" style="width: 60px;" show-zero></numeric-input>
+                <span>Martial Status:</span>
+                <drop-down id="marital-status" style="width: 190px;">
+                    <option name="Unknown" value="">Unknown</option>
+                    <option name="Single" value="S">Single</option>
+                    <option name="Married" value="M">Married</option>
+                    <option name="Divorced" value="D">Divorced</option>
+                    <option name="Widowed" value="W">Widowed</option>
+                </drop-down>
+                <span>State Excemptions:</span>
+                <numeric-input id="state-exemptions" style="width: 60px;" show-zero></numeric-input>
+                <span>W4 Status:</span>
+                <drop-down id="w4-status" style="width: 190px;"></drop-down>
+                <span>Federal Extra Withheld:</span>
+                <numeric-input id="federal-extra-withheld" style="width: 100px;" money decimal-places="2" show-zero></numeric-input>
+                <span>Overtime:</span>
+                <div style="width: 190px;" class="vert-input2-between">
+                    <radio-button group="overtime" value="true" checked>Exempt</radio-button>
+                    <radio-button group="overtime" value="false" >Non-Exempt</radio-button>
+                </div>
+                <span>State Extra Withheld:</span>
+                <numeric-input id="state-extra-withheld" style="width: 100px;" money decimal-places="2" show-zero></numeric-input>
+                <span>Earned Income Credit:</span>
+                <drop-down id="earned-income-credit" style="width: 190px;">
+                    <option name="DoesNotQualify" value=" ">Does Not Qualify</option>
+                    <option name="Individual" value="I">Individual</option>
+                    <option name="Joint" value="J">Joint</option>
+                    <option name="Married filing w/o spouse" value="W">Married filing w/o spouse</option>
+                </drop-down>
+                <span>Tax State:</span>
+                <drop-down id="tax-state" style="width: 80px;"></drop-down>
+                <span>Local Tax Code</span>
+                <text-input id="local-tax-code" style="width: 180px;margin-right: 60px;"></text-input>
+                <span>Unemployment State</span>
+                <drop-down id="unemployment-state" style="width: 80px;"></drop-down>
+            </div>
+        </div>
+        <div id="tax-TabContent" class="tab-content">
+            <div class="vert-input7">
+                <span>Federal Income Tax:</span>
+                <radio-button group="federal-income-tax" value="N">None</radio-button>
+                <radio-button group="federal-income-tax" value="F">Flat Deduction</radio-button>
+                <radio-button group="federal-income-tax" value="P">Percent Deduction</radio-button>
+                <radio-button group="federal-income-tax" value="A" checked>Additional Amount</radio-button>
+                <text-label id="federal-income-text" style="margin-left: 48px;">Amount</text-label>
+                <numeric-input id="federal-income-amount" value="$0.00" style="width: 80px;" money decimal-places="2" show-zero></numeric-input>
+                <numeric-input id="federal-income-amount-percent" value="0.00" style="width: 80px;" decimal-places="2" show-zero></numeric-input>
+                <span>State Income Tax:</span>
+                <radio-button group="state-income-tax" value="N">None</radio-button>
+                <radio-button group="state-income-tax" value="F">Flat Deduction</radio-button>
+                <radio-button group="state-income-tax" value="P">Percent Deduction</radio-button>
+                <radio-button group="state-income-tax" value="A" checked>Additional Amount</radio-button>
+                <text-label id="state-income-text" style="margin-left: 48px;">Amount</text-label>
+                <numeric-input id="state-income-amount" value="$0.00" style="width: 80px;" money decimal-places="2" show-zero></numeric-input>
+                <numeric-input id="state-income-amount-percent" value="0.00" style="width: 80px;" decimal-places="2" show-zero></numeric-input>
+                <span>Local Income Tax:</span>
+                <radio-button group="local-income-tax" value="N">None</radio-button>
+                <radio-button group="local-income-tax" value="F">Flat Deduction</radio-button>
+                <radio-button group="local-income-tax" value="P">Percent Deduction</radio-button>
+                <radio-button group="local-income-tax" value="A" checked>Additional Amount</radio-button>
+                <text-label id="local-income-text" style="margin-left: 48px;">Amount</text-label>
+                <numeric-input id="local-income-amount" value="$0.00" style="width: 80px;" money decimal-places="2" show-zero></numeric-input>
+                <numeric-input id="local-income-amount-percent" value="0.00" style="width: 80px;" decimal-places="2" show-zero></numeric-input>
+                <span>State Disability Tax:</span>
+                <radio-button group="state-disability-tax" value="N">None</radio-button>
+                <radio-button group="state-disability-tax" value="F">Flat Deduction</radio-button>
+                <radio-button group="state-disability-tax" value="P">Percent Deduction</radio-button>
+                <radio-button group="state-disability-tax" value="A" checked>Additional Amount</radio-button>
+                <text-label id="state-disability-text" style="margin-left: 48px;">Amount</text-label>
+                <numeric-input id="state-disability-amount" value="$0.00" style="width: 80px;" money decimal-places="2" show-zero></numeric-input>
+                <numeric-input id="state-disability-amount-percent" value="0.00" style="width: 80px;" decimal-places="2" show-zero></numeric-input>
+            </div>
+        </div>
+        <div id="transfer-TabContent" class="tab-content">
+            <div id="transfer-grid" style="margin-top: 10px; width: 100%; height: 195px;"></div>
+
+            <div id="bottom-bar" style="margin-top: 7px;" class="vert-input2-between">
+                <text-label id="transfer-count">Displaying 0 Transfers</text-label>
+
+                <div style="display: inline-block;">
+                    <push-button id="add" style="margin-left: 10px;">Add</push-button>
+                    <push-button id="edit" style="margin-left: 10px;" disabled>Edit</push-button>
+                    <push-button id="delete" style="margin-left: 10px;" disabled>Delete</push-button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div style="width: 781px;margin-top: 10px;" class="vert-input2-between">
+        <div style="display: inline-block;">
+            <push-button id="report">Report</push-button>
+            <push-button id="export" style="margin-left: 10px;">Export</push-button>
+        </div>
+        <div style="display: inline-block">
+            <push-button id="save" style="margin-left: 10px;" disabled>Save</push-button>
+            <push-button id="reset" style="margin-left: 10px;" disabled>Reset</push-button>
+        </div>
+    </div>
+
+    <popup id="add-popup" height="260px" width="288px">
+        <popup-title>
+            <text-label id="ap-title">Add Transfer</text-label>
+        </popup-title>
+        <popup-body>
+            <div class="vert-input2" style="margin-left: 4px;margin-top: 4px;">
+                <span>Acccount Type:</span>
+                <div style="display: inline-block;margin-top: 5px;">
+                    <radio-button group="ap-type" value="C" checked>Checking</radio-button>
+                    <radio-button group="ap-type" value="S">Savings</radio-button>
+                </div>
+                <span>Routing Code:</span>
+                <text-input id="ap-code" style="width: 170px;" required minlength="9" maxlength="9"></text-input>
+                <span>Account Number:</span>
+                <text-input id="ap-account-number" style="width:170px;" required minlength="6" maxlength="14"></text-input>
+                <span>Wage Types:</span>
+                <drop-down id="wage-type" style="width: 180px;" required></drop-down>
+                <span></span>
+                <div class="vert-input2">
+                    <radio-button group="amount-type" style="margin-top: 5px;" value="F">Flat Amount:</radio-button>
+                    <numeric-input id="ap-amount-flat" style="width: 72px;" disabled money decimal-places="2" show-zero required></numeric-input>
+                </div>
+                <span></span>
+                <div class="vert-input2">
+                    <radio-button group="amount-type" style="margin-top: 5px;" value="P">Percentage:</radio-button>
+                    <numeric-input id="ap-amount-percentage" style="width: 50px;" decimal-places="2" show-zero required min="0.00" max="100.00"></numeric-input>
+                </div>
+            </div>
+            <div style="right: 10px; bottom: 7px; position: absolute;">
+                <push-button id="ap-ok">Ok</push-button>
+                <push-button id="ap-cancel" style="margin-left: 10px;">Cancel</push-button>
+            </div>
+        </popup-body>
+    </popup>
+
+</div>

@@ -1,0 +1,79 @@
+<!--
+     Copyright 2021 STACK360 LLC
+     All rights reserved.
+
+-->
+
+<div class="kiss">
+
+    <style>
+        div.vert-input2 {
+            display:grid;
+            grid-template-columns: max-content max-content;
+            grid-column-gap: 80px;
+            grid-row-gap: 10px;
+            margin-top: 10px;
+            margin-left: 30px;
+            align-items: center;
+        }
+
+        div.vert-input3 {
+            display:grid;
+            grid-template-columns: max-content max-content max-content;
+            grid-column-gap: 80px;
+            grid-row-gap: 10px;
+            margin-top: 10px;
+            margin-left: 40px;
+        }
+
+        div.vert-input4 {
+            display:grid;
+            grid-template-columns: max-content max-content max-content max-content;
+            grid-column-gap: 30px;
+            grid-row-gap: 10px;
+            margin-top: 10px;
+            margin-left: 10px;
+        }
+    </style>
+
+    <div style="width: 560px;">
+        <div style="margin-top: 10px;">Include Columns:</div>
+        <hr>
+        <div class="vert-input3">
+            <check-box id="chk-name" checked>Name</check-box>
+            <check-box id="chk-login-attempt">Login Attempt Status</check-box>
+            <check-box id="chk-login-name">Login Name</check-box>
+        </div>
+
+        <div style="margin-top: 15px;">Sort:</div>
+        <hr>
+        <div class="vert-input4">
+            <radio-button group="sort-column" value="0" checked>Date/Time</radio-button>
+            <radio-button group="sort-column" value="1">Name</radio-button>
+            <radio-button group="sort-column" value="2">Login Attempt Status</radio-button>
+            <radio-button group="sort-column" value="3">Login Name</radio-button>
+            <radio-button group="sort-direction" value="true" checked>Ascending</radio-button>
+            <radio-button group="sort-direction" value="false">Descending</radio-button>
+        </div>
+
+        <div style="margin-top: 15px;">Filter:</div>
+        <hr>
+        <div class="vert-input2">
+            <check-box id="filter-success" checked>Include Successful Login Attempts</check-box>
+            <div>
+                <span>Login Date From:</span>
+                <native-date-input id="date-from" style="width: 110px;"></date-input>
+            </div>
+            <check-box id="filter-failed">Include Failed Login Attempts</check-box>
+            <div>
+                <span>Login Date To:</span>
+                <native-date-input id="date-to" style="width: 110px;margin-left: 16px;"></date-input>
+            </div>
+        </div>
+
+        <div style="margin-top: 30px; margin-right: 40px; float: right;">
+            <push-button id="btn-report">Report</push-button>
+        </div>
+    </div>
+
+</div>

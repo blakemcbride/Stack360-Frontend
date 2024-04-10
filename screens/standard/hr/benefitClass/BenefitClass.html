@@ -1,0 +1,139 @@
+<!--
+     Copyright 2020 STACK360 LLC
+     All rights reserved.
+
+-->
+
+<div class="kiss">
+
+    <style>
+        div.vert-input2 {
+            display:grid;
+            grid-template-columns: max-content max-content;
+            grid-column-gap:5px;
+            grid-row-gap: 10px;
+            margin-top: 10px;
+        }
+        div.vert-input2 span {
+            text-align:right;
+            margin-top: 6px;
+        }
+        .label-width {
+            display: inline-block;
+            text-align: right;
+            margin-top: 7px;
+        }
+    </style>
+
+    <div style="margin-top: 10px;">Benefit Classes:</div>
+    <hr>
+
+    <div style="margin-top: 10px;">
+        <span>Show:</span>
+        <radio-button group="show" value="1" checked>Active</radio-button>
+        <radio-button group="show" value="2">Inactive</radio-button>
+        <radio-button group="show" value="3">Both</radio-button>
+    </div>
+
+    <div id="grid" style="margin-top: 10px; width: 100%; height: calc(100% - 110px);"></div>
+
+    <div style="position: absolute; bottom: 10px; width: 100%;">
+        <text-label id="status"></text-label>
+        <div style="float: right;">
+            <push-button id="associations" disabled>Associations</push-button>
+            <push-button id="add" style="margin-left: 30px;">Add</push-button>
+            <push-button id="edit" style="margin-left: 10px;" disabled>Edit</push-button>
+            <push-button id="delete" style="margin-left: 10px;" disabled>Delete</push-button>
+            <push-button id="report" style="margin-left: 10px; margin-right: 30px;">Report</push-button>
+        </div>
+    </div>
+
+    <popup id="detail-popup">
+        <popup-title>
+            <text-label id="dp-title"></text-label>
+        </popup-title>
+        <popup-body style="padding: 0 20px;">
+            <div class="vert-input2">
+                <div class="label-width">Name:</div>
+                <text-input id="dp-name" style="width: 300px;" maxlength="20" required></text-input>
+            </div>
+            <div style="margin-top: 10px;">
+                <div class="label-width">First Active:</div>
+                <native-date-input id="dp-first-active" style="width: 110px;"></native-date-input>
+                <span style="margin-left: 10px;">Last Active:</span>
+                <native-date-input id="dp-last-active" style="width: 110px;"></native-date-input>
+            </div>
+            <div style="margin-top: 20px; text-align: right;">
+                <push-button id="dp-ok">OK</push-button>
+                <push-button id="dp-cancel" style="margin-left: 10px; margin-right: 15px;">Cancel</push-button>
+            </div>
+        </popup-body>
+    </popup>
+
+    <popup id="association-popup">
+        <popup-title>
+            <text-label>Benefit Class Associations</text-label>
+        </popup-title>
+        <popup-body style="padding: 0 20px; width: 500px;">
+            <div class="vert-input2">
+                <div class="label-width">Name:</div>
+                <text-input id="ap-name" style="width: 200px;" maxlength="30" required readonly></text-input>
+            </div>
+            <div style="display: flex; justify-content: space-between;">
+                <div style="width: 48%;">
+                    <div id="benefitGrid" style="margin-top: 10px; height: 350px;"></div>
+
+                    <div style="text-align: right; margin-top: 10px; display: flex; justify-content: flex-end; align-items: center;">
+                        <push-button id="benefit-associate" >Associate</push-button>
+                        <push-button id="benefit-disassociate" style="margin-left: 10px;" disabled>Disassociate</push-button>
+                    </div>
+                </div>
+                <div style="width: 48%;">
+                    <div id="coverageGrid" style="margin-top: 10px; height: 350px;"></div>
+
+                    <div style="text-align: right; margin-top: 10px; display: flex; justify-content: flex-end; align-items: center;">
+                        <push-button id="coverage-associate" >Associate</push-button>
+                        <push-button id="coverage-disassociate" style="margin-left: 10px;" disabled>Disassociate</push-button>
+                    </div>
+                </div>
+            </div>
+            <div style="margin-top: 10px; text-align: right;">
+                <push-button id="ap-cancel" style="margin-left: 10px; margin-right: 15px;">Cancel</push-button>
+            </div>
+        </popup-body>
+    </popup>
+
+    <popup id="benefit-association-popup">
+        <popup-title>
+            <text-label>Associate Benefit</text-label>
+        </popup-title>
+        <popup-body style="padding: 0 5px; width: 450px;">
+            <div id="benefitAssociateGrid" style="margin-top: 10px; width: 100%; height: 400px;"></div>
+
+            <div style="margin-top: 10px; text-align: right;">
+                <push-button id="bap-ok">Ok</push-button>
+                <push-button id="bap-cancel" style="margin-left: 10px; margin-right: 15px;">Cancel</push-button>
+            </div>
+        </popup-body>
+    </popup>
+
+    <popup id="coverage-association-popup">
+        <popup-title>
+            <text-label>Associate Coverage Types</text-label>
+        </popup-title>
+        <popup-body style="padding: 0 5px; width: 450px;">
+            <div class="vert-input2">
+                <div class="label-width">Benefit:</div>
+                <drop-down id="cap-benefit" style="width: 150px;" default-option="(select)"></drop-down>
+            </div>
+
+            <div id="coverageAssociateGrid" style="margin-top: 10px; width: 100%; height: 400px;"></div>
+
+            <div style="margin-top: 10px; text-align: right;">
+                <push-button id="cap-ok">Ok</push-button>
+                <push-button id="cap-cancel" style="margin-left: 10px; margin-right: 15px;">Cancel</push-button>
+            </div>
+        </popup-body>
+    </popup>
+
+</div>

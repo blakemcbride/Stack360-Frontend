@@ -1,0 +1,236 @@
+<!--
+     Copyright 2020 STACK360 LLC
+     All rights reserved.
+
+-->
+
+<div class="kiss">
+    <style>
+        .ptrc-grid {
+            display: grid;
+            grid-column-gap: 10px;
+            grid-row-gap: 10px;
+            align-items: center;
+        }
+        .ptrc-grid span {
+            color: #000;
+            align-self: center;
+            text-align: right;
+        }
+        #ptrc-applied_filters b {
+            font-weight: 800;
+        }
+        
+        .tab-height {
+            height: 280px;
+        }
+    </style>
+
+    <div style="margin-top: 10px; margin-bottom: 10px;">
+        <span>Project/Timesheet Search Criteria:</span>
+        <hr>
+    </div>
+
+    <div class="ptrc-grid" style="margin-bottom: 10px; grid-template-columns: repeat(4, max-content);">
+        <span>Requesting Company:</span>
+        <text-input id="ptrc-companyId" style="width: 240px;" disabled></text-input>
+
+        <span>Timesheet Entry Dates Starting On or After:</span>
+        <native-date-input id="ptrc-startDate" style="width:110px;"></native-date-input>
+
+        <span>Project ID:</span>
+        <div>
+            <text-input id="ptrc-projectName" style="width:110px;"></text-input>
+            <text-input id="ptrc-projectId" disabled hidden></text-input>
+            <push-button id="chooseProjId">Choose</push-button>
+        </div>
+
+        <span>Timesheet Entry Dates Ending On or Before:</span>
+        <native-date-input id="ptrc-endDate" style="width:110px;"></native-date-input>
+
+        <span style="text-align: left;">Timesheet Entry Status:</span>
+        <div>
+            <check-box id="ptrc-notApproved" checked>Not Yet Approved</check-box>
+            <check-box id="ptrc-approved" checked>Approved</check-box>
+            <check-box id="ptrc-invoiced">Invoiced</check-box>
+        </div>
+
+
+        <div></div>
+
+        <div style="text-align: right; grid-template-columns: 3 / 5;">
+            <push-button id="reset" style="width: fit-content;">Reset</push-button>
+            <push-button id="search" style="width: fit-content; margin-left: 10px;">Search</push-button>
+        </div>
+    </div>
+
+    <div style="margin-bottom: 10px;">
+        <span>Project Search Results:</span>
+        <text-label style="float: right;" id="ptrc-searchResCount">Displaying 0 Projects</text-label>
+        <hr>
+    </div>
+
+    <div id="searchResGrid" style="height: calc(100% - 220px);"></div>
+
+    <div style="position: absolute; left: 10px; right: 0; bottom: 10px;">
+        <div class="ptrc-grid" style="grid-template-columns: repeat(8, max-content);">
+            <span>Billing Hours:</span>
+            <numeric-input decimal-places="2" show-zero size="30" id="ptrc-billHours" style="width:110px;" disabled></numeric-input>
+
+            <span>Non-Billing Hours:</span>
+            <numeric-input decimal-places="2" show-zero size="30" id="ptrc-nonBillHours" style="width:110px;" disabled></numeric-input>
+            
+            <span>Unknown Hours:</span>
+            <numeric-input decimal-places="2" show-zero size="30" id="ptrc-unknHours" style="width:110px;" disabled></numeric-input>
+        
+            <span>Total Hours:</span>
+            <numeric-input decimal-places="2" show-zero size="30" id="ptrc-totalHours" style="width:110px;" disabled></numeric-input>
+        </div>
+
+        <div style="position: absolute; right: 10px; bottom: 0;">
+            <push-button id="detail" disabled>Detail</push-button>
+            <push-button id="report" style="margin-left: 10px;">Report</push-button>
+        </div>
+    </div>
+
+    <popup id="project-info-popup" height="400px" width="530px">
+        <popup-title>Additional Information</popup-title>
+        <popup-body>
+            <br>
+            <span style="font-weight:bold;">Project ID:</span>
+            <text-label id="project-info-project-id"></text-label>
+            <span style="margin-left: 50px; font-weight:bold;">Requesting Person:</span>
+            <text-label id="project-info-requesting-person"></text-label>
+            <br><br>
+
+            <span style="font-weight:bold;">Project Summary:</span>
+            <text-label id="project-info-summary"></text-label>
+            <br><br>
+
+            <span style="font-weight:bold;">Requesting Company (Group):</span>
+            <text-label id="project-info-requesting-company"></text-label>
+            <br><br>
+
+            <span style="font-weight:bold;">Phase:</span>
+            <text-label id="project-info-phase"></text-label>
+            <br><br>
+
+            <span style="font-weight:bold;">Status:</span>
+            <text-label id="project-info-status"></text-label>
+            <br><br>
+
+            <span style="font-weight:bold;">Project Detail:</span><br>
+            <textbox-input id="project-info-details" style="height: 195px; width: 495px; background-color: #f7ff80;" disabled></textbox-input>
+
+            <div style="right: 10px; bottom: 10px; position: absolute;">
+                <push-button id="project-info-ok">Ok</push-button>
+            </div>
+        </popup-body>
+    </popup>
+
+    <popup id="ptrc-search-project" width="710px" height="520px">
+        <popup-title>
+            <span>Choose Project</span>
+        </popup-title>
+        <popup-body style="padding: 10px;">
+            <div style="margin-bottom: 10px;">
+                <radio-button group="ptrc-proj-chooseProject" value="A">All Projects</radio-button>
+                <radio-button group="ptrc-proj-chooseProject" value="S" checked>Search for a Project</radio-button>
+            </div>
+    
+            <div>Search Criteria:</div>
+            <hr>
+            
+            <div class="ptrc-grid" style="margin-top: 8px; display: grid; grid-template-columns: repeat(5, max-content); align-items: center;">
+                <span>ID:</span>
+                <drop-down id="ptrc-proj-projectNameSearchType" style="width: 95px;"></drop-down>
+                <text-input id="ptrc-proj-projectName" style="width: 160px"></text-input>
+
+                <span>Category Code:</span>
+                <smart-chooser id="ptrc-proj-category" outside-width="180"></smart-chooser>  
+                
+                <span>Summary:</span>
+                <drop-down id="ptrc-proj-summarySearchType" style="width: 95px;"></drop-down>
+                <text-input id="ptrc-proj-summary" style="width: 160px"></text-input>    
+
+                <span>Type Code:</span>
+                <smart-chooser id="ptrc-proj-type" outside-width="180"></smart-chooser>  
+
+                <span>Requesting Company:</span>
+                <div style="grid-column: 2 / 4;">
+                    <text-input id="ptrc-proj-companyId" style="width: 268px;" disabled></text-input>
+                </div>
+
+                <span>Status Code:</span>
+                <smart-chooser id="ptrc-proj-status" outside-width="180"></smart-chooser>                  
+            </div>
+    
+            <div class="btn-bar" style="margin-top: 10px; width: 100%; justify-content: flex-end;">
+                <push-button id="ptrc-proj-reset">Reset</push-button>
+                <push-button id="ptrc-proj-search" style="margin-right: unset;">Search</push-button>
+            </div>
+    
+            <div style="margin-top: 10px;">
+                <div>Search Results:</div>
+                <hr>
+            </div>
+    
+            <div id="ptrc-proj-grid" style="width: 100%; height: 250px;"></div>
+        
+            <div class="vert-input2" style="margin-top: 20px; display: flex; justify-content: space-between; align-items: center;">
+                <text-label id="ptrc-proj-count" style="margin-left: 10px;">Displaying 0 Projects</text-label>
+    
+                <div>
+                    <push-button id="ptrc-proj-ok" disabled>OK</push-button>
+                    <push-button id="ptrc-proj-cancel" style="margin-left: 10px; margin-right: 15px;">Cancel</push-button>
+                </div>
+            </div>
+        </popup-body>
+    </popup>
+
+    <popup id="ptrc-project-data-search" width="420px" height="465px">
+        <popup-title>
+            <span>Search for Project <text-label id="ptrc-project-data-search-type"></text-label></span>
+        </popup-title>
+        <popup-body style="padding: 10px;">
+            <div style="margin-bottom: 10px;">
+                <radio-button group="ptrc-project-specific" value="A">All <text-label id="ptrc-proj-chooseSpecificLabelAll"></text-label></radio-button>
+                <radio-button group="ptrc-project-specific" value="S" checked>Search for <text-label id="ptrc-proj-chooseSpecificLabelSearch"></text-label></radio-button>
+            </div>
+    
+            <div>Search Criteria:</div>
+            <hr>
+            
+            <div class="ptrc-grid" style="margin-top: 8px; display: grid; grid-template-columns: repeat(3, max-content); align-items: center;">
+                <span>Code:</span>
+                <drop-down id="ptrc-proj-code-criteria" style="width: 95px;"></drop-down>
+                <text-input id="ptrc-proj-code-search" style="width: 140px"></text-input>
+                
+                <span>Description</span>
+                <drop-down id="ptrc-proj-descr-criteria" style="width: 95px;"></drop-down>
+                <text-input id="ptrc-proj-descr-search" style="width: 140px"></text-input> 
+            </div>
+    
+            <div class="btn-bar" style="margin-top: 10px; width: 100%; justify-content: flex-end;">
+                <push-button id="ptrc-projD-reset">Reset</push-button>
+                <push-button id="ptrc-projD-search" style="margin-right: unset;">Search</push-button>
+            </div>
+    
+            <div style="margin-top: 10px;">
+                <div>Search Results:</div>
+                <hr>
+            </div>
+    
+            <div id="ptrc-projRes-grid" style="width: 100%; height: 250px;"></div>
+        
+            <div class="vert-input2" style="margin-top: 10px; display: flex; justify-content: space-between; align-items: center;">
+                <text-label id="ptrc-projD-count" style="margin-left: 10px;">Displaying 0 Items</text-label>
+    
+                <div>
+                    <push-button id="ptrc-projD-ok" disabled>OK</push-button>
+                    <push-button id="ptrc-projD-cancel" style="margin-left: 10px; margin-right: 15px;">Cancel</push-button>
+                </div>
+            </div>
+        </popup-body>
+    </popup>
+</div>

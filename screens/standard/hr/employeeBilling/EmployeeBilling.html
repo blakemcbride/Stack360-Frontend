@@ -1,0 +1,490 @@
+<div class="kiss">
+    <style>
+        .eb-grid {
+            display: grid;
+            grid-template-columns: max-content auto;
+            grid-column-gap: 10px;
+            grid-row-gap: 10px;
+        }
+        .eb-grid span {
+            color: #000;
+            align-self: center;
+            text-align: right;
+        }
+        .tab-height {
+            height: calc(100% - 45px);
+            position: relative;
+        }
+    </style>
+    <div style="margin-bottom: 10px; margin-top: 10px;">
+        <span>Employee Billing:</span>
+        <text-label id="worker-name" style="float: right;"></text-label>
+        <hr>
+    </div>
+
+    <div style="margin-bottom: 10px;">
+        <span>Balance:</span>
+        <numeric-input size="30" id="eb-balance" style="width: 80px; margin-left: 10px; margin-right: 30px;" show-zero decimal-places="2" dollar-sign disabled></numeric-input>
+        
+        <span>Billing Status:</span>
+        <text-input id="eb-billingStatus" style="width: 200px; margin-left: 10px; margin-right: 10px;" disabled></text-input>
+        <push-button id="editBillingStatus" style="margin-right: 30px;">Edit</push-button>
+
+        <span>Payment Method:</span>
+        <text-input id="eb-paymentMethod" style="width: 200px; margin-left: 10px;" disabled></text-input>
+    </div>
+
+    <div id="eb-tab-container" style="height: calc(100% - 85px);">
+        <ul class="tab-header">
+            <li id="eb-invoices-TabButton" class="active">Invoices</li>
+            <li id="eb-payments-TabButton">Payments</li>
+            <li id="eb-adjustments-TabButton">Adjustments</li>
+        </ul>
+        
+        <div id="eb-invoices-TabContent" class="tab-content tab-height">
+            <div style="margin-bottom: 10px;">
+                <span>From Date:</span>
+                <native-date-input id="eb-invoicesFromDate" style="width: 110px; margin-left: 10px; margin-right: 20px;"></native-date-input>
+    
+                <span>To Date:</span>
+                <native-date-input id="eb-invoicesToDate" style="width: 110px; margin-left: 10px; margin-right: 30px;"></native-date-input>
+    
+                <check-box id="eb-invoicesLimit" checked>Limit to Invoices with Balance greater than $0.00</check-box>
+            </div>
+            
+            <div id="invoicesGrid" style="height: calc(100% - 75px);"></div>
+
+            <div style="margin-top: 15px;">
+                <text-label id="invoices-label">Displaying 0 Invoices</text-label>
+        
+                <div style="right: 10px; bottom: 10px; position: absolute;">
+                    <push-button id="invoicesAdd">Add</push-button>
+                    <push-button id="invoicesEdit" style="margin-left: 10px;" disabled>Edit</push-button>
+                    <push-button id="invoicesDelete" style="margin-left: 10px;" disabled>Delete</push-button>
+                    <push-button id="invoicesReport" style="margin-left: 10px;">Report</push-button>
+                </div>
+            </div>
+        </div>
+
+        <div id="eb-payments-TabContent" class="tab-content tab-height" hidden>
+            <div style="margin-bottom: 10px;">
+                <span>From Date:</span>
+                <native-date-input id="eb-paymentsFromDate" style="width: 110px; margin-left: 10px; margin-right: 20px;"></native-date-input>
+    
+                <span>To Date:</span>
+                <native-date-input id="eb-paymentsToDate" style="width: 110px; margin-left: 10px; margin-right: 30px;"></native-date-input>
+    
+                <check-box id="eb-paymentsLimit" checked>Limit to Payments with Unapplied greater than $0.00</check-box>
+            </div>
+            
+            <div id="paymentsGrid" style="height: calc(100% - 75px);"></div>
+
+            <div style="margin-top: 15px;">
+                <text-label id="payments-label">Displaying 0 Payments</text-label>
+        
+                <div style="right: 10px; bottom: 10px; position: absolute;">
+                    <push-button id="paymentsAdd">Add</push-button>
+                    <push-button id="paymentsEdit" style="margin-left: 10px;" disabled>Edit</push-button>
+                    <push-button id="paymentsDelete" style="margin-left: 10px;" disabled>Delete</push-button>
+                    <push-button id="paymentsReport" style="margin-left: 10px;">Report</push-button>
+                </div>
+            </div>
+        </div>
+        <div id="eb-adjustments-TabContent" class="tab-content tab-height" hidden>
+            <div style="margin-bottom: 10px;">
+                <span>From Date:</span>
+                <native-date-input id="eb-adjustmentsFromDate" style="width: 110px; margin-left: 10px; margin-right: 20px;"></native-date-input>
+    
+                <span>To Date:</span>
+                <native-date-input id="eb-adjustmentsToDate" style="width: 110px; margin-left: 10px; margin-right: 30px;"></native-date-input>
+            </div>
+            
+            <div id="adjustmentsGrid" style="height: calc(100% - 75px);"></div>
+
+            <div style="margin-top: 15px;">
+                <text-label id="adjustments-label">Displaying 0 Adjustments</text-label>
+        
+                <div style="right: 10px; bottom: 10px; position: absolute;">
+                    <push-button id="adjustmentsView" disabled>View</push-button>
+                    <push-button id="adjustmentsReport" style="margin-left: 10px;">Report</push-button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <popup id="billingStatusHistory-popup" width="520px" height="320px">
+        <popup-title>
+            <span>Billing Status History</span>
+        </popup-title>
+        <popup-body id="rt-body">
+            <div id="billingStatusHistoryGrid" style="height: calc(100% - 40px);"></div>
+
+            <div style="margin-top: 15px;">
+                <text-label id="billingStatusHistory-label">Displaying 0 Billing Statuses</text-label>
+        
+                <div style="right: 10px; bottom: 10px; position: absolute;">
+                    <push-button id="billingStatusHistoryAdd">Add</push-button>
+                    <push-button id="billingStatusHistoryEdit" style="margin-left: 10px;" disabled>Edit</push-button>
+                    <push-button id="billingStatusHistoryDelete" style="margin-left: 10px;" disabled>Delete</push-button>
+                    <push-button id="billingStatusHistoryClose" style="margin-left: 10px;">Close</push-button>
+                </div>
+            </div>
+        </popup-body>
+    </popup>
+
+    <popup id="billingStatus-popup" width="460px" height="100px">
+        <popup-title>
+            <span><text-label id="billingStatusAction">Add</text-label> Billing Status</span>
+        </popup-title>
+        <popup-body style="padding: 10px;">            
+            <div class="eb-grid" style="grid-template-columns: repeat(2, max-content);">
+                <span>Billing Status:</span>
+                <smart-chooser id="eb-billingStatusSC" outside-width="350" required></smart-chooser>    
+                
+                <span>Start Date:</span>
+                <div>
+                    <native-date-input id="eb-billingStatusStartDate" style="width: 110px; margin-right: 20px;" required></native-date-input>
+
+                    <span>Final Date:</span>
+                    <native-date-input id="eb-billingStatusFinalDate" style="width: 110px; margin-left: 10px;"></native-date-input>
+                </div>
+            </div>
+     
+            <div style="text-align: right; margin-top: 10px;">
+                <push-button id="billingStatusOk">OK</push-button>
+                <push-button id="billingStatusCancel" style="margin-left: 10px;">Cancel</push-button>
+            </div>
+        </popup-body>
+    </popup>
+
+    <popup id="billingStatus-search" width="320px" height="455px">
+        <popup-title>
+            <span>Search for Billing Status</span>
+        </popup-title>
+        <popup-body style="padding: 10px;">
+            <div style="margin-bottom: 10px;">
+                <radio-button group="billingStatus-chooseSpecific" value="A">Any Billing Status</radio-button>
+                <radio-button group="billingStatus-chooseSpecific" value="S" checked>Search for Billing Status</radio-button>
+            </div>
+    
+            <div>Search Criteria:</div>
+            <hr>
+            
+            <div class="eb-grid" style="margin-top: 8px; display: grid; grid-template-columns: repeat(3, max-content); align-items: center;">
+                <span>Name:</span>
+                <drop-down id="eb-billingStatusName-criteria" style="width: 95px;"></drop-down>
+                <text-input id="eb-billingStatusName-search" style="width: 140px"></text-input>                
+            </div>
+    
+            <div class="btn-bar" style="margin-top: 10px; width: 100%; justify-content: flex-end;">
+                <push-button id="billingStatusReset">Reset</push-button>
+                <push-button id="billingStatusSearch" style="margin-right: unset;">Search</push-button>
+            </div>
+    
+            <div style="margin-top: 10px;">
+                <div>Search Results:</div>
+                <hr>
+            </div>
+    
+            <div id="billingStatusSearchGrid" style="width: 100%; height: 250px;"></div>
+        
+            <div class="vert-input2" style="margin-top: 20px; display: flex; justify-content: space-between; align-items: center;">
+                <text-label id="billingStatus-count" style="margin-left: 10px;">Displaying 0 Billing Statuses</text-label>
+    
+                <div>
+                    <push-button id="billingStatusSearchOk" disabled>OK</push-button>
+                    <push-button id="billingStatusSearchCancel" style="margin-left: 10px; margin-right: 15px;">Cancel</push-button>
+                </div>
+            </div>
+        </popup-body>
+    </popup>
+
+    <popup id="invoice-popup" width="740px" height="400px">
+        <popup-title>
+            <span><text-label id="invoiceAction">Add</text-label> Invoice</span>
+        </popup-title>
+        <popup-body style="padding: 10px;">            
+            <div class="eb-grid" style="grid-template-columns: repeat(4, max-content); margin-bottom: 10px;">
+                <span>Description:</span>
+                <div style="grid-column: 2 / 5;">
+                    <textbox-input id="eb-invoiceDescription" style="width: 100%; height: 40px; box-sizing: border-box;" required></textbox-input>
+                </div>
+
+                <span>Invoice ID:</span>
+                <text-input id="eb-invoiceInvoiceId" style="width: 120px;" disabled></text-input>
+
+                <span>A/R Account:</span>
+                <smart-chooser id="eb-invoiceARAccount" outside-width="350" required></smart-chooser>    
+
+                <span>Date:</span>
+                <native-date-input id="eb-invoiceDate" style="width: 110px;" required></native-date-input>
+
+                <span>Total:</span>
+                <div>
+                    <numeric-input size="30" id="eb-invoiceTotal" style="width: 80px; margin-right: 30px;" show-zero decimal-places="2" dollar-sign required></numeric-input>
+
+                    <span>Balance:</span>
+                    <numeric-input size="30" id="eb-invoiceBalance" style="width: 80px; margin-left: 10px;" show-zero decimal-places="2" dollar-sign></numeric-input>
+                </div>
+            </div>
+    
+            <div id="invoice-tab-container" style="height: calc(100% - 160px);">
+                <ul class="tab-header">
+                    <li id="invoiceLineItems-TabButton" class="active">Line Items</li>
+                    <li id="invoiceAdjustments-TabButton">Adjustments</li>
+                    <li id="invoicePayments-TabButton">Payments</li>
+                </ul>
+                
+                <div id="invoiceLineItems-TabContent" class="tab-content tab-height">
+                    <div id="invoiceLineItemsGrid" style="height: 155px;"></div>
+            
+                    <div style="margin-top: 10px; text-align: right;">
+                        <push-button id="invoiceLineItemsAdd">Add</push-button>
+                        <push-button id="invoiceLineItemsEdit" style="margin-left: 10px;" disabled>Edit</push-button>
+                        <push-button id="invoiceLineItemsDelete" style="margin-left: 10px;" disabled>Delete</push-button>
+                    </div>
+                </div>
+                <div id="invoiceAdjustments-TabContent" class="tab-content tab-height" hidden>
+                    <div id="invoiceAdjustmentsGrid" style="height: 155px;"></div>
+
+                    <div style="margin-top: 10px; text-align: right;">
+                        <push-button id="invoiceAdjustmentsAdd">Add</push-button>
+                        <push-button id="invoiceAdjustmentsEdit" style="margin-left: 10px;" disabled>Edit</push-button>
+                        <push-button id="invoiceAdjustmentsDelete" style="margin-left: 10px;" disabled>Delete</push-button>
+                    </div>
+                </div>
+                <div id="invoicePayments-TabContent" class="tab-content tab-height" hidden>
+                    <div id="invoicePaymentsGrid" style="height: 155px;"></div>
+                    
+                    <div style="margin-top: 10px; text-align: right;">
+                        <push-button id="invoicePaymentsAdd">Add</push-button>
+                        <push-button id="invoicePaymentsEdit" style="margin-left: 10px;" disabled>Edit</push-button>
+                        <push-button id="invoicePaymentsApply" style="margin-left: 10px;">Apply</push-button>
+                        <push-button id="invoicePaymentsUnapply" style="margin-left: 10px;" disabled>Unapply</push-button>
+                    </div>
+                </div>
+            </div>
+
+            <div style="text-align: right; margin-top: 10px;">
+                <push-button id="invoiceOk">OK</push-button>
+                <push-button id="invoiceCancel" style="margin-left: 10px;">Cancel</push-button>
+            </div>
+        </popup-body>
+    </popup>
+
+    <popup id="invoiceGLAccount-search" width="330px" height="455px">
+        <popup-title>
+            <span>Search for GL Account</span>
+        </popup-title>
+        <popup-body style="padding: 10px;">
+            <div style="margin-bottom: 10px;">
+                <radio-button group="invoiceGLAccount-chooseSpecific" value="A">No GL Account</radio-button>
+                <radio-button group="invoiceGLAccount-chooseSpecific" value="S" checked>Search for GL Account</radio-button>
+            </div>
+    
+            <div>Search Criteria:</div>
+            <hr>
+            
+            <div class="eb-grid" style="margin-top: 8px; display: grid; grid-template-columns: repeat(3, max-content); align-items: center;">
+                <span>Number:</span>
+                <drop-down id="eb-invoiceGLAccountNumber-criteria" style="width: 95px;"></drop-down>
+                <text-input id="eb-invoiceGLAccountNumber-search" style="width: 140px"></text-input>     
+                
+                <span>Name:</span>
+                <drop-down id="eb-invoiceGLAccountName-criteria" style="width: 95px;"></drop-down>
+                <text-input id="eb-invoiceGLAccountName-search" style="width: 140px"></text-input>  
+            </div>
+    
+            <div class="btn-bar" style="margin-top: 10px; width: 100%; justify-content: flex-end;">
+                <push-button id="invoiceGLAccountReset">Reset</push-button>
+                <push-button id="invoiceGLAccountSearch" style="margin-right: unset;">Search</push-button>
+            </div>
+    
+            <div style="margin-top: 10px;">
+                <div>Search Results:</div>
+                <hr>
+            </div>
+    
+            <div id="invoiceGLAccountSearchGrid" style="width: 100%; height: 230px;"></div>
+        
+            <div class="vert-input2" style="margin-top: 20px; display: flex; justify-content: space-between; align-items: center;">
+                <text-label id="invoiceGLAccount-count" style="margin-left: 10px;">Displaying 0 GL Accounts</text-label>
+    
+                <div>
+                    <push-button id="invoiceGLAccountSearchOk" disabled>OK</push-button>
+                    <push-button id="invoiceGLAccountSearchCancel" style="margin-left: 10px;">Cancel</push-button>
+                </div>
+            </div>
+        </popup-body>
+    </popup>
+
+    <popup id="invoiceLineItem-popup" width="680px" height="150px">
+        <popup-title>
+            <span><text-label id="invoiceLineItemAction">Add</text-label> Payment</span>
+        </popup-title>
+        <popup-body style="padding: 10px;">            
+            <div class="eb-grid" style="grid-template-columns: max-content auto;">
+                <span>Amount:</span>
+                <numeric-input size="30" id="eb-invoiceLineItemAmount" style="width: 80px;" show-zero decimal-places="2" dollar-sign min="0.01"></numeric-input>
+
+                <span>Product/Service:</span>
+                <div>
+                    <smart-chooser id="eb-invoiceLineItemProduct" outside-width="351" disabled required></smart-chooser>    
+
+                    <span>GL Expense Account:</span>
+                    <text-input id="eb-invoiceLineItemGLExpense" style="width: 80px;" disabled></text-input>
+                </div>
+                
+                <span>Description:</span>
+                <textbox-input id="eb-invoiceLineItemDescription" style="height: 40px; box-sizing: border-box;" required></textbox-input>
+            </div>
+
+            <div style="text-align: right; margin-top: 10px;">
+                <push-button id="invoiceLineItemOk">OK</push-button>
+                <push-button id="invoiceLineItemCancel" style="margin-left: 10px;">Cancel</push-button>
+            </div>
+        </popup-body>
+    </popup>
+
+    <popup id="invoiceAdjustments-popup" width="570px" height="115px">
+        <popup-title>
+            <span><text-label id="invoiceAdjustmentsAction">Add</text-label> Payment</span>
+        </popup-title>
+        <popup-body style="padding: 10px;">            
+            <div class="eb-grid" style="grid-template-columns: repeat(6, max-content);">
+                <span>Date:</span>
+                <native-date-input id="eb-invoiceAdjustmentsDate" style="width: 110px;" required></native-date-input>
+
+                <span>Amount:</span>
+                <numeric-input size="30" id="eb-invoiceAdjustmentsAmount" style="width: 80px;" show-zero decimal-places="2" dollar-sign min="0.01"></numeric-input>
+
+                <span>Invoice ID:</span>
+                <text-input id="eb-invoiceAdjustmentsInvoiceId" style="width: 120px;" disabled></text-input>
+
+                
+                <span>Description:</span>
+                <textbox-input id="eb-invoiceAdjustmentsDescription" style="height: 40px; grid-column: 2 / 7; box-sizing: border-box;" required></textbox-input>
+            </div>
+
+            <div style="text-align: right; margin-top: 10px;">
+                <push-button id="invoiceAdjustmentsUseInvoiceDescription" style="margin-right: 40px;">Use Invoice Description</push-button>
+
+                <push-button id="invoiceAdjustmentsOk">OK</push-button>
+                <push-button id="invoiceAdjustmentsCancel" style="margin-left: 10px;">Cancel</push-button>
+            </div>
+        </popup-body>
+    </popup>
+
+    <popup id="payment-popup" width="740px" height="360px">
+        <popup-title>
+            <span><text-label id="paymentAction">Add</text-label> Payment</span>
+        </popup-title>
+        <popup-body style="padding: 10px;">            
+            <div class="eb-grid" style="grid-template-columns: repeat(4, max-content);">
+                <span>Date:</span>
+                <native-date-input id="eb-paymentDate" style="width: 110px;" required></native-date-input>
+
+                <span>Amount:</span>
+                <div>
+                    <numeric-input size="30" id="eb-paymentAmount" style="width: 80px; margin-right: 30px;" show-zero decimal-places="2" dollar-sign required></numeric-input>
+
+                    <span>Applied:</span>
+                    <numeric-input size="30" id="eb-paymentApplied" style="width: 80px; margin-left: 10px; margin-right: 30px;" show-zero decimal-places="2" dollar-sign></numeric-input>
+
+                    <span>Unapplied:</span>
+                    <numeric-input size="30" id="eb-paymentUnapplied" style="width: 80px; margin-left: 10px;" show-zero decimal-places="2" dollar-sign></numeric-input>
+                </div>
+                
+                <span>Source:</span>
+                <radio-button group="eb-paymentSource" style="align-self: center;" align-vertical value="C" checked>Check</radio-button>
+                
+                <span>Check Number:</span>
+                <text-input id="eb-paymentCheckNumber" minlength="1" maxlength="30" style="width: 80px;"></text-input>
+
+                <span></span>
+                <radio-button group="eb-paymentSource" style="align-self: center;" align-vertical value="D">Bank Draft</radio-button>
+
+                <span>Description:</span>
+                <text-input id="eb-paymentDescription" minlength="1" maxlength="30" disabled></text-input>
+            </div>
+     
+            <div style="margin-bottom: 10px; margin-top: 10px;">
+                <span>Payment Applications:</span>
+                <hr>
+            </div>
+
+            <div id="paymentApplicationsGrid" style="height: 140px;"></div>
+
+            <div class="vert-input2" style="margin-top: 20px; display: flex; justify-content: space-between; align-items: center;">
+                <text-label id="paymentApplications-count" style="margin-left: 10px;">Displaying 0 Payment Applications</text-label>
+    
+                <div>
+                    <push-button id="paymentApplicationsAdd">Add</push-button>
+                    <push-button id="paymentApplicationsEdit" style="margin-left: 10px;" disabled>Edit</push-button>
+                    <push-button id="paymentApplicationsDelete" style="margin-left: 10px;" disabled>Delete</push-button>
+                </div>
+            </div>
+
+            <div style="text-align: right; margin-top: 10px;">
+                <push-button id="paymentOk">OK</push-button>
+                <push-button id="paymentCancel" style="margin-left: 10px;">Cancel</push-button>
+            </div>
+        </popup-body>
+    </popup>
+
+    <popup id="paymentApplication-popup" width="705px" height="380px">
+        <popup-title>
+            <span><text-label id="paymentApplicationAction">Add</text-label> Payment Application</span>
+        </popup-title>
+        <popup-body style="padding: 10px;">            
+            <div class="eb-grid" style="grid-template-columns: repeat(4, max-content) auto;">
+                <span>From Date:</span>
+                <native-date-input id="paymentApplicationFromDate" style="width: 110px;"></native-date-input>
+
+                <span>To Date:</span>
+                <native-date-input id="paymentApplicationToDate" style="width: 110px;"></native-date-input>
+
+                <div style="text-align: right;">
+                    <text-label id="paymentApplicationPrompt" style="color: red;">Please select an Invoice from the grid below.</text-label>
+                    <push-button id="paymentApplicationsCancel" style="margin-left: 10px;">Cancel</push-button>
+                </div>
+            </div>
+
+            <div id="paymentApplicationInvoicesGrid" style="height: 200px; margin: 10px 0;"></div>
+
+            <div class="eb-grid" style="grid-template-columns: repeat(6, max-content);">
+                <span>Invoice ID:</span>
+                <text-input id="paymentApplicationInvoiceId" style="width: 120px;" disabled></text-input>
+                
+                <div>
+                    <push-button id="paymentApplicationInvoiceIdChange" style="margin-right: 20px;" disabled>Change</push-button>
+
+                    <span>Total:</span>
+                </div>
+                <text-input id="paymentApplicationTotal" style="width: 80px; margin-right: 50px;" disabled></text-input>
+
+                <span>Balance:</span>
+                <text-input id="paymentApplicationBalance" style="width: 80px;" disabled></text-input>
+
+                <div style="grid-column: 1 / 7;">
+                    <span>Payment:</span>
+                    <hr>
+                </div>
+
+                <span>Amount:</span>
+                <numeric-input size="30" id="paymentApplicationAmount" style="width: 80px; margin-right: 50px;" show-zero decimal-places="2" dollar-sign disabled></numeric-input>
+
+                <span>Available for this Invoice:</span>
+                <numeric-input size="30" id="paymentApplicationAvailable" style="width: 80px;" show-zero decimal-places="2" dollar-sign disabled></numeric-input>
+
+                <span>Amount To Apply:</span>
+                <numeric-input size="30" id="paymentApplicationToApply" style="width: 80px;" show-zero decimal-places="2" dollar-sign disabled></numeric-input>
+            </div>
+
+            <div style="text-align: right; margin-top: 10px;">
+                <push-button id="paymentApplicationOk" disabled>OK</push-button>
+                <push-button id="paymentApplicationCancel1" style="margin-left: 10px;" disabled>Cancel</push-button>
+            </div>
+        </popup-body>
+    </popup>
+</div>

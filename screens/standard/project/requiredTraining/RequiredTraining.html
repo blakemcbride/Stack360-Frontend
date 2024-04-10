@@ -1,0 +1,67 @@
+<div class="kiss">
+
+    <style>
+
+        div.vert-input2 {
+            display:grid;
+            grid-template-columns: max-content max-content;
+            grid-column-gap:5px;
+            grid-row-gap: 15px;
+            margin-top: 10px;
+            margin-left: 10px;
+        }
+
+        div.vert-input2 span {
+            text-align:right;
+        }
+
+        #training-grid {
+            margin-top: 20px;
+        }
+
+    </style>
+
+    <div style="margin-top: 10px;">
+        <span>Required Training</span>
+        <span id="project-details" style="float: right;"></span>
+    </div>
+    <hr style="margin-left: 0;">
+
+    <div id="training-grid" style="width: 100%; height: calc(100% - 100px);"></div>
+
+    <popup id="training-edit-popup" width="325px" height="150px">
+        <popup-title>
+            <span id="popup-header"></span>
+        </popup-title>
+        <popup-body>
+            <div class="vert-input2">
+
+                <span>Filter:</span>
+                <div>
+                    <radio-button group="client-filter" id="company" value="0" checked>Company</radio-button>
+                    <radio-button group="client-filter" id="client" value="1">Client</radio-button>
+                </div>
+
+                <span style="margin-top: 5px;">Category:</span>
+                <drop-down id="category" style="width: 220px" required></drop-down>
+
+                <span>Required:</span>
+                <check-box id="required"></check-box>
+            </div>
+
+            <div style="right: 10px; bottom: 10px; position: absolute;">
+                <push-button id="training-edit-ok">Ok</push-button>
+                <push-button id="training-edit-cancel" style="margin-left: 12px;">Cancel</push-button>
+            </div>
+        </popup-body>
+    </popup>
+
+    <div style="right: 10px; bottom: 10px; position: absolute;">
+        <push-button id="add-project-training">Add</push-button>
+        <push-button id="edit-project-training" style="margin-left: 12px;" disabled>Edit
+        </push-button>
+        <push-button id="delete-project-training" style="margin-left: 12px;" disabled>Delete
+        </push-button>
+    </div>
+
+</div>

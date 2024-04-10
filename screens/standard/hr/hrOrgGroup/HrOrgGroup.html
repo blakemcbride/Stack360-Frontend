@@ -1,0 +1,111 @@
+<!--
+     Copyright 2021 STACK360 LLC
+     All rights reserved.
+
+-->
+
+<div class="kiss">
+
+    <style>
+        div.vert-input2 {
+            display:grid;
+            grid-template-columns: max-content max-content;
+            grid-column-gap:5px;
+            grid-row-gap: 8px;
+            margin-top: 10px;
+        }
+
+        div.vert-input2 span {
+            text-align:right;
+            margin-top: 6px;
+        }
+
+        div.vert-input5 {
+            display:grid;
+            grid-template-columns: max-content max-content max-content max-content max-content;
+            grid-column-gap:5px;
+            margin-top: 20px;
+            margin-left: 8px;
+            align-items: center;
+        }
+
+        div.vert-input5 span {
+            text-align:right;
+        }
+    </style>
+
+    <div style="margin-top: 10px;">
+        <span>Employee's Associated Organizational Groups:</span>
+        <text-label id="worker-name" style="float: right;"></text-label>
+    </div>
+    <hr>
+
+    <div id="grid" style="margin-top: 10px; width: 100%; height: calc(100% - 90px);"></div>
+
+    <text-label id="status" style="position: absolute; bottom: 25px; left: 20px;">Displaying 0 Organizational Groups</text-label>
+
+    <div style="position: absolute; bottom: 15px; right: 10px;">
+        <push-button id="add" style="margin-left: 10px;">Add</push-button>
+        <push-button id="edit" style="margin-left: 10px;" disabled>Edit</push-button>
+        <push-button id="delete" style="margin-left: 10px;" disabled>Delete</push-button>
+        <push-button id="report" style="margin-left: 10px;">Report</push-button>
+    </div>
+
+    <popup id="org-group-popup" width="620px" height="417px">
+        <popup-title>
+            <text-label id="op-title">Associate Employee to Organizational Group</text-label>
+        </popup-title>
+        <popup-body style="padding: 10px 5px;">
+            <div id="op-bread-crumb-2" style="margin-left: 5px; display: inline-block;"></div>
+
+            <div id="op-grid" style="margin-left: 5px;margin-top: 15px; width: 600px; height: 260px;"></div>
+
+            <div class="vert-input2" style="width: 100%; margin-left: 5px; margin-right: 5px; justify-content: space-between; align-items: center;">
+                <div>
+                    <push-button id="op-go-up" disabled>Go Up</push-button>
+                    <push-button id="op-open" style="margin-left: 10px;" disabled>Open</push-button>
+                </div>
+                <text-label id="op-status" style="float: right;margin-top: 0px; margin-right: 10px;">Displaying 0 Organizational Groups</text-label>
+            </div>
+            
+            <div class="vert-input5">
+                <span>Start Date:</span>
+                <native-date-input id="start-date" style="width:110px;" disabled></native-date-input>
+                <span style="margin-top: 0px;">Final Date:</span>
+                <native-date-input id="final-date" style="width:110px;" disabled></native-date-input>
+                <check-box id="supervisor" disabled>Supervisor for this Organizational Group</check-box>
+            </div>            
+
+            <div style="position: absolute; text-align: right; margin-top: 10px; bottom: 10px; width: 100%;">
+                <push-button id="op-ok" disabled>OK</push-button>
+                <push-button id="op-cancel" style="margin-left: 10px; margin-right: 15px;">Cancel</push-button>
+            </div>
+        </popup-body>
+    </popup>
+
+    <popup id="org-group-edit-popup" width="515px" height="130px">
+        <popup-title>
+            <text-label>Edit Organizational Group Association</text-label>
+        </popup-title>
+        <popup-body style="padding: 10px 10px;">
+            
+            <div class="vert-input2">
+                <span>Organizational Group:</span>
+                <text-input id="org-group-name" readonly style="width: 373px;"></text-input>
+                <span>Start Date:</span>
+                <div class="display: inline-flex">
+                    <native-date-input id="edit-start-date" style="width:110px;"></native-date-input>
+                    <span style="margin-top: 0px;margin-left: 30px;">Final Date:</span>
+                    <native-date-input id="edit-final-date" style="width:110px;"></native-date-input>
+                </div>
+                <span></span>
+                <check-box id="edit-supervisor">Supervisor for this Organizational Group</check-box>
+            </div>
+            
+            <div style="position: absolute; text-align: right; margin-top: 10px; bottom: 10px; width: 100%;">
+                <push-button id="edit-op-ok">OK</push-button>
+                <push-button id="edit-op-cancel" style="margin-left: 10px; margin-right: 15px;">Cancel</push-button>
+            </div>
+        </popup-body>
+    </popup>
+</div>

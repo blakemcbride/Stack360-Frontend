@@ -1,0 +1,68 @@
+<!--
+     Copyright 2021 STACK360 LLC
+     All rights reserved.
+
+-->
+
+<div class="kiss">
+
+    <div style="margin-top: 10px;">
+        <span>Project Detail Report:</span>
+        <text-label id="project-info" style="float: right;"></text-label>
+    </div>
+    <hr>
+
+    <div style="margin-top: 20px;">
+
+        <div style="display: inline-block; width: 47%; vertical-align: top;">
+            <span>Available Fields:</span>
+            <hr>
+            
+            <div id="available-fields-grid" style="width: 100%; height: calc(100vh - 420px);"></div>
+
+            <div style="margin-top: 10px; text-align: right;">
+                <text-label id="available-fields-status" style="margin-top: 5px; float: left;">
+                    Displaying 0 Available Fields
+                </text-label>
+                <push-button id="available-add" disabled>Add</push-button>
+            </div>
+        </div>
+
+        <div style="display: inline-block; width: 47%; margin-left: 10px; vertical-align: top;">
+            <span>Selected Fields:</span>
+            <hr>
+
+            <div id="selected-fields-grid" style="width: 100%; height: calc(100vh - 420px);"></div>
+
+            <div style="margin-top: 10px; text-align: right;">
+                <text-label id="selected-fields-status" style="margin-top: 5px; float: left;">
+                    Displaying 0 Selected Fields
+                </text-label>
+                <push-button id="selected-up" disabled>Up</push-button>
+                <push-button id="selected-down" style="margin-left: 10px;" disabled>Down</push-button>
+                <push-button id="selected-remove" style="margin-left: 10px;" disabled>Remove</push-button>
+            </div>
+        </div>
+
+    </div>
+
+    <div style="width: 30%;margin-top: 10px; min-width: 380px;">
+        <div>Field Groups:</div>
+        <hr>
+
+        <div style="display: flex; width: 100%; justify-content: flex-end; align-items: center;">
+            <span>Group:</span>
+            <drop-down id="field-group-type" style="width: 80%; margin-left: 10px;"></drop-down>
+        </div>
+        <div style="display: flex; width: 100%; justify-content: flex-end; align-items: center; margin-top: 10px;">
+            <push-button id="group-add" disabled>Add</push-button>
+            <push-button id="group-remove" style="margin-left: 10px;" disabled>Remove</push-button>
+        </div>
+    </div>
+
+    <div style="position: absolute; bottom: 10px; right: 10px;">
+        <push-button id="detail-report">Report</push-button>
+        <push-button id="detail-export" style="margin-left: 10px;">Export</push-button>
+    </div>
+
+</div>

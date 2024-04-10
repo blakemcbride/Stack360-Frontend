@@ -1,0 +1,46 @@
+<!--
+     Copyright 2020 STACK360 LLC
+     All rights reserved.
+
+-->
+
+<div class="kiss">
+
+    <style>
+        .sp-grid {
+            display: grid;
+            grid-template-columns: repeat(2, max-content);
+            grid-row-gap: 10px;
+            grid-column-gap: 10px;
+            align-items: center;
+        }
+        .sp-grid > span {
+            text-align: right;
+        }
+
+        .tab-height {
+            height: 100%;
+        }
+    </style>
+
+    <div style="margin-top: 10px; margin-bottom: 10px;">
+        <span>Sales Points:</span>
+        <hr>
+    </div>
+
+    <div style="margin-bottom: 10px;">
+        <span style="margin-right: 10px;">From Date:</span>
+        <native-date-input id="sp-fromDate" style="width: 110px; margin-right: 20px;"></native-date-input>
+
+        <span style="margin-right: 10px;">To Date:</span>
+        <native-date-input id="sp-toDate" style="width: 110px; margin-right: 30px;"></native-date-input>
+
+        <push-button id="search">Search</push-button>
+    </div>
+
+    <div id="salesPointsGrid" style="height: calc(100% - 120px);"></div>
+
+    <div style="margin-top: 10px; text-align: right;">
+        <push-button id="report">Report</push-button>
+    </div>
+</div>

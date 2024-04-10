@@ -1,0 +1,45 @@
+<div id="companySelection" class="modal" hidden>
+    <div id="companySelectionContent" class="modal-content" style="width: 410px; height: 465px;">
+        <div id="companySelectionTitle" class="modal-title">Search for Requesting Company</div>
+
+        <div class="modal-body">
+            <div class="flex-row" style="margin-bottom: 10px;">
+                <radio-button id="allCompanies" group="companySearchTypeGrp" style="margin-right: 15px;" value="false">
+                    All Companies
+                </radio-button>
+                <radio-button id="searchCompany" group="companySearchTypeGrp" value="true" checked>
+                    Search for a Company
+                </radio-button>
+            </div>
+
+            <div>Search Criteria:</div>
+            <hr>
+
+            <div class="flex-row" style="margin-top: 8px;">
+                <label style="width: 65px; margin-right: 10px;">Last Name:</label>
+                <drop-down id="companyNameCriteria" style="width: 125px; margin-right: 10px;"></drop-down>
+                <text-input id="companyNameSearch" style="width: 170px"></text-input>
+            </div>
+
+            <div class="btn-bar" style="margin-top: 8px; width: 100%; justify-content: flex-end;">
+                <push-button id="searchCompanyReset">Reset</push-button>
+                <push-button id="searchCompanySearch" style="margin-right: unset;">Search</push-button>
+            </div>
+
+            <div style="margin-top: 10px;">
+                <div>Search Results:</div>
+                <hr>
+            </div>
+
+            <div id="searchCompanyResultsGrid" style="width: 100%; background: bisque; height: 250px;"></div>
+        </div>
+
+        <div class="modal-footer" style="display: flex; align-items: center; justify-content: space-between;">
+            <div id="compCount" style="margin-left: 10px;">Displaying 0 Companies</div>
+            <div class="btn-bar-comp">
+                <push-button id="companyOK" class="btn-primary" disabled>OK</push-button>
+                <push-button id="companyCancel" class="btn-primary">Cancel</push-button>
+            </div>
+        </div>
+    </div>
+</div>

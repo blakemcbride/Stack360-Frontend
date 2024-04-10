@@ -1,0 +1,273 @@
+<!--
+     Copyright 2020 STACK360 LLC
+     All rights reserved.
+
+-->
+
+<div class="kiss">
+
+    <style>
+        .bh-grid {
+            display: grid;
+            grid-template-columns: repeat(2, max-content);
+            grid-row-gap: 10px;
+            grid-column-gap: 10px;
+            align-items: center;
+        }
+        .bh-grid > span {
+            text-align: right;
+        }
+
+        .tab-height {
+            height: 100%;
+        }
+    </style>
+
+    <div style="margin-top: 10px; margin-bottom: 10px;">
+        <span>Employee Benefit History:</span>
+        <text-label id="worker-name" style="float: right;"></text-label>
+        <hr>
+    </div>
+    <div id="bh-tab-container" style="height: calc(100% - 90px);">
+        <ul class="tab-header">
+            <li id="bh-policy-TabButton" class="active">Policy History</li>
+            <li id="bh-dependent-TabButton">Dependent History</li>
+            <li id="bh-beneficiary-TabButton">Beneficiary History</li>
+        </ul>
+        
+        <div id="bh-policy-TabContent" class="tab-content tab-height">
+            <div style="margin-bottom: 10px;">
+                <span style="margin-right: 10px;">Benefit Category:</span>
+                <drop-down id="bh-policyBenefitCategory" style="width: 400px;"></drop-down>
+            </div>       
+            <div id="policyHistoryGrid" style="height: calc(100% - 75px);"></div>   
+            
+            <div style="margin-top: 10px; text-align: right;">
+                <push-button id="policyView" disabled>View</push-button>
+            </div>
+        </div>
+
+        <div id="bh-dependent-TabContent" class="tab-content tab-height" hidden>
+            <div class="bh-grid" style="grid-template-columns: repeat(4, max-content); margin-bottom: 10px;">
+                <span style="margin-right: 10px;">Benefit Category:</span>
+                <drop-down id="bh-dependentBenefitCategory" style="width: 400px;"></drop-down>
+                <div></div>
+                <div></div>
+
+                <span style="margin-right: 10px;">Benefit Category:</span>
+                <drop-down id="bh-dependent" style="width: 400px;"></drop-down>
+                <span>Selected Dependent SSN:</span>
+                <text-input id="bh-dependentSSN" style="width: 100px;" disabled></text-input>
+            </div>       
+            <div id="dependentHistoryGrid" style="height: calc(100% - 110px);"></div> 
+            
+            <div style="margin-top: 10px; text-align: right;">
+                <push-button id="dependentView" disabled>View</push-button>
+            </div>
+        </div>
+
+        <div id="bh-beneficiary-TabContent" class="tab-content tab-height" hidden>
+            <div style="margin-bottom: 10px;">
+                <span style="margin-right: 10px;">Benefit:</span>
+                <drop-down id="bh-benefit" style="width: 400px;"></drop-down>
+            </div>       
+            <div id="beneficiaryHistoryGrid" style="height: calc(100% - 75px);"></div>    
+            
+            <div style="margin-top: 10px; text-align: right;">
+                <push-button id="beneficiaryView" disabled>View</push-button>
+            </div>
+        </div>
+    </div>
+
+    <popup id="policy-popup" height="380px" width="460px">
+        <popup-title>View History Detail</popup-title>
+        <popup-body>
+            <div class="bh-grid" style="grid-template-columns: max-content auto;">
+                <span>Date/Time:</span>
+                <div>
+                    <text-input id="policy-dateTime" style="width: 150px; margin-right: 10px;" disabled></text-input>
+                    <span>Change Type:</span>
+                    <text-input id="policy-changeType" style="width: 50px; margin-left: 10px;" disabled></text-input>             
+                </div>
+
+                <span>Change Made By:</span>
+                <text-input id="policy-changeBy" style="width: 150px;" disabled></text-input>
+
+                <span>Change Reason:</span>
+                <text-input id="policy-changeReason" style="width: calc(100% - 11px);" disabled></text-input>
+
+                <span>Benefit:</span>
+                <text-input id="policy-benefit" style="width: calc(100% - 11px);" disabled></text-input>
+
+                <span>Coverage Configuration:</span>
+                <text-input id="policy-coverage" style="width: calc(100% - 11px);" disabled></text-input>
+
+                <span>Policy Start Date:</span>
+                <div class="bh-grid" style="grid-template-columns: max-content auto;">
+                    <date-input id="policy-policyStartDate" style="width: 65px; margin-right: 10px;" disabled></date-input>
+                    <div style="text-align: right;">
+                        <span>Policy Final Date:</span>
+                        <date-input id="policy-policyEndDate" style="width: 65px; margin-left: 10px;" disabled></date-input>
+                    </div>
+                </div>
+
+                <span>Coverage Start Date:</span>
+                <div class="bh-grid" style="grid-template-columns: max-content auto;">
+                    <date-input id="policy-coverageStartDate" style="width: 65px; margin-right: 10px;" disabled></date-input>
+                    <div style="text-align: right;">
+                        <span>Coverage Final Date:</span>
+                        <date-input id="policy-coverageEndDate" style="width: 65px; margin-left: 10px;" disabled></date-input>
+                    </div>
+                </div>
+
+                <span>Benefit Approved:</span>
+                <div class="bh-grid" style="grid-template-columns: max-content auto;">
+                    <check-box id="policy-approved" disabled></check-box>
+                    <div style="text-align: right;">
+                        <span>COBRA:</span>
+                        <check-box id="policy-cobra" disabled></check-box>
+                    </div>
+                </div>
+
+                <span>Insurance ID:</span>
+                <text-input id="policy-insurance" style="width: calc(100% - 11px);" disabled></text-input>
+
+                <span>Annual Employee Cost:</span>
+                <div class="bh-grid" style="grid-template-columns: max-content auto;">
+                    <numeric-input id="policy-annual" style="width: 70px;" show-zero decimal-places="2" dollar-sign disabled></numeric-input>
+                    <div style="text-align: right;">
+                        <span>Amount:</span>
+                        <numeric-input id="policy-amount" style="width: 70px; margin-left: 10px;" show-zero decimal-places="2" dollar-sign disabled></numeric-input>
+                    </div>
+                </div>
+            </div>           
+
+            <div style="right: 10px; bottom: 10px; position: absolute;">
+                <push-button id="policy-close">Close</push-button>
+            </div>
+        </popup-body>
+    </popup>
+
+    <popup id="dependent-popup" height="340px" width="460px">
+        <popup-title>View History Detail</popup-title>
+        <popup-body>
+            <div class="bh-grid" style="grid-template-columns: max-content auto;">
+                <span>Date/Time:</span>
+                <div>
+                    <text-input id="dependent-dateTime" style="width: 150px; margin-right: 10px;" disabled></text-input>
+                    <span>Change Type:</span>
+                    <text-input id="dependent-changeType" style="width: 50px; margin-left: 10px;" disabled></text-input>             
+                </div>
+
+                <span>Change Made By:</span>
+                <text-input id="dependent-changeBy" style="width: 150px;" disabled></text-input>
+
+                <span>Change Reason:</span>
+                <text-input id="dependent-changeReason" style="width: calc(100% - 11px);" disabled></text-input>
+
+                <span>Benefit:</span>
+                <text-input id="dependent-benefit" style="width: calc(100% - 11px);" disabled></text-input>
+
+                <span>Coverage Configuration:</span>
+                <text-input id="dependent-coverage" style="width: calc(100% - 11px);" disabled></text-input>
+
+                <span>COBRA:</span>
+                <check-box id="dependent-cobra" disabled></check-box>
+
+                <span>Coverage Start Date:</span>
+                <div class="bh-grid" style="grid-template-columns: max-content auto;">
+                    <date-input id="dependent-coverageStartDate" style="width: 65px; margin-right: 10px;" disabled></date-input>
+                    <div style="text-align: right;">
+                        <span>Coverage Final Date:</span>
+                        <date-input id="dependent-coverageEndDate" style="width: 65px; margin-left: 10px;" disabled></date-input>
+                    </div>
+                </div>
+
+                <span>Dependent Name:</span>
+                <div class="bh-grid" style="grid-template-columns: max-content auto;">
+                    <text-input id="dependent-name" style="width: 100px; margin-right: 10px;" disabled></text-input>
+                    <div style="text-align: right;">
+                        <span>SSN:</span>
+                        <text-input id="dependent-ssn" style="width: 70px; margin-left: 10px;" disabled></text-input>
+                    </div>
+                </div>
+
+                <span>Relationship:</span>
+                <div class="bh-grid" style="grid-template-columns: max-content auto;">
+                    <text-input id="dependent-relationship" style="width: 100px; margin-right: 10px;" disabled></text-input>
+                    <div style="text-align: right;">
+                        <span>Amount:</span>
+                        <numeric-input id="dependent-amount" style="width: 70px; margin-left: 10px;" show-zero decimal-places="2" dollar-sign disabled></numeric-input>
+                    </div>
+                </div>
+            </div>           
+
+            <div style="right: 10px; bottom: 10px; position: absolute;">
+                <push-button id="dependent-close">Close</push-button>
+            </div>
+        </popup-body>
+    </popup>
+
+    <popup id="beneficiary-popup" height="380px" width="460px">
+        <popup-title>View History Detail</popup-title>
+        <popup-body>
+            <div class="bh-grid" style="grid-template-columns: max-content auto;">
+                <span>Date/Time:</span>
+                <div>
+                    <text-input id="beneficiary-dateTime" style="width: 150px; margin-right: 10px;" disabled></text-input>
+                    <span>Change Type:</span>
+                    <text-input id="beneficiary-changeType" style="width: 50px; margin-left: 10px;" disabled></text-input>             
+                </div>
+
+                <span>Change Made By:</span>
+                <text-input id="beneficiary-changeBy" style="width: 150px;" disabled></text-input>
+
+                <span>Change Reason:</span>
+                <text-input id="beneficiary-changeReason" style="width: calc(100% - 11px);" disabled></text-input>
+
+                <span>Benefit:</span>
+                <text-input id="beneficiary-benefit" style="width: calc(100% - 11px);" disabled></text-input>
+
+                <span>Coverage Configuration:</span>
+                <text-input id="beneficiary-coverage" style="width: calc(100% - 11px);" disabled></text-input>
+
+                <span>Beneficiary:</span>
+                <text-input id="beneficiary-beneficiary" style="width: calc(100% - 11px);" disabled></text-input>
+                
+                <span>SSN:</span>
+                <div class="bh-grid" style="grid-template-columns: max-content auto;">
+                    <text-input id="beneficiary-ssn" style="width: 70px; margin-right: 10px;" disabled></text-input>
+                    <div style="text-align: right;">
+                        <span>DOB:</span>
+                        <date-input id="beneficiary-dob" style="width: 65px; margin-left: 10px;" disabled></date-input>
+                    </div>
+                </div>
+
+                <span>Relationship:</span>
+                <div class="bh-grid" style="grid-template-columns: max-content auto;">
+                    <text-input id="beneficiary-relationship" style="width: 100px; margin-right: 10px;" disabled></text-input>
+                    <div style="text-align: right;">
+                        <span>Percent:</span>
+                        <numeric-input id="beneficiary-percent" style="width: 70px; margin-left: 10px;" show-zero disabled></numeric-input>
+                    </div>
+                </div>
+
+                <span>Primary:</span>                
+                <div class="bh-grid" style="grid-template-columns: max-content auto;">
+                    <radio-button group="beneficiary-beneficiaryType" value="P" disabled></radio-button>
+                    <div style="text-align: right;">
+                        <span>Contingent:</span>
+                        <radio-button group="beneficiary-beneficiaryType" value="C" disabled></radio-button>
+                    </div>
+                </div>
+
+                <span>Address:</span>
+                <text-input id="beneficiary-address" style="width: calc(100% - 11px);" disabled></text-input>
+            </div>           
+
+            <div style="right: 10px; bottom: 10px; position: absolute;">
+                <push-button id="beneficiary-close">Close</push-button>
+            </div>
+        </popup-body>
+    </popup>
+</div>

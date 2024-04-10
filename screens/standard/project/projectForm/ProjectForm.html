@@ -1,0 +1,125 @@
+<!--
+     Copyright 2020 STACK360 LLC
+     All rights reserved.
+
+-->
+
+<div class="kiss">
+
+    <div style="margin-top: 10px;">
+        <span>Project Forms:</span>
+        <text-label id="project-info" style="float: right;"></text-label>
+    </div>
+    <hr style="margin-left: 0;">
+
+    <div style="margin-top: 10px; margin-bottom: 10px;">
+        <span>Shift:</span>
+        <drop-down id="shift" style="width: 100px;"></drop-down>
+    </div>
+
+    <div id="forms-grid" style="width: 100%; height: calc(100% - 130px);"></div>
+
+    <text-label id="status" style="position: absolute; bottom: 25px; left: 20px;"></text-label>
+
+    <div style="position: absolute; bottom: 15px; right: 10px;">
+        <push-button id="zip-download" disabled>Zip Download</push-button>
+        <push-button id="rotate-left" style="margin-left: 10px;" disabled>Rotate Left</push-button>
+        <push-button id="rotate-right" style="margin-left: 10px;" disabled>Rotate Right</push-button>
+        <push-button id="report" style="margin-left: 10px;" disabled>Report</push-button>
+        <push-button id="export" style="margin-left: 10px;" disabled>Export</push-button>
+        <push-button id="view" style="margin-left: 10px;" disabled>View</push-button>
+        <push-button id="edit" style="margin-left: 10px;" disabled>Edit</push-button>
+        <push-button id="delete" style="margin-left: 10px;" disabled>Delete</push-button>
+        <push-button id="add" style="margin-left: 10px;">Add</push-button>
+    </div>
+
+    <popup id="report-popup" height="130px" width="395px">
+        <popup-title>Report Selection</popup-title>
+        <popup-body>
+            <text-label>Form Type:</text-label>
+            <drop-down id="report-popup-form-type" style="width: 150px;" required></drop-down>
+            <div style="margin-top: 10px;">
+                <span>Beginning date:</span>
+                <date-input id="report-popup-beginning-date" style="width: 90px;"></date-input>
+                <span style="margin-left: 20px;">Ending date:</span>
+                <date-input id="report-popup-ending-date" style="width: 90px;"></date-input>
+            </div>
+            <div style="margin-top: 10px;">
+                <radio-button group="report-popup-n-per-page" required value="1" required>1 per page</radio-button>
+                <radio-button group="report-popup-n-per-page" required value="2" required>2 per page</radio-button>
+            </div>
+            <div style="right: 17px; bottom: 10px; position: absolute;">
+                <push-button id="report-popup-ok">Ok</push-button>
+                <push-button id="report-popup-cancel" style="margin-left: 10px;">Cancel</push-button>
+            </div>
+        </popup-body>
+    </popup>
+
+    <popup id="add-form-popup" height="300px" width="380px">
+        <popup-title>Add Form</popup-title>
+        <popup-body>
+            <div class="vert-input">
+                <label>Code</label>
+                <div>
+                    <drop-down id="add-form-code" style="width: 150px;" required></drop-down>
+                    <check-box id="add-form-internal" style="margin-left: 30px;" checked>Internal</check-box>
+                </div>
+
+                <label>Description</label>
+                <text-input id="add-form-description" style="width: 270px;" disabled></text-input>
+
+                <label style="margin-top: 3px;">Form</label>
+                <file-upload id="add-form-file-name" required></file-upload>
+
+                <label>Comments</label>
+                <textbox-input id="add-form-comments" style="width: 265px; height: 130px;"></textbox-input>
+            </div>
+            <div style="right: 17px; bottom: 10px; position: absolute;">
+                <push-button id="add-form-popup-ok">Ok</push-button>
+                <push-button id="add-form-popup-cancel" style="margin-left: 10px;">Cancel</push-button>
+            </div>
+        </popup-body>
+    </popup>
+
+    <popup id="edit-form-popup" height="270px" width="380px">
+        <popup-title>Add Form</popup-title>
+        <popup-body>
+            <div class="vert-input">
+                <label>Code</label>
+                <div>
+                    <drop-down id="edit-form-code" style="width: 150px;" required></drop-down>
+                    <check-box id="edit-form-internal" style="margin-left: 30px;">Internal</check-box>
+                </div>
+
+                <label>Description</label>
+                <text-input id="edit-form-description" style="width: 270px;" disabled></text-input>
+
+                <label>Comments</label>
+                <textbox-input id="edit-form-comments" style="width: 270px; height: 135px;"></textbox-input>
+            </div>
+            <div style="right: 17px; bottom: 10px; position: absolute;">
+                <push-button id="edit-form-popup-ok">Ok</push-button>
+                <push-button id="edit-form-popup-cancel" style="margin-left: 10px;">Cancel</push-button>
+            </div>
+        </popup-body>
+    </popup>
+
+    <popup id="download-popup" height="110px" width="280px">
+        <popup-title>Download All Project Forms To A Zip File</popup-title>
+        <popup-body>
+            <div style="margin-top: 10px;">
+                <check-box id="download-popup-all-types" checked>All form types</check-box>
+                <check-box id="download-popup-internal" checked>Include Internal</check-box>
+            </div>
+            <div style="margin-top: 10px;">
+                <span>Form Type:</span>
+                <drop-down id="download-popup-form-type" style="width: 195px;" required disabled></drop-down>
+            </div>
+            <div style="right: 17px; bottom: 10px; position: absolute;">
+                <push-button id="download-popup-ok">Ok</push-button>
+                <push-button id="download-popup-cancel" style="margin-left: 10px;">Cancel</push-button>
+            </div>
+        </popup-body>
+    </popup>
+
+</div>

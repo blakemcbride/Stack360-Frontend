@@ -1,0 +1,117 @@
+<!--
+     Copyright 2020 STACK360 LLC
+     All rights reserved.
+
+-->
+
+<div class="kiss">
+    <style>
+        .sgca-grid {
+            display: grid;
+            grid-column-gap: 10px;
+            grid-row-gap: 10px;
+            align-items: center;
+        }
+        .sgca-grid span {
+            color: #000;
+            align-self: center;
+            text-align: right;
+        }
+        #sgca-applied_filters b {
+            font-weight: 800;
+        }
+        
+        .tab-height {
+            height: 280px;
+        }
+    </style>
+
+    <div class="wrapper" style="width: max-content;">
+        <div style="margin-top: 10px; margin-bottom: 10px;">
+            <span>Screen Group Users Search Criteria:</span>
+            <hr>
+        </div>
+    
+        <div class="sgca-grid" style="margin-bottom: 10px; grid-template-columns: repeat(5, max-content);">
+            <span>Company:</span>
+            <div style="grid-column: 2 / 4;">
+                <smart-chooser id="sgca-clientCompanyId" outside-width="260"></smart-chooser>
+            </div>
+
+            <span>Screen Group:</span>
+            <drop-down id="sgca-screenGroup" style="width: 150px;"></drop-down>
+
+            <span>Last Name:</span>
+            <drop-down id="sgca-lastName-criteria" style="width: 95px;"></drop-down>
+            <text-input id="sgca-lastName" style="width: 140px"></text-input>
+
+            <span>Security Group:</span>
+            <drop-down id="sgca-securityGroup" style="width: 150px;"></drop-down>
+            
+            <span>First Name:</span>
+            <drop-down id="sgca-firstName-criteria" style="width: 95px;"></drop-down>
+            <text-input id="sgca-firstName" style="width: 140px"></text-input>    
+
+            <div style="grid-column: 4 / 6; text-align: right;">
+                <push-button id="reset" style="margin-right: 10px;">Reset</push-button>
+                <push-button id="search">Search</push-button>
+            </div>
+        </div>
+    </div>
+    
+    <div style="margin-top: 10px; margin-bottom: 10px;">
+        <span>Search Results:</span>
+        <hr>
+    </div>
+
+    <div id="resultsGrid" style="width: 100%; height: calc(100% - 260px);"></div>
+
+    <div id="pagination" style="position: absolute; margin-top: 10px; bottom: 50px; width: 100%;">
+        <text-label id="pagination_label"></text-label>
+        <div style="float: right; margin-right: 20px;">
+            <push-button id="sgca-prev" disabled>Previous</push-button>
+            <push-button id="sgca-next" style="margin-left: 10px;" disabled>Next</push-button>
+        </div>
+    </div>
+
+    <text-label id="sgca-status" style="position: absolute; bottom: 20px; left: 10px;">Displaying 0 Users</text-label>
+
+    <div style="text-align: right; position: absolute; bottom: 10px; width: 100%; right: 0;">
+        <push-button id="report" style="margin-right: 10px;">Report</push-button>
+    </div>
+
+    <popup id="sgca-data-search" width="330px" height="400px">
+        <popup-title>
+            <span>Company Search</span>
+        </popup-title>
+        <popup-body style="padding: 10px;">    
+            <div>Search Criteria:</div>
+            <hr>
+
+            <span style="margin-right: 10px;">Name:</span>
+            <drop-down id="sgca-companyName-criteria" style="width: 95px;"></drop-down>
+            <text-input id="sgca-companyName" style="width: 140px; margin-left: 10px;"></text-input>
+    
+            <div style="margin-top: 10px; width: 100%; text-align: right;">
+                <push-button id="sgca-reset">Reset</push-button>
+                <push-button id="sgca-search" style="margin-right: unset;">Search</push-button>
+            </div>
+    
+            <div style="margin-top: 10px;">
+                <div>Search Results:</div>
+                <hr>
+            </div>
+    
+            <div id="sgca-grid" style="width: 100%; height: 250px;"></div>
+        
+            <div class="vert-input2" style="margin-top: 10px; display: flex; justify-content: space-between; align-items: center;">
+                <text-label id="sgca-count" style="margin-left: 10px;">Displaying 0 Companies</text-label>
+    
+                <div>
+                    <push-button id="sgca-ok" disabled>OK</push-button>
+                    <push-button id="sgca-cancel" style="margin-left: 10px;">Cancel</push-button>
+                </div>
+            </div>
+        </popup-body>
+    </popup>
+</div>

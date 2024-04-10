@@ -1,0 +1,52 @@
+<div class="kiss">
+    <style>
+        #br-popup-grid {
+            margin-top: 10px;
+            margin-left: 5px;
+            display: grid;
+            grid-template-columns: max-content auto;
+            grid-column-gap: 10px;
+            grid-row-gap: 10px;
+        }
+        #br-popup-grid span {
+            color: #000;
+            align-self: center;
+            text-align: right;
+        }
+    </style>
+    <div style="margin-bottom: 10px; margin-top: 10px;">
+        <span>Employee Billing Rates</span>
+        <text-label id="worker-name" style="float: right;"></text-label>
+        <hr>
+    </div>
+
+    <div id="grid" style="height: calc(100% - 85px); width: 400px;"></div>
+    <div style="margin-top: 20px;">
+        <text-label id="status-label">Displaying 0 Employee Rates</text-label>
+
+        <div style="right: 15px; bottom: 10px; position: absolute;">
+            <push-button id="add">Add</push-button>
+            <push-button id="edit" disabled>Edit</push-button>
+            <push-button id="delete" disabled>Delete</push-button>
+        </div>
+    </div>
+
+    <popup id="br-popup" width="285px" height="130px">
+        <popup-title>
+            <span><text-label id="br-title">Add</text-label> Billing Rate Type</span>
+        </popup-title>
+        <popup-body id="br-body">
+            <div id="br-popup-grid">
+                <span>Billing Rate Type:</span>
+                <drop-down id="br-type" style="width: 150px;" required></drop-down>
+
+                <span>Billing Rate Amount:</span>
+                <numeric-input id="br-amount" style="width: 60px;" money></numeric-input>
+            </div>
+            <div style="margin-top: 20px; text-align: right;">
+                <push-button id="br-ok">OK</push-button>
+                <push-button id="br-cancel">Cancel</push-button>
+            </div>
+        </popup-body>
+    </popup>
+</div>

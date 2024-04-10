@@ -1,0 +1,117 @@
+<!--
+    Copyright 2020 STACK360 LLC
+    All rights reserved.
+
+-->
+
+<div class="kiss">
+    <style>
+        .ahra-grid {
+            display: grid;
+            grid-template-columns: max-content max-content auto;
+            grid-column-gap: 10px;
+            grid-row-gap: 10px;
+        }
+        .ahra-grid span {
+            color: #000;
+            align-self: center;
+            text-align: right;
+        }
+    </style>
+    <div style="margin-bottom: 10px; margin-top: 10px;">
+        <span>Alert Search Criteria:</span>
+        <hr>
+    </div>
+
+    <div style="margin-bottom: 10px;">
+        <div style="margin-bottom: 10px;">
+            <span>Alerts on Date:</span>
+            <native-date-input style="width: 110px; margin-left: 10px;" id="ahra-date"></native-date-input>
+        </div>
+
+        <span>Alerts sent by Current User only</span>
+        <check-box id="ahra-sentByCurrent" style="vertical-align: middle;"></check-box>
+    </div>
+
+    <div style="margin-bottom: 10px;">
+        <span>Alerts:</span>
+        <hr>
+    </div>
+    <div id="alertsGrid" style="height: calc(100% - 170px);"></div>
+
+    <div style="margin-top: 20px;">
+        <text-label id="alerts-label">Displaying 0 Alerts</text-label>
+
+        <div style="position: absolute; right: 10px; bottom: 10px;">
+            <push-button id="add">Add</push-button>
+            <push-button id="edit" style="margin-left: 10px;" disabled>Edit</push-button>
+            <push-button id="delete" style="margin-left: 10px;" disabled>Delete</push-button>
+        </div>
+    </div>
+
+    <popup id="alert-popup" width="830px" height="420px">
+        <popup-title>
+            <span><text-label id="alert-label">Add</text-label> Alert</span>
+        </popup-title>
+        <popup-body style="padding: 10px;">
+            <div class="ahra-grid" style="grid-template-columns: max-content auto;">
+                <span>Detail:</span>
+                <textbox-input id="ahra-message" style="height: 300px;" required></textbox-input>
+
+                <span></span>
+                <div class="ahra-grid" style="grid-template-columns: repeat(4, max-content); justify-self: right;">
+                    <span>Start Date:</span>
+                    <native-date-input style="width: 110px;" id="ahra-startDate" required></native-date-input>
+    
+                    <span>Send Alert to all employees</span>
+                    <radio-button group="ahra-alertType" checked align-vertical value="1"></radio-button>
+                    
+                    <span>End Date:</span>
+                    <native-date-input style="width: 110px;" id="ahra-endDate" required></native-date-input>
+    
+                    <span>Send Alert to specific employees</span>
+                    <radio-button group="ahra-alertType" align-vertical value="2"></radio-button>
+                </div>
+            </div>
+
+            <div id="employee-search" style="margin-top: 10px; display: none;">
+                <div style="margin-bottom: 10px;">
+                    <span>Employee Search:</span>
+                    <hr>
+                </div>
+                <div class="ahra-grid" style="grid-template-columns: 40% 25% auto 25%;">
+                    <div>
+                        <span>Org Group Name Starts With:</span> 
+                        <text-input id="ahra-orgGroupStartsWith" style="width: 50px; margin-left: 10px; margin-right: 10px;"></text-input>
+                        <push-button id="ahra-orgGroupFilter" style="width: max-content;">Filter</push-button>
+                    </div>
+                    <div>
+                        <span>Last Name Starts With:</span> 
+                        <text-input id="ahra-lastNameStartsWith" style="width: 50px; margin-left: 10px; margin-right: 10px;"></text-input>
+                    </div>
+                    <push-button id="ahra-lastNameFilter" style="width: max-content;">Filter</push-button>
+                    <span></span>
+                    
+                    <div id="orgGroupGrid" style="height: 150px;"></div>
+                    <div id="availableEmployeesGrid" style="height: 150px;"></div>
+                    <div style="align-self: center; text-align: center;">
+                        <push-button id="ahra-selectEmployee" disabled style="width: max-content; margin-bottom: 10px;">--></push-button>
+                        <push-button id="ahra-deselectEmployee" disabled style="width: max-content;"><--</push-button>
+                    </div>
+                    <div id="selectedEmployeesGrid" style="height: 150px;"></div>
+                </div>
+            </div>
+         
+            <div style="display: flex; justify-content: space-between; margin-top: 10px;">
+                <div>
+                    <push-button id="ahra-up" disabled>Up</push-button>
+                    <push-button id="ahra-open" disabled style="margin-left: 10px;">Open</push-button>
+                </div>
+                <div style="text-align: right;">
+                    <push-button id="ahra-ok">OK</push-button>
+                    <push-button id="ahra-cancel" style="margin-left: 10px;">Cancel</push-button>
+                </div>
+            </div>
+        </popup-body>
+    </popup>
+</div>

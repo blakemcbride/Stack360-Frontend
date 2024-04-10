@@ -1,0 +1,84 @@
+<!--
+     Copyright 2020 STACK360 LLC
+     All rights reserved.
+
+-->
+
+<div class="kiss">
+    <style>
+        .spi-grid {
+            display: grid;
+            grid-column-gap: 10px;
+            grid-row-gap: 10px;
+            align-items: center;
+        }
+        .spi-grid span {
+            color: #000;
+            align-self: center;
+            text-align: right;
+        }
+        #spi-applied_filters b {
+            font-weight: 800;
+        }
+        
+        .tab-height {
+            height: 280px;
+        }
+    </style>
+
+    <div style="margin-top: 10px; margin-bottom: 10px;">
+        <span>Choose a Company for which Standard Projects will be created:</span>
+        <hr>
+    </div>
+
+    <span>Requesting Company:</span>
+    <smart-chooser id="spi-clientCompanyId" outside-width="260" style="margin-left: 10px;" required></smart-chooser>
+    
+    <div style="margin-top: 10px; margin-bottom: 10px;">
+        <span>Standard Projects:</span>
+        <hr>
+    </div>
+
+    <div id="resultsGrid" style="width: 100%; height: calc(100% - 150px);"></div>
+
+    <div style="margin-top: 10px; text-align: right;">
+        <text-label id="spi-status" style="float: left; margin-top: 10px;">Displaying 0 Standard Projects</text-label>
+        
+        <push-button id="create" disabled>Create</push-button>
+    </div>
+
+    <popup id="spi-data-search" width="330px" height="400px">
+        <popup-title>
+            <span>Company Search</span>
+        </popup-title>
+        <popup-body style="padding: 10px;">    
+            <div>Search Criteria:</div>
+            <hr>
+
+            <span style="margin-right: 10px;">Name:</span>
+            <drop-down id="spi-companyName-criteria" style="width: 95px;"></drop-down>
+            <text-input id="spi-companyName" style="width: 140px; margin-left: 10px;"></text-input>
+    
+            <div style="margin-top: 10px; width: 100%; text-align: right;">
+                <push-button id="spi-reset">Reset</push-button>
+                <push-button id="spi-search" style="margin-right: unset;">Search</push-button>
+            </div>
+    
+            <div style="margin-top: 10px;">
+                <div>Search Results:</div>
+                <hr>
+            </div>
+    
+            <div id="spi-grid" style="width: 100%; height: 250px;"></div>
+        
+            <div class="vert-input2" style="margin-top: 10px; display: flex; justify-content: space-between; align-items: center;">
+                <text-label id="spi-count" style="margin-left: 10px;">Displaying 0 Companies</text-label>
+    
+                <div>
+                    <push-button id="spi-ok" disabled>OK</push-button>
+                    <push-button id="spi-cancel" style="margin-left: 10px;">Cancel</push-button>
+                </div>
+            </div>
+        </popup-body>
+    </popup>
+</div>

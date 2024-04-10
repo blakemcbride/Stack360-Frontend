@@ -1,0 +1,123 @@
+<!--
+     Copyright 2020 STACK360 LLC
+     All rights reserved.
+
+-->
+
+<div class="kiss">
+    <style>
+        .tebcs-grid {
+            display: grid;
+            grid-column-gap: 10px;
+            grid-row-gap: 10px;
+            align-items: center;
+        }
+        .tebcs-grid span {
+            color: #000;
+            align-self: center;
+            text-align: right;
+        }
+        #tebcs-applied_filters b {
+            font-weight: 800;
+        }
+        
+        .tab-height {
+            height: calc(640px);
+        }
+        .tebcs-setButtons {
+            width: 120px !important; 
+            font-size: 25px !important; 
+            font-weight: 800 !important; 
+        }
+        .tebcs-setButtons:disabled {
+            opacity: 0.6 !important;
+        }
+    </style>
+    <div class="tebcs-grid" style="margin-top: 10px; margin-bottom: 10px; grid-template-columns: 35% 65%; align-items: start;">
+        <div>
+            <span>Worker:</span>
+            <smart-chooser id="tebcs-employeeId" outside-width="260" required></smart-chooser>
+
+            <div class="tebcs-grid" style="grid-template-columns: repeat(2, max-content); align-items: start; margin-top: 10px; grid-column-gap: 50px;">
+                <div>
+                    <push-button disable class="tebcs-setButtons" id="tebcs-setIn" style="background: rgb(112, 221, 112); margin-bottom: 10px;">IN</push-button>
+                    <br>
+                    <push-button disable class="tebcs-setButtons" id="tebcs-setOut" style="background: rgb(243, 122, 122);">OUT</push-button>
+                </div>
+                <div class="tebcs-grid" style="grid-template-columns: repeat(2, max-content); grid-column-gap: 10px; grid-row-gap: 10px;">
+                    <span>Current Date:</span>
+                    <text-label id="tebcs-currentDate" style="font-weight: 800; text-align: left;"></text-label>
+    
+                    <span>Current Time:</span>
+                    <text-label id="tebcs-currentTime" style="font-weight: 800; text-align: left;"></text-label>
+    
+                    <span>Logout after Clock In/Out:</span>
+                    <check-box id="tebcs-autoLogout"></check-box>
+
+                    <span>Total:</span>
+                    <numeric-input decimal-places="2" show-zero="true" id="tebcs-totalTime" style="width:55px; text-align: right;" disabled></numeric-input>
+                </div>
+            </div>
+        </div>
+        
+       <div style="position: relative; height: 100%;">
+            <text-label id="tebcs-currentStatus"></text-label>
+
+            <div style="text-align: right; position: absolute; bottom: 0; right: 10px;">
+                <span>From:</span>
+                <native-date-input id="tebcs-fromDateTimesheets" style="width:110px; margin-left: 10px; margin-right: 10px;"></native-date-input>
+    
+                <span>To:</span>
+                <native-date-input id="tebcs-toDateTimesheets" style="width:110px; margin-left: 10px;"></native-date-input>
+            </div>
+       </div>        
+
+        
+    </div>
+
+
+    <div id="allTimesheetsGrid" style="height: 680px; margin-top: 10px;"></div>
+
+    <popup id="employee-search" width="620px" height="455px">
+        <popup-title>
+            <text-label>Search for Employee</text-label>
+        </popup-title>
+        <popup-body style="padding: 10px;">
+    
+            <div>Search Criteria:</div>
+            <hr>
+            
+            <div class="vert-input" style="margin-top: 8px; display: grid; grid-template-columns: repeat(3, max-content); align-items: center;">
+                <span>Last Name:</span>
+                <drop-down id="esp-lname-criteria" style="width: 95px; margin-right: 10px;"></drop-down>
+                <text-input id="esp-lname-search" style="width: 140px"></text-input>
+                
+                <span>First Name:</span>
+                <drop-down id="esp-fname-criteria" style="width: 95px; margin-right: 10px;"></drop-down>
+                <text-input id="esp-fname-search" style="width: 140px"></text-input>    
+                
+            </div>
+    
+            <div class="btn-bar" style="margin-top: 8px; width: 100%; justify-content: flex-end;">
+                <push-button id="esp-reset">Reset</push-button>
+                <push-button id="esp-search" style="margin-right: unset;">Search</push-button>
+            </div>
+    
+            <div style="margin-top: 10px;">
+                <div>Search Results:</div>
+                <hr>
+            </div>
+    
+            <div id="esp-grid" style="width: 100%; height: 250px;"></div>
+        
+            <div class="vert-input2" style="margin-top: 20px; display: flex; justify-content: space-between; align-items: center;">
+                <text-label id="esp-count" style="margin-left: 10px;">Displaying 0 Employees</text-label>
+    
+                <div>
+                    <push-button id="esp-ok" disabled>OK</push-button>
+                    <push-button id="esp-cancel" style="margin-left: 10px; margin-right: 15px;">Cancel</push-button>
+                </div>
+            </div>
+        </popup-body>
+    </popup>
+</div>

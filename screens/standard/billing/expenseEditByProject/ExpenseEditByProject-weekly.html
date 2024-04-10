@@ -1,0 +1,126 @@
+<!--
+     Copyright 2020 STACK360 LLC
+     All rights reserved.
+
+-->
+
+<div class="kiss" style="font-size: small;">
+
+    <style>
+
+        div.vert-input2 {
+            display:grid;
+            grid-template-columns: 130px max-content 100px max-content;
+            grid-column-gap:5px;
+            grid-row-gap: 10px;
+            margin-top: 10px;
+            margin-left: 10px;
+        }
+        div.vert-input2 label       { text-align:right; }
+        div.vert-input2 label:after { content: ":"; }
+
+    </style>
+
+
+    <div style="margin-top: 20px;">
+        <div style="display: inline;">
+            <div style="display: inline-block">
+                <label>Project:</label>
+                <text-input id="project" style="width: 300px;" disabled></text-input>
+                <push-button id="do-search-project">?</push-button>
+            </div>
+
+            <label style="margin-left: 60px;">Week beginning:</label>
+            <push-button id="prevWeek">&lt;</push-button>
+            <native-date-input id="project-week" style="width: 120px;"></native-date-input>
+            <push-button id="nextWeek">&gt;</push-button>
+            <text-label id="what-day" style="margin-left: 20px; color: red;">(date required)</text-label>
+        </div>
+    </div>
+
+    <div id="detail-grid" style="margin-top: 20px; height: calc(100% - 120px); width: 100%;"></div>
+
+    <div style="left: 10px; bottom: 10px; position: absolute;">
+        <push-button id="add-worker" disabled>Add Worker</push-button>
+        <push-button id="auto-generate" style="margin-left: 8px;" disabled>Auto Generate</push-button>
+        <push-button id="export" style="margin-left: 8px;" disabled>Export All Projects</push-button>
+    </div>
+
+    <div style="right: 10px; bottom: 10px; position: absolute;">
+        <label>Expense:</label>
+        <push-button id="add" disabled>Add</push-button>
+        <push-button id="edit" style="margin-left: 12px;" disabled>Edit</push-button>
+        <push-button id="delete" style="margin-left: 12px;" disabled>Delete</push-button>
+    </div>
+
+    <popup id="per-diem-popup"  height="350px" width="710px">
+        <popup-title id="per-diem-title"></popup-title>
+        <popup-body>
+            <div class="vert-input2">
+                <label>Project</label>
+                <text-input id="pd-project" style="width: 200px;" disabled></text-input>
+
+                <label>Person</label>
+                <drop-down id="pd-person" style="width: 200px;" required></drop-down>
+
+                <label>First day of week being paid for</label>
+                <date-input id="pd-date-week-paid-for" style="width: 150px;" required min="20180101" max="20280101" disabled></date-input>
+
+                <label>Date paid</label>
+                <date-input id="pd-date-paid" style="width: 150px;" min="2018-01-01" max="2025-01-01" required></date-input>
+
+                <label>Payment method</label>
+                <drop-down id="pd-method" style="width: 200px;" required>
+                    <option value="">(select)</option>
+                    <option value="D">Direct deposit</option>
+                    <option value="M">Cash</option>
+                    <option value="C">Check</option>
+                    <option value="W">Walmart</option>
+                    <option value="O">Comdata</option>
+                </drop-down>
+
+                <label>Per Diem</label>
+                <numeric-input id="pd-per-diem" style="width: 150px;" decimal-places="2" dollar-sign></numeric-input>
+
+                <label>Expense</label>
+                <numeric-input id="pd-expense" style="width: 150px;" decimal-places="2" dollar-sign min="0"></numeric-input>
+
+                <label>Advance</label>
+                <numeric-input id="pd-advance" style="width: 150px;" decimal-places="2" dollar-sign  min="0"></numeric-input>
+
+                <label>Scheduling comments</label>
+                <textbox-input id="pd-scheduling-comments" style="width: 195px; height: 135px;"></textbox-input>
+
+                <label>Payroll comments</label>
+                <textbox-input id="pd-comments" style="width: 195px; height: 135px;"></textbox-input>
+
+                <label>Return</label>
+                <numeric-input id="pd-return" style="width: 150px;" decimal-places="2" dollar-sign></numeric-input>
+            </div>
+
+            <div style="right: 10px; bottom: 10px; position: absolute;">
+                <push-button id="pd-ok">Ok</push-button>
+                <push-button id="pd-cancel" style="margin-left: 12px;">Cancel</push-button>
+            </div>
+        </popup-body>
+    </popup>
+
+
+    <popup id="export-popup" height="130px" width="350px">
+        <popup-title>Export Date Range Selection</popup-title>
+        <popup-body>
+            <div class="vert-input">
+                <label>Beginning date range</label>
+                <date-input id="exp-beginning-date" style="width: 100px;"></date-input>
+
+                <label>Ending date range</label>
+                <date-input id="exp-ending-date" style="width: 100px;"></date-input>
+            </div>
+            <div style="right: 10px; bottom: 10px; position: absolute;">
+                <push-button id="exp-ok">Ok</push-button>
+                <push-button id="exp-cancel" style="margin-left: 12px;">Cancel</push-button>
+            </div>
+        </popup-body>
+    </popup>
+
+</div>

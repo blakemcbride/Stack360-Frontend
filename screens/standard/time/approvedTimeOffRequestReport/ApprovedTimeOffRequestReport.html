@@ -1,0 +1,37 @@
+<!--
+     Copyright 2020 STACK360 LLC
+     All rights reserved.
+
+-->
+
+<div class="kiss">
+    <style>
+        .atorr-grid {
+            display: grid;
+            grid-template-columns: repeat(2, max-content);
+            grid-row-gap: 10px;
+            grid-column-gap: 10px;
+            align-items: center;
+        }
+        .atorr-grid > span {
+            text-align: right;
+        }
+    </style>
+
+    <div style="margin-top: 10px;">
+        <span>Approved Time Off Request Report:</span>
+        <hr>
+        <span style="margin-top: 20px; margin-bottom: 20px; display: block;">Run report for dates between: </span>
+        <div class="atorr-grid">
+            <span>Beginning Date:</span>
+            <native-date-input id="from-date" style="width: 110px;"></native-date-input>
+
+            <span>Ending Date:</span>
+            <native-date-input id="to-date" style="width: 110px;"></native-date-input>
+
+            <div style="text-align: right; grid-column: 1 / 3;">
+                <push-button id="report">Report</push-button>
+            </div>
+        </div>
+    </div>
+</div>

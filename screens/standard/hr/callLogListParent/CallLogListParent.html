@@ -1,0 +1,58 @@
+<!--
+    Copyright 2020 STACK360 LLC
+    All rights reserved.
+
+-->
+
+<div class="kiss">
+    <style>
+        .cllp-grid {
+            display: grid;
+            grid-template-columns: max-content auto;
+            grid-column-gap: 10px;
+            grid-row-gap: 10px;
+        }
+        .cllp-grid span {
+            color: #000;
+            align-self: center;
+            text-align: right;
+        }
+        .tab-height {
+            height: calc(100% - 45px);
+            position: relative;
+        }
+    </style>
+    <div style="margin-bottom: 10px; margin-top: 10px;">
+        <span>Call Log Search Criteria:</span>
+        <hr>
+    </div>
+
+    <div style="margin-bottom: 10px;">
+        <span>Assigned To:</span>
+        <drop-down id="clLp-employeeId" style="width: 250px; margin-left: 10px; margin-right: 20px;"></drop-down>
+
+        <span>Type:</span>
+        <drop-down id="clLp-projectTypeId" style="width: 250px; margin-left: 10px; margin-right: 20px;"></drop-down>
+
+        <span>Location:</span>
+        <drop-down id="clLp-locationId" style="width: 250px; margin-left: 10px;"></drop-down>
+    </div>
+
+    <div style="margin-bottom: 10px;">
+        <span>Call Log Search Results:</span>
+        <hr>
+    </div>
+
+    <div id="listProjectsGrid" style="height: calc(100% - 140px);"></div>
+
+    <div style="margin-top: 15px;">
+        <text-label id="listProjects-label">Displaying 0 Call Logs</text-label>
+
+        <div style="right: 10px; bottom: 10px; position: absolute;">
+            <push-button id="refresh">Refresh</push-button>
+            <push-button disabled id="add" style="margin-left: 10px;">Add</push-button>
+            <push-button disabled id="editCallLog" style="margin-left: 10px;">Edit Call Log</push-button>
+            <push-button disabled id="editEmployee" style="margin-left: 40px;">Edit Employee</push-button>
+        </div>
+    </div>
+</div>

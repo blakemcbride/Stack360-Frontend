@@ -1,0 +1,63 @@
+<!--
+     Copyright 2020 STACK360 LLC
+     All rights reserved.
+
+-->
+
+<div class="kiss">
+
+    <style>
+        div.vert-input2 {
+            display:grid;
+            grid-template-columns: max-content max-content;
+            grid-column-gap:5px;
+            grid-row-gap: 10px;
+            margin-top: 10px;
+            margin-left: 10px;
+        }
+        div.vert-input2 span {
+            text-align:right;
+            margin-top: 6px;
+        }
+    </style>
+
+    <div style="margin-top: 10px;">Project Form Types:</div>
+    <hr>
+
+    <div id="grid" style="margin-top: 10px; width: 100%; height: calc(100% - 90px);"></div>
+
+
+    <div style="position: absolute; bottom: 10px; width: 100%;">
+        <text-label id="status"></text-label>
+        <div style="display: inline-block; float: right;">
+            <push-button id="add">Add</push-button>
+            <push-button id="edit" style="margin-left: 10px;" disabled>Edit</push-button>
+            <push-button id="delete" style="margin-left: 10px;" disabled>Delete</push-button>
+            <push-button id="report" style="margin-left: 10px; margin-right: 30px;">Report</push-button>
+        </div>
+    </div>
+
+    <popup id="detail-popup" height="200px" width="310px">
+        <popup-title>
+            <text-label id="dp-title"></text-label>
+        </popup-title>
+        <popup-body>
+            <div class="vert-input2">
+                <span>Code:</span>
+                <text-input id="dp-code" style="width: 150px;" maxlength="15" required></text-input>
+
+                <span>Description:</span>
+                <textbox-input id="dp-description" style="width: 200px; height: 60px;" maxlength="60" required></textbox-input>
+
+                <span></span>
+                <check-box id="dp-downloadable">Field Downloadable</check-box>
+            </div>
+
+            <div style="text-align: right; margin-top: 20px;">
+                <push-button id="dp-ok">OK</push-button>
+                <push-button id="dp-cancel" style="margin-left: 10px; margin-right: 15px;">Cancel</push-button>
+            </div>
+        </popup-body>
+    </popup>
+
+</div>

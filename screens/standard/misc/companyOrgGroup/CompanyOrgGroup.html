@@ -1,0 +1,1151 @@
+<!--
+     Copyright 2020 STACK360 LLC
+     All rights reserved.
+
+-->
+
+<div class="kiss">
+
+    <style>
+        div.vert-input2 {
+            display:grid;
+            grid-template-columns: max-content max-content;
+            grid-column-gap:5px;
+            grid-row-gap: 10px;
+            margin-top: 10px;
+            /* margin-left: 10px; */
+        }
+
+        div.vert-input2 span {
+            text-align:right;
+            margin-top: 6px;
+        }
+
+        div.vert-input4 {
+            display:grid;
+            grid-template-columns: max-content max-content max-content max-content;
+            grid-column-gap:5px;
+            grid-row-gap: 8px;
+            margin-top: 10px;
+            /* margin-left: 10px; */
+        }
+
+        div.vert-input4 span {
+            text-align:right;
+            margin-top: 6px;
+        }
+
+        .tab-height {
+            height: 280px;
+        }
+
+        .eligibility-days {
+            text-align: right;
+        }
+    </style>
+
+    <div style="margin-top: 10px; display: flex;justify-content: space-between;" >
+        <div>Company Organizational Group Location:</div>
+        <div>
+            <text-label id="dp-group-name"></text-label>
+        </div>
+    </div>
+    <hr>
+    <div id="bread-crumb-2" style="margin-left: 5px; display: inline-block; margin-top: 5px;"></div>
+
+    <div style="margin-top: 5px; width: 100%; height: calc(100% - 60px); display: flex; justify-content: space-between;">
+        <div style="width: 49%; display: flex; flex-direction: column; justify-content: space-between; margin-bottom: 10px;">
+            <div class="vert-input2">
+                <span>Filter by Org Group Name:</span>
+                <div>
+                    <drop-down id="filter-org-group-type" style="width: 100px;">
+                        <option value="2">Starts With</option>
+                        <option value="3">Ends With</option>
+                        <option value="4">Contains</option>
+                        <option value="5">Exact Match</option>
+                    </drop-down>
+                    <text-input id="filter-org-group" style="width: 220px;"></text-input>
+                </div>
+                <span></span>
+                <div>
+                    <push-button style="float: right;" id="search-org-group">Search</push-button>
+                </div>
+            </div>
+            <div>
+                <text-label id="org-group-label">Organizational Groups inside </text-label>
+                <hr>
+            </div>
+
+            <div id="org-groups-grid" style="position: relative; width: 100%; height: 100%; margin-bottom: 10px;"></div>
+
+            <div style="width: 100%;">
+                <push-button id="org-group-open" disabled>Open</push-button>
+
+                <div style="float: right;">
+                    <push-button id="org-group-add" disabled>Add</push-button>
+                    <push-button id="org-group-edit" style="margin-left: 10px;" disabled>Edit</push-button>
+                    <push-button id="org-group-delete" style="margin-left: 10px;" disabled>Delete</push-button>
+                </div>
+            </div>
+
+            <div style="width: 100%; margin-top: 10px;">
+                <push-button id="org-group-up" disabled>Up</push-button>
+
+                <div style="float: right;">
+                    <push-button id="org-group-associate" disabled>Associate</push-button>
+                    <push-button id="org-group-disassociate" style="margin-left: 10px;" disabled>Disassociate</push-button>
+                </div>
+            </div>
+        </div>
+        <div style="width: 49%; display: flex; flex-direction: column; justify-content: space-between; margin-bottom: 10px;">
+            <div class="vert-input2">
+                <span>Filter by Employee Last Name:</span>
+                <div>
+                    <drop-down id="filter-last-name-type" style="width: 100px;">
+                        <option value="2">Starts With</option>
+                        <option value="3">Ends With</option>
+                        <option value="4">Contains</option>
+                        <option value="5">Exact Match</option>
+                    </drop-down>
+                    <text-input id="filter-last-name" style="width: 220px;"></text-input>
+                </div>
+                <span></span>
+                <div>
+                    <push-button style="float: right;" id="search-last-name">Search</push-button>
+                </div>
+            </div>
+            <div>
+                <text-label id="employees-label">Employees inside </text-label>
+                <hr>
+            </div>
+
+            <div id="employees-grid" style="position: relative; width: 100%; height: 100%; margin-bottom: 10px;"></div>
+
+            <div style="width: 100%;">
+                <text-label id="employees-status">Displaying 0 Employees</text-label>
+                <div style="float: right;">
+                    <push-button id="employee-add" disabled>Add</push-button>
+                    <push-button id="employee-edit" style="margin-left: 10px;" disabled>Edit</push-button>
+                </div>
+            </div>
+
+            <div style="width: 100%; margin-top: 10px;">
+                <div style="float: right;">
+                    <push-button id="employee-associate" disabled>Associate</push-button>
+                    <push-button id="employee-disassociate" style="margin-left: 10px;" disabled>Disassociate</push-button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <popup id="org-group-popup">
+        <popup-title>
+            <text-label id="ogp-title">Add Company Organizational Group</text-label>
+        </popup-title>
+        <popup-body style="padding: 10px 15px;">
+            <div class="vert-input2">
+                <span>Name:</span>
+                <div>
+                    <text-input id="ogp-name" style="width: 300px;" required maxlength="60"></text-input>
+                    <span style="margin-left: 50px;">ID:</span>
+                    <text-input id="ogp-id" style="width: 80px;"></text-input>
+                </div>
+            </div>
+
+            <div id="ogp-tab-container" style="margin-top: 10px;">
+                <ul class="tab-header">
+                    <li id="ogp-address-TabButton" class="active">Address</li>
+                    <li id="ogp-default-TabButton">Defaults</li>
+                    <li id="ogp-pay-period-TabButton">Pay Periods</li>
+                    <li id="ogp-timesheet-TabButton">Timesheets</li>
+                    <li id="ogp-evaluation-TabButton">Evaluations</li>
+                    <li id="ogp-report-TabButton">EEO-1 Reporting</li>
+                </ul>
+                
+                <div id="ogp-address-TabContent" class="tab-content tab-height">
+                    <div style="display: flex; justify-content: space-between;">
+                        <div>
+                            <div class="vert-input2">
+                                <span>Address Line 1:</span>
+                                <text-input id="ogp-address-line1" maxlength="60"></text-input>
+                                <span>Address Line 2:</span>
+                                <text-input id="ogp-address-line2" maxlength="60"></text-input>
+                                <span>Country:</span>
+                                <drop-down id="ogp-country"></drop-down>
+                                <span>City:</span>
+                                <text-input id="ogp-city" maxlength=""></text-input>
+                                <span>State / Province:</span>
+                                <drop-down id="ogp-states" style="width: 60px;"></drop-down>
+                                <span>Zip / Postal Code:</span>
+                                <text-input id="ogp-zip-code" maxlength="10" style="width: 60px;"></text-input>
+                                <span>County:</span>
+                                <text-input id="ogp-county" maxlength="18"></text-input>
+                            </div>
+                        </div>
+                        <div style="margin-left: 20px;">
+                            <div class="vert-input2">
+                                <span>Phone: </span>
+                                <text-input id="ogp-phone" style="width: 230px;" maxlength="20"></text-input>
+                                <span>Fax:</span>
+                                <text-input id="ogp-fax" style="width: 230px;" maxlength="20"></text-input>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div id="ogp-default-TabContent" class="tab-content tab-height" hidden>
+                    <div class="vert-input2">
+                        <span>Parent Default Project:</span>
+                        <text-input id="ogp-parent-default-project" style="width: 400px;" readonly></text-input>
+                        <span>Default Project:</span>
+                        <smart-chooser id="ogp-default-project" style="width: 380px;"  default-option="(choose)"></smart-chooser>
+                        <span>Parent Default Benefit Class:</span>
+                        <text-input id="ogp-parent-default-benefit-class" value="(None)" readonly></text-input>
+                        <span>Default Benefit Class:</span>
+                        <drop-down id="ogp-default-benefit-class"></drop-down>
+                    </div>
+                </div>
+                <div id="ogp-pay-period-TabContent" class="tab-content tab-height" hidden>
+                    <div  style="display: flex; justify-content: space-between;">
+                        <div>
+                            <div class="vert-input2">
+                                <span>Parent Pay Schedule:</span>
+                                <text-input id="ogp-parent-pay-schedule" style="width: 300px;" readonly maxlength=""></text-input>
+                                <span>Pay Schedule:</span>
+                                <drop-down id="ogp-pay-schedule"></drop-down>
+                            </div>
+                            <div class="vert-input2" style="float: right;">
+                                <span>Inherited New Week Begin Day:</span>
+                                <text-input id="ogp-inherited-day" readonly></text-input>
+                                <span>New Week Begin Day:</span>
+                                <drop-down id="ogp-week">
+                                    <option value="">(select)</option>
+                                    <option value="1">Sunday</option>
+                                    <option value="2">Monday</option>
+                                    <option value="3">Tuesday</option>
+                                    <option value="4">Wednesday</option>
+                                    <option value="5">Thursday</option>
+                                    <option value="6">Friday</option>
+                                    <option value="7">Saturday</option>
+                                </drop-down>
+                            </div>
+                        </div>
+                        <div style="margin-left: 20px;">
+                            <div class="vert-input2">
+                                <span>Parent Pay Period Per Year:</span>
+                                <numeric-input id="ogp-parent-pay-periods-per-year" readonly style="width: 30px;" value="0"></numeric-input>
+                                <span>Pay Period Per Year:</span>
+                                <numeric-input id="ogp-pay-periods-per-year" style="width: 30px;" value="0"></numeric-input>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div id="ogp-timesheet-TabContent" class="tab-content tab-height" hidden>
+                    <div class="vert-input2">
+                        <span>Group timesheet entries by:</span>
+                        <div>
+                            <span style="margin-left: 50px;">Show billable on timesheets:</span>
+                            <radio-button group="ogp-show-billable" value="I" style="margin-left: 20px;">Inherit</radio-button>
+                            <radio-button group="ogp-show-billable" value="Y" style="margin-left: 20px;">Yes</radio-button>
+                            <radio-button group="ogp-show-billable" value="N" style="margin-left: 20px;">No</radio-button>
+                        </div>
+                    </div>
+                    <div style="display: flex; flex-direction: column; margin-left: 15px;">
+                        <radio-button group="ogp-timesheet-period-type" value="I" style="margin-top: 15px;">Inherit from parent</radio-button>
+                        <div>
+                            <radio-button group="ogp-timesheet-period-type" value="D" style="margin-top: 15px;">Daily</radio-button>
+                            <span class="weekly-option" style="margin-left: 120px;">Date of first day of any period:</span>
+                            <native-date-input class="weekly-option" id="ogp-period-start-date" style="margin-left: 10px; width: 120px;"></native-date-input>
+                        </div>
+                        <div>
+                            <radio-button group="ogp-timesheet-period-type" value="W" style="margin-top: 15px;">Weekly</radio-button>
+                            <span class="weekly-option" style="margin-left: 110px;">(This field is used to calculate the starting point of the period.)</span>
+                        </div>
+                        <radio-button group="ogp-timesheet-period-type" value="B" style="margin-top: 15px;">Bi-weekly</radio-button>
+                        <radio-button group="ogp-timesheet-period-type" value="S" style="margin-top: 15px;">Semi-monthly</radio-button>
+                        <radio-button group="ogp-timesheet-period-type" value="M" style="margin-top: 15px;">Monthly</radio-button>
+                    </div>
+                </div>
+                <div id="ogp-evaluation-TabContent" class="tab-content tab-height" hidden>
+                    <div class="vert-input2" style="margin-bottom: 20px;">
+                        <span>Email Notifications:</span>
+                        <radio-button group="ogp-email-notifications" value="Y">On</radio-button>
+                        <span></span>
+                        <radio-button group="ogp-email-notifications" value="N">Off</radio-button>
+                        <span></span>
+                        <radio-button group="ogp-email-notifications" value="I">Inherited</radio-button>
+                    </div>
+                    <text-label id="ogp-evaluation-label" style="color: red;"></text-label>
+                    <div class="vert-input2" style="margin-top: 30px;">
+                        <span>Initial Evaluation scheduled for </span>
+                        <div>
+                            <numeric-input id="ogp-eval-email-first-days" style="width: 30px;" value="0"></numeric-input>
+                            after hire date.
+                        </div>
+                        <span>Evaluation Notifications send </span>
+                        <div>
+                            <numeric-input id="ogp-eval-email-notify-days" style="width: 30px;" value="0"></numeric-input>
+                            days before the scheduled evaluation.
+                        </div>
+                        <span>Notifications send only on</span>
+                        <div>
+                            <check-box id="ogp-evaluation-monday">Monday</check-box>
+                            <check-box id="ogp-evaluation-tuesday">Tuesday</check-box>
+                            <check-box id="ogp-evaluation-wednesday">Wednesday</check-box>
+                            <check-box id="ogp-evaluation-thursday">Thursday</check-box>
+                            <check-box id="ogp-evaluation-friday">Friday</check-box>
+                        </div>
+                    </div>
+                </div>
+                <div id="ogp-report-TabContent" class="tab-content tab-height" hidden>
+                    <check-box id="ogp-eeo-establishment" style="margin-top: 20px;">This Organizational Group represents a separate Establishment</check-box>
+                    <br>
+                    <text-label style="margin-left: 20px;">or Location (be sure to fill out Address)</text-label>
+                    <div style="display: flex; flex-direction: column; margin-top: 20px; margin-left: 20px;">
+                        <check-box id="ogp-eeo-HQ" style="margin-top: 15px;">This Establishment is the company Headquarters</check-box>
+                        <check-box id="ogp-eeo-filed-last-year" style="margin-top: 15px;">This Establishment was filed on an EEO-1 report last year</check-box>
+                        <div style="margin-top: 15px;">
+                            <span>Unit Number:</span>
+                            <text-input id="ogp-eeo-unit-number"></text-input>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div style="position: absolute; text-align: right; margin-top: 10px; bottom: 10px; width: 100%;">
+                <push-button id="ogp-ok">OK</push-button>
+                <push-button id="ogp-cancel" style="margin-left: 10px; margin-right: 35px;">Cancel</push-button>
+            </div>
+        </popup-body>
+    </popup>
+
+    <popup id="associate-group">
+        <popup-title>
+            <text-label>Associate Company Organizational Group</text-label>
+        </popup-title>
+        <popup-body style="padding: 10px 15px;">
+
+            <div>Search Criteria:</div>
+            <hr>
+
+            <div class="vert-input2">
+                <span>Name:</span>
+                <div>
+                    <drop-down id="agp-name-criteria" style="width: 125px; margin-right: 10px;"></drop-down>
+                    <text-input id="agp-name-search" style="width: 150px;"></text-input>
+                </div>
+                <span>Status:</span>
+                <radio-button group="agp-associate-indicator-type" value="1" style="margin-top: 6px;">Associated to Company Organizational Group other than the current</radio-button>
+                <span></span>
+                <radio-button group="agp-associate-indicator-type" value="2" checked>Not Associated to any Company Organizational Group</radio-button>
+                <span></span>
+                <radio-button group="agp-associate-indicator-type" value="0">Either</radio-button>
+            </div>
+
+            <div class="btn-bar" style="margin-top: 8px; width: 100%; justify-content: flex-end;">
+                <push-button id="agp-reset">Reset</push-button>
+                <push-button id="agp-search" style="margin-right: unset;">Search</push-button>
+            </div>
+
+            <div style="margin-top: 10px;">
+                <div>Search Results:</div>
+                <hr>
+            </div>
+
+            <div id="agp-grid" style="width: 100%; background: bisque; height: 210px;"></div>
+
+            <div style="text-align: right; margin-top: 20px; display: flex; justify-content: space-between; align-items: center;">
+                <div id="agp-count" style="margin-left: 10px;">Displaying 0 Company Organizational Units</div>
+
+                <div>
+                    <push-button id="agp-ok" disabled>OK</push-button>
+                    <push-button id="agp-cancel" style="margin-left: 10px; margin-right: 15px;">Cancel</push-button>
+                </div>
+            </div>
+        </popup-body>
+    </popup>
+
+    <popup id="associate-employee">
+        <popup-title>
+            <text-label>Associate Employee</text-label>
+        </popup-title>
+        <popup-body style="padding: 10px 15px;">
+
+            <div>Search Criteria:</div>
+            <hr>
+
+            <div class="vert-input2">
+                <span>Last Name:</span>
+                <div>
+                    <drop-down id="aep-lname-criteria" style="width: 125px; margin-right: 10px;"></drop-down>
+                    <text-input id="aep-lname-search" style="width: 150px;"></text-input>
+                </div>
+                <span>First Name:</span>
+                <div>
+                    <drop-down id="aep-fname-criteria" style="width: 125px; margin-right: 10px;"></drop-down>
+                    <text-input id="aep-fname-search" style="width: 150px;"></text-input>
+                </div>
+                <span>SSN:</span>
+                <text-input id="aep-ssn" style="width: 150px;"></text-input>
+                <span>Status:</span>
+                <radio-button group="aep-associate-indicator-type" value="1" style="margin-top: 6px;">Associated to Company Organizational Group other than the current</radio-button>
+                <span></span>
+                <radio-button group="aep-associate-indicator-type" value="2" checked>Not Associated to any Company Organizational Group</radio-button>
+                <span></span>
+                <radio-button group="aep-associate-indicator-type" value="0">Either</radio-button>
+            </div>
+
+            <div class="btn-bar" style="margin-top: 8px; width: 100%; justify-content: flex-end;">
+                <push-button id="aep-reset">Reset</push-button>
+                <push-button id="aep-search" style="margin-right: unset;">Search</push-button>
+            </div>
+
+            <div style="margin-top: 10px;">
+                <div>Search Results:</div>
+                <hr>
+            </div>
+
+            <div id="aep-grid" style="width: 100%; background: bisque; height: 210px;"></div>
+
+            <div style="text-align: right; margin-top: 20px; display: flex; justify-content: space-between; align-items: center;">
+                <div id="aep-count" style="margin-left: 10px;">Displaying 0 Employees</div>
+
+                <div>
+                    <push-button id="aep-ok" disabled>OK</push-button>
+                    <push-button id="aep-cancel" style="margin-left: 10px; margin-right: 15px;">Cancel</push-button>
+                </div>
+            </div>
+        </popup-body>
+    </popup>
+
+    <popup id="choose-project">
+        <popup-title>
+            <text-label id="cpp-title">Choose Project</text-label>
+        </popup-title>
+        <popup-body style="padding: 10px 15px;">
+            <div class="flex-row" style="margin-bottom: 10px;">
+                <radio-button id="noProject" group="cpp-project-choose-type" style="margin-right: 15px;" value="true">
+                    No Project
+                </radio-button>
+                <radio-button id="searchProject" group="cpp-project-choose-type" value="false" checked>
+                    Search for a Project
+                </radio-button>
+            </div>
+
+            <div>Search Criteria:</div>
+            <hr>
+
+            <div style="display: grid; grid-template-columns: 55% 45%; grid-template-rows: auto;">
+                <div style="grid-column-start: 1; grid-column-end: 1;">
+                    <div class="flex-row" style="margin-top: 8px;">
+                        <label style="width: 125px; margin-right: 10px;">ID:</label>
+                        <drop-down id="cpp-projectId-criteria" style="width: 125px; margin-right: 10px;"></drop-down>
+                        <text-input id="cpp-projectId-search" style="width: 150px;"></text-input>
+                    </div>
+
+                    <div class="flex-row" style="margin-top: 8px;">
+                        <label style="width: 125px; margin-right: 10px;">Summary:</label>
+                        <drop-down id="cpp-project-summary-criteria" style="width: 125px; margin-right: 10px;"></drop-down>
+                        <text-input id="cpp-project-summary-search" style="width: 150px;"></text-input>
+                    </div>
+
+                    <div class="flex-row" style="margin-top: 8px;">
+                        <label style="width: 125px; margin-right: 10px;">Requesting Company:</label>
+                        <smart-chooser id="cpp-project-company" style="width: 270px;" default-option="(choose)"></smart-chooser>
+                    </div>
+                </div>
+
+                <div style="grid-column-start: 2; grid-column-end: 2;">
+                    <div class="flex-row" style="margin-top: 8px;">
+                        <label style="width: 100px; margin-right: 10px;">Category Code:</label>
+                        <smart-chooser id="cpp-project-category" style="width: 220px" default-option="(choose)"></smart-chooser>
+                    </div>
+
+                    <div class="flex-row" style="margin-top: 8px;">
+                        <label style="width: 100px; margin-right: 10px;">Type Code:</label>
+                        <smart-chooser id="cpp-project-type" style="width: 220px" default-option="(choose)"></smart-chooser>
+                    </div>
+
+                    <div class="flex-row" style="margin-top: 8px;">
+                        <label style="width: 100px; margin-right: 10px;">Status Code:</label>
+                        <smart-chooser id="cpp-project-status" style="width: 220px" default-option="(choose)"></smart-chooser>
+                    </div>
+                </div>
+            </div>
+
+            <div class="btn-bar" style="margin-top: 8px; width: 100%; justify-content: flex-end;">
+                <push-button id="cpp-reset">Reset</push-button>
+                <push-button id="cpp-search" style="margin-right: unset;">Search</push-button>
+            </div>
+
+            <div style="margin-top: 10px;">
+                <div>Search Results:</div>
+                <hr>
+            </div>
+
+            <div id="cpp-projects-grid" style="width: 100%; background: bisque; height: 210px;"></div>
+
+            <div style="text-align: right; margin-top: 20px; display: flex; justify-content: space-between; align-items: center;">
+                <div id="cpp-proj-count" style="margin-left: 10px;">Displaying 0 Projects</div>
+
+                <div>
+                    <push-button id="cpp-ok" disabled>OK</push-button>
+                    <push-button id="cpp-cancel" style="margin-left: 10px; margin-right: 15px;">Cancel</push-button>
+                </div>
+            </div>
+        </popup-body>
+    </popup>
+
+    <popup id="company-selection">
+        <popup-title>
+            <text-label>Search for Requesting Company</text-label>
+        </popup-title>
+        <popup-body style="padding: 10px 15px;">
+            <div class="flex-row" style="margin-bottom: 10px;">
+                <radio-button id="allCompanies" group="csp-company-search-type" style="margin-right: 15px;" value="false">
+                    All Companies
+                </radio-button>
+                <radio-button id="searchCompany" group="csp-company-search-type" value="true" checked>
+                    Search for a Company
+                </radio-button>
+            </div>
+
+            <div>Search Criteria:</div>
+            <hr>
+
+            <div class="flex-row" style="margin-top: 8px;">
+                <label style="width: 65px; margin-right: 10px;">Last Name:</label>
+                <drop-down id="csp-company-name-criteria" style="width: 125px; margin-right: 10px;"></drop-down>
+                <text-input id="csp-company-name-search" style="width: 170px"></text-input>
+            </div>
+
+            <div class="btn-bar" style="margin-top: 8px; width: 100%; justify-content: flex-end;">
+                <push-button id="csp-search-company-reset">Reset</push-button>
+                <push-button id="csp-search-company-search" style="margin-right: unset;">Search</push-button>
+            </div>
+
+            <div style="margin-top: 10px;">
+                <div>Search Results:</div>
+                <hr>
+            </div>
+
+            <div id="csp-search-company-results" style="width: 100%; background: bisque; height: 250px;"></div>
+
+            <div style="text-align: right; margin-top: 20px; display: flex; justify-content: space-between; align-items: center;">
+                <div id="csp-comp-count" style="margin-left: 10px;">Displaying 0 Companies</div>
+
+                <div>
+                    <push-button id="csp-ok" disabled>OK</push-button>
+                    <push-button id="csp-cancel" style="margin-left: 10px; margin-right: 15px;">Cancel</push-button>
+                </div>
+            </div>
+        </popup-body>
+    </popup>
+
+    <popup id="category-selection">
+        <popup-title>
+            <text-label>Search for Project Category</text-label>
+        </popup-title>
+        <popup-body style="padding: 10px 15px;">
+            <div class="flex-row" style="margin-bottom: 10px;">
+                <radio-button id="allCategories" group="ctg-category-search-type" style="margin-right: 15px;" value="false">
+                    All Project Categories
+                </radio-button>
+                <radio-button id="searchCategory" group="ctg-category-search-type" value="true" checked>
+                    Search for Project Category
+                </radio-button>
+            </div>
+
+            <div>Search Criteria:</div>
+            <hr>
+
+            <div class="flex-row" style="margin-top: 8px;">
+                <label style="width: 65px; margin-right: 10px;">Code:</label>
+                <drop-down id="ctg-category-code-criteria" style="width: 125px; margin-right: 10px;"></drop-down>
+                <text-input id="ctg-category-code-search" style="width: 170px"></text-input>
+            </div>
+
+            <div class="flex-row" style="margin-top: 8px;">
+                <label style="width: 65px; margin-right: 10px;">Description:</label>
+                <drop-down id="ctg-category-desc-criteria" style="width: 125px; margin-right: 10px;"></drop-down>
+                <text-input id="ctg-category-desc-search" style="width: 170px"></text-input>
+            </div>
+
+            <div class="btn-bar" style="margin-top: 8px; width: 100%; justify-content: flex-end;">
+                <push-button id="ctg-reset">Reset</push-button>
+                <push-button id="ctg-search" style="margin-right: unset;">Search</push-button>
+            </div>
+
+            <div style="margin-top: 10px;">
+                <div>Search Results:</div>
+                <hr>
+            </div>
+
+            <div id="ctg-search-category-results" style="width: 100%; background: bisque; height: 250px;"></div>
+
+            <div style="text-align: right; margin-top: 20px; display: flex; justify-content: space-between; align-items: center;">
+                <div id="ctg-cat-count" style="margin-left: 10px;">Displaying 0 Project Categories</div>
+
+                <div>
+                    <push-button id="ctg-ok" disabled>OK</push-button>
+                    <push-button id="ctg-cancel" style="margin-left: 10px; margin-right: 15px;">Cancel</push-button>
+                </div>
+            </div>
+        </popup-body>
+    </popup>
+
+    <popup id="project-type-selection">
+        <popup-title>
+            <text-label>Search for Project Type</text-label>
+        </popup-title>
+        <popup-body style="padding: 10px 15px;">
+            <div class="flex-row" style="margin-bottom: 10px;">
+                <radio-button id="allTypes" group="ptp-project-type-search-type" style="margin-right: 15px;" value="false">
+                    All Project Types
+                </radio-button>
+                <radio-button id="searchType" group="ptp-project-type-search-type" value="true" checked>
+                    Search for Project Type
+                </radio-button>
+            </div>
+
+            <div>Search Criteria:</div>
+            <hr>
+
+            <div class="flex-row" style="margin-top: 8px;">
+                <label style="width: 65px; margin-right: 10px;">Code:</label>
+                <drop-down id="ptp-project-type-code-criteria" style="width: 125px; margin-right: 10px;"></drop-down>
+                <text-input id="ptp-project-type-code-search" style="width: 170px"></text-input>
+            </div>
+
+            <div class="flex-row" style="margin-top: 8px;">
+                <label style="width: 65px; margin-right: 10px;">Description:</label>
+                <drop-down id="ptp-project-type-desc-criteria" style="width: 125px; margin-right: 10px;"></drop-down>
+                <text-input id="ptp-project-type-desc-search" style="width: 170px"></text-input>
+            </div>
+
+            <div class="btn-bar" style="margin-top: 8px; width: 100%; justify-content: flex-end;">
+                <push-button id="ptp-reset">Reset</push-button>
+                <push-button id="ptp-search" style="margin-right: unset;">Search</push-button>
+            </div>
+
+            <div style="margin-top: 10px;">
+                <div>Search Results:</div>
+                <hr>
+            </div>
+
+            <div id="ptp-search-type-results" style="width: 100%; background: bisque; height: 250px;"></div>
+
+            <div style="text-align: right; margin-top: 20px; display: flex; justify-content: space-between; align-items: center;">
+                <div id="ptp-type-count" style="margin-left: 10px;">Displaying 0 Project Types</div>
+
+                <div>
+                    <push-button id="ptp-ok" disabled>OK</push-button>
+                    <push-button id="ptp-cancel" style="margin-left: 10px; margin-right: 15px;">Cancel</push-button>
+                </div>
+            </div>
+        </popup-body>
+    </popup>
+
+    <popup id="project-status-selection">
+        <popup-title>
+            <text-label>Search for Project Status</text-label>
+        </popup-title>
+        <popup-body style="padding: 10px 15px;">
+
+            <div class="flex-row" style="margin-bottom: 10px;">
+                <radio-button id="allStatuses" group="psp-search-type" style="margin-right: 15px;" value="false">
+                    All Project Statuses
+                </radio-button>
+                <radio-button id="searchStatus" group="psp-search-type" value="true" checked>
+                    Search for Project Status
+                </radio-button>
+            </div>
+
+            <div>Search Criteria:</div>
+            <hr>
+
+            <div class="flex-row" style="margin-top: 8px;">
+                <label style="width: 65px; margin-right: 10px;">Code:</label>
+                <drop-down id="psp-code-criteria" style="width: 125px; margin-right: 10px;"></drop-down>
+                <text-input id="psp-code-search" style="width: 170px"></text-input>
+            </div>
+
+            <div class="flex-row" style="margin-top: 8px;">
+                <label style="width: 65px; margin-right: 10px;">Description:</label>
+                <drop-down id="psp-desc-criteria" style="width: 125px; margin-right: 10px;"></drop-down>
+                <text-input id="psp-desc-search" style="width: 170px"></text-input>
+            </div>
+
+            <div class="btn-bar" style="margin-top: 8px; width: 100%; justify-content: flex-end;">
+                <push-button id="psp-reset">Reset</push-button>
+                <push-button id="psp-search" style="margin-right: unset;">Search</push-button>
+            </div>
+
+            <div style="margin-top: 10px;">
+                <div>Search Results:</div>
+                <hr>
+            </div>
+
+            <div id="psp-search-project-status-results" style="width: 100%; background: bisque; height: 250px;"></div>
+        
+            <div style="text-align: right; margin-top: 20px; display: flex; justify-content: space-between; align-items: center;">
+                <div id="psp-stat-count" style="margin-left: 10px;">Displaying 0 Project Statuses</div>
+
+                <div>
+                    <push-button id="psp-ok" disabled>OK</push-button>
+                    <push-button id="psp-cancel" style="margin-left: 10px; margin-right: 15px;">Cancel</push-button>
+                </div>
+            </div>
+        </popup-body>
+    </popup>
+
+    <!-- Add Worker styles -->
+    <style>
+
+        .grid-container {
+            display: grid;
+            height: 100%;
+            grid-template-columns: 100%;
+            grid-template-rows: 206px auto 35px;
+        }
+
+        .grid-header {
+            grid-row-start: 1;
+            grid-row-end: 1;
+        }
+
+        .grid-content {
+            grid-row-start: 2;
+            grid-row-end: 2;
+        }
+
+        .grid-footer {
+            grid-row-start: 3;
+            grid-row-end: 3;
+        }
+
+        .main-content {
+            --max-width: 730px;
+        }
+
+        .form-row {
+            margin-bottom: 5px;
+        }
+
+        .form-row > * {
+            margin-right: 8px !important;
+        }
+
+        .form-row > input[type='text']:focus, input[type='date']:focus {
+            margin-right: 7px !important;
+        }
+
+        .form-row > *:last-child {
+            margin-right: 0 !important;
+        }
+    
+        .grid-bg-container {
+            display: grid;
+            grid-column-gap: 25px;
+            grid-template-columns: 55% 45%;
+            grid-template-areas: 'bgLeft bgRight';
+        }
+
+        .grid-bg-left {
+            grid-area: bgLeft;
+        }
+
+        .grid-bg-right {
+            grid-area: bgRight;
+        }
+
+        .grid-pos-container {
+            display: grid;
+            grid-column-gap: 0;
+            grid-template-columns: 45% 55%;
+            grid-template-rows: auto auto;
+            grid-template-areas: "posTopLeft posTopRight" "posSpan posSpan";
+        }
+
+        .grid-pos-top-left {
+            grid-area: posTopLeft;
+        }
+
+        .grid-pos-top-right {
+            grid-area: posTopRight;
+        }
+
+        .grid-pos-span {
+            grid-area: posSpan;
+        }
+
+        .grid-misc-container {
+            display: grid;
+            grid-column-gap: 25px;
+            grid-template-columns: 45% 55%;
+            grid-template-rows: auto auto auto;
+            grid-template-areas: "miscTopLeft miscTopRight" "miscBotLeft miscBotRight" "miscSpan miscSpan";
+        }
+
+        .grid-misc-top-left {
+            grid-area: miscTopLeft;
+        }
+
+        .grid-misc-top-right {
+            grid-area: miscTopRight;
+        }
+
+        .grid-misc-bot-left {
+            grid-area: miscBotLeft;
+        }
+
+        .grid-misc-bot-right {
+            grid-area: miscBotRight;
+        }
+
+        .grid-misc-span {
+            grid-area: miscSpan;
+        }
+
+        .tab-container {
+            height: calc(100% - 40px);
+        }
+
+        .basic-label-style {
+            width: 75px;
+            padding-right: 5px;
+            text-align: right
+        }
+
+        .basic-input-style {
+            width: 150px;
+        }
+
+        .basic-radio-row {
+            margin-top: 10px;
+            margin-bottom: 15px;
+        }
+
+        .basic-radio-row div {
+            margin-left: 10px;
+        }
+
+        .address-label-style {
+            width: 95px;
+            padding-right: 5px;
+            text-align: right;
+        }
+
+        .address-input-style {
+            width: 200px;
+            padding-right: 5px;
+        }
+
+        .position-label-style {
+            width: 80px;
+            padding-right: 5px;
+            text-align: right;
+        }
+
+        .position-label-style-right {
+            width: 92px;
+            padding-right: 5px;
+            text-align: right;
+        }
+
+        .position-radio-row {
+            margin-top: 15px;
+            margin-bottom: 15px;
+        }
+
+        .bg-label-style {
+            width: 100px;
+            padding-right: 5px;
+            text-align: right;
+        }
+
+        .bg-radio-row {
+            margin-top: 10px;
+            margin-bottom: 10px;
+        }
+
+        .bg-text-area-row-style {
+            margin-top: 10px;
+            align-items: baseline;
+        }
+
+        .misc-label-style-top {
+            width: 95px;
+            padding-right: 5px;
+            text-align: right;
+        }
+
+        .misc-label-style-bot {
+            width: 75px;
+            padding-right: 5px;
+            text-align: right;
+        }
+
+        .login-label-style {
+            width: 100px;
+            padding-right: 5px;
+            text-align: right;
+        }
+
+        .login-input-style {
+            width: 150px;
+        }
+    </style>
+
+    <popup id="worker-popup">
+        <popup-title>
+            <text-label id="wp-title">Empty Title</text-label>
+        </popup-title>
+        <popup-body style="padding: 5px; width: 750px; height: 340px;">
+
+            <div id="addWorkerTabContainer" class="tab-container">
+                <ul class="tab-header">
+                    <li id="basicTabButton" class="active">Basic</li>
+                    <li id="addressTabButton">Address</li>
+                    <li id="posTabButton">Position and Status</li>
+                    <li id="miscTabButton">Miscellaneous</li>
+                    <li id="loginTabButton">Login</li>
+                </ul>
+
+                <div id="basicTabContent" class="tab-content">
+                    <div class="flex-row form-row">
+                        <label class="basic-label-style">First Name:</label>
+                        <text-input id="firstName" class="basic-input-style" maxlength="30" data-lpignore="true" required></text-input>
+                        <label class="basic-label-style">SSN:</label>
+                        <input id="ssn" type="text" style="width: 75px; text-align: right;" maxlength="11">
+                    </div>
+                    <div class="flex-row form-row">
+                        <label class="basic-label-style">Middle Name:</label>
+                        <text-input id="middleName" class="basic-input-style" maxlength="20" data-lpignore="true"></text-input>
+                        <label class="basic-label-style">Worker ID:</label>
+                        <text-input id="workerId" class="basic-input-style"></text-input>
+                    </div>
+                    <div class="flex-row form-row">
+                        <label class="basic-label-style">Last Name:</label>
+                        <text-input id="lastName" class="basic-input-style" maxlength="30" required data-lpignore="true"></text-input>
+                        <label class="basic-label-style">Date of Birth:</label>
+                        <native-date-input id="dob" style="width: 110px"></native-date-input>
+                    </div>
+                    <div class="flex-row form-row">
+                        <label class="basic-label-style">Nick Name:</label>
+                        <text-input id="nickName" class="basic-input-style" maxlength="15"></text-input>
+                        <label class="basic-label-style">Email:</label>
+                        <text-input id="email" style="width: 190px" maxlength="60"></text-input>
+                    </div>
+                    <div class="flex-row basic-radio-row">
+                        <label class="basic-label-style">Sex:</label>
+                        <radio-button id="sexMale" group="sexGrp" value="M" checked>Male</radio-button>
+                        <radio-button id="sexFemale" group="sexGrp" value="F">Female</radio-button>
+                    </div>
+                    <div class="flex-row basic-radio-row">
+                        <label class="basic-label-style">Worker Type:</label>
+                        <radio-button id="empType" group="workerTypeGrp" value="E" checked>Employee</radio-button>
+                        <radio-button id="contrType" group="workerTypeGrp" value="C">Independent Contractor</radio-button>
+                    </div>
+                </div>
+
+                <div id="addressTabContent" class="tab-content" style="display: none;" hidden>
+                    <div class="flex-row form-row">
+                        <label class="address-label-style">Address Line 1:</label>
+                        <text-input id="addrLine1" class="address-input-style" maxlength="60"></text-input>
+                        <label class="address-label-style">Home Phone:</label>
+                        <text-input id="homePhone" maxlength="20"></text-input>
+                    </div>
+                    <div class="flex-row form-row">
+                        <label class="address-label-style">Address Line 2:</label>
+                        <text-input id="addrLine2" class="address-input-style" maxlength="60"></text-input>
+                        <label class="address-label-style">Work Phone:</label>
+                        <text-input id="workPhone" maxlength="20"></text-input>
+                    </div>
+                    <div class="flex-row form-row">
+                        <label class="address-label-style">Country:</label>
+                        <drop-down id="countries" style="width: 210px"></drop-down>
+                        <label class="address-label-style">Mobile Phone:</label>
+                        <text-input id="mobilePhone" maxlength="20"></text-input>
+                    </div>
+                    <div class="flex-row form-row">
+                        <label class="address-label-style">City:</label>
+                        <text-input id="city" class="address-input-style" maxlength="60"></text-input>
+                        <label class="address-label-style">Fax:</label>
+                        <text-input id="fax"></text-input>
+                    </div>
+                    <div class="flex-row form-row">
+                        <label class="address-label-style">State / Province:</label>
+                        <drop-down id="stateDropDown" style="width: 111px;" hidden></drop-down>
+                        <text-input id="state" class="address-input-style" hidden maxlength="25"></text-input>
+                    </div>
+                    <div class="flex-row form-row">
+                        <label class="address-label-style">Zip / Postal Code:</label>
+                        <text-input id="zipCode" style="width: 100px;" maxlength="10"></text-input>
+                    </div>
+                    <div class="flex-row form-row">
+                        <label class="address-label-style">County:</label>
+                        <text-input id="county" class="address-input-style" maxlength="30"></text-input>
+                    </div>
+                </div>
+
+                <div id="posTabContent" class="tab-content grid-pos-container" style="display: none;" hidden>
+                    <div class="vert-input4">
+                        <span>Status:</span>
+                        <drop-down id="status" style="width: 210px" required></drop-down>
+
+                        <span>Benefit Class:</span>
+                        <drop-down id="benefitClass" style="width: 280px"></drop-down>
+
+                        <span>Status Date:</span>
+                        <div style="display: inline-block;">
+                            <native-date-input id="statusDate" style="width: 110px" required></native-date-input>
+                            <label style="margin-left: 10px;">HR Admin:</label>
+                            <check-box id="hrAdmin" style="display: inline-block; position: relative; top: 2px; margin-left: 4px;"></check-box>
+                        </div>
+
+                        <span>Citizen of:</span>
+                        <drop-down id="citizenOf" style="width: 280px;"></drop-down>
+
+                        <span>Position:</span>
+                        <drop-down id="position" style="width: 210px"></drop-down>
+
+                        <span>Visa:</span>
+                        <text-input id="visa" maxlength="10"></text-input>
+
+                        <span>Job Title:</span>
+                        <text-input id="jobTitle" style="width: 200px" maxlength="60"></text-input>
+
+                        <span>Visa Status:</span>
+                        <div style="display: inline-block;">
+                            <native-date-input id="visaStatus" style="width: 110px;"></native-date-input>
+                            <label style="margin-left: 20px;">I9 Completed:</label>
+                            <check-box id="i9Completed" style="display: inline-block; position: relative; top: 2px; margin-left: 4px;"></check-box>
+                        </div>
+
+                        <span>Wage Type:</span>
+                        <drop-down id="wageType" style="width: 210px;" required></drop-down>
+
+                        <span style="margin-left: 40px;">Visa Expiration:</span>
+                        <native-date-input id="visaExpiration" style="width: 110px;"></native-date-input>
+
+                        <span>Wage:</span>
+                        <numeric-input id="wage" style="width: 75px;"></numeric-input>
+
+                        <span>Supervisor:</span>
+                        <check-box id="supervisor" style="display: inline-block; position: relative; top: 4px; margin-left: 4px;"></check-box>
+                    </div>
+                    <div class="grid-pos-span" style="margin-top: 8px;">
+                        <div class="flex-row form-row">
+                            <label class="position-label-style">EEO Category:</label>
+                            <drop-down id="eeoCat" style="width: 325px"></drop-down>
+                        </div>
+                        <div class="flex-row form-row">
+                            <label class="position-label-style">EEO Race:</label>
+                            <drop-down id="eeoRace" style="width: 325px"></drop-down>
+                        </div>
+                    </div>
+                </div>
+
+                <div id="miscTabContent" class="tab-content grid-misc-container" style="display: none;" hidden>
+                    <div class="grid-misc-top-left">
+                        <div class="flex-row form-row">
+                            <label>Tobacco Use:</label>
+                            <radio-button id="tobaccoYes" group="tobUseGrp" value="Y">Yes</radio-button>
+                            <radio-button id="tobaccoNo" group="tobUseGrp" value="N">No</radio-button>
+                            <radio-button id="tobaccoUnknown" group="tobUseGrp" value="U" checked>Unknown</radio-button>
+                        </div>
+                    </div>
+                    <div class="grid-misc-bot-left" style="margin-top: 10px;">
+                        <label>Driver's License:</label>
+                        <hr>
+                        <div class="flex-row form-row">
+                            <label class="misc-label-style-bot">Number:</label>
+                            <text-input id="driversLicenseNumber" style="width: 200px;" maxlength="20"></text-input>
+                        </div>
+                        <div class="flex-row form-row">
+                            <label class="misc-label-style-bot">State:</label>
+                            <drop-down id="driversLicenseState" style="width: 75px;"></drop-down>
+                        </div>
+                        <div class="flex-row form-row" style="height: 25px;">
+                            <label class="misc-label-style-bot">Expires:</label>
+                            <date-input id="driversLicenseExpiry" style="width: 90px;"></date-input>
+                        </div>
+                    </div>
+                    <div class="grid-misc-bot-right" style="margin-top: 10px;">
+                        <label>Automotive Insurance:</label>
+                        <hr style="margin-right: 25px;">
+                        <div class="flex-row" style="margin-bottom: 5px;">
+                            <label class="misc-label-style-bot">Carrier:</label>
+                            <text-input id="autoInsCarrier" style="width: 266px;margin-left: 8px;" maxlength="20"></text-input>
+                        </div>
+                        <div class="flex-row" style="margin-bottom: 5px;">
+                            <label class="misc-label-style-bot">Policy Number:</label>
+                            <text-input id="autoInsPolicyNo" style="width: 266px;margin-left: 8px;" maxlength="20"></text-input>
+                        </div>
+                        <div class="flex-row form-row">
+                            <label class="misc-label-style-bot" style="margin-right: 7px !important;">Begins:</label>
+                            <date-input id="autoInsBegin" style="width: 90px; "></date-input>
+                            <label class="misc-label-style-bot" style="width: 52px;">Expires:</label>
+                            <date-input id="autoInsExpire" style="width: 90px;"></date-input>
+                        </div>
+                        <div class="flex-row" style="margin-bottom: 5px;">
+                            <label class="misc-label-style-bot">Coverage:</label>
+                            <text-input id="autoInsCoverage" style="width: 266px;margin-left: 8px;" maxlength="20"></text-input>
+                        </div>
+                    </div>
+                    <div class="grid-misc-span">
+                        <label>Default Project:</label>
+                        <hr style="margin-right: 25px;">
+                        <div class="flex-row" style="margin-bottom: 5px;">
+                            <label style="width: 125px; text-align: right;">Inherited from Company:</label>
+                            <text-input id="projectInheritedFrom" style="width: 565px; margin-left: 8px;"
+                                        readonly></text-input>
+                        </div>
+                        <div class="flex-row form-row">
+                            <label style="width: 125px; text-align: right;">Employee Override:</label>
+                            <smart-chooser id="employeeOverride" style="width: 541px; margin-left: 0;"></smart-chooser>
+                        </div>
+                    </div>
+                </div>
+
+                <div id="loginTabContent" class="tab-content" style="display: none;" hidden>
+                    <div class="flex-row form-row">
+                        <check-box id="assignLogin" style="margin-right: 25px;">Assign Login</check-box>
+                    </div>
+                    <div class="flex-row form-row">
+                        <label class="login-label-style">Login ID:</label>
+                        <text-input id="loginId" class="login-input-style" maxlength="50" disabled required></text-input>
+                        <label class="login-label-style">Screen Group:</label>
+                        <drop-down id="screenGroup" style="width: 280px;" disabled></drop-down>
+                        <!-- <push-button id="scrGrpSearch" class="btn-smart-chooser" disabled></push-button> -->
+                    </div>
+                    <div class="flex-row form-row">
+                        <label class="login-label-style">Password:</label>
+                        <text-input id="passwordzz" class="login-input-style" password disabled></text-input>
+                        <label class="login-label-style">Security Group:</label>
+                        <drop-down id="securityGroup" style="width: 280px;" disabled></drop-down>
+                        <!-- <push-button id="secGrpSearch" class="btn-smart-chooser" disabled></push-button> -->
+                    </div>
+                    <div class="flex-row form-row">
+                        <label class="login-label-style">Confirm Password:</label>
+                        <text-input id="confirmPassword" class="login-input-style" password disabled></text-input>
+                    </div>
+                    <div class="flex-row form-row" style="margin-top: 10px;">
+                        <label class="login-label-style" style="margin-right: 50px !important;"></label>
+                        <check-box id="showPasswords" disabled style="display: none;">Show Passwords</check-box>
+                        <label class="login-label-style" style="margin-left: 150px;">Login Status:</label>
+                        <radio-button id="loginStatusActive" group="loginStatusGrp" value="true" checked disabled>Active
+                        </radio-button>
+                        <radio-button id="loginStatusInactive" group="loginStatusGrp" value="false" disabled>Inactive
+                        </radio-button>
+                    </div>
+                </div>
+            </div>
+
+            <div style="text-align: right; margin-top: 10px;">
+                <push-button id="addWorkerOK">OK</push-button>
+                <push-button id="addWorkerCancel">Cancel</push-button>
+            </div>
+        </popup-body>
+    </popup>
+</div>

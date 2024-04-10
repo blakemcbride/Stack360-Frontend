@@ -1,0 +1,70 @@
+<!--
+     Copyright 2020 STACK360 LLC
+     All rights reserved.
+
+-->
+
+<div class="kiss">
+
+    <style>
+        div.vert-input2 {
+            display:grid;
+            grid-template-columns: max-content max-content;
+            grid-column-gap:5px;
+            grid-row-gap: 10px;
+            margin-top: 10px;
+        }
+
+        div.vert-input2 span {
+            text-align:right;
+            margin-top: 6px;
+        }
+
+        .tab-height {
+            height: 330px;
+        }
+    </style>
+
+    <div style="margin-top: 10px; display: flex;justify-content: space-between;" >
+        <div>Prospect Question Detail:</div>
+        <div>
+            <text-label id="prospect-name">Prospect Name</text-label>
+        </div>
+    </div>
+    <hr>
+
+    <div id="grid" style="margin-top: 10px; width: 100%; height: calc(100% - 90px);"></div>
+
+    <text-label id="status" style="position: absolute; bottom: 25px; left: 20px;">Displaying 0 Prospect Question Details</text-label>
+
+    <div style="position: absolute; bottom: 15px; right: 10px;">
+        <push-button id="edit" style="margin-left: 10px;" disabled>Edit</push-button>
+        <push-button id="report" style="margin-left: 10px;">Report</push-button>
+    </div>
+
+    <popup id="question-edit">
+        <popup-title>
+            <text-label>Enter Contact Question Detail</text-label>
+        </popup-title>
+        <popup-body style="padding: 0px 5px;">
+            <div style="display: flex; flex-direction: column;">
+                <div>
+                    <div class="vert-input2" style="float: right;">
+                        <span>Entered:</span>
+                        <text-input id="qep-entered" readonly></text-input>
+                    </div>
+                </div>
+                <div class="vert-input2">
+                    <span>Question:</span>
+                    <text-input id="qep-question" readonly style="width: 330px;"></text-input>
+                    <span>Response:</span>
+                    <textbox-input id="qep-response" style="width: 330px; height: 140px;"></textbox-input>
+                </div>
+            </div>
+            <div style="float: right; margin-top: 10px;">
+                <push-button id="qep-ok">OK</push-button>
+                <push-button id="qep-cancel" style="margin-left: 10px;">Cancel</push-button>
+            </div>
+        </popup-body>
+    </popup>
+</div>

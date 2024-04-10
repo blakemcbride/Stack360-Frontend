@@ -1,0 +1,40 @@
+<!--
+     Copyright 2020 STACK360 LLC
+     All rights reserved.
+
+-->
+
+<div class="kiss">
+
+    <style>
+        .drop-down-width {
+            width: 220px;
+        }
+
+        .space-between {
+            margin-left: 30px;
+        }
+    </style>
+
+
+    <div style="margin-top: 10px;">Worker Assignment History</div>
+    <hr>
+
+    <div style="margin-top: 10px;">
+        <span>Project:</span>
+        <smart-chooser id="project" style="width: 270px;"></smart-chooser>
+        <span class="space-between">Worker:</span>
+        <smart-chooser id="worker" class="drop-down-width"></smart-chooser>
+        <span class="space-between">Editor:</span>
+        <smart-chooser id="editor" class="drop-down-width"></smart-chooser>
+        <push-button id="reset" class="space-between">Reset</push-button>
+        <push-button id="search" style="margin-left: 10px;">Search</push-button>
+    </div>
+
+    <div id="grid" style="margin-top: 10px; width: 100%; height: calc(100% - 105px);"></div>
+
+    <div style="margin-top: 10px;">
+        <text-label id="status"></text-label>
+    </div>
+
+</div>

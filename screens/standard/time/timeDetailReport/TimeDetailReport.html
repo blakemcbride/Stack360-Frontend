@@ -1,0 +1,51 @@
+<!--
+     Copyright 2020 STACK360 LLC
+     All rights reserved.
+
+-->
+
+<div class="kiss">
+    <style>
+        .tdr-grid {
+            display: grid;
+            grid-template-columns: repeat(2, max-content);
+            grid-row-gap: 10px;
+            grid-column-gap: 10px;
+            align-items: center;
+        }
+        .tdr-grid > span {
+            text-align: right;
+        }
+    </style>
+
+    <div style="margin-top: 10px;">
+        <span>Payroll Report:</span>
+        <hr>
+        <div class="tdr-grid">
+            <span>Report:</span>
+            <drop-down id="reportDropdown" style="width: 260px;" required></drop-down>
+
+            <span>From Date:</span>
+            <native-date-input id="from-date" style="width: 110px;" required></native-date-input>
+
+            <span>To Date:</span>
+            <native-date-input id="to-date" style="width: 110px;" required></native-date-input>            
+        </div>
+
+        <div class="tdr-grid" style="grid-column-gap: 20px; margin-top: 20px;">
+            <span style="text-align: left;">Location:</span>
+
+            <span style="text-align: left;">Organizational Groups:</span>
+
+            <div id="locationGrid" style="width: 260px; height: 575px;"></div>
+            <div id="orgGroupGrid" style="width: 360px; height: 575px;"></div>
+
+            <push-button id="open-location" style="width: fit-content;" disabled>Open</push-button>    
+            <push-button id="open-orgGroup" style="width: fit-content;" disabled>Open</push-button>   
+            
+            <div style="grid-column: 1 / 3; text-align: right; margin-top: 20px;">
+                <push-button id="report">Report</push-button>
+            </div>
+        </div>
+    </div>
+</div>

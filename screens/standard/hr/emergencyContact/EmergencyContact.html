@@ -1,0 +1,92 @@
+<!--
+     Copyright 2021 STACK360 LLC
+     All rights reserved.
+
+-->
+
+<div class="kiss">
+
+    <style>
+        div.vert-input2 {
+            display:grid;
+            grid-template-columns: max-content max-content;
+            grid-column-gap:5px;
+            grid-row-gap: 10px;
+            margin-top: 10px;
+        }
+
+        div.vert-input2 span {
+            text-align:right;
+            margin-top: 6px;
+        }
+
+        div.vert-input2-small {
+            display:grid;
+            grid-template-columns: max-content max-content;
+            grid-column-gap:5px;
+            grid-row-gap: 10px;
+        }
+
+        div.vert-input2-small span {
+            text-align:right;
+            margin-top: 6px;
+        }
+    </style>
+
+    <div style="margin-top: 10px;">
+        <span>Emergency Contacts</span>
+        <text-label id="worker-name" style="float: right;"></text-label>
+    </div>
+    <hr>
+
+    
+
+    <div id="grid" style="margin-top: 10px; width: 100%; height: calc(100% - 90px);"></div>
+
+    <text-label id="status" style="position: absolute; bottom: 25px; left: 20px;">Displaying 0 Emergency Contacts</text-label>
+
+    <div style="position: absolute; bottom: 15px; right: 10px;">
+        <push-button id="add" style="margin-left: 10px;">Add</push-button>
+        <push-button id="edit" style="margin-left: 10px;" disabled>Edit</push-button>
+        <push-button id="delete" style="margin-left: 10px;" disabled>Delete</push-button>
+        <push-button id="report" style="margin-left: 10px;">Report</push-button>
+    </div>
+
+    <popup id="emergency-popup" height="326px" width="275px">
+        <popup-title>
+            <text-label id="ep-title">Add Emergency Contact</text-label>
+        </popup-title>
+        <popup-body>
+            <div class="vert-input2" style="margin-left: 4px;">
+                <span>Full Name:</span>
+                <text-input id="ep-name" style="width: 170px;" required maxlength="45"></text-input>
+                <span>Home Phone:</span>
+                <text-input id="ep-home-phone" style="width: 170px;" maxlength="20"></text-input>
+                <span>Work Phone:</span>
+                <text-input id="ep-work-phone" style="width: 170px;" maxlength="20"></text-input>
+                <span>Cell Phone:</span>
+                <text-input id="ep-cell-phone" style="width: 170px;" maxlength="20"></text-input>
+                <span>Relationship:</span>
+                <drop-down id="ep-relationship" style="width: 180px">
+                    <option value="">(Select)</option>
+                    <option value="Spouse">Spouse</option>
+                    <option value="Child">Child</option>
+                    <option value="Sibling">Sibling</option>
+                    <option value="Parent">Parent</option>
+                    <option value="Other">Other</option>
+                </drop-down>
+                <span></span>
+                <div class="vert-input2-small">
+                    <span>Other: </span>
+                    <text-input id="ep-other" style="width: 135px;" disabled maxlength="15"></text-input>
+                </div>
+                <span>Address:</span>
+                <textbox-input id="ep-address" style="width: 168px; height: 50px;" maxlength="160"></textbox-input>
+            </div>
+            <div style="right: 10px; bottom: 7px; position: absolute;">
+                <push-button id="pp-ok">Ok</push-button>
+                <push-button id="pp-cancel" style="margin-left: 10px;">Cancel</push-button>
+            </div>
+        </popup-body>
+    </popup>
+</div>

@@ -1,0 +1,320 @@
+<!--
+     Copyright 2020 STACK360 LLC
+     All rights reserved.
+
+-->
+
+<div class="kiss">
+    <style>
+        .pbr-grid {
+            display: grid;
+            grid-column-gap: 10px;
+            grid-row-gap: 10px;
+            align-items: center;
+        }
+        .pbr-grid span {
+            color: #000;
+            align-self: center;
+            text-align: right;
+        }
+        #pbr-applied_filters b {
+            font-weight: 800;
+        }
+        
+        .tab-height {
+            height: 280px;
+        }
+    </style>
+
+    <div style="margin-top: 10px; margin-bottom: 10px;">
+        <span>Project/Timesheet Search Criteria:</span>
+        <hr>
+    </div>
+
+    <div class="pbr-grid" style="margin-bottom: 10px; grid-template-columns: repeat(4, max-content);">
+        <span>Organizational Group:</span>
+        <smart-chooser id="pbr-orgGroupId" outside-width="260"></smart-chooser>
+
+        <div style="grid-column: 3 / 5;">
+            <span style="text-align: left; margin-left: 30px;">Timesheet Entry Status:</span>
+            <div style="display: inline-block; position: relative; top: 4px;">
+                <check-box id="pbr-notApproved" checked>Not Yet Approved</check-box>
+                <check-box id="pbr-approved" checked>Approved</check-box>
+                <check-box id="pbr-invoiced">Invoiced</check-box>
+            </div>
+        </div>
+
+        <span>Employee:</span>
+        <smart-chooser id="pbr-employeeId" outside-width="260"></smart-chooser>
+
+        <div></div>
+        <div></div>
+
+        <span>Requesting Company:</span>
+        <smart-chooser id="pbr-clientCompanyId" outside-width="260"></smart-chooser>
+
+        <div></div>
+        <div></div>
+
+        <span>Project ID:</span>
+        <div>
+            <numeric-input no-comma size="30" id="pbr-projectName" style="width:110px;" disabled></numeric-input>
+            <text-input id="pbr-projectId" disabled hidden></text-input>
+            <push-button id="chooseProjId">Choose</push-button>
+        </div>
+
+        <div></div>
+
+        <div style="text-align: right;">
+            <push-button id="reset" style="width: fit-content;">Reset</push-button>
+            <push-button id="search" style="width: fit-content; margin-left: 10px;">Search</push-button>
+        </div>
+    </div>
+
+    <div style="margin-bottom: 10px;">
+        <span>Project Search Results:</span>
+        <text-label style="float: right;" id="pbr-searchResCount">Displaying 0 Projects</text-label>
+        <hr>
+    </div>
+
+    <div id="searchResGrid" style="height: calc(100% - 290px);"></div>
+
+    <div style="position: absolute; left: 10px; right: 0; bottom: 10px;">
+        <div class="pbr-grid" style="grid-template-columns: repeat(8, max-content);">
+            <span>Billing Hours:</span>
+            <numeric-input decimal-places="2" show-zero size="30" id="pbr-billHours" style="width:110px;" disabled></numeric-input>
+
+            <span style="margin-left: 20px;">Non-Billing Hours:</span>
+            <numeric-input decimal-places="2" show-zero size="30" id="pbr-nonBillHours" style="width:110px;" disabled></numeric-input>
+            
+            <span>Unknown Hours:</span>
+            <numeric-input decimal-places="2" show-zero size="30" id="pbr-unknHours" style="width:110px;" disabled></numeric-input>
+            
+            <span style="margin-left: 20px;">Business Hours in Date Range:</span>
+            <numeric-input decimal-places="2" show-zero size="30" id="pbr-busHours" style="width:110px;" disabled></numeric-input>
+
+            <span>Total Hours:</span>
+            <numeric-input decimal-places="2" show-zero size="30" id="pbr-totalHours" style="width:110px;" disabled></numeric-input>
+
+            <span>Total Dollars:</span>
+            <numeric-input decimal-places="2" show-zero size="30" dollar-sign id="pbr-totalDollars" style="width:110px;" disabled></numeric-input>
+
+            <span style="margin-left: 20px;">Dollars in Estimate:</span>
+            <numeric-input decimal-places="2" show-zero size="30" dollar-sign id="pbr-estDollars" style="width:110px;" disabled></numeric-input>
+        </div>
+
+        <div style="position: absolute; right: 10px; bottom: 0;">
+            <push-button id="detail" disabled>Detail</push-button>
+            <push-button id="report" style="margin-left: 10px;">Report</push-button>
+        </div>
+    </div>
+
+    <popup id="pbr-report-popup" width="150px" height="85px">
+        <popup-title>
+            <span>Report Type</span>
+        </popup-title>
+        <popup-body style="padding: 10px;">
+            <div class="pbr-grid" style="grid-template-columns: repeat(2, max-content);">
+                <span>Type:</span>
+                <div>
+                    <radio-button group="pbr-reportType" align-vertical value="D" checked>Detail</radio-button>
+                    <radio-button group="pbr-reportType" align-vertical value="S" style="margin-top: 10px;">Summary</radio-button>
+                </div>
+            </div>            
+
+            <div style="margin-top: 20px; text-align: right;">
+                <push-button id="pbr-reportTypeOk">OK</push-button>
+                <push-button id="pbr-reportTypeCancel" style="margin-left: 10px;">Cancel</push-button>
+            </div>
+        </popup-body>
+    </popup>
+
+    <popup id="project-info-popup" height="400px" width="530px">
+        <popup-title>Additional Information</popup-title>
+        <popup-body>
+            <br>
+            <span style="font-weight:bold;">Project ID:</span>
+            <text-label id="project-info-project-id"></text-label>
+            <span style="margin-left: 50px; font-weight:bold;">Requesting Person:</span>
+            <text-label id="project-info-requesting-person"></text-label>
+            <br><br>
+
+            <span style="font-weight:bold;">Project Summary:</span>
+            <text-label id="project-info-summary"></text-label>
+            <br><br>
+
+            <span style="font-weight:bold;">Requesting Company (Group):</span>
+            <text-label id="project-info-requesting-company"></text-label>
+            <br><br>
+
+            <span style="font-weight:bold;">Phase:</span>
+            <text-label id="project-info-phase"></text-label>
+            <br><br>
+
+            <span style="font-weight:bold;">Status:</span>
+            <text-label id="project-info-status"></text-label>
+            <br><br>
+
+            <span style="font-weight:bold;">Project Detail:</span><br>
+            <textbox-input id="project-info-details" style="height: 195px; width: 495px; background-color: #f7ff80;" disabled></textbox-input>
+
+            <div style="right: 10px; bottom: 10px; position: absolute;">
+                <push-button id="project-info-ok">Ok</push-button>
+            </div>
+        </popup-body>
+    </popup>
+
+    <popup id="pbr-data-search" width="620px" height="455px">
+        <popup-title>
+            <span>Search for <text-label id="pbr-data-search-type"></text-label></span>
+        </popup-title>
+        <popup-body style="padding: 10px;">
+            <div style="margin-bottom: 10px;">
+                <radio-button group="pbr-chooseSpecific" value="A">All <text-label id="pbr-chooseSpecificLabelAll"></text-label></radio-button>
+                <radio-button group="pbr-chooseSpecific" value="S" checked>Search for <text-label id="pbr-chooseSpecificLabelSearch"></text-label></radio-button>
+            </div>
+    
+            <div>Search Criteria:</div>
+            <hr>
+            
+            <div class="pbr-grid" style="margin-top: 8px; display: grid; grid-template-columns: repeat(3, max-content); align-items: center;">
+                <text-label id="pbr-first-label"></text-label>
+                <drop-down id="pbr-first-criteria" style="width: 95px;"></drop-down>
+                <text-input id="pbr-first-search" style="width: 140px"></text-input>
+                
+                <text-label id="pbr-second-label"></text-label>
+                <drop-down id="pbr-second-criteria" style="width: 95px;"></drop-down>
+                <text-input id="pbr-second-search" style="width: 140px"></text-input>    
+
+                <text-label id="pbr-third-label"></text-label>
+                <text-input id="pbr-third-search" style="width: 90px"></text-input>   
+                
+            </div>
+    
+            <div class="btn-bar" style="width: 100%; justify-content: flex-end;">
+                <push-button id="pbr-reset">Reset</push-button>
+                <push-button id="pbr-search" style="margin-right: unset;">Search</push-button>
+            </div>
+
+            <div>Search Results:</div>
+            <hr>
+    
+            <div id="pbr-grid" style="width: 100%; height: 290px;"></div>
+        
+            <div class="vert-input2" style="margin-top: 10px; display: flex; justify-content: space-between; align-items: center;">
+                <text-label id="pbr-count" style="margin-left: 10px;">Displaying 0 Employees</text-label>
+    
+                <div>
+                    <push-button id="pbr-ok" disabled>OK</push-button>
+                    <push-button id="pbr-cancel" style="margin-left: 10px; margin-right: 15px;">Cancel</push-button>
+                </div>
+            </div>
+        </popup-body>
+    </popup>
+
+    <popup id="pbr-search-project" width="850px" height="520px">
+        <popup-title>
+            <span>Choose Project</span>
+        </popup-title>
+        <popup-body style="padding: 10px;">
+            <div style="margin-bottom: 10px;">
+                <radio-button group="pbr-proj-chooseProject" value="A">All Projects</radio-button>
+                <radio-button group="pbr-proj-chooseProject" value="S" checked>Search for a Project</radio-button>
+            </div>
+    
+            <div>Search Criteria:</div>
+            <hr>
+            
+            <div class="pbr-grid" style="margin-top: 8px; display: grid; grid-template-columns: repeat(5, max-content); align-items: center;">
+                <span>ID:</span>
+                <drop-down id="pbr-proj-projectNameSearchType" style="width: 95px;"></drop-down>
+                <text-input id="pbr-proj-projectName" style="width: 160px"></text-input>
+
+                <span>Category Code:</span>
+                <smart-chooser id="pbr-proj-category" outside-width="180"></smart-chooser>  
+                
+                <span>Summary:</span>
+                <drop-down id="pbr-proj-summarySearchType" style="width: 95px;"></drop-down>
+                <text-input id="pbr-proj-summary" style="width: 160px"></text-input>    
+
+                <span>Type Code:</span>
+                <smart-chooser id="pbr-proj-type" outside-width="180"></smart-chooser>  
+
+                <span>Requesting Company:</span>
+                <div style="grid-column: 2 / 4;">
+                    <smart-chooser id="pbr-proj-companyId" outside-width="265"></smart-chooser>  
+                </div>
+
+                <span>Status Code:</span>
+                <smart-chooser id="pbr-proj-status" outside-width="180"></smart-chooser>                  
+            </div>
+    
+            <div class="btn-bar" style="margin-top: 10px; width: 100%; justify-content: flex-end;">
+                <push-button id="pbr-proj-reset">Reset</push-button>
+                <push-button id="pbr-proj-search" style="margin-right: unset;">Search</push-button>
+            </div>
+    
+            <div style="margin-top: -5px;">
+                <div>Search Results:</div>
+                <hr>
+            </div>
+    
+            <div id="pbr-proj-grid" style="width: 100%; height: 280px;"></div>
+        
+            <div class="vert-input2" style="margin-top: 10px; display: flex; justify-content: space-between; align-items: center;">
+                <text-label id="pbr-proj-count" style="margin-left: 10px;">Displaying 0 Projects</text-label>
+    
+                <div>
+                    <push-button id="pbr-proj-ok" disabled>OK</push-button>
+                    <push-button id="pbr-proj-cancel" style="margin-left: 10px; margin-right: 15px;">Cancel</push-button>
+                </div>
+            </div>
+        </popup-body>
+    </popup>
+
+    <popup id="pbr-project-data-search" width="420px" height="465px">
+        <popup-title>
+            <span>Search for Project <text-label id="pbr-project-data-search-type"></text-label></span>
+        </popup-title>
+        <popup-body style="padding: 10px;">
+            <div style="margin-bottom: 10px;">
+                <radio-button group="pbr-project-specific" value="A">All <text-label id="pbr-proj-chooseSpecificLabelAll"></text-label></radio-button>
+                <radio-button group="pbr-project-specific" value="S" checked>Search for <text-label id="pbr-proj-chooseSpecificLabelSearch"></text-label></radio-button>
+            </div>
+    
+            <div>Search Criteria:</div>
+            <hr>
+            
+            <div class="pbr-grid" style="margin-top: 8px; display: grid; grid-template-columns: repeat(3, max-content); align-items: center;">
+                <span>Code:</span>
+                <drop-down id="pbr-proj-code-criteria" style="width: 95px;"></drop-down>
+                <text-input id="pbr-proj-code-search" style="width: 140px"></text-input>
+                
+                <span>Description</span>
+                <drop-down id="pbr-proj-descr-criteria" style="width: 95px;"></drop-down>
+                <text-input id="pbr-proj-descr-search" style="width: 140px"></text-input> 
+            </div>
+    
+            <div class="btn-bar" style="margin-top: 10px; width: 100%; justify-content: flex-end;">
+                <push-button id="pbr-projD-reset">Reset</push-button>
+                <push-button id="pbr-projD-search" style="margin-right: unset;">Search</push-button>
+            </div>
+    
+            <div style="margin-top: 10px;">
+                <div>Search Results:</div>
+                <hr>
+            </div>
+    
+            <div id="pbr-projRes-grid" style="width: 100%; height: 250px;"></div>
+        
+            <div class="vert-input2" style="margin-top: 10px; display: flex; justify-content: space-between; align-items: center;">
+                <text-label id="pbr-projD-count" style="margin-left: 10px;">Displaying 0 Items</text-label>
+    
+                <div>
+                    <push-button id="pbr-projD-ok" disabled>OK</push-button>
+                    <push-button id="pbr-projD-cancel" style="margin-left: 10px; margin-right: 15px;">Cancel</push-button>
+                </div>
+            </div>
+        </popup-body>
+    </popup>
+</div>

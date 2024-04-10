@@ -1,0 +1,75 @@
+<!--
+     Copyright 2020 STACK360 LLC
+     All rights reserved.
+
+-->
+
+<div class="kiss">
+    <style>
+        #resultsGrid {
+            height: calc(100% - 120px);
+        }
+        #tf-popup-grid {
+            display: grid;
+            grid-template-columns: max-content max-content;
+            grid-column-gap: 10px;
+            grid-row-gap: 5px;
+        }
+        #tf-popup-grid span {
+            color: #000;
+            align-self: center;
+            text-align: right;
+        }
+    </style>
+    
+    <div style="margin-bottom: 10px; margin-top: 10px;">
+        <span>Exclude Employees who have Finalized as of Date:</span>
+        <native-date-input id="tf-from_date" style="width: 110px;"></native-date-input>
+
+        <span style="margin-left: 20px;">Exclude Self If Supervisor:</span>
+        <check-box id="tf-exclude" style="vertical-align: text-top; margin-left: 10px; margin-right: 30px;"></check-box>
+
+        <push-button id="show">Show</push-button>
+    </div>
+
+    <div style="margin-bottom: 10px;">
+        <span>Employees:</span>
+        <hr>
+    </div>
+    
+    <div id="resultsGrid" style="margin-top: 10px; width: 100%;"></div>
+
+    <div style="position: absolute; bottom: 10px; width: 100%;">
+        <text-label id="status" style="vertical-align: sub;">Set the desired Finalized as of Date and then press Show to see Timesheet Finalization Entries</text-label>
+        <div style="float: right;">
+            <push-button id="report">Report</push-button>
+            <push-button id="message" style="margin-left: 10px; margin-right: 30px;" disabled>Message</push-button>
+        </div>
+    </div>
+
+    <popup id="tf-popup" width="440px" height="270px">
+        <popup-title>
+            <text-label id="tf-title"></text-label>
+        </popup-title>
+        <popup-body id="tf-body">
+            <div id="tf-popup-grid">
+                <span>Sender:</span>
+                <text-input id="tf-sender" style="width: 280px;" maxlength="100" disabled></text-input>
+
+                <span>Receiver:</span>
+                <text-input id="tf-receiver" style="width: 360px;" maxlength="100" disabled></text-input>
+
+                <span>Subject:</span>
+                <text-input id="tf-subject" style="width: 360px;" maxlength="100"></text-input>
+
+                <span>Message</span>
+                <textbox-input id="tf-message" style="width: 360px; height: 120px;"></textbox-input>
+            </div>
+            <div style="margin-top: 10px; text-align: right;">
+                <push-button id="tf-ok">OK</push-button>
+                <push-button id="tf-cancel">Cancel</push-button>
+            </div>
+        </popup-body>
+    </popup>
+
+</div>

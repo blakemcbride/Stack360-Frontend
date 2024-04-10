@@ -1,0 +1,156 @@
+<!--
+     Copyright 2021 STACK360 LLC
+     All rights reserved.
+
+-->
+
+<div class="kiss">
+
+    <style>
+        div.vert-input2 {
+            display:grid;
+            grid-template-columns: max-content max-content;
+            grid-column-gap:5px;
+            grid-row-gap: 10px;
+            margin-top: 10px;
+            margin-left: 10px;
+        }
+
+        div.vert-input2 span {
+            text-align:right;
+            margin-top: 6px;
+        }
+
+        div.vert-input3 {
+            display:grid;
+            grid-template-columns: max-content max-content max-content;
+            grid-column-gap:5px;
+            grid-row-gap: 10px;
+            margin-top: 10px;
+            margin-left: 10px;
+        }
+
+        div.vert-input3 span {
+            text-align:right;
+            margin-top: 6px;
+        }
+    </style>
+
+    <div style="margin-top: 10px;">Sales Activities & Activity Results:</div>
+    <hr>
+
+    <div style="margin-top: 10px;">
+        Sales Activities
+        <div style="float: right;">
+            <check-box id="active-activity" checked>Show Active</check-box>
+            <check-box id="inactive-activity" style="margin-left: 20px;">Show Inactive</check-box>
+        </div>
+    </div>
+
+    <div id="acitivity-grid" style="margin-top: 10px; width: 100%; height: calc(70% - 90px);"></div>
+
+    <div style="width: 100%; margin-top: 10px;">
+        <text-label id="activity-status">Displaying 0 Sales Activities</text-label>
+        <div style="float: right;">
+            <push-button id="activity-moveup" style="margin-left: 10px;" disabled>Move Up</push-button>
+            <push-button id="activity-movedown" style="margin-left: 10px;" disabled>Move Down</push-button>
+            <push-button id="activity-add" style="margin-left: 60px;">Add</push-button>
+            <push-button id="activity-edit" style="margin-left: 10px;" disabled>Edit</push-button>
+            <push-button id="activity-delete" style="margin-left: 10px;" disabled>Delete</push-button>
+        </div>
+    </div>
+
+    <div style="margin-top: 30px;">
+        Activity Results
+        <div style="float: right;">
+            <check-box id="active-result" checked>Show Active</check-box>
+            <check-box id="inactive-result" style="margin-left: 20px;">Show Inactive</check-box>
+        </div>
+    </div>
+
+    <div id="results-grid" style="margin-top: 10px; width: 100%; height: calc(30% - 90px);"></div>
+
+    <div style="width: 100%; margin-top: 10px;">
+        <text-label id="results-status">Displaying 0 Activity Results</text-label>
+        <div style="float: right;">
+            <push-button id="result-moveup" style="margin-left: 10px;" disabled>Move Up</push-button>
+            <push-button id="result-movedown" style="margin-left: 10px;" disabled>Move Down</push-button>
+            <push-button id="result-add" style="margin-left: 60px;" disabled>Add</push-button>
+            <push-button id="result-edit" style="margin-left: 10px;" disabled>Edit</push-button>
+            <push-button id="result-delete" style="margin-left: 10px;" disabled>Delete</push-button>
+        </div>
+    </div>
+
+    <popup id="add-activity-popup" height="250px">
+        <popup-title>
+            <text-label id="aap-title">Add Sales Activity</text-label>
+        </popup-title>
+        <popup-body style="padding: 0 10px;">
+            <div class="vert-input2">
+                <span>Code:</span>
+                <text-input id="aap-code" style="width: 203px;" maxlength="12" required></text-input>
+                <span>Description:</span>
+                <textbox-input id="aap-description" style="width: 200px; height: 60px" maxlength="120"></textbox-input>
+                <span>Last Active Date:</span>
+                <native-date-input id="aap-date" style="width: 110px;"></native-date-input>
+                <span>Points:</span>
+                <numeric-input id="aap-points" style="width: 110px;"></numeric-input>
+
+                <span style="margin-top: 0;"></span>                
+                <check-box id="aap-all-company" style="display: none;">Apply to All Companies</check-box>
+            </div>
+
+            <div style="text-align: right; margin-top: 10px;">
+                <push-button id="aap-ok">OK</push-button>
+                <push-button id="aap-cancel" style="margin-left: 10px; margin-right: 0;">Cancel</push-button>
+            </div>
+        </popup-body>
+    </popup>
+
+    <popup id="add-result-popup" height="380px">
+        <popup-title>
+            <text-label id="arp-title">Add Activity Result</text-label>
+        </popup-title>
+        <popup-body style="padding: 0 10px;">
+            <div class="vert-input2">
+                <span>Description:</span>
+                <text-input id="arp-description" style="width: 203px;" maxlength="60" required></text-input>
+                <span>Last Active Date:</span>
+                <native-date-input id="arp-date" style="width: 110px;"></native-date-input>
+            </div>
+
+            <div style="margin-left: 10px; margin-top: 20px;">Follow Ups</div>
+            <hr style="margin-left: 10px;">
+
+            <div class="vert-input3">
+                <span>First Follow Up After</span>
+                <numeric-input id="arp-first-days" style="width: 100px;"></numeric-input>
+                <span style="text-align: left;">Days (0 for now follow up)</span>
+                <span>Second Follow Up After</span>
+                <numeric-input id="arp-second-days" style="width: 100px;"></numeric-input>
+                <span style="text-align: left;">Days (0 defaults to First Follow Up Days)</span>
+                <span>Third Follow Up After</span>
+                <numeric-input id="arp-third-days" style="width: 100px;"></numeric-input>
+                <span style="text-align: left;">Days (0 defaults to Second Follow Up Days)</span>
+            </div>
+
+            <div style="margin-left: 10px; margin-top: 10px;">Tasks</div>
+            <hr style="margin-left: 10px;">
+
+            <div class="vert-input2">
+                <span>First Follow Up Task:</span>
+                <text-input id="arp-first-task" maxlength="60" style="width: 200px;"></text-input>
+                <span>Second Follow Up Task:</span>
+                <text-input id="arp-second-task" maxlength="60" style="width: 200px;"></text-input>
+                <span>Third Follow Up Task:</span>
+                <text-input id="arp-third-task" maxlength="60" style="width: 200px;"></text-input>                
+            </div>
+
+            <div style="text-align: right; margin-top: 10px;">
+                <push-button id="arp-ok">OK</push-button>
+                <push-button id="arp-cancel" style="margin-left: 10px; margin-right: 0;">Cancel</push-button>
+            </div>
+        </popup-body>
+    </popup>
+
+</div>

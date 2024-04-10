@@ -1,0 +1,98 @@
+<!--
+     Copyright 2020 STACK360 LLC
+     All rights reserved.
+
+-->
+
+<div class="kiss" style="font-size: small;">
+
+
+    <style>
+
+        label {
+            margin-top: 3px;
+        }
+
+        .grid-container {
+            display: grid;
+            grid-column-gap: 5px;
+            grid-row-gap: 10px;
+            grid-template-columns: 100px 280px 160px auto;
+            margin-top: 15px;
+        }
+
+        .col-1 {
+            grid-column: 1;
+            justify-self: end;
+        }
+
+        .col-2 {
+            grid-column: 2;
+        }
+
+        .col-3 {
+            grid-column: 3;
+            justify-self: end;
+        }
+
+        .col-4 {
+            grid-column: 4;
+        }
+
+    </style>
+
+
+    <div class="grid-container">
+
+        <label class="col-1">Project:</label>
+        <div class="col-2">
+            <text-input id="project" style="width: 220px;" disabled></text-input>
+            <push-button id="search-project">?</push-button>
+        </div>
+
+        <label class="col-3">Worker:</label>
+        <div class="col-4">
+            <text-input id="worker" style="width: 200px;" disabled></text-input>
+            <push-button id="search-worker">?</push-button>
+        </div>
+
+
+        <label class="col-1">Receipt Start:</label>
+        <div class="col-2"><native-date-input id="start-date" style="width: 130px;"></native-date-input></div>
+
+        <label class="col-3">Expense Account:</label>
+        <drop-down id="expense-account" style="width: 240px;" class="col-4"></drop-down>
+
+        <label class="col-1">Receipt End:</label>
+        <div class="col-2"><native-date-input id="end-date" style="width: 130px;"></native-date-input></div>
+
+        <label class="col-3">Payment Method:</label>
+        <drop-down id="payment-method" style="width: 240px;" class="col-4">
+            <option value="Z">(select)</option>
+            <option value="A">Company Debit Card</option>
+            <option value="B">Employee Comdata Card</option>
+            <option value="E">Employee Personal Account</option>
+        </drop-down>
+
+        <label class="col-1">Upload Start:</label>
+        <div class="col-2"><native-date-input id="upload-start-date" style="width: 130px;"></native-date-input></div>
+
+        <label class="col-3">Client:</label>
+        <div class="col-4">
+            <text-input id="client" style="width: 200px;" disabled></text-input>
+            <push-button id="search-client">?</push-button>
+        </div>
+
+        <label class="col-1">Upload End:</label>
+        <div class="col-2"><native-date-input id="upload-end-date" style="width: 130px;"></native-date-input></div>
+
+        <div class="col-4">
+            <push-button id="reset">Reset</push-button>
+            <push-button id="export" style="margin-left: 15px;">Export</push-button>
+        </div>
+
+    </div>
+
+
+</div>
+

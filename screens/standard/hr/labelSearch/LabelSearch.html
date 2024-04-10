@@ -1,0 +1,56 @@
+<!--
+     Copyright 2020 STACK360 LLC
+     All rights reserved.
+
+-->
+
+<div class="kiss">
+
+    <style>
+        .dd-width {
+            width: 150px;
+        }
+    </style>
+
+    <div id="screen-start"></div>
+
+    <div style="margin-top: 10px;">Worker Label Search</div>
+    <hr>
+
+    <div style="margin-top: 10px;">
+        <div style="display: inline-block; width: 50px; text-align: right;">Project:</div>
+        <smart-chooser id="project" style="width: 300px;"></smart-chooser>
+
+        <span style="margin-left: 80px;">Labels:</span>
+        <drop-down class="dd-width" id="label-1"></drop-down>
+        <drop-down class="dd-width" id="label-2" style="margin-left: 20px;"></drop-down>
+        <drop-down class="dd-width" id="label-3" style="margin-left: 20px;"></drop-down>
+    </div>
+
+    <div style="margin-top: 10px;">
+        <div style="display: inline-block; width: 50px; text-align: right;">I9:</div>
+        <drop-down id="i9" style="width: 250px;">
+            <option value="0">Any</option>
+            <option value="1">Part I and II incomplete</option>
+            <option value="2">Part I complete, Part II incomplete</option>
+            <option value="3">Parts I and II complete</option>
+            <option value="4">Part I incomplete but Part II complete (??)</option>
+        </drop-down>
+
+        <push-button id="search" style="margin-left: 500px;">Search</push-button>
+        <push-button id="reset" style="margin-left: 10px;">Reset</push-button>
+    </div>
+
+    <div id="grid" style="margin-top: 10px; width: 100%;"></div>
+
+    <div id="bottom-start"></div>
+
+    <div>
+        <text-label id="status" style="position: absolute; bottom: 15px;"></text-label>
+        <push-button id="edit" style="float: right; margin-top: 5px;" disabled>Edit</push-button>
+    </div>
+
+    <div id="bottom-end" style="clear: both;"></div>
+    <div id="screen-end" style="position: absolute; bottom: 0;">&nbsp;</div>
+
+</div>

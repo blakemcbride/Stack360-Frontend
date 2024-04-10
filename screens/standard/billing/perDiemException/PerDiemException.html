@@ -1,0 +1,81 @@
+<!--
+     Copyright 2020 STACK360 LLC
+     All rights reserved.
+
+-->
+
+<div class="kiss" style="font-size: small;">
+
+    <style>
+
+        div.vert-input2 {
+            display:grid;
+            grid-template-columns: max-content max-content;
+            grid-column-gap:5px;
+            grid-row-gap: 10px;
+            margin-top: 10px;
+            margin-left: 10px;
+        }
+        div.vert-input2 label {
+            text-align: right;
+            margin-top: 5px;
+        }
+        div.vert-input2 label:after { content: ":"; }
+
+    </style>
+
+    <div style="margin-top: 20px;">
+        <div style="display: inline;">
+            <div style="display: inline-block">
+                <label>Project:</label>
+                <text-input id="project" style="width: 300px;" disabled></text-input>
+                <push-button id="do-search-project">?</push-button>
+            </div>
+        </div>
+    </div>
+
+    <div id="detail-grid" style="margin-top: 20px; height: calc(100% - 120px); width: 100%;"></div>
+
+    <div style="right: 10px; bottom: 10px; position: absolute;">
+        <push-button id="add" disabled>Add</push-button>
+        <push-button id="edit" style="margin-left: 12px;" disabled>Edit</push-button>
+        <push-button id="delete" style="margin-left: 12px;" disabled>Delete</push-button>
+    </div>
+
+    <popup id="exception-popup"  height="350px" width="450px">
+        <popup-title id="ep-title"></popup-title>
+        <popup-body>
+            <div class="vert-input2">
+                <label>Project</label>
+                <text-input id="ep-project" style="width: 300px;" disabled></text-input>
+
+                <label>Worker</label>
+                <drop-down id="ep-person" style="width: 300px;" required></drop-down>
+
+                <label>Position</label>
+                <text-input id="ep-position" style="width: 310px;" disabled></text-input>
+
+                <label>Exception Type</label>
+                <drop-down id="ep-type" style="width: 100px;" required>
+                    <option value="">(select)</option>
+                    <option value="A">Add</option>
+                    <option value="D">Delete</option>
+                    <option value="S">Subtract</option>
+                    <option value="R">Replace</option>
+                </drop-down>
+
+                <label>Amount</label>
+                <numeric-input id="ep-amount" style="width: 80px;" money></numeric-input>
+
+                <label>Notes</label>
+                <textbox-input id="ep-notes" style="width: 300px; height: 100px;"></textbox-input>
+            </div>
+
+            <div style="right: 25px; bottom: 10px; position: absolute;">
+                <push-button id="ep-ok">Ok</push-button>
+                <push-button id="ep-cancel" style="margin-left: 12px;">Cancel</push-button>
+            </div>
+        </popup-body>
+    </popup>
+
+</div>

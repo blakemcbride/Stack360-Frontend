@@ -1,0 +1,213 @@
+<!--
+     Copyright 2020 STACK360 LLC
+     All rights reserved.
+
+-->
+
+<div class="kiss">
+    <style>
+        .sp-grid {
+            display: grid;
+            grid-column-gap: 10px;
+            grid-row-gap: 10px;
+            align-items: center;
+        }
+        .sp-grid span {
+            color: #000;
+            align-self: center;
+            text-align: right;
+        }
+    </style>
+
+    <div style="margin-top: 10px; margin-bottom: 10px;">
+        <span>Standard Projects Currently in the System:</span>
+        <hr>
+    </div>
+
+    <div id="projectsGrid" style="height: calc(100% - 85px);"></div>
+
+    <div style="text-align: right; margin-top: 10px;">
+        <text-label style="float: left; margin-top: 10px;" id="sp-projectsCount">Displaying 0 Projects</text-label>
+        <push-button id="add">Add</push-button>
+        <push-button id="edit" style="margin-left: 10px;" disabled>Edit</push-button>
+        <push-button id="delete" style="margin-left: 10px;" disabled>Delete</push-button>
+    </div>
+
+    <popup id="project-popup" width="470px" height="285px">
+        <popup-title>
+            <span><text-label id="project-label">Add</text-label> Standard Project</span>
+        </popup-title>
+        <popup-body style="padding: 10px;">
+            <div id="sp-tab-container" style="grid-row: 3 / 5; grid-column: 3 / 4; height: calc(100% - 35px);">
+                <ul class="tab-header">
+                    <li id="sp-basic-TabButton" class="active">Basic</li>
+                    <li id="sp-detail-TabButton">Detail</li>
+                    <li id="sp-parties-TabButton">Responsible Parties</li>
+                    <li id="sp-billing-TabButton">Billing</li>
+                    <li id="sp-misc-TabButton">Misc</li>
+                </ul>
+                
+                <div id="sp-basic-TabContent" class="tab-content tab-height">
+                    <div class="sp-grid" style="grid-template-columns: max-content auto;">
+                        <span>Summary:</span>
+                        <text-input id="project-summary" required></text-input>
+        
+                        <span>Category Code:</span>
+                        <smart-chooser id="project-categoryId" outside-width="260" required></smart-chooser>
+                       
+                        <span>Type Code:</span>
+                        <smart-chooser id="project-typeId" outside-width="260" required></smart-chooser>
+
+                        <span></span>
+                        <check-box id="project-applyToAll" disabled style="display: none;">Applies to All Companies</check-box>
+                    </div>
+                </div>
+        
+                <div id="sp-detail-TabContent" class="tab-content tab-height" hidden style="display: none;">
+                    <div class="sp-grid" style="grid-template-columns: max-content auto; height: 100%;">
+                        <span style="align-self: baseline;">Detail:</span>
+                        <textbox-input id="project-detail" style="height: 100%; box-sizing: border-box;"></textbox-input>
+                    </div>
+                </div>
+
+                <div id="sp-parties-TabContent" class="tab-content tab-height" hidden style="display: none;">
+                    <div class="sp-grid" style="grid-template-columns: max-content auto;">
+                        <span>Requesting Person:</span>
+                        <text-input id="project-requestingPerson" style="width: 240px;"></text-input>
+        
+                        <span>Managing Employee:</span>
+                        <smart-chooser id="project-employeeId" outside-width="270"></smart-chooser>
+                       
+                        <span>External Reference:</span>
+                        <text-input id="project-externalRef" style="width: 120px;"></text-input>
+                    </div>
+                </div>
+
+                <div id="sp-billing-TabContent" class="tab-content tab-height" hidden style="display: none;">
+                    <div class="sp-grid" style="grid-template-columns: max-content auto;">
+                        <span>Billable:</span>
+                        <div>
+                            <radio-button group="project-billable" style="margin-right: 10px;" value="Y">Yes</radio-button>
+                            <radio-button group="project-billable" style="margin-right: 10px;" value="N">No</radio-button>
+                            <radio-button group="project-billable" checked value="U">Unknown</radio-button>
+                        </div>
+
+                        <span>Billing Rate:</span>
+                        <numeric-input style="width: 110px;" id="project-billingRate" decimal-places="2" show-zero dollar-sign disabled></numeric-input>
+
+                        <span>Dollar Cap:</span>
+                        <numeric-input style="width: 110px;" id="project-dollarCap" decimal-places="2" show-zero dollar-sign disabled></numeric-input>
+
+                        <span>Default Service Item:</span>
+                        <smart-chooser id="project-serviceItem" outside-width="290"></smart-chooser>
+                    </div>
+                </div>
+
+                <div id="sp-misc-TabContent" class="tab-content tab-height" hidden style="display: none;">
+                    <div class="sp-grid" style="grid-template-columns: max-content auto;">
+                        <span>Show on Timesheet Project Quick List for All Employees:</span>
+                        <check-box id="project-showForAll"></check-box>
+                    </div>
+                </div>
+            </div>
+            
+        
+            <div style="margin-top: 10px; text-align: right;">    
+                <push-button id="project-save">Save</push-button>
+                <push-button id="project-cancel" style="margin-left: 10px;">Cancel</push-button>
+            </div>
+        </popup-body>
+    </popup>
+
+    <popup id="bdr-project-data-search" width="420px" height="465px">
+        <popup-title>
+            <span>Search for Project <text-label id="bdr-project-data-search-type"></text-label></span>
+        </popup-title>
+        <popup-body style="padding: 10px;">
+            <div style="margin-bottom: 10px;">
+                <radio-button group="bdr-project-specific" value="A">All <text-label id="bdr-proj-chooseSpecificLabelAll"></text-label></radio-button>
+                <radio-button group="bdr-project-specific" value="S" checked>Search for <text-label id="bdr-proj-chooseSpecificLabelSearch"></text-label></radio-button>
+            </div>
+    
+            <div>Search Criteria:</div>
+            <hr>
+            
+            <div class="sp-grid" style="margin-top: 8px; display: grid; grid-template-columns: repeat(3, max-content); align-items: center;">
+                <span>Code:</span>
+                <drop-down id="bdr-proj-code-criteria" style="width: 95px;"></drop-down>
+                <text-input id="bdr-proj-code-search" style="width: 140px"></text-input>
+                
+                <span>Description</span>
+                <drop-down id="bdr-proj-descr-criteria" style="width: 95px;"></drop-down>
+                <text-input id="bdr-proj-descr-search" style="width: 140px"></text-input> 
+            </div>
+    
+            <div class="btn-bar" style="margin-top: 10px; width: 100%; justify-content: flex-end;">
+                <push-button id="bdr-projD-reset">Reset</push-button>
+                <push-button id="bdr-projD-search" style="margin-right: unset;">Search</push-button>
+            </div>
+    
+            <div style="margin-top: 10px;">
+                <div>Search Results:</div>
+                <hr>
+            </div>
+    
+            <div id="bdr-projRes-grid" style="width: 100%; height: 250px;"></div>
+        
+            <div class="vert-input2" style="margin-top: 10px; display: flex; justify-content: space-between; align-items: center;">
+                <text-label id="bdr-projD-count" style="margin-left: 10px;">Displaying 0 Items</text-label>
+    
+                <div>
+                    <push-button id="bdr-projD-ok" disabled>OK</push-button>
+                    <push-button id="bdr-projD-cancel" style="margin-left: 10px; margin-right: 15px;">Cancel</push-button>
+                </div>
+            </div>
+        </popup-body>
+    </popup>
+
+    <popup id="employee-search" width="620px" height="480px">
+        <popup-title>
+            <text-label>Search for Employee</text-label>
+        </popup-title>
+        <popup-body style="padding: 10px;">
+    
+            <div>Search Criteria:</div>
+            <hr>
+            
+            <div class="vert-input" style="margin-top: 8px; display: grid; grid-template-columns: repeat(3, max-content); align-items: center;">
+                <span>Last Name:</span>
+                <drop-down id="esp-lname-criteria" style="width: 95px; margin-right: 10px;"></drop-down>
+                <text-input id="esp-lname-search" style="width: 140px"></text-input>
+                
+                <span>First Name:</span>
+                <drop-down id="esp-fname-criteria" style="width: 95px; margin-right: 10px;"></drop-down>
+                <text-input id="esp-fname-search" style="width: 140px"></text-input>   
+                
+                <span>SSN:</span>
+                <text-input id="esp-ssn-search" style="width: 95px"></text-input>   
+                
+            </div>
+    
+            <div class="btn-bar" style="margin-top: 8px; width: 100%; justify-content: flex-end;">
+                <push-button id="esp-reset">Reset</push-button>
+                <push-button id="esp-search" style="margin-right: unset;">Search</push-button>
+            </div>
+    
+            <div style="margin-top: 10px;">
+                <div>Search Results:</div>
+                <hr>
+            </div>
+    
+            <div id="esp-grid" style="width: 100%; height: 250px;"></div>
+        
+            <div class="vert-input2" style="margin-top: 10px; display: flex; justify-content: space-between; align-items: center;">
+                <text-label id="esp-count" style="margin-left: 10px;">Displaying 0 Employees</text-label>
+    
+                <div>
+                    <push-button id="esp-ok" disabled>OK</push-button>
+                    <push-button id="esp-cancel" style="margin-left: 10px; margin-right: 15px;">Cancel</push-button>
+                </div>
+            </div>
+        </popup-body>
+    </popup>
+</div>

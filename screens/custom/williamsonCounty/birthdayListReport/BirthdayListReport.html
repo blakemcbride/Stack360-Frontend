@@ -1,0 +1,49 @@
+<div class="kiss">
+    <style>
+        #wrapper {
+            max-width: 320px;
+        }
+        #options-container {
+            display: grid;
+            grid-template-columns: repeat(2, max-content);
+            grid-row-gap: 10px;
+            grid-column-gap: 10px;
+            align-items: center;
+        }
+        #options-container > span {
+            text-align: right;
+        }
+        #options-container * {
+            margin-left: 0 !important;
+        } 
+    </style>
+    <div id="wrapper">
+        <div style="margin-bottom: 10px; margin-top: 10px;">
+            <span>Report Options:</span>
+            <hr>
+        </div>
+        <div id="options-container" style="margin-bottom: 10px;">
+            <span>Month:</span>
+            <drop-down id="blr-month" style="width: 160px;" default-option="(select)" required>
+                <option value="">(select)</option>
+                <option value="0">January</option>
+                <option value="1">February</option>
+                <option value="2">March</option>
+                <option value="3">April</option>
+                <option value="4">May</option>
+                <option value="5">June</option>
+                <option value="6">July</option>
+                <option value="7">August</option>
+                <option value="8">September</option>
+                <option value="9">October</option>
+                <option value="10">November</option>
+                <option value="11">December</option>
+            </drop-down>
+            <span>Group by Location/Department:</span>
+            <check-box id="blr-groupby"></check-box>
+        </div>
+        <div style="margin-top: 10px; text-align: right;">
+            <push-button id="report">Report</push-button>
+        </div>
+    </div>
+</div>

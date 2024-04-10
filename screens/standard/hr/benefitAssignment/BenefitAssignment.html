@@ -1,0 +1,415 @@
+<!--
+     Copyright 2020 STACK360 LLC
+     All rights reserved.
+
+-->
+
+<div class="kiss">
+    <style>
+        .ba-grid {
+            display: grid;
+            grid-column-gap: 10px;
+            grid-row-gap: 10px;
+            align-items: center;
+        }
+        .ba-grid span {
+            color: #000;
+            align-self: center;
+            text-align: right;
+        }
+        #ba-applied_filters b {
+            font-weight: 800;
+        }
+        
+        .tab-height {
+            height: 340px;
+            box-sizing: border-box; 
+            grid-auto-rows: max-content;
+        }
+        .ba-setButtons {
+            width: 120px !important; 
+            font-size: 25px !important; 
+            font-weight: 800 !important; 
+        }
+        .ba-setButtons:disabled {
+            opacity: 0.6 !important;
+        }
+        input[type="color"] {
+            width: 30px;
+            height: 30px;
+            border: none;
+            vertical-align: middle;
+            box-sizing: border-box;
+        }
+    </style>
+
+    <div style="margin-top: 10px; margin-bottom: 10px;">
+        <span>Employee Benefits:</span>
+        <text-label id="ba-employee" style="float: right;"></text-label>
+        <hr>
+    </div>
+
+    <check-box id="ba-approvedBenefits" style="vertical-align: middle; margin-right: 10px;" checked>Show Approved Benefits</check-box>
+    <input type="color" id="ba-approvedBenefits-color">
+
+    <check-box id="ba-approvedDeclines" style="vertical-align: middle; margin-right: 10px; margin-left: 50px;" checked>Show Approved Declines</check-box>
+    <input type="color" id="ba-approvedDeclines-color">
+
+    <check-box id="ba-notYetApproved" style="vertical-align: middle; margin-right: 10px; margin-left: 50px;" checked>Show Not Yet Approved Benefits/Declines</check-box>
+    <input type="color" id="ba-notYetApproved-color">
+
+    <push-button id="ba-resetColors" style="margin-left: 100px; background: none; border: none;">Reset Colors</push-button>
+    
+    <div id="resultsGrid" style="height: calc(100% - 125px); width: 100%; margin-top: 10px;"></div>
+
+    <div style="position: absolute; right: 10px; bottom: 10px; text-align: right;">
+        <push-button id="ba-approveSelected" style="margin-right: 30px;" disabled>Approve Selected</push-button>
+        <push-button id="ba-assign" style="margin-right: 10px;">Assign</push-button>
+        <push-button id="ba-decline" style="margin-right: 10px;">Decline</push-button>
+        <push-button id="ba-edit" style="margin-right: 10px;" disabled>Edit</push-button>
+        <push-button id="ba-unassign" style="margin-right: 10px;" disabled>Unassign</push-button>
+        <push-button id="ba-switchPolicy" style="margin-right: 10px;" disabled>Switch Policy</push-button>
+        <push-button id="ba-report">Report</push-button>
+    </div>
+
+    <popup id="benefit-info-popup" height="250px" width="530px">
+        <popup-title>Benefit Change Data</popup-title>
+        <popup-body>
+            <textbox-input id="benefit-info" style="height: 195px; width: 495px; background-color: #f7ff80;" disabled></textbox-input>
+
+            <div style="right: 10px; bottom: 10px; position: absolute;">
+                <push-button id="benefit-info-ok">Ok</push-button>
+            </div>
+        </popup-body>
+    </popup>
+
+    <popup id="ba-assign-popup" width="630px" height="570px">
+        <popup-title>
+            <span>Assign Benefit</span>
+        </popup-title>
+        <popup-body style="padding: 10px;">            
+            <div class="ba-grid" style="grid-template-columns: repeat(2, max-content);">
+
+                <span>Benefit Category:</span>
+                <drop-down id="ba-assign-benefitCategory" style="width: 515px;"></drop-down>
+
+                <div style="grid-column: 1 / 3;">
+                    <span>Current Assignment:</span>
+                    <hr>
+                </div>
+
+                <span>Benefit:</span>
+                <div>
+                    <text-input id="ba-assign-benefit" style="width: 430px;" disabled></text-input>
+                    <check-box id="ba-assign-cobra" style="vertical-align: middle; margin-right: 10px;" disabled>COBRA</check-box>
+                </div>
+
+                <span>Covarage</span>
+                <text-input id="ba-assign-coverage" style="width: 505px;" disabled></text-input>
+
+                <div style="grid-column: 1 / 3;">
+                    <text-label id="ba-assign-multiple" style="margin-top: 10px;" hidden>The selected Benefit Category supports mutiple Benefit Assignments.</text-label>
+                </div>
+
+                <div style="grid-column: 1 / 3;">
+                    <span>New Assignment:</span>
+                    <hr>
+                </div>
+
+                <span>Benefit:</span>
+                <drop-down id="ba-assign-newBenefit" style="width: 515px;" disabled></drop-down>
+
+                <span>Coverage:</span>
+                <div id="assignCoverageGrid" style="width: 100%; height: 200px;"></div>
+
+                <div></div>
+                <check-box id="ba-assign-copyCurrent" style="vertical-align: middle; margin-right: 10px;" disabled>Copy Current Assignment Coverage for Active Dependents with Current Coverage</check-box>
+                
+                <div></div>
+                <check-box id="ba-assign-newCobra" style="vertical-align: middle; margin-right: 10px;" disabled>COBRA</check-box>
+
+                <span style="grid-column: 1 / 3;">* If a Benefit does not appear for the selected Category, it may be because the Benefit is no longer Active.</span>
+                <span style="grid-column: 1 / 3;">* If a Coverage Configuration does not appear for a selected Benefit, it may no longer be Active or is not <br> assignable to the Person's current situation (e.g. incorrect dependents, does not support COBRA, etc).</span>
+            </div>
+            <div style="text-align: right; margin-top: 10px;">
+                <push-button id="ba-assign-ok" disabled>OK</push-button>
+                <push-button id="ba-assign-cancel" style="margin-left: 10px;">Cancel</push-button>
+            </div>
+        </popup-body>
+    </popup>
+
+    <popup id="ba-decline-popup" width="630px" height="170px">
+        <popup-title>
+            <span>Decline Benefit</span>
+        </popup-title>
+        <popup-body style="padding: 10px;">            
+            <div class="ba-grid" style="grid-template-columns: repeat(2, max-content);">
+
+                <span>Benefit Category:</span>
+                <drop-down id="ba-decline-benefitCategory" style="width: 480px;" required></drop-down>
+
+                <span>Benefit:</span>
+                <drop-down id="ba-decline-benefit" style="width: 480px;" disabled></drop-down>
+
+                <span>Decline Start Date:</span>
+                <div>
+                    <native-date-input id="ba-decline-dateIn" style="width:110px; margin-right: 40px;" disabled></native-date-input>
+                
+                    <span>Decline Final Date:</span>
+                    <native-date-input id="ba-decline-dateOut" style="width:110px; margin-left: 10px;" disabled></native-date-input>
+                </div>                
+
+                <span>Benefit Change Reason:</span>
+                <drop-down id="ba-decline-reason" style="width: 280px;" required></drop-down>
+            </div>
+            <div style="text-align: right; margin-top: 10px;">
+                <push-button id="ba-decline-ok">OK</push-button>
+                <push-button id="ba-decline-cancel" style="margin-left: 10px;">Cancel</push-button>
+            </div>
+        </popup-body>
+    </popup>
+
+    <popup id="ba-report-popup" width="335px" height="170px">
+        <popup-title>
+            <span>Reporting Options</span>
+        </popup-title>
+        <popup-body style="padding: 10px;">            
+            <div class="ba-grid" style="grid-template-columns: repeat(2, max-content);">
+                <div style="grid-column: 1 / 3;">
+                    <radio-button group="ba-report-type" value="1" checked>Benefit Statement</radio-button>
+                </div>
+                
+                <span>Show Assigned Benefits As of Date:</span>
+                <native-date-input id="ba-report-reportDate" style="width:110px; margin-right: 40px;"></native-date-input>
+                
+                <span>Show User Login Information</span>
+                <check-box id="ba-report-showUserInfo" style="vertical-align: middle; margin-right: 10px;"></check-box>
+
+                <div style="grid-column: 1 / 3;">
+                    <radio-button group="ba-report-type" value="2">Payroll Notice</radio-button>
+                </div>     
+
+                <span>Decline Final Date:</span>
+                <native-date-input id="ba-report-payrollReportDate" style="width:110px; margin-left: 10px;" disabled></native-date-input>       
+            </div>
+            <div style="text-align: right; margin-top: 10px;">
+                <push-button id="ba-report-ok">OK</push-button>
+                <push-button id="ba-report-cancel" style="margin-left: 10px;">Cancel</push-button>
+            </div>
+        </popup-body>
+    </popup>
+
+    <popup id="ba-edit-popup" width="990px" height="495px">
+        <popup-title>
+            <span>Edit Benefit Detail</span>
+        </popup-title>
+        <popup-body style="padding: 10px;">            
+            <div class="ba-grid" style="grid-template-columns: repeat(4, max-content); grid: none;">  
+                <span>Employee:</span>              
+                <text-input id="ba-edit-employeeName" style="width: 160px" disabled></text-input>
+
+                <span>Benefit:</span>
+                <text-input id="ba-edit-benefitName" style="width: 200px" disabled></text-input>
+
+                <span>Benefit Category:</span>
+                <text-input id="ba-edit-categoryName" style="width: 160px" disabled></text-input>
+                
+                <span>Coverage Configuration:</span>
+                <text-input id="ba-edit-coverageName" style="width: 200px" disabled></text-input>
+
+                <div id="ba-tab-container" style="height: calc(100% - 30px); margin-top: 10px; grid-column: 1 / 5;">
+                    <ul class="tab-header">
+                        <li id="ba-policy-TabButton" class="active">Policy & Coverage</li>
+                        <li id="ba-cost-TabButton">Cost</li>
+                        <li id="ba-cobra-TabButton">COBRA</li>
+                        <li id="ba-physicians-TabButton">Physicians</li>
+                    </ul>
+                    
+                    <div id="ba-policy-TabContent" class="tab-content tab-height ba-grid" style="grid-template-columns: repeat(6, max-content); grid-column-gap: 40px;">    
+                        <span>Policy Start Date:</span>
+                        <native-date-input id="ba-edit-policyStartDate" style="width: 110px;"></native-date-input>
+
+                        <span>Last Coverage Change Date:</span>
+                        <native-date-input id="ba-edit-lastChangeDate" style="width: 110px;"></native-date-input>
+    
+                        <span>Insurance ID:</span>
+                        <text-input id="ba-edit-insuranceID" style="width: 200px;"></text-input> 
+
+                        <span>Policy Final Date:</span>
+                        <native-date-input id="ba-edit-policyFinalDate" style="width: 110px;"></native-date-input>
+
+                        <div style="grid-column: 1 / 7; margin-top: 10px;">
+                            <span>Coverages:</span>
+
+                            <div id="coveragesGrid" style="width: 100%; height: 180px; margin-top: 10px; margin-bottom: 10px;"></div>
+                            
+                            <div style="text-align: right;">
+                                <span>Start Date:</span>
+                                <native-date-input id="ba-edit-startDate" style="width: 110px; margin-left: 10px;"></native-date-input>
+                                <push-button id="ba-edit-startDateApply" style="margin-left: 10px; margin-right: 20px;">Apply to All</push-button>
+
+                                <span>Final Date:</span>
+                                <native-date-input id="ba-edit-finalDate" style="width: 110px; margin-left: 10px;"></native-date-input>
+                                <push-button id="ba-edit-finalDateApply" style="margin-left: 10px;">Apply to All</push-button>
+
+                                <push-button id="ba-edit-editCoverage" style="margin-left: 40px;" disabled>Edit</push-button>
+                            </div>
+                        </div>
+                    </div>
+    
+                    <div id="ba-cost-TabContent" class="tab-content tab-height ba-grid" hidden style="display: none; grid-template-columns: repeat(4, max-content);">
+                        <span></span>
+
+                        <div>
+                            <span>Per Pay Period</span>
+                            <hr>
+                        </div>
+
+                        <div>
+                            <span>Monthly</span>
+                            <hr>
+                        </div>
+
+                        <div>
+                            <span>Annualy</span>
+                            <hr>
+                        </div>
+
+                        <span>Employer Cost</span>
+                        <numeric-input id="ba-edit-employerCostPerPay" decimal-places="2" dollar-sign style="width: 100px;" disabled></numeric-input>
+
+                        <numeric-input id="ba-edit-employerCostMonthly" decimal-places="2" dollar-sign style="width: 100px;" disabled></numeric-input>
+
+                        <numeric-input id="ba-edit-employerCostAnnualy" decimal-places="2" dollar-sign style="width: 100px;" disabled></numeric-input>
+
+                        <span>Employee Cost</span>
+                        <numeric-input id="ba-edit-employeeCostPerPay" decimal-places="2" dollar-sign style="width: 100px;" disabled></numeric-input>
+
+                        <numeric-input id="ba-edit-employeeCostMonthly" decimal-places="2" dollar-sign style="width: 100px;" disabled></numeric-input>
+
+                        <numeric-input id="ba-edit-employeeCostAnnualy" decimal-places="2" dollar-sign style="width: 100px;" disabled></numeric-input>
+
+                        <span>Benefit Amount</span>
+                        <numeric-input id="ba-edit-benefitAmount" decimal-places="2" dollar-sign style="width: 100px;" disabled></numeric-input>
+                    </div>
+
+                    <div id="ba-cobra-TabContent" class="tab-content tab-height ba-grid" hidden style="display: none; grid-template-columns: repeat(2, max-content);">
+                        <span>COBRA</span>
+                        <check-box id="ba-edit-cobra" style="vertical-align: middle;"></check-box>
+
+                        <span></span>
+                        <div>
+                            <span>Accepted Date:</span>
+                            <native-date-input id="ba-edit-acceptedDate" style="width: 110px;" disabled></native-date-input>
+
+                            <span>Maximum Number of Months:</span>
+                            <numeric-input id="ba-edit-maximumMonths" style="width: 50px;" disabled></numeric-input>
+                        </div>
+                    </div>
+
+                    <div id="ba-physicians-TabContent" class="tab-content tab-height ba-grid" hidden style="display: none; grid-template-columns: auto;">
+                        <div id="physiciansGrid" style="width: 100%; height: 280px;"></div>
+
+                        <div style="text-align: right;">
+                            <push-button id="ba-edit-physiciansAdd">Add</push-button>
+                            <push-button id="ba-edit-physiciansEdit" style="margin-left: 10px;" disabled>Edit</push-button>
+                            <push-button id="ba-edit-physiciansDelete" style="margin-left: 10px;" disabled>Delete</push-button>
+                        </div>
+                    </div>
+                </div>  
+            </div>
+            <div style="text-align: right; margin-top: 20px;">
+                <span>Benefit Change Reason:</span>
+                <drop-down id="ba-edit-benefitChangeReason" style="width: 355px; margin-right: 220px; "></drop-down>
+
+                <push-button id="ba-edit-approve" style="margin-left: 20px;" disabled>Approved</push-button>
+                <push-button id="ba-edit-ok" style="margin-left: 20px;">OK</push-button>
+                <push-button id="ba-edit-cancel" style="margin-left: 10px;">Cancel</push-button>
+            </div>
+        </popup-body>
+    </popup>
+
+    <popup id="ba-editCoverage-popup" width="500px" height="275px">
+        <popup-title>
+            <span>Edit Coverage Details</span>
+        </popup-title>
+        <popup-body style="padding: 10px;">            
+            <div class="ba-grid" style="grid-template-columns: repeat(4, max-content);">
+                <span>Start Date:</span>
+                <native-date-input id="ba-editCoverage-startDate" style="width:110px; margin-right: 40px;"></native-date-input>
+
+                <span>Final Date:</span>
+                <native-date-input id="ba-editCoverage-finalDate" style="width:110px;"></native-date-input>
+
+                <span>Amount:</span>
+                <numeric-input id="ba-editCoverage-amount" show-zero style="width: 110px;" disabled></numeric-input>
+
+                <span>Original Coverage Date:</span>
+                <native-date-input id="ba-editCoverage-coverageDate" style="width:110px;"></native-date-input>
+
+                <span>Notes:</span>
+                <textbox-input id="ba-editCoverage-comments" style="height: 60px; width: 100%; box-sizing: border-box; grid-column: 2 / 5;"></textbox-input>
+
+                <check-box id="ba-editCoverage-hasOther" style="vertical-align: middle; grid-column: 1 / 5;">This person has other, outside insurance related to this benefit</check-box>
+
+                <span>Details:</span>
+                <text-input id="ba-editCoverage-details" style="grid-column: 2 / 5;" disabled></text-input> 
+
+                <span></span>
+                <div style="grid-column: 2 / 5;">
+                    <radio-button group="ba-editCoverage-otherInsurance" value="1" disabled style="margin-bottom: 10px;" align-vertical>Other Insurance is Primary</radio-button>
+                    <radio-button group="ba-editCoverage-otherInsurance" value="2" disabled align-vertical checked>Other Insurance is Secondary</radio-button>
+                </div>
+
+            </div>
+            <div style="text-align: right; margin-top: 10px;">
+                <push-button id="ba-editCoverage-ok">OK</push-button>
+                <push-button id="ba-editCoverage-cancel" style="margin-left: 10px;">Cancel</push-button>
+            </div>
+        </popup-body>
+    </popup>
+
+    <popup id="ba-physician-popup" width="500px" height="275px">
+        <popup-title>
+            <span><text-label id="ba-physician-action">Add</text-label> Physician</span>
+        </popup-title>
+        <popup-body style="padding: 10px;">            
+            <div class="ba-grid" style="grid-template-columns: repeat(2, max-content);">
+                <span>Enrollee:</span>
+                <drop-down id="ba-physician-enrollee" style="width: 280px;" required></drop-down>
+
+                <span>Change Reason:</span>
+                <drop-down id="ba-physician-reason" style="width: 280px;"></drop-down>
+
+                <span>Change Date:</span>
+                <native-date-input id="ba-physician-changeDate" style="width:110px;"></native-date-input>
+
+                <div style="grid-column: 1 / 3;">
+                    <span>Physician Information</span>
+                    <hr>
+                </div>
+
+                <span>Name:</span>
+                <div>
+                    <text-input id="ba-physician-name" style="margin-right: 40px; width: 170px;" required></text-input> 
+
+                    <span>Code:</span>
+                    <text-input id="ba-physician-code" style="width: 120px;" required></text-input> 
+                </div>
+
+                <span>Address:</span>
+                <text-input id="ba-physician-address" style="width: 100%; box-sizing: border-box; height: 24px;"></text-input> 
+
+                <span></span>
+                <div>
+                    <span>Enrollee has seen Physician in the past year:</span>
+                    <check-box id="ba-physician-hasSeen" style="vertical-align: middle;"></check-box>
+                </div>
+            </div>
+            <div style="text-align: right; margin-top: 10px;">
+                <push-button id="ba-physician-ok">OK</push-button>
+                <push-button id="ba-physician-cancel" style="margin-left: 10px;">Cancel</push-button>
+            </div>
+        </popup-body>
+    </popup>
+</div>

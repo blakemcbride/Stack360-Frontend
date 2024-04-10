@@ -1,0 +1,496 @@
+<!--
+     Copyright 2021 STACK360 LLC
+     All rights reserved.
+
+-->
+
+<div class="kiss">
+
+    <style>
+        div.vert-input2 {
+            display:grid;
+            grid-template-columns: max-content max-content;
+            grid-column-gap:5px;
+            grid-row-gap: 10px;
+            margin-top: 10px;
+        }
+
+        div.vert-input2 span {
+            text-align:right;
+            margin-top: 6px;
+        }
+
+        div.vert-input4 {
+            display:grid;
+            grid-template-columns: max-content max-content max-content max-content;
+            grid-column-gap:5px;
+            grid-row-gap: 10px;
+            margin-top: 10px;
+        }
+
+        div.vert-input4 span {
+            text-align:right;
+            margin-top: 6px;
+        }
+
+        div.vert-input5 {
+            display:grid;
+            grid-template-columns: max-content max-content max-content max-content max-content;
+            grid-column-gap:5px;
+            grid-row-gap: 10px;
+            margin-top: 10px;
+        }
+
+        div.vert-input5 span {
+            text-align:right;
+            margin-top: 6px;
+        }
+
+        div.vert-input3 {
+            display:grid;
+            grid-template-columns: max-content max-content max-content;
+            grid-column-gap:5px;
+            grid-row-gap: 10px;
+            margin-top: 10px;
+        }
+
+        div.vert-input3 span {
+            text-align:right;
+            margin-top: 6px;
+        }
+
+        .tab-height {
+            height: 160px;
+        }
+    </style>
+
+    <div class="vert-input2" style="margin-top: 10px; justify-content: space-between;" >
+        <div>Vendor Organizational Group Location:</div>
+        <div>
+            <text-label id="dp-group-name" style="font-weight: bold;">Top Level</text-label>
+        </div>
+    </div>
+    <hr>
+    <div class="vert-input2" style="align-items: center;">
+        <push-button style="float: left;" id="search-org-group">Search</push-button>
+        <div id="bread-crumb-2" style="margin-left: 5px; display: inline-block;"></div>
+    </div>
+
+    <div style="margin-top: 10px; width: 100%; height: calc(100% - 75px); display: flex; justify-content: space-between;">
+        <div style="width: 49%; display: flex; flex-direction: column; justify-content: space-between; margin-bottom: 10px;">
+            <div>
+                <text-label id="org-group-label">Organizational Groups inside </text-label>
+                <hr>
+            </div>
+
+            <div id="org-groups-grid" style="position: relative; width: 100%; height: 100%; margin-bottom: 10px;"></div>
+
+            <div style="width: 100%;">
+                <push-button id="org-group-open" disabled>Open</push-button>
+
+                <div style="float: right;">
+                    <push-button id="org-group-add">Add</push-button>
+                    <push-button id="org-group-edit" style="margin-left: 10px;" disabled>Edit</push-button>
+                    <push-button id="org-group-delete" style="margin-left: 10px;" disabled>Delete</push-button>
+                </div>
+            </div>
+
+            <div style="width: 100%; margin-top: 10px;">
+                <push-button id="org-group-up" disabled>Up</push-button>
+
+                <div style="float: right;">
+                    <push-button id="org-group-associate" disabled>Associate</push-button>
+                    <push-button id="org-group-disassociate" style="margin-left: 10px;" disabled>Disassociate</push-button>
+                </div>
+            </div>
+        </div>
+        <div style="width: 49%; display: flex; flex-direction: column; justify-content: space-between; margin-bottom: 10px;">
+            <div>
+                <text-label id="contacts-label">Contacts inside </text-label>
+                <text-label style="float: right;" id="filter-label">Not Filtered </text-label>
+                <hr>
+            </div>
+
+            <div id="contacts-grid" style="position: relative; width: 100%; height: 100%; margin-bottom: 10px;"></div>
+
+            <div style="width: 100%;">
+                <text-label id="contacts-status">Displaying 0 Contacts</text-label>
+                <div style="float: right;">
+                    <push-button id="contact-add" disabled>Add</push-button>
+                    <push-button id="contact-edit" style="margin-left: 10px;" disabled>Edit</push-button>
+                    <push-button id="contact-delete" style="margin-left: 10px;" disabled>Delete</push-button>
+                </div>
+            </div>
+
+            <div style="width: 100%; margin-top: 10px;">
+                <push-button id="edit-filter" disabled>Edit Filter</push-button>
+                <div style="float: right;">
+                    <push-button id="contact-associate" disabled>Associate</push-button>
+                    <push-button id="contact-disassociate" style="margin-left: 10px;" disabled>Disassociate</push-button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <popup id="org-group-popup">
+        <popup-title>
+            <text-label id="ogp-title">Add Vendor Organizational Group</text-label>
+        </popup-title>
+        <popup-body style="padding: 10px 15px;">
+            <div class="vert-input2">
+                <span>Name:</span>
+                <text-input id="ogp-name" style="width: 300px;" required maxlength="60"></text-input>
+                <span>ID:</span>
+                <text-input id="ogp-id" style="width: 80px;" maxlength="20"></text-input>
+            </div>
+
+            <div style="position: absolute; text-align: right; margin-top: 10px; bottom: 10px; width: 100%;">
+                <push-button id="ogp-ok">OK</push-button>
+                <push-button id="ogp-cancel" style="margin-left: 10px; margin-right: 35px;">Cancel</push-button>
+            </div>
+        </popup-body>
+    </popup>
+
+    <popup id="search-group-popup" width="405px" height="395px">
+        <popup-title>
+            <text-label>Search for Vendor Organizational Unit</text-label>
+        </popup-title>
+        <popup-body style="padding: 10px 15px;">
+
+            <div>Search Criteria:</div>
+            <hr>
+
+            <div class="vert-input2">
+                <span>Name:</span>
+                <div>
+                    <drop-down id="sgp-name-criteria" style="width: 125px; margin-right: 10px;"></drop-down>
+                    <text-input id="sgp-name-search" style="width: 182px;" maxlength="60"></text-input>
+                </div>
+                <span>Status:</span>
+                <div>
+                    <radio-button group="sgp-associate-indicator-type" value="1" style="margin-top: 6px;">Associated</radio-button>
+                    <radio-button group="sgp-associate-indicator-type" value="2" checked>Disassociated</radio-button>
+                    <radio-button group="sgp-associate-indicator-type" value="0">Both</radio-button>
+                </div>
+            </div>
+
+            <div class="btn-bar" style="margin-top: 8px; width: 100%; justify-content: flex-end;">
+                <push-button id="sgp-reset">Reset</push-button>
+                <push-button id="sgp-search" style="margin-right: unset;">Search</push-button>
+            </div>
+
+            <div style="margin-top: 10px;">
+                <div>Search Results:</div>
+                <hr>
+            </div>
+
+            <div id="sgp-grid" style="width: 100%; background: bisque; height: 210px;"></div>
+
+            <div style="text-align: right; margin-top: 10px; display: flex; justify-content: space-between; align-items: center;">
+                <text-label id="sgp-count" style="margin-left: 0;">Displaying 0 Vendor Organizational Units</text-label>
+
+                <div>
+                    <push-button id="sgp-ok" disabled>OK</push-button>
+                    <push-button id="sgp-cancel" style="margin-left: 10px; margin-right: 0;">Cancel</push-button>
+                </div>
+            </div>
+        </popup-body>
+    </popup>
+
+    <popup id="associate-group" height="445px">
+        <popup-title>
+            <text-label>Associate Vendor Organizational Group</text-label>
+        </popup-title>
+        <popup-body style="padding: 10px 15px;">
+
+            <div>Search Criteria:</div>
+            <hr>
+
+            <div class="vert-input2">
+                <span>Name:</span>
+                <div>
+                    <drop-down id="agp-name-criteria" style="width: 125px; margin-right: 10px;"></drop-down>
+                    <text-input id="agp-name-search" style="width: 150px;" maxlength="60"></text-input>
+                </div>
+                <span>Status:</span>
+                <radio-button group="agp-associate-indicator-type" value="1" style="margin-top: 6px;">Associated to Vendor Organizational Group other than the current</radio-button>
+                <span></span>
+                <radio-button group="agp-associate-indicator-type" value="2" checked>Not Associated to any Vendor Organizational Group</radio-button>
+                <span></span>
+                <radio-button group="agp-associate-indicator-type" value="0">Either</radio-button>
+            </div>
+
+            <div class="btn-bar" style="margin-top: 8px; width: 100%; justify-content: flex-end;">
+                <push-button id="agp-reset">Reset</push-button>
+                <push-button id="agp-search" style="margin-right: unset;">Search</push-button>
+            </div>
+
+            <div style="margin-top: 10px;">
+                <div>Search Results:</div>
+                <hr>
+            </div>
+
+            <div id="agp-grid" style="width: 100%; background: bisque; height: 210px;"></div>
+
+            <div style="text-align: right; margin-top: 10px; display: flex; justify-content: space-between; align-items: center;">
+                <text-label id="agp-count" style="margin-left: 0;">Displaying 0 Vendor Organizational Units</text-label>
+
+                <div>
+                    <push-button id="agp-ok" disabled>OK</push-button>
+                    <push-button id="agp-cancel" style="margin-left: 10px; margin-right: 0;">Cancel</push-button>
+                </div>
+            </div>
+        </popup-body>
+    </popup>
+
+    <popup id="employee-popup" height="240px" width="664px">
+        <popup-title>
+            <text-label id="ep-title">Add Contact</text-label>
+        </popup-title>
+        <popup-body style="padding: 10px 15px;">
+
+            <div id="ep-tab-container">
+                <ul class="tab-header">
+                    <li id="ep-contact-detail-TabButton" class="active">Contact Detail</li>
+                    <li id="ep-contact-log-detail-TabButton">Contact Login Detail</li>
+                </ul>
+
+                <div id="ep-contact-detail-TabContent" class="tab-content tab-height">
+                    <div class="vert-input4">
+                        <span>First Name:</span>
+                        <text-input id="ep-fname" style="width: 160px;" required maxlength="30"></text-input>
+                        <span style="margin-left: 10px;">Job Title:</span>
+                        <text-input id="ep-job-title" style="width: 160px;" maxlength="60"></text-input>
+        
+                        <span>Last Name:</span>
+                        <text-input id="ep-lname" style="width: 160px;" required maxlength="30"></text-input>
+                        <span style="margin-left: 10px;">Phone:</span>
+                        <text-input id="ep-phone" style="width: 160px;" maxlength="20"></text-input>
+        
+                        <span>E-mail:</span>
+                        <text-input id="ep-email" style="width: 160px;" maxlength="60"></text-input>
+                        <span style="margin-left: 10px;">Fax:</span>
+                        <text-input id="ep-fax" style="width: 160px;" maxlength="20"></text-input>
+    
+                        <span>Primary:</span>
+                        <check-box id="ep-primary" style="margin-top: 6px; margin-left: 2px;"></check-box>
+                    </div>
+                </div>
+    
+                <div id="ep-contact-log-detail-TabContent" class="tab-content tab-height">
+                    <check-box id="ep-assign-login" style="margin-top: 6px; margin-left: 2px;">Assign Login</check-box>
+                    <div class="vert-input5">
+                        <span>Login ID:</span>
+                        <text-input id="ep-login-id" style="width: 160px;" required maxlength="30" disabled></text-input>
+                        <span style="margin-left: 10px;">Screen Group:</span>
+                        <text-input id="ep-screen-group" style="width: 160px;" readonly disabled required></text-input>
+                        <push-button id="ep-screen-choose" disabled>Choose</push-button>
+
+                        <span>Password:</span>
+                        <text-input id="ep-password" style="width: 160px;" required maxlength="64" disabled password="true"></text-input>
+                        <span style="margin-left: 10px;"></span>
+                        <div style="display: inline-flex;justify-content: flex-end;">
+                            <span style="margin-right: 6px;">ID:</span>
+                            <text-input id="ep-screen-id" style="width: 80px;" readonly disabled required maxlength="16"></text-input>
+                        </div>
+                        <span></span>
+        
+                        <span>Confirm Password:</span>
+                        <text-input id="ep-confirm-password" style="width: 160px;" required maxlength="64" disabled password="true"></text-input>
+                        <span style="margin-left: 10px;">Security Group:</span>
+                        <text-input id="ep-security-group" style="width: 160px;" readonly disabled required></text-input>
+                        <push-button id="ep-security-choose" disabled>Choose</push-button>
+        
+                        <span></span>
+                        <span></span>
+                        <span>Login Status:</span>
+                        <div>
+                            <radio-button group="ep-login-status" value="true" style="margin-top: 6px;" disabled selected>Active</radio-button>
+                            <radio-button group="ep-login-status" value="false" style="margin-top: 6px;" disabled>Inactive</radio-button>
+                        </div>
+
+                        <text-input id="ep-screen-group-id" style="display: none;"></text-input>
+                        <text-input id="ep-security-group-id" style="display: none;"></text-input>
+                    </div>
+                </div>
+            </div>            
+            
+            <div style="text-align: right; margin-top: 10px; align-items: center;">
+                <div style="float: right;">
+                    <push-button id="ep-ok">OK</push-button>
+                    <push-button id="ep-cancel" style="margin-left: 10px; margin-right: 0;">Cancel</push-button>
+                </div>
+            </div>
+        </popup-body>
+    </popup>
+
+    <popup id="associate-contact" height="478px">
+        <popup-title>
+            <text-label>Associate Vendor Contact</text-label>
+        </popup-title>
+        <popup-body style="padding: 10px 15px;">
+
+            <div>Search Criteria:</div>
+            <hr>
+
+            <div class="vert-input2">
+                <span>Last Name:</span>
+                <div>
+                    <drop-down id="aep-lname-criteria" style="width: 125px; margin-right: 10px;"></drop-down>
+                    <text-input id="aep-lname-search" style="width: 150px;" maxlength="60"></text-input>
+                </div>
+                <span>First Name:</span>
+                <div>
+                    <drop-down id="aep-fname-criteria" style="width: 125px; margin-right: 10px;"></drop-down>
+                    <text-input id="aep-fname-search" style="width: 150px;" maxlength="60"></text-input>
+                </div>
+                <span>Status:</span>
+                <radio-button group="aep-associate-indicator-type" value="1" style="margin-top: 6px;">Associated to Vendor Organizational Group other than the current</radio-button>
+                <span></span>
+                <radio-button group="aep-associate-indicator-type" value="2" checked>Not Associated to any Vendor Organizational Group</radio-button>
+                <span></span>
+                <radio-button group="aep-associate-indicator-type" value="0">Either</radio-button>
+            </div>
+
+            <div class="btn-bar" style="margin-top: 8px; width: 100%; justify-content: flex-end;">
+                <push-button id="aep-reset">Reset</push-button>
+                <push-button id="aep-search" style="margin-right: unset;">Search</push-button>
+            </div>
+
+            <div style="margin-top: 10px;">
+                <div>Search Results:</div>
+                <hr>
+            </div>
+
+            <div id="aep-grid" style="width: 100%; background: bisque; height: 210px;"></div>
+
+            <div style="text-align: right; margin-top: 10px; display: flex; justify-content: space-between; align-items: center;">
+                <text-label id="aep-count" style="margin-left: 0;">Displaying 0 Vendor Contacts</text-label>
+
+                <div>
+                    <push-button id="aep-ok" disabled>OK</push-button>
+                    <push-button id="aep-cancel" style="margin-left: 10px; margin-right: 0;">Cancel</push-button>
+                </div>
+            </div>
+        </popup-body>
+    </popup>
+
+    <popup id="filter-popup" height="120px" width="276px">
+        <popup-title>
+            <text-label>Associated Contacts Filter</text-label>
+        </popup-title>
+        <popup-body style="padding: 10px 15px;">
+            <div class="vert-input2" style="margin-top: 5px;">
+                <check-box id="fp-filter">Filter Associated Employees</check-box>
+            </div>
+
+            <div class="vert-input2">
+                <span style="width: 172px;">Last Name Starts With:</span>
+                <text-input id="fp-lname" style="width: 60px;" maxlength="60"></text-input>
+                <span style="margin-top: 0;">Show Only Primary:</span>
+                <check-box id="fp-primary"></check-box>
+            </div>
+
+            <div style="text-align: right; margin-top: 10px; align-items: center;">
+                <div style="float: right;">
+                    <push-button id="fp-ok">OK</push-button>
+                    <push-button id="fp-cancel" style="margin-left: 10px; margin-right: 0;">Cancel</push-button>
+                </div>
+            </div>
+        </popup-body>
+    </popup>
+
+    <popup id="screen-group-search-popup" width="392px" height="450px" style="font-size: small;">    
+        <popup-title>Search for Screen Group</popup-title>
+
+        <popup-body>
+            <div>Screen Group Search Criteria:</div>
+            <hr />
+
+            <div id="screen-sp-top" class="vert-input2">
+                <span>Name:</span>
+                <div>
+                    <drop-down id="screen-sp-name-type" style="width: 111px;">
+                        <option value="2" selected>Starts With</option>
+                        <option value="3">Ends With</option>
+                        <option value="4">Contains</option>
+                        <option value="5">Exact Match</option>
+                    </drop-down>
+                    <text-input id="screen-sp-name" style="width: 208px;"></text-input>
+                </div>
+
+                <span>ID:</span>
+                <div>
+                    <text-input id="screen-sp-id" style="width: 102px;"></text-input>
+                </div>
+
+                <span>Include:</span>
+                <div>
+                    <radio-button group="screen-sp-type" id="sp-yes" value="0">All Screen Groups</radio-button>
+                    <radio-button group="screen-sp-type" id="sp-no" value="1" checked>Only Disassociated Screen Groups</radio-button>
+                </div>
+            </div>
+
+            <div>
+                <div style="width: 378px; display: flex; justify-content: flex-end; margin-top: 5px;">
+                    <push-button id="screen-sp-reset">Reset</push-button>
+                    <push-button id="screen-sp-search" style="margin-left: 10px;">Search</push-button>
+                </div>
+            </div>
+
+            <div>Screen Group Search Results:</div>
+            <hr />
+
+            <div id="screen-sp-grid" style="height: 245px; width: 100%;"></div>
+
+            <text-label id="screen-sp-status" style="position: absolute; bottom: 20px; left: 10px;">Displaying 0 Screen Groups</text-label>
+
+            <div style="right: 10px; bottom: 10px; position: absolute;">
+                <push-button id="screen-sp-ok" disabled>OK</push-button>
+                <push-button id="screen-sp-cancel" style="margin-left: 12px;">Cancel</push-button>
+            </div>
+        </popup-body>
+    </popup>
+
+    <popup id="security-group-search-popup" width="392px" height="400px" style="font-size: small;">    
+        <popup-title>Search for Security Group</popup-title>
+
+        <popup-body>
+            <div>Security Group Search Criteria:</div>
+            <hr />
+
+            <div id="sg-sp-top" class="vert-input3">
+                <span>Name:</span>
+                <div>
+                    <drop-down id="sg-sp-name-type" style="width: 111px;">
+                        <option value="2" selected>Starts With</option>
+                        <option value="3">Ends With</option>
+                        <option value="4">Contains</option>
+                        <option value="5">Exact Match</option>
+                    </drop-down>
+                    <text-input id="sg-sp-name" style="width: 212px;"></text-input>
+                </div>
+            </div>
+
+            <div>
+                <div style="width: 378px; display: flex; justify-content: flex-end; margin-top: 5px;">
+                    <push-button id="sg-sp-reset">Reset</push-button>
+                    <push-button id="sg-sp-search" style="margin-left: 10px;">Search</push-button>
+                </div>
+            </div>
+
+            <div>Security Group Search Results:</div>
+            <hr />
+
+            <div id="sg-sp-grid" style="height: 255px; width: 100%;"></div>
+
+            <text-label id="sg-sp-status" style="position: absolute; bottom: 20px; left: 10px;">Displaying 0 Security Groups</text-label>
+
+            <div style="right: 10px; bottom: 10px; position: absolute;">
+                <push-button id="sg-sp-ok" disabled>OK</push-button>
+                <push-button id="sg-sp-cancel" style="margin-left: 12px;">Cancel</push-button>
+            </div>
+        </popup-body>
+    </popup>
+
+</div>

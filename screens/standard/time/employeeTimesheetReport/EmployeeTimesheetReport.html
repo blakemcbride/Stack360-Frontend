@@ -1,0 +1,67 @@
+<!--
+     Copyright 2020 STACK360 LLC
+     All rights reserved.
+
+-->
+
+<div class="kiss">
+    <style>
+        #wrapper {
+            margin-top: 10px;
+            margin-bottom: 20px;
+            max-width: 890px;
+            display: grid;
+            grid-template-columns: 140px 330px max-content;
+            grid-row-gap: 10px;
+            align-items: center;
+        }
+        #resultsGrid {
+            height: calc(100% - 190px);
+        }
+    </style>
+    <div id="wrapper">
+        <span>Organizational Group:</span>
+        <smart-chooser id="etr-org_group" style="width: 285px;"></smart-chooser>
+
+        <div>
+            <span style="margin-left: 20px;">Timesheet Entry Date From:</span>
+            <native-date-input id="etr-from_date" style="width: 110px;"></native-date-input>
+    
+            <span style="margin-left: 20px;">To:</span>
+            <native-date-input id="etr-to_date" style="width: 110px;"></native-date-input>
+        </div>
+
+        <span>Timesheet Entry Status:</span>
+        <div>
+            <radio-button group="etr-type" value="1">Not Yet Approved</radio-button>
+            <radio-button group="etr-type" value="2">Approved</radio-button>
+            <radio-button group="etr-type" value="0" checked>Both</radio-button>
+        </div>
+
+        <div>
+            <span style="margin-left: 20px;">Sort:</span>
+            <radio-button group="etr-sort" value="1" checked>Name</radio-button>
+            <radio-button group="etr-sort" value="2">Billable</radio-button>
+            <radio-button group="etr-sort" value="3">Non-billable</radio-button>
+            <radio-button group="etr-sort" value="4">Total</radio-button>    
+        </div>
+    
+        <div style="text-align: right; grid-column: 1 / 4;">
+            <push-button id="reset">Reset</push-button>
+            <push-button id="search">Search</push-button>
+        </div>
+    </div>
+
+    <div style="margin-bottom: 10px;">
+        <span>Search Results:</span>
+        <hr>
+    </div>
+    
+    <div id="resultsGrid" style="margin-top: 10px; width: 100%;"></div>
+
+    <div style="position: absolute; bottom: 10px; width: 100%;">
+        <div style="float: right;">
+            <push-button id="report" style="margin-right: 30px;">Report</push-button>
+        </div>
+    </div>
+</div>

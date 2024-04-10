@@ -1,0 +1,51 @@
+<div id="projectTypeSelection" class="modal" hidden>
+    <div id="projectTypeSelectionContent" class="modal-content" style="width: 410px; height: 500px;">
+        <div id="projectTypeSelectionTitle" class="modal-title">Search for Project Type</div>
+
+        <div class="modal-body">
+            <div class="flex-row" style="margin-bottom: 10px;">
+                <radio-button id="allTypes" group="projectTypeSearchTypeGrp" style="margin-right: 15px;" value="false">
+                    All Project Types
+                </radio-button>
+                <radio-button id="searchType" group="projectTypeSearchTypeGrp" value="true" checked>
+                    Search for Project Type
+                </radio-button>
+            </div>
+
+            <div>Search Criteria:</div>
+            <hr>
+
+            <div class="flex-row" style="margin-top: 8px;">
+                <label style="width: 65px; margin-right: 10px;">Code:</label>
+                <drop-down id="projectTypeCodeCriteria" style="width: 125px; margin-right: 10px;"></drop-down>
+                <text-input id="projectTypeCodeSearch" style="width: 170px"></text-input>
+            </div>
+
+            <div class="flex-row" style="margin-top: 8px;">
+                <label style="width: 65px; margin-right: 10px;">Description:</label>
+                <drop-down id="projectTypeDescCriteria" style="width: 125px; margin-right: 10px;"></drop-down>
+                <text-input id="projectTypeDescSearch" style="width: 170px"></text-input>
+            </div>
+
+            <div class="btn-bar" style="margin-top: 8px; width: 100%; justify-content: flex-end;">
+                <push-button id="searchTypeReset">Reset</push-button>
+                <push-button id="searchTypeSearch" style="margin-right: unset;">Search</push-button>
+            </div>
+
+            <div style="margin-top: 10px;">
+                <div>Search Results:</div>
+                <hr>
+            </div>
+
+            <div id="searchTypeResultsGrid" style="width: 100%; background: bisque; height: 250px;"></div>
+        </div>
+
+        <div class="modal-footer" style="display: flex; align-items: center; justify-content: space-between;">
+            <div id="typeCount" style="margin-left: 10px;">Displaying 0 Project Types</div>
+            <div class="btn-bar-comp">
+                <push-button id="projectTypeOK" class="btn-primary" disabled>OK</push-button>
+                <push-button id="projectTypeCancel" class="btn-primary">Cancel</push-button>
+            </div>
+        </div>
+    </div>
+</div>

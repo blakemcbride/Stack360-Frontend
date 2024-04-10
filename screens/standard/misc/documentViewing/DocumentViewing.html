@@ -1,0 +1,67 @@
+
+<!--
+     Copyright 2021 STACK360 LLC
+     All rights reserved.
+
+-->
+
+
+<div class="kiss">
+
+    <style>
+        div.vert-input2 {
+            display:grid;
+            grid-template-columns: max-content max-content;
+            grid-column-gap:5px;
+            grid-row-gap: 10px;
+            margin-top: 10px;
+        }
+
+        div.vert-input2 span {
+            text-align:right;
+            margin-top: 6px;
+        }
+
+        div.vert-input4 {
+            display:grid;
+            grid-template-columns: max-content max-content max-content max-content;
+            grid-column-gap:15px;
+            grid-row-gap: 10px;
+            margin-top: 10px;
+            margin-left: 10px;
+        }
+
+        div.vert-input4 span {
+            text-align:right;
+            margin-top: 6px;
+        }
+
+    </style>
+
+    <div style="margin-top: 10px;" >
+        <span>Document Viewing:</span>
+    </div>
+    <hr>
+
+    <div class="vert-input2">
+        <div style="display: inline-block; width: 290px; vertical-align: top; margin-right: 10px;">
+            <div style="margin-top: 10px;">
+                <span>Folder Hierachy</span>
+            </div>
+            <div id="folder-tree" style="height: calc(100vh - 260px); width: 100%;background-color: white;margin-top: 2px;border: solid 1px; border-color: #bdc3c7;overflow: scroll;"></div>
+        </div>
+
+        <div style="display: inline-block; vertical-align: top; margin-left: 8px;">
+            <div style="margin-top: 10px;">
+                <span>Documents</span>
+            </div>
+            <div id="documents-grid" style="height: calc(100% - 25px); width: calc(100vw - 500px) ;margin-top: 2px;"></div>
+            <div style="margin-top: 10px;">
+                <div style="float: right;">
+                    <push-button id="doc-view" disabled>View</push-button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+</div>

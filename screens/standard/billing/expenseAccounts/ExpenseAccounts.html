@@ -1,0 +1,69 @@
+<!--
+     Copyright 2020 STACK360 LLC
+     All rights reserved.
+
+-->
+
+<div class="kiss">
+
+    <style>
+
+        div.vert-input2 {
+            display: grid;
+            grid-template-columns: 130px max-content 100px max-content;
+            grid-column-gap: 5px;
+            grid-row-gap: 10px;
+            margin-top: 10px;
+            margin-left: 10px;
+        }
+
+        div.vert-input2 label {
+            text-align: right;
+        }
+
+        div.vert-input2 label:after {
+            content: ":";
+        }
+
+    </style>
+
+
+    <div style="margin-top: 10px;">Expense Sub-Accounts:</div>
+    <hr>
+
+    <div id="account-grid" style="margin-top: 10px; height: calc(100% - 90px);"></div>
+
+    <div style="right: 10px; bottom: 10px; position: absolute;">
+        <push-button id="add">Add</push-button>
+        <push-button id="edit" style="margin-left: 12px;" disabled>Edit
+        </push-button>
+        <push-button id="delete" style="margin-left: 12px;" disabled>Delete
+        </push-button>
+    </div>
+
+    <popup id="account-edit-popup" width="310px" height="150px">
+        <popup-title>
+            <span id="popup-header"/>
+        </popup-title>
+        <popup-body>
+            <div class="vert-input">
+                <label>Expense ID</label>
+                <text-input id="ep-expense-id" style="width: 100px" maxlength="10" required></text-input>
+
+                <label>Description</label>
+                <text-input id="ep-description" style="width: 200px" maxlength="30" required></text-input>
+
+                <label>GL Account</label>
+                <drop-down id="ep-gl-account" style="width: 200px;" required></drop-down>
+            </div>
+
+            <div style="right: 10px; bottom: 10px; position: absolute;">
+                <push-button id="ep-ok">Ok</push-button>
+                <push-button id="ep-cancel" style="margin-left: 12px;">
+                    Cancel
+                </push-button>
+            </div>
+        </popup-body>
+    </popup>
+
+</div>

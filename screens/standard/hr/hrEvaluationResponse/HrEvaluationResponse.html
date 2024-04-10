@@ -1,0 +1,132 @@
+<!--
+     Copyright 2021 STACK360 LLC
+     All rights reserved.
+
+-->
+
+<div class="kiss">
+    <style>
+        #resultsGrid
+        {
+            height: calc(100% - 85px);
+        }
+        #ev-popup .popup-body {
+            padding: 6px 15px;
+        }
+        #ev-popup-grid,
+        #ev-popup-detail-grid {
+            padding: 5px;
+            display: grid;
+            grid-template-columns: max-content max-content;
+            grid-column-gap: 10px;
+            grid-row-gap: 5px;
+        }
+        #ev-popup-grid span,
+        #ev-popup-detail-grid span {
+            color: #000;
+            align-self: start;
+            text-align: right;
+            margin-top: 5px;
+        }
+        #ev-detailsGrid {
+            height: calc(100% - 30px);
+        }
+        #ev-score-container {
+            display: grid;
+            grid-template-columns: 1fr 2fr 3fr;
+            grid-column-gap: 10px;
+        }
+    </style>
+    <div style="margin-bottom: 10px; margin-top: 10px;">
+        <span>Employee Evaluations:</span>
+        <hr>
+    </div>
+    <div id="resultsGrid"></div>
+    <div style="margin-top: 10px;">
+        <text-label id="status-label"></text-label>
+
+        <div style="right: 10px; bottom: 10px; position: absolute;">
+            <push-button id="edit" style="margin-left: 10px;" disabled>Edit</push-button>
+            <push-button id="edit-detail" style="margin-left: 10px;" disabled>Edit Detail</push-button>
+            <push-button id="send" style="margin-left: 10px;" disabled>Send to Supervisor</push-button>
+            <push-button id="report" style="margin-left: 10px;" disabled>Report</push-button>
+        </div>
+    </div>
+    
+    <popup id="ev-popup" width="550px" height="445px">
+        <popup-title>
+            <text-label id="ev-title"></text-label>
+        </popup-title>
+        <popup-body id="ev-body">
+            <div id="ev-popup-grid">
+                <span>Evaluation Date:</span>
+                <date-input id="ev-date" style="width: 60px;" min="10000101" max="30000101" readonly></date-input>
+
+                <span>Next Evaluation Date:</span>
+                <date-input id="ev-ndate" style="width: 60px;" min="10000101" max="30000101" readonly></date-input>
+
+                <span>Supervisor:</span>
+                <text-input id="ev-supervisor" style="width: 170px;" readonly></text-input>
+
+                <span>Description:</span>
+                <text-input id="ev-description" style="width: 270px;" maxlength="80" readonly></text-input>
+
+                <span>Supervisor Comments:</span>
+                <textbox-input id="ev-scomments" style="width: 380px; height: 120px;" disabled></textbox-input>
+
+                <span>Employee Comments:</span>
+                <textbox-input id="ev-ecomments" style="width: 380px; height: 120px;" ></textbox-input>
+            </div>
+            <div style="margin-top: 10px; text-align: right;">
+                <push-button id="ev-ok">OK</push-button>
+                <push-button id="ev-cancel">Cancel</push-button>
+            </div>
+        </popup-body>
+    </popup>
+
+    <popup id="ev-edit-details-popup" width="600px" height="300px">
+        <popup-title>
+            <text-label id="ev-title">Edit Evaluation Details</text-label>
+        </popup-title>
+        <popup-body id="ev-body">
+            <div id="ev-detailsGrid"></div>
+            <div style="margin-top: 5px; text-align: right;">
+                <push-button id="ev-edit-details-edit">Edit</push-button>
+                <push-button id="ev-edit-details-close">Close</push-button>
+            </div>
+        </popup-body>
+    </popup>
+
+    <popup id="ev-edit-detail-popup" width="560px" height="400px">
+        <popup-title>
+            <text-label id="ev-title">Edit Evaluation Detail</text-label>
+        </popup-title>
+        <popup-body id="ev-body">
+            <div id="ev-popup-detail-grid">
+                <span>Category Name:</span>
+                <text-input id="ev-detail-cat-name" style="width: 260px;" readonly></text-input>
+
+                <span>Description:</span>
+                <textbox-input id="ev-detail-description" style="width: 420px; height: 80px;" disabled></textbox-input>
+
+                <span>Supervisor Score:</span>
+                <div id="ev-score-container">                    
+                    <numeric-input id="ev-sscore" style="width: 48px;" show-zero min="0" max="10000000" readonly></numeric-input>
+                    <span>Employee Score:</span>
+                    <numeric-input id="ev-escore" style="width: 48px;" show-zero min="0" max="10000000"></numeric-input>
+                </div>
+
+                <span>Supervisor Notes:</span>
+                <textbox-input id="ev-snotes" style="width: 420px; height: 80px;" disabled></textbox-input>
+
+                <span>Employee Notes:</span>
+                <textbox-input id="ev-enotes" style="width: 420px; height: 80px;"></textbox-input>
+            </div>
+            <div style="margin-top: 5px; margin-right: 12px; text-align: right;">
+                <push-button id="ev-edit-detail-ok">OK</push-button>
+                <push-button id="ev-edit-detail-cancel">Cancel</push-button>
+            </div>
+        </popup-body>
+    </popup>
+    
+</div>

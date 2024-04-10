@@ -1,0 +1,50 @@
+<!--
+     Copyright 2020 STACK360 LLC
+     All rights reserved.
+
+-->
+
+<div class="kiss">
+
+    <style>
+        div.screen-layout {
+            display: grid;
+            grid-template-columns: max-content max-content;
+            grid-column-gap: 5px;
+            grid-row-gap: 40px;
+            margin-top: 40px;
+            margin-left: 90px;
+        }
+
+        div.screen-layout label {
+            text-align: right;
+            margin-top: 4px;
+        }
+
+        div.screen-layout span {
+            text-align: right;
+            margin-top: 4px;
+        }
+
+    </style>
+
+    <div style="margin-top: 10px;">
+        <span>Daily Project Task Report:</span>
+        <text-label id="project-info" style="float: right;"></text-label>
+    </div>
+    <hr style="margin-left: 0;">
+    
+    <div class="screen-layout">
+        <span>Shift:</span>
+        <drop-down id="shift" style="width: 100px;"></drop-down>
+        
+        <span>Work Date:</span>
+        <native-date-input id="work-date" style="width: 110px;" required></native-date-input>
+    </div>
+
+    <div style="margin-left: 90px; margin-top: 40px;">
+        <push-button id="run-report">Run Report</push-button>
+    </div>
+
+
+</div>

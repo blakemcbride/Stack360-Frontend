@@ -1,0 +1,151 @@
+<!--
+     Copyright 2021 STACK360 LLC
+     All rights reserved.
+
+-->
+
+<div class="kiss">
+
+    <style>
+        div.vert-input2 {
+            display:grid;
+            grid-template-columns: max-content max-content;
+            grid-column-gap:5px;
+            grid-row-gap: 8px;
+            margin-top: 10px;
+        }
+
+        div.vert-input2 span {
+            text-align:right;
+            margin-top: 6px;
+        }
+
+        div.vert-input2-small {
+            display:grid;
+            grid-template-columns: max-content max-content;
+            grid-column-gap:5px;
+            grid-row-gap: 8px;
+        }
+
+        div.vert-input2-small span {
+            text-align:right;
+            margin-top: 6px;
+        }
+
+        div.vert-input2-graduate {
+            display:flex;
+            align-items: center;
+            justify-content: center;
+            margin-left: 8px;
+        }
+
+        div.vert-input4 {
+            display:grid;
+            grid-template-columns: max-content max-content max-content max-content;
+            grid-column-gap:5px;
+        }
+
+        div.vert-input4 span {
+            text-align:right;
+        }
+    </style>
+
+    <div style="margin-top: 10px;">
+        <span>Employment History</span>
+        <text-label id="worker-name" style="float: right;"></text-label>
+    </div>
+    <hr>
+
+    <div id="grid" style="margin-top: 10px; width: 100%; height: calc(100% - 90px);"></div>
+
+    <text-label id="status" style="position: absolute; bottom: 25px; left: 20px;">Displaying 0 Employment Histories</text-label>
+
+    <div style="position: absolute; bottom: 15px; right: 10px;">
+        <push-button id="add" style="margin-left: 10px;">Add</push-button>
+        <push-button id="edit" style="margin-left: 10px;" disabled>Edit</push-button>
+        <push-button id="delete" style="margin-left: 10px;" disabled>Delete</push-button>
+    </div>
+
+    <popup id="employment-popup" height="538px" width="520px">
+        <popup-title>
+            <text-label id="ep-title">Add Employment History</text-label>
+        </popup-title>
+        <popup-body>
+            <div class="vert-input2" style="margin-left: 4px;">
+                <span>Company:</span>
+                <text-input id="ep-company" style="width: 250px;" required maxlength="60"></text-input>
+                <span>Street:</span>
+                <text-input id="ep-street" style="width: 248px;" maxlength="45"></text-input>
+                <span>City:</span>
+                <text-input id="ep-city" style="width: 248px;" maxlength="20"></text-input>
+                <span>State:</span>
+                <text-input id="ep-state" style="width: 30px;" maxlength="2" upcase></text-input>
+                <span>Phone:</span>
+                <text-input id="ep-phone" style="width: 200px;" maxlength="40"></text-input>
+                <span>Supervisor:</span>
+                <text-input id="ep-supervisor" style="width: 200px;" maxlength="40"></text-input>
+
+                <span></span>
+                <div style="display: inline-block;">
+                    <span>Contact Supervisor:</span>
+                    <radio-button group="ep-contactSupervisor" value="Y">Yes</radio-button>
+                    <radio-button style="margin-left: 10px;" group="ep-contactSupervisor" value="N">No</radio-button>
+                    <radio-button style="margin-left: 10px;" group="ep-contactSupervisor" value="L">Later</radio-button>
+                </div>
+
+                <span>Job Title:</span>
+                <text-input id="ep-jobTitle" style="width: 200px;" maxlength="40"></text-input>
+                <span>Enrollment From:</span>
+                <div class="vert-input4">
+                    <drop-down id="ep-from-month" style="width: 100px">
+                        <option value="">(select)</option>
+                        <option value="1">January</option>
+                        <option value="2">February</option>
+                        <option value="3">March</option>
+                        <option value="4">April</option>
+                        <option value="5">May</option>
+                        <option value="6">June</option>
+                        <option value="7">July</option>
+                        <option value="8">August</option>
+                        <option value="9">September</option>
+                        <option value="10">October</option>
+                        <option value="11">November</option>
+                        <option value="12">December</option>
+                    </drop-down>
+                    <text-input id="ep-from-year" type="number" style="width: 40px;text-align: right;margin-left: 8px;" maxlength="8" no-comma></text-input>
+                    <span style="width: 130px;">Starting Salary:</span>
+                    <text-input id="ep-startingSalary" type="number" style="width: 65px;text-align: right;" maxlength="10"></text-input>
+                </div>
+                <span>To:</span>
+                <div class="vert-input4">
+                    <drop-down id="ep-to-month" style="width: 100px">
+                        <option value="">(select)</option>
+                        <option value="1">January</option>
+                        <option value="2">February</option>
+                        <option value="3">March</option>
+                        <option value="4">April</option>
+                        <option value="5">May</option>
+                        <option value="6">June</option>
+                        <option value="7">July</option>
+                        <option value="8">August</option>
+                        <option value="9">September</option>
+                        <option value="10">October</option>
+                        <option value="11">November</option>
+                        <option value="12">December</option>
+                    </drop-down>
+                    <text-input id="ep-to-year" type="number" style="width: 40px;text-align: right;margin-left: 8px;" maxlength="8" no-comma></text-input>
+                    <span style="width: 130px;">Ending Salary:</span>
+                    <text-input id="ep-endingSalary" type="number" style="width: 65px;text-align: right;" maxlength="10"></text-input>
+                </div>
+                <span>Responsibilities:</span>
+                <textbox-input id="ep-responsibilities" style="width: 382px; height: 66px;" maxlength="160"></textbox-input>
+                <span>Reason for Leaving:</span>
+                <textbox-input id="ep-reasonForLeaving" style="width: 382px; height: 50px;" maxlength="120"></textbox-input>
+            </div>
+            <div style="right: 10px; bottom: 7px; position: absolute;">
+                <push-button id="pp-ok">Ok</push-button>
+                <push-button id="pp-cancel" style="margin-left: 10px;">Cancel</push-button>
+            </div>
+        </popup-body>
+    </popup>
+</div>

@@ -1,0 +1,44 @@
+<!--
+     Copyright 2020 STACK360 LLC
+     All rights reserved.
+
+-->
+
+<div class="kiss">
+    <style>
+        label {
+            text-align: right;
+        }
+
+        .grid-container {
+            display: grid;
+            grid-column-gap: 5px;
+            grid-row-gap: 10px;
+            grid-template-columns: 150px 145px;
+            align-items: center;
+        }
+
+    </style>
+
+    <h1 style="margin-left: 50px;">Project Image Upload Report</h1>
+
+    <div style="margin-top: 20px;">
+        <label>Type of date range:</label>
+        <radio-button group="date-type" value="project" required style="margin-left: 15px;">Project date</radio-button>
+        <radio-button group="date-type" value="upload" style="margin-left: 30px;" required>Upload date</radio-button>
+    </div>
+
+    <div class="grid-container" style="margin-top: 30px;">
+        <label for="beginning-date">Beginning date:</label>
+        <date-input id="beginning-date" style="width: 70px;" required></date-input>
+        <label for="ending-date">Ending date:</label>
+        <date-input id="ending-date" style="width: 70px;" required></date-input>
+    </div>
+
+
+    <div style="margin-top: 50px; margin-left: 50px;">
+        <push-button id="run-report" style="margin-left: 30px;">Report</push-button>
+        <push-button id="run-export" style="margin-left: 30px;">Export</push-button>
+    </div>
+
+</div>

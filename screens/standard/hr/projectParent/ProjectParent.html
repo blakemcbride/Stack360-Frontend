@@ -1,0 +1,191 @@
+
+<!--
+     Copyright 2021 STACK360 LLC
+     All rights reserved.
+
+-->
+
+
+<div class="kiss">
+
+    <style>
+        div.vert-input2 {
+            display: grid;
+            grid-template-columns: max-content max-content;
+            grid-column-gap: 5px;
+            grid-row-gap: 10px;
+            margin-top: 10px;
+            margin-left: 10px;
+        }
+        div.vert-input2 span {
+            text-align: right;
+            margin-top: 6px;
+        }
+
+        div.vert-input3 {
+            display: grid;
+            grid-template-columns: max-content max-content max-content;
+            grid-column-gap: 5px;
+            grid-row-gap: 10px;
+            margin-top: 10px;
+            margin-left: 10px;
+        }
+        div.vert-input3 span {
+            text-align: right;
+            margin-top: 6px;
+        }
+
+    </style>
+
+    <div style="margin-top: 10px;">
+        <span>Recently Selected Project Logs:</span>
+    </div>
+    <hr width="800px" style="margin-left: 0;">
+    <label for="recent-project-logs" style="margin-left: 30px;">Project Log:</label>
+    <drop-down id="recent-project-logs" style="width: 670px;"></drop-down>
+    <push-button id="edit-previous-project-log">Edit</push-button>
+    <br>
+
+    <div style="margin-top: 10px;">
+        <span>Project Search Criteria:</span>
+    </div>
+    <hr width="800px" style="margin-left: 0;">
+
+    <div class="vert-input3">
+        <span>Person Name:</span>
+        <div style="float: left;">
+            <text-input id="person-name" style="width: 180px;" readonly></text-input>
+            <span style="margin-left: 10px;">SSN:</span>
+            <text-input id="ssn" style="width: 80px;" readonly></text-input>
+            <push-button id="choose" style="margin-top: -3px;">Choose</push-button>
+        </div>
+        <div>
+            <span style="margin-left: 20px;">Project Status:</span>
+            <drop-down id="project-log-status" style="margin-left: 10px; width: 195px;">
+            </drop-down>
+        </div>
+        <span>Project ID:</span>
+        <div>
+            <drop-down id="project-select-type" style="width: 95px;">
+                <option value="2" selected>Starts With</option>
+                <option value="3">Ends With</option>
+                <option value="4">Contains</option>
+                <option value="5">Exact Match</option>
+            </drop-down>
+            <text-input id="project-search-value" style="width: 286px;"></text-input>
+        </div>
+        <div>
+            <push-button id="reset" style="margin-left: 172px; margin-right:10px;">Reset</push-button>
+            <push-button id="search">Search</push-button>
+        </div>
+
+    </div>
+
+    <div style="margin-top: 10px;">
+        <span>Project Search Results:</span>
+        <hr width="100%" style="margin-left: 0;">
+    </div>
+
+    <div id="project-grid" style="width: 100%; height: calc(100% - 240px);"></div>
+
+    <text-label id="status" style="position: absolute; bottom: 20px; left: 10px;">Specify the Project Search Criteria and then press Search to see matching Project</text-label>
+    <div style="position: absolute; bottom: 10px; right: 10px;">
+        <push-button id="add">Add</push-button>
+        <push-button id="edit" disabled>Edit</push-button>
+    </div>
+
+    <popup id="search-person-popup" height="500px" width="650px">
+        <popup-title>
+            <text-label id="spp-title">Search for Person</text-label>
+        </popup-title>
+        <popup-body style="padding: 10px;">
+            <div style="margin-top: 10px;">
+                <radio-button group="spp-search-type" style="margin-right: 15px;" value="E" checked>
+                    Search Employees
+                </radio-button>
+                <radio-button group="spp-search-type" value="D">
+                    Search Non-Employee Dependents
+                </radio-button>
+            </div>
+            <div style="margin-top: 15px; margin-left: 3px;">Search Criteria:</div>
+            <hr style="margin-left: 0px; width: 372px;" />
+            <div class="vert-input3">
+                <span>Last Name:</span>
+                <drop-down id="spp-last-name-search-type" style="width: 130px;">
+                    <option value="2" selected>Starts With</option>
+                    <option value="3">Ends With</option>
+                    <option value="4">Contains</option>
+                    <option value="5">Exact Match</option>
+                </drop-down>
+                <text-input id="spp-lname" style="width: 160px;"></text-input>
+                <span>First Name:</span>
+                <drop-down id="spp-first-name-search-type" style="width: 130px;">
+                    <option value="2" selected>Starts With</option>
+                    <option value="3">Ends With</option>
+                    <option value="4">Contains</option>
+                    <option value="5">Exact Match</option>
+                </drop-down>
+                <text-input id="spp-fname" style="width: 160px;"></text-input>
+                <span>SSN:</span>
+                <text-input id="spp-ssn" style="width: 120px;"></text-input>
+                <span></span>
+                <span></span>
+                <span></span>
+                <div style="margin-left: 32px;">
+                    <push-button id="spp-reset" style="margin-right: 10px;">Reset</push-button>
+                    <push-button id="spp-search">Search</push-button>
+                </div>
+            </div>
+
+            <div style="margin-top: 15px; margin-left: 3px;">Search Results:</div>
+            <hr />
+
+            <div id="person-grid" style="margin-top: 10px; height: 220px; width: 100%;"></div>
+            
+            <div style="left: 10px; bottom: 20px; position: absolute;">
+                <text-label id="spp-status">Displaying 0 Employees</text-label>
+            </div>
+            <div style="right: 10px; bottom: 10px; position: absolute;">
+                <push-button id="spp-ok">Ok</push-button>
+                <push-button id="spp-cancel">Cancel</push-button>
+            </div>
+        </popup-body>
+    </popup>
+
+    <popup id="add-project-popup" height="404px" width="650px">
+        <popup-title>
+            <text-label id="acp-title">Add Project</text-label>
+        </popup-title>
+        <popup-body>
+            <div class="vert-input2">
+                <span>Person Name:</span>
+                <div style="float: left;">
+                    <text-input id="acp-person-name" style="width: 180px;" readonly required></text-input>
+                    <span style="margin-left: 10px;">SSN:</span>
+                    <text-input id="acp-ssn" style="width: 80px;" readonly required></text-input>
+                    <push-button id="acp-choose" style="margin-top: -3px;">Choose</push-button>
+                </div>
+                <span>Type:</span>
+                <drop-down id="acp-type" style="width: 320px;" required></drop-down>
+                <span>Summary</span>
+                <text-input id="acp-summary" style="width: 520px;" required maxlength="80"></text-input>
+                <span>Detail:</span>
+                <textbox-input id="acp-detail" style="height: 195px; width: 520px;"></textbox-input>
+                <span>Requested Date:</span>
+                <div>
+                    <native-date-input id="acp-date" style="width: 110px;"></native-date-input>
+                    <span style="margin-left: 10px;">Time:</span>
+                    <time-input id="acp-time" style="width: 80px;"></time-input>
+                    <span style="margin-left: 20px;">Assigned To:</span>
+                    <drop-down id="acp-assigned" style="width: 186px;" required></drop-down>
+                </div>
+            </div>
+
+            <div style="right: 10px; bottom: 10px; position: absolute;">
+                <push-button id="acp-ok">Ok</push-button>
+                <push-button id="acp-cancel">Cancel</push-button>
+            </div>
+        </popup-body>
+    </popup>
+
+</div>

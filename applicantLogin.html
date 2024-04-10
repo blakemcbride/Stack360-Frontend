@@ -1,0 +1,274 @@
+
+<!--
+     Copyright 2022 STACK360 LLC
+     All rights reserved.
+
+-->
+
+
+<style>
+
+    body {
+/*        background: var(--inner-bg);    */
+    }
+
+    .loginContainer {
+
+    }
+
+    .loginContainer input[type="text"], .loginContainer input[type="password"] {
+        width: 150px;
+    }
+
+    .loginForm {
+        position: fixed;
+        top: 50%;
+        left: 50%;
+        transform: translate(-50%, -50%);
+
+        display: flex;
+        flex-direction: column;
+        justify-content: space-between;
+
+        width: 225px;
+        height: 200px;
+        padding: 50px;
+
+        border: 2px solid white;
+        border-radius: 15px;
+    }
+
+    .background-graphic {
+        position: fixed;
+        top: 50%;
+        left: 50%;
+        transform: translate(-50%, -50%);
+
+        display: flex;
+        flex-direction: column;
+        justify-content: space-between;
+
+        width: 900px;
+        height: auto;
+    }
+
+    .login-about-btn {
+        position: absolute;
+        right: 10px;
+        top: 22px;
+        width: 50px;
+        height: 15px;
+        text-align: center;
+    }
+
+    .login-full-screen-btn {
+        position: absolute;
+        right: 100px;
+        top: 22px;
+        width: 80px;
+        height: 15px;
+        text-align: center;
+    }
+
+    .login-form-row {
+        justify-content: flex-end;
+    }
+
+    .copyright {
+        position: absolute;
+        right: 10px;
+        top: 60px;
+        font-size: 11px;
+        font-weight: bold;
+    }
+
+    .login-button {
+        height: 100px;
+        padding: 5px 5px 0;
+        width: 100%;
+        justify-content: flex-end;
+    }
+
+    .cpp-grid-container {
+        display: grid;
+        grid-column-gap: 5px;
+        grid-row-gap: 10px;
+        grid-template-columns: 120px 250px;
+        margin-top: 15px;
+    }
+
+    .cpp-grid-container span {
+        margin-top: 4px;
+        display: flex;
+        justify-content: flex-end;
+    }
+
+    .text-line {
+        outline: none;
+        border: none;
+        padding: 3px 10px;
+        box-shadow: none !important;
+        border-image-source: none !important;
+        --input-border-color-focus: none;
+    }
+
+    #loginBtn:focus {
+        border-color: #1C0642;
+        --btn-border-color-focus: #1C0642;
+    }
+    div.vert-input2 {
+        display:grid;
+        grid-template-columns: max-content max-content;
+        grid-column-gap:5px;
+        grid-row-gap: 10px;
+        margin-top: 10px;
+        margin-left: 10px;
+    }
+
+    div.vert-input2 span {
+        text-align:right;
+        margin-top: 4px;
+    }
+
+    .std-width {
+        width: 200px;
+    }
+</style>
+
+<div>
+
+    <div class="title" style="z-index: 5;">
+        <img class="logo" alt="Stack360 Logo" style="height: 75px; width: auto; margin-top: 20px; margin-left: 40px; display: block;" src="stack360-dots3-24.png">
+        <div style="font-size: 13px; font-weight: bold; font-style: italic; margin-left: 40px; color: #1C0642;">Business Management</div>
+        <div style="text-align: right; margin-right: 50px; position: relative; margin-top: -80px;">
+            <push-button id="full-screen-btn" style="border-radius: 15px; font-size: 15px; border-width: 0; color: #1C0642; cursor: pointer;">Full Screen</push-button>
+            <push-button id="login-about-btn" style="border-radius: 15px; font-size: 15px; border-width: 0; margin-left: 10px; color: #1C0642; cursor: pointer;">About</push-button>
+            <push-button id="login-contact-btn" style="border-radius: 15px; font-size: 15px; border-width: 0; margin-left: 10px; color: #1C0642; cursor: pointer;">Contact</push-button>
+        </div>
+        <div style="margin-top: 82px; margin-left: 38px;">
+            <push-button id="new-user" style="color: white; background: #1C0642; border-radius: 10px; font-size: 15px; cursor: pointer; margin-top: 13px;" value="New User"></push-button><br>
+            <push-button id="authenticate" style="color: white; background: #1C0642; border-radius: 10px; font-size: 15px; cursor: pointer; margin-top: 13px;" value="Enter Authentication Code"></push-button><br>
+            <push-button id="re-send-auth" style="color: white; background: #1C0642; border-radius: 10px; font-size: 15px; cursor: pointer; margin-top: 13px;" value="Re-send Authentication Code"></push-button><br>
+            <push-button id="reset-password" style="color: white; background: #1C0642; border-radius: 10px; font-size: 15px; cursor: pointer; margin-top: 13px;" value="Reset Password"></push-button>
+        </div>
+
+
+    </div>
+
+    <img class="background-graphic" alt="" src="Stack360_logininbox-12.png">
+
+    <div id="login-page" class="loginContainer">
+        <div class="loginForm" style="text-align: center;">
+            <div style="text-align: center; margin-bottom: 40px; font-size: 16px;  font-style: italic; font-weight: bold;">
+                Please Login to Continue.
+            </div>
+
+            <div>
+                <text-input id="username" class="text-line" style="width: 200px; font-size: large;" required>Username</text-input>
+            </div>
+            <div><hr style="margin-top: 0; margin-left: 11px; margin-right: 9px;"></div>
+
+            <div style="margin-top: 20px;">
+                <text-input id="password" style="width: 200px; font-size: large;" class="text-line" password required>Password</text-input>
+            </div>
+            <div><hr style="margin-top: 0; margin-left: 11px; margin-right: 9px;"></div>
+
+            <div style="text-align: center;">
+                <push-button id="loginBtn" style="color: white; background: #1C0642; margin-top: 50px; border-radius: 10px; font-size: 20px; cursor: pointer;" value="Login"></push-button>
+            </div>
+
+        </div>
+
+        <div id="copyright" style="text-align: center; width: 100%; position: absolute; bottom: 10px; color: #1C0642;"></div>
+    </div>
+
+    <popup id="select-company-popup23" height="130px" width="400px">
+        <popup-title>Company Selection</popup-title>
+        <popup-body>
+            <div style="margin: 10px;">
+                <div style="font-size: small;">The login you used has access to multiple companies.  Please select the company you wish to login to.</div>
+                <div style="margin-top: 10px;"><drop-down id="scp23-company" style="width: 360px;" required></drop-down></div>
+                <div style="position: absolute; bottom: 10px; right: 10px;">
+                    <push-button id="scp23-ok">OK</push-button>
+                    <push-button id="scp23-cancel" style="margin-left: 10px;">Cancel</push-button>
+                </div>
+            </div>
+        </popup-body>
+    </popup>
+
+    <popup id="login-about-popup" width="300px" height="150px">
+        <popup-title>About</popup-title>
+        <popup-body>
+            <h3>Stack360 Business Management System</h3>
+            This system is Copyright &copy; <span id="about-popup-current-year"></span> STACK360 LLC<br>
+            All rights reserved.<br><br>
+            Information about this system is at: <a href="https://stack360.io" target="_blank">Stack360.io</a><br><br>
+            <push-button id="login-about-popup-ok" style="position: fixed; bottom: 10px; right: 10px; cursor: pointer;">Ok</push-button>
+        </popup-body>
+    </popup>
+
+    <popup id="change-password-popup" height="290px"  width="680px">
+        <popup-title>Change Password</popup-title>
+        <popup-body>
+            <div style="display: inline-block; vertical-align: top;">
+                <div class="cpp-grid-container">
+                    <span>Old Password:</span>
+                    <text-input id="cpp-old-password" style="width: 200px;" maxlength="30" password required></text-input>
+
+                    <span>New Password</span>
+                    <text-input id="cpp-new-password" style="width: 200px;" maxlength="30" password required></text-input>
+
+                    <span>Confirm New Password:</span>
+                    <text-input id="cpp-new-password2" style="width: 200px;" maxlength="30" password required></text-input>
+
+                    <span></span>
+                    <div style="margin-top: 20px;">
+                        <check-box id="cpp-show-passwords">Show Passwords</check-box>
+                        <push-button id="cpp-update" style="margin-left: 25px;">Update</push-button>
+                    </div>
+                </div>
+            </div>
+
+            <div style="display: inline-block;">
+                <div id="cpp-grid" style="margin-top: 50px; width: 250px; height: 220px;" hidden></div>
+            </div>
+
+        </popup-body>
+    </popup>
+
+    <popup id="new-user-popup" height="272px"  width="360px">
+        <popup-title>New Applicant</popup-title>
+        <popup-body>
+            <div class="vert-input2">
+                <span>First Name:</span>
+                <text-input id="nup-first-name" class="std-width" maxlength="30" required></text-input>
+
+                <span>Middle Name:</span>
+                <text-input id="nup-middle-name" class="std-width" maxlength="20"></text-input>
+
+                <span>Last Name:</span>
+                <text-input id="nup-last-name" class="std-width" maxlength="30" required></text-input>
+
+                <span>Email address:</span>
+                <text-input id="nup-email" class="std-width" maxlength="50" required></text-input>
+
+                <span>Password:</span>
+                <text-input id="nup-password1" class="std-width" maxlength="20" required password></text-input>
+
+                <span>Re-enter password:</span>
+                <text-input id="nup-password2" class="std-width" maxlength="20" required password></text-input>
+            </div>
+            <div style="margin-top: 20px; text-align: center;">
+                <push-button id="nup-cancel">Cancel</push-button>
+                <push-button id="nup-ok" style="margin-left: 20px;">Ok</push-button>
+            </div>
+        </popup-body>
+    </popup>
+
+    <popup id="applicant-added-msg-popup">
+        <popup-title>Login Status</popup-title>
+        <popup-body>
+
+        </popup-body>
+    </popup>
+</div>

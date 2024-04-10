@@ -1,0 +1,258 @@
+<!--
+     Copyright 2020 STACK360 LLC
+     All rights reserved.
+
+-->
+
+<div class="kiss">
+
+    <style>
+        .vert-input2 {
+            display: grid;
+            grid-template-columns: max-content max-content;
+            grid-column-gap: 5px;
+            grid-row-gap: 10px;
+            margin-top: 10px;
+            margin-left: 10px;
+        }
+
+        .vert-input2 span {
+            text-align: right;
+            margin-top: 4px;
+        }
+    </style>
+
+    <div style="margin-top: 10px;">
+        <span>Project Tasks:</span>
+        <text-label id="project-info" style="float: right;"></text-label>
+    </div>
+    <hr style="margin-left: 0;">
+
+    <div style="margin-top: 10px; margin-bottom: 10px;">
+        <span>Date:</span>
+        <native-date-input id="date" style="width: 110px;"></native-date-input>
+        <span style="margin-left: 40px;">Shift:</span>
+        <drop-down id="shift" style="width: 100px;"></drop-down>
+    </div>
+
+    <div id="task-grid" style="width: 100%; height: calc(60% - 160px);"></div>
+
+    <div style="margin-top: 10px; margin-bottom: 8px; height: 25px;">
+        <div style="display: inline-block; float: left;">
+                <text-label id="status" style="position: relative;"></text-label>
+        </div>
+
+        <div style="display: inline-block; float: right;">
+            <push-button id="edit" style="margin-left: 10px;" disabled>Edit</push-button>
+            <push-button id="delete" style="margin-left: 10px;" disabled>Delete</push-button>
+            <push-button id="add" style="margin-left: 10px;">Add</push-button>
+        </div>
+    </div>
+
+    <div style="margin-bottom: 4px;">Pictures:</div>
+
+    <div id="picture-grid" style="width: 100%; height: calc(40% - 0px);"></div>
+
+    <div style="margin-top: 10px; margin-bottom: 8px; height: 25px;">
+        <div style="display: inline-block; float: left;">
+                <text-label id="pic-status" style="position: relative;"></text-label>
+        </div>
+
+        <div style="display: inline-block; float: right;">
+            <push-button id="rotate-left" style="margin-left: 10px;" disabled>Rotate Left</push-button>
+            <push-button id="rotate-right" style="margin-left: 10px;" disabled>Rotate Right</push-button>
+            <push-button id="pic-get" style="margin-left: 10px;" disabled>View</push-button>
+            <push-button id="pic-delete" style="margin-left: 10px;" disabled>Delete</push-button>
+        </div>
+    </div>
+
+    <popup id="task-detail-popup" height="550px" width="785px">
+        <popup-title>
+            <text-label id="tdp-title"></text-label>
+        </popup-title>
+        <popup-body>
+            <div style="display: inline-block;">
+                <div class="vert-input2">
+                    <span>Task:</span>
+                    <text-input id="tdp-task" style="width: 250px;"></text-input>
+
+                    <span>Description:</span>
+                    <textbox-input id="tdp-description" style="width: 250px; height: 200px;"></textbox-input>
+
+                    <span>Comments:</span>
+                    <textbox-input id="tdp-comments" style="width: 250px; height: 200px;"></textbox-input>
+                </div>
+            </div>
+            <div style="display: inline-block;">
+                <div class="vert-input2">
+                    <span style="width: 110px;">Status:</span>
+                    <drop-down id="tdp-status" style="width: 200px;">
+                        <option value="0" selected>Open</option>
+                        <option value="1">Complete</option>
+                        <option value="2">Cancelled</option>
+                        <option value="3">Incomplete: Time</option>
+                        <option value="4">Incomplete: Missing Items</option>
+                        <option value="5">Incomplete: Reassigned</option>
+                        <option value="6">Incomplete: See Comments</option>
+                    </drop-down>
+
+                    <span>Date Assigned:</span>
+                    <date-input id="tdp-date-assigned" style="width: 70px;" disabled></date-input>
+
+                    <span>Date Completed:</span>
+                    <div>
+                        <date-input id="tdp-date-completed" style="width: 70px;" disabled></date-input>
+                        <check-box id="tdp-recurring" style="margin-left: 42px;">Recurring</check-box>
+                    </div>
+
+                    <span>Assigned:</span>
+                    <div>
+                        <numeric-input id="tdp-assigned" style="width: 40px;" disabled></numeric-input>
+                        <push-button id="tdp-recurring-schedule" style="margin-left: 70px;">Recurring Schedule</push-button>
+                    </div>
+
+                    <span></span>
+                    <push-button id="tdp-assignments">Assignments</push-button>
+
+                    <span>Missing Items:</span>
+                    <textbox-input id="tdp-missing-items" style="width: 250px; height: 200px;"></textbox-input>
+
+                    <!-- the following two button haven't been implemented yet  -->
+                    <span></span>
+                    <push-button id="tdp-upload-image" style="display: none;">Upload Image</push-button>
+
+                    <span></span>
+                    <push-button id="tdp-view-images" style="display: none;">View Images</push-button>
+                </div>
+            </div>
+            <div style="right: 17px; bottom: 10px; position: absolute;">
+                <push-button id="tdp-ok">Ok</push-button>
+                <push-button id="tdp-cancel" style="margin-left: 10px;">Cancel</push-button>
+            </div>
+        </popup-body>
+    </popup>
+
+    <popup id="task-assignments-popup" height="500px" width="615px">
+        <popup-title>Task Assignments</popup-title>
+        <popup-body>
+            <div style="margin-top: 15px; margin-bottom: 20px; margin-left: 10px; font-size: medium;">
+                <span>Task:</span>
+                <text-label id="tap-task" style="width: 200px;"></text-label>
+            </div>
+            <div id="tap-grid" style="height: 400px; width: 600px;"></div>
+            <div style="left: 17px; bottom: 30px; position: absolute; display: inline-block;">
+                * Total hours with company
+            </div>
+            <div style="right: 17px; bottom: 10px; position: absolute;">
+                <push-button id="tdp-toggle-lead" disabled>Toggle Lead</push-button>
+                <push-button id="tdp-toggle-assignment" style="margin-left: 10px;" disabled>Toggle Assignment</push-button>
+                <push-button id="tap-cancel" style="margin-left: 10px;">Done</push-button>
+            </div>
+        </popup-body>
+    </popup>
+
+    <popup id="recurring-schedule-popup" height="140px" width="485px">
+        <popup-title>Recurring Schedule</popup-title>
+        <popup-body style="margin: 20px;">
+            <div>
+                Type of recurrence:
+                <drop-down id="rsp-recurrence-type" style="width: 300px;">
+                    <option value="0">None</option>
+                    <option value="1">Yearly on a particular date</option>
+                    <option value="2">Nth day of each month</option>
+                    <option value="3">Last day of each month</option>
+                    <option value="4">Particular day of week on the nth week of the month</option>
+                    <option value="5">Same day each week</option>
+                    <option value="6">Every weekday</option>
+                    <option value="7">Every day</option>
+                    <option value="8">Every nth day</option>
+                </drop-down>
+            </div>
+            <div id="rsp-type-1" style="display: none;">
+                <div style="margin-top: 20px;">
+                    Month:
+                    <drop-down id="rsp-t1-month" required>
+                        <option value="">(select)</option>
+                        <option value="1">January</option>
+                        <option value="2">February</option>
+                        <option value="3">March</option>
+                        <option value="4">April</option>
+                        <option value="5">May</option>
+                        <option value="6">June</option>
+                        <option value="7">July</option>
+                        <option value="8">August</option>
+                        <option value="9">September</option>
+                        <option value="10">October</option>
+                        <option value="11">November</option>
+                        <option value="12">December</option>
+                    </drop-down>
+                </div>
+                <div style="margin-top: 10px;">
+                    Day of month:
+                    <numeric-input id="rsp-t1-day" style="width: 40px;" min="1" max="31" required></numeric-input>
+                </div>
+            </div>
+            <div id="rsp-type-2" style="display: none;">
+                <div style="margin-top: 10px;">
+                    Day of month:
+                    <numeric-input id="rsp-t2-day" style="width: 40px;" min="1" max="31" required></numeric-input>
+                </div>
+            </div>
+            <div id="rsp-type-3" style="display: none;">
+            </div>
+            <div id="rsp-type-4" style="display: none;">
+                <div style="margin-top: 10px;">
+                    Week number of each month:
+                    <numeric-input id="rsp-t4-week" style="width: 40px;" min="1" max="5" required></numeric-input>
+                </div>
+                <div style="margin-top: 20px;">
+                    Day of week:
+                    <drop-down id="rsp-t4-weekday" required>
+                        <option value="">(select)</option>
+                        <option value="1">Sunday</option>
+                        <option value="2">Monday</option>
+                        <option value="3">Tuesday</option>
+                        <option value="4">Wednesday</option>
+                        <option value="5">Thursday</option>
+                        <option value="6">Friday</option>
+                        <option value="7">Saturday</option>
+                    </drop-down>
+                </div>
+            </div>
+            <div id="rsp-type-5" style="display: none;">
+                <div style="margin-top: 20px;">
+                    Day of week:
+                    <drop-down id="rsp-t5-weekday" required>
+                        <option value="">(select)</option>
+                        <option value="1">Sunday</option>
+                        <option value="2">Monday</option>
+                        <option value="3">Tuesday</option>
+                        <option value="4">Wednesday</option>
+                        <option value="5">Thursday</option>
+                        <option value="6">Friday</option>
+                        <option value="7">Saturday</option>
+                    </drop-down>
+                </div>
+            </div>
+            <div id="rsp-type-6" style="display: none;">
+            </div>
+            <div id="rsp-type-7" style="display: none;">
+            </div>
+            <div id="rsp-type-8" style="display: none;">
+                <div style="margin-top: 10px;">
+                    Number of days in each cycle:
+                    <numeric-input id="rsp-t8-days" style="width: 40px;" min="1" max="364" required></numeric-input>
+                </div>
+            </div>
+            <div id="rsp-end-date-div" style="margin-top: 10px;">
+                Ending date of recurrence:
+                <native-date-input id="rsp-end-date" style="width: 110px;"></native-date-input>
+            </div>
+            <div style="right: 17px; bottom: 10px; position: absolute;">
+                <push-button id="rsp-cancel">Cancel</push-button>
+                <push-button id="rsp-ok" style="margin-left: 10px;">Ok</push-button>
+            </div>
+        </popup-body>
+    </popup>
+
+</div>

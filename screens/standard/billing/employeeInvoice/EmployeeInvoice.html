@@ -1,0 +1,63 @@
+<div class="kiss">
+    <style>
+        .ei-grid {
+            display: grid;
+            grid-template-columns: max-content auto;
+            grid-column-gap: 10px;
+            grid-row-gap: 10px;
+        }
+        .ei-grid span {
+            color: #000;
+            align-self: center;
+            text-align: right;
+        }
+        .tab-height {
+            height: calc(100% - 45px);
+            position: relative;
+        }
+    </style>
+    <div style="margin-bottom: 10px; margin-top: 10px;">
+        <span>Employee & Dependent Invoices:</span>
+        <hr>
+    </div>
+
+    <div style="margin-bottom: 10px;">
+        <span>From Date:</span>
+        <native-date-input style="width: 110px; margin-left: 10px; margin-right: 20px;" id="ei-from-Date" ></native-date-input>
+        <span>To Date:</span>
+        <native-date-input  style="width: 110px; margin-left: 10px; margin-right: 30px;" id="ei-to-Date"></native-date-input>
+
+
+
+        <check-box id="ei-invoicesLimit" checked>Limit to Invoices with Balance greater than $0.00</check-box>
+    </div>
+
+    <div id="invoicesGrid" style="height: calc(100% - 115px);"></div>
+
+    <div style="margin-top: 15px;">
+        <text-label id="invoices-label">Displaying 0 Invoices</text-label>
+
+        <div style="right: 10px; bottom: 10px; position: absolute;">
+            <push-button id="generate">Generate</push-button>
+            <push-button id="report" style="margin-left: 10px;">Report</push-button>
+        </div>
+    </div>
+
+    <popup id="generate-popup" width="275px" height="100px">
+        <popup-title>
+            <span>Generate Invoices</span>
+        </popup-title>
+        <popup-body style="padding: 10px;">            
+            <span>This process will generate a new batch of Employee & Dependent Invoices using the specified Invoices</span>
+            <div class="ei-grid" style="grid-template-columns: repeat(2, max-content); margin-top: 10px;">
+                <span>Invoice Date:</span>
+                <native-date-input id="ei-invoiceDate" style="width: 110px; margin-right: 20px;" required></native-date-input>
+            </div>
+     
+            <div style="text-align: right; margin-top: 10px;">
+                <push-button id="generateOk">OK</push-button>
+                <push-button id="generateCancel" style="margin-left: 10px;">Cancel</push-button>
+            </div>
+        </popup-body>
+    </popup>
+</div>

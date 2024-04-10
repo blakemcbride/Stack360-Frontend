@@ -1,0 +1,87 @@
+<!--
+     Copyright 2020 STACK360 LLC
+     All rights reserved.
+
+-->
+
+<div class="kiss">
+
+    <style>
+        .item-space {
+            margin-top: 10px;
+        }
+
+        .is-prompt {
+            display: inline-block;
+            width: 130px;
+            text-align: end;
+            margin-right: 5px;
+        }
+
+        .number-width {
+            width: 60px;
+        }
+    </style>
+
+
+    <div style="margin-top: 10px;">
+        <span>ADP Import</span>
+    </div>
+    <hr>
+
+    <div style="margin-top: 30px; font-size: larger; width: 500px;">
+        Once activated, this import imports all employees.  It runs in the background so that you can
+        continue to use the system while it is running.  It typically takes about five minutes to run.
+        You will not be notified upon its completion.
+    </div>
+
+    <div style="margin-top: 30px; text-align: center; width: 400px;">
+        <div style="display: inline-block;">
+            <span>ADP Import</span>
+            <hr>
+            <div style="margin-top: 40px;">
+                <push-button id="run-import">Run</push-button>
+                <push-button id="get-status" style="margin-left: 10px;">Get Status</push-button>
+            </div>
+        </div>
+    </div>
+
+    <popup id="import-status" height="300px" width="340px">
+        <popup-title>ADP Import Status</popup-title>
+        <popup-body>
+            <div class="item-space">
+                <div class="is-prompt">Last completion date:</div>
+                <text-label id="is-last-completion-date"></text-label>
+            </div>
+            <div class="item-space">
+                <div class="is-prompt">Total workers received:</div>
+                <numeric-input id="is-total-workers-received" class="number-width" show-zero disabled></numeric-input>
+            </div>
+            <div class="item-space">
+                <div class="is-prompt">Total new workers:</div>
+                <numeric-input id="is-total-new-workers" class="number-width" show-zero disabled></numeric-input>
+            </div>
+            <div class="item-space">
+                <div class="is-prompt">Hired applicants:</div>
+                <numeric-input id="is-hired-applicants" class="number-width" show-zero disabled></numeric-input>
+            </div>
+            <div class="item-space">
+                <div class="is-prompt">Total updated workers:</div>
+                <numeric-input id="is-total-updated-workers" class="number-width" show-zero disabled></numeric-input>
+            </div>
+            <div class="item-space">
+                <div class="is-prompt">Skipped office workers:</div>
+                <numeric-input id="is-skipped-office-workers" class="number-width" show-zero disabled></numeric-input>
+            </div>
+            <div class="item-space">
+                <div class="is-prompt">Errors:</div>
+                <numeric-input id="is-errors" class="number-width" show-zero disabled></numeric-input>
+            </div>
+            <div style="text-align: center; margin-top: 20px;">
+                <push-button id="is-ok">Ok</push-button>
+            </div>
+        </popup-body>
+    </popup>
+
+
+</div>

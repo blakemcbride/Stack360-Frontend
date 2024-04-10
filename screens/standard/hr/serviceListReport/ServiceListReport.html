@@ -1,0 +1,38 @@
+<!--
+    Copyright 2020 STACK360 LLC
+    All rights reserved.
+
+-->
+
+<div class="kiss">
+    <div style="max-width: max-content;">
+        <div style="margin-bottom: 10px; margin-top: 10px;">
+            <span>Report Options:</span>
+            <hr>
+        </div>
+    
+        <div style="margin-bottom: 10px;">
+            <radio-button group="slr-seniority" style="margin-bottom: 10px;" checked align-vertical value="1">Seniority to Date of Employees with active Employee Status</radio-button>
+            <radio-button group="slr-seniority" style="display: inline-flex; align-items: center;" align-vertical value="0">Seniority for Employees with active Employee Status, having an Anniversary Date in Month:</radio-button>
+            <drop-down id="slr-month" style="width: 100px;" disabled>
+                <option value="">(select)</option>
+                <option value="0">January</option>
+                <option value="1">February</option>
+                <option value="2">March</option>
+                <option value="3">April</option>
+                <option value="4">May</option>
+                <option value="5">June</option>
+                <option value="6">July</option>
+                <option value="7">August</option>
+                <option value="8">September</option>
+                <option value="9">October</option>
+                <option value="10">November</option>
+                <option value="11">December</option>
+            </drop-down>
+        </div>
+
+        <div style="text-align: right;">
+            <push-button id="report">Report</push-button>
+        </div>
+    </div>    
+</div>

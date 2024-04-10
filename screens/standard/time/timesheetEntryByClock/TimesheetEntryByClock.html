@@ -1,0 +1,197 @@
+<!--
+     Copyright 2020 STACK360 LLC
+     All rights reserved.
+
+-->
+
+<div class="kiss">
+    <style>
+        .tebc-grid {
+            display: grid;
+            grid-column-gap: 10px;
+            grid-row-gap: 10px;
+            align-items: center;
+        }
+        .tebc-grid span {
+            color: #000;
+            align-self: center;
+            text-align: right;
+        }
+        #tebc-applied_filters b {
+            font-weight: 800;
+        }
+        
+        .tab-height {
+            height: calc(640px);
+        }
+        .tebc-setButtons {
+            width: 120px !important; 
+            font-size: 25px !important; 
+            font-weight: 800 !important; 
+        }
+        .tebc-setButtons:disabled {
+            opacity: 0.6 !important;
+        }
+    </style>
+    <div class="tebc-grid" style="margin-top: 10px; margin-bottom: 10px; grid-template-columns: 35% 65%; align-items: start;">
+        <div>
+            <span>Employee:</span>
+            <smart-chooser id="tebc-employeeId" outside-width="260" required></smart-chooser>
+            
+            <div style="margin-top: 10px; margin-bottom: 10px;">
+                <span style="margin-top: 10px;">Past Timesheets for Employee:</span>
+                <hr>
+            </div>
+
+            <div id="tebc-tab-container" style="margin-top: 5px;">
+                <ul class="tab-header">
+                    <li id="tebc-byTimesheet-TabButton" class="active">By Timesheet</li>
+                    <li id="tebc-byDate-TabButton">By Date</li>
+                </ul>
+                <div style="background-color: #fff; padding: 10px; border-left: 1px solid var(--border-color-light); border-right: 1px solid var(--border-color-light);">
+                    <span>View From Date:</span>
+                    <native-date-input id="tebc-fromDate" style="width:110px; margin-left: 10px; margin-right: 10px;"></native-date-input>
+    
+                    <span>To Date:</span>
+                    <native-date-input id="tebc-toDate" style="width:110px; margin-left: 10px;"></native-date-input>
+                </div>                
+
+                <div id="tebc-byTimesheet-TabContent" class="tab-content tab-height">
+                    <div id="byTimesheetGrid" style="height: calc(100% - 65px); margin-bottom: 15px;"></div>
+                
+                    <text-label id="tebc-timesheetCount">Displaying 0 Timesheet</text-label>
+
+                    <div style="float: right; margin-top: -5px;">
+                        <span>Total:</span>
+                        <text-input size="30" id="tebc-totalTime" style="width:110px; text-align: right;" disabled></text-input>
+                    </div>
+
+                    <div style="text-align: right; margin-top: 15px;">
+                        <push-button id="add">Add</push-button>
+                        <push-button id="edit" style="margin-left: 10px;" disabled>Edit</push-button>
+                        <push-button id="delete" style="margin-left: 10px;" disabled>Delete</push-button>
+                        <push-button id="reportByTimesheet" style="margin-left: 10px;">Report</push-button>
+                    </div>
+                </div>
+
+                <div id="tebc-byDate-TabContent" class="tab-content tab-height" hidden>
+                    <div id="byDateGrid" style="height: calc(100% - 65px); margin-bottom: 15px;"></div>
+                
+                    <text-label id="tebc-timesheetCount1">Displaying 0 Timesheet</text-label>
+
+                    <div style="float: right; margin-top: -5px;">
+                        <span>Total:</span>
+                        <text-input size="30" id="tebc-totalTime1" style="width:110px; text-align: right;" disabled></text-input>
+                    </div>
+
+                    <div style="text-align: right; margin-top: 15px;">
+                        <push-button id="reportByDate">Report</push-button>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div style="position: relative; padding-top: 85px;">
+            <text-label id="tebc-currentStatus" style="position: absolute; left: 100px; top: 20px;"></text-label>
+
+            <div class="tebc-grid" style="grid-template-columns: repeat(2, max-content); align-items: start;">
+                <div>
+                    <push-button disable class="tebc-setButtons" id="tebc-setIn" style="background: rgb(112, 221, 112); margin-bottom: 10px;">IN</push-button>
+                    <br>
+                    <push-button disable class="tebc-setButtons" id="tebc-setOut" style="background: rgb(243, 122, 122);">OUT</push-button>
+                </div>
+                <div class="tebc-grid" style="grid-template-columns: repeat(2, max-content); grid-column-gap: 10px; grid-row-gap: 10px;">
+                    <span>Current Date:</span>
+                    <text-label id="tebc-currentDate" style="font-weight: 800;"></text-label>
+
+                    <span>Current Time:</span>
+                    <text-label id="tebc-currentTime" style="font-weight: 800; text-align: left;"></text-label>
+
+                    <span>Auto Logout:</span>
+                    <check-box id="tebc-autoLogout" checked></check-box>
+                </div>
+            </div>
+
+            <div style="text-align: right;">
+                <span>From:</span>
+                <native-date-input id="tebc-fromDateTimesheets" style="width:110px; margin-left: 10px; margin-right: 10px;"></native-date-input>
+
+                <span>To:</span>
+                <native-date-input id="tebc-toDateTimesheets" style="width:110px; margin-left: 10px;"></native-date-input>
+            </div>
+
+            <div id="allTimesheetsGrid" style="height: 575px; margin-top: 10px;"></div>
+        </div>
+    </div>
+
+    <popup id="employee-search" width="620px" height="455px">
+        <popup-title>
+            <text-label>Search for Employee</text-label>
+        </popup-title>
+        <popup-body style="padding: 10px;">
+    
+            <div>Search Criteria:</div>
+            <hr>
+            
+            <div class="vert-input" style="margin-top: 8px; display: grid; grid-template-columns: repeat(3, max-content); align-items: center;">
+                <span>Last Name:</span>
+                <drop-down id="esp-lname-criteria" style="width: 95px; margin-right: 10px;"></drop-down>
+                <text-input id="esp-lname-search" style="width: 140px"></text-input>
+                
+                <span>First Name:</span>
+                <drop-down id="esp-fname-criteria" style="width: 95px; margin-right: 10px;"></drop-down>
+                <text-input id="esp-fname-search" style="width: 140px"></text-input>    
+                
+            </div>
+    
+            <div class="btn-bar" style="margin-top: 8px; width: 100%; justify-content: flex-end;">
+                <push-button id="esp-reset">Reset</push-button>
+                <push-button id="esp-search" style="margin-right: unset;">Search</push-button>
+            </div>
+    
+            <div style="margin-top: 10px;">
+                <div>Search Results:</div>
+                <hr>
+            </div>
+    
+            <div id="esp-grid" style="width: 100%; height: 250px;"></div>
+        
+            <div class="vert-input2" style="margin-top: 20px; display: flex; justify-content: space-between; align-items: center;">
+                <text-label id="esp-count" style="margin-left: 10px;">Displaying 0 Employees</text-label>
+    
+                <div>
+                    <push-button id="esp-ok" disabled>OK</push-button>
+                    <push-button id="esp-cancel" style="margin-left: 10px; margin-right: 15px;">Cancel</push-button>
+                </div>
+            </div>
+        </popup-body>
+    </popup>
+
+    <popup id="tebc-action" width="340px" height="130px">
+        <popup-title>
+            <span><text-label id="tebc-action-label">Add</text-label> Timesheet Entry</span>
+        </popup-title>
+        <popup-body style="padding: 10px;">            
+            <div class="tebc-grid" style="grid-template-columns: repeat(4, max-content); align-items: center;">
+                <span>Date In:</span>
+                <native-date-input id="tebc-action-dateIn" style="width:110px;" required></native-date-input>
+                
+                <span>Time In:</span>
+                <time-input id="tebc-action-timeIn" style="width:60px; text-align: right;" required></time-input>
+                
+                <span>Date Out:</span>
+                <native-date-input id="tebc-action-dateOut" style="width:110px;" required></native-date-input>
+                
+                <span>Time Out:</span>
+                <time-input id="tebc-action-timeOut" style="width:60px; text-align: right;" required></time-input>
+                
+                <span style="grid-column: 1 / 4;">Elapsed Time:</span>
+                <text-input id="tebc-action-elapsed" style="width:60px; text-align: right;" required disabled></text-input>
+            </div>
+            <div style="text-align: right; margin-top: 10px;">
+                <push-button id="tebc-action-ok">OK</push-button>
+                <push-button id="tebc-action-cancel" style="margin-left: 10px;">Cancel</push-button>
+            </div>
+        </popup-body>
+    </popup>
+</div>

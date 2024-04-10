@@ -1,0 +1,337 @@
+<!--
+    Copyright 2020 STACK360 LLC
+    All rights reserved.
+
+-->
+
+<div class="kiss">
+    <style>
+        .dh-grid {
+            display: grid;
+            grid-template-columns: max-content max-content auto;
+            grid-column-gap: 10px;
+            grid-row-gap: 10px;
+        }
+        .dh-grid span {
+            color: #000;
+            align-self: center;
+            text-align: right;
+        }
+        .tab-height {
+            height: calc(100% - 45px);
+            position: relative;
+        }
+    </style>
+    <div class="dh-grid" style="grid-template-columns: repeat(2, 50%); height: 100%; margin-top: 10px; padding-right: 10px;">
+        <div>
+            <text-label id="timesheet-status" style="text-align: center; text-decoration: underline; display: block; font-size: 18px;"></text-label>
+
+            <div class="dh-grid" style="margin-top: 10px; margin-bottom: 10px; grid-template-columns: repeat(3, max-content); justify-content: right;">
+                <span>View Timesheet Entries On Date:</span>
+                <native-date-input id="onDate" style="width:110px;"></native-date-input>
+                <div>
+                    <push-button id="previous" style="margin-right: 10px;">Previous</push-button>
+                    <push-button id="next">Next</push-button>
+                </div>
+
+                <span>Timesheets Currently Final Up To Date:</span>
+                <native-date-input id="toDate" style="width:110px;"></native-date-input>
+                <div>
+                    <push-button id="finalize">Finalize</push-button>
+                </div>
+            </div>
+            
+            <div id="timesheetEntriesGrid" style="height: calc(100% - 200px);"></div>
+
+            <div style="margin-top: 10px;">
+                <text-label id="legend" style="font-weight: bold; margin-right: 20px;">Column Legend</text-label>
+
+                <span>Billable Hours:</span>
+                <numeric-input id="billableHours" style="width: 100px; margin-right: 20px; margin-left: 10px;" show-zero decimal-places="2"></numeric-input>
+
+                <span>Total Hours:</span>
+                <numeric-input id="totalHours" style="width: 100px; margin-left: 10px;" show-zero decimal-places="2"></numeric-input>
+            </div>
+
+            <div style="margin-top: 10px; text-align: right;">
+                <push-button id="add">Add</push-button>
+                <push-button id="edit" style="margin-left: 10px;" disabled>Edit</push-button>
+                <push-button id="delete" style="margin-left: 10px;" disabled>Delete</push-button>
+            </div>
+        </div>    
+
+        <div>
+            <span style="text-decoration: underline; text-align: center; display: block; margin-bottom: 10px; font-size: 18px;">Assigned Projects:</span>
+
+            <div id="projectsGrid" style="height: calc(100% - 320px);"></div>
+
+            <div style="margin-top: 10px; margin-bottom: 10px;">
+                <span>Selected Project Details</span>
+                <hr>
+            </div>
+            <div>
+                <div class="dh-grid" style="grid-template-columns: repeat(2, max-content) auto;">
+                    <span>Title:</span>
+                    <text-input id="project-title" style="width: 400px;" disabled></text-input>
+
+                    <div style="text-align: right;">
+                        <span>Id:</span>
+                        <text-input id="project-id" style="width: 110px; margin-left: 10px;" disabled></text-input>
+                    </div>
+
+                    <span>Description:</span>
+                    <textbox-input id="project-description" style="grid-column: 2 / 4; height: 70px;" disabled></textbox-input>
+
+                    <span>Company</span>
+                    <text-input id="project-company" style="grid-column: 2 / 4;" disabled></text-input>
+
+                    <span>Created:</span>
+                    <date-input id="project-created" style="width: 60px;" disabled></date-input>
+                    <div style="text-align: right;">
+                        <span>Logged Hours:</span>
+                        <numeric-input id="project-logged" style="width: 50px; margin-left: 10px;" decimal-places="2" show-zero></numeric-input>
+                    </div>
+
+                    <span>Status:</span>
+                    <text-input id="project-status" style="width: 200px;" disabled></text-input>
+                    <div style="text-align: right;">
+                        <span>Estimated Hours:</span>
+                        <numeric-input id="project-estimated" style="width: 50px; margin-left: 10px;" decimal-places="2" show-zero></numeric-input>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <popup id="project-info-popup" height="400px" width="530px">
+        <popup-title>Additional Information</popup-title>
+        <popup-body>
+            <br>
+            <span style="font-weight:bold;">Project ID:</span>
+            <text-label id="project-info-project-id"></text-label>
+            <span style="margin-left: 50px; font-weight:bold;">Requesting Person:</span>
+            <text-label id="project-info-requesting-person"></text-label>
+            <br><br>
+
+            <span style="font-weight:bold;">Project Summary:</span>
+            <text-label id="project-info-summary"></text-label>
+            <br><br>
+
+            <span style="font-weight:bold;">Requesting Company (Group):</span>
+            <text-label id="project-info-requesting-company"></text-label>
+            <br><br>
+
+            <span style="font-weight:bold;">Phase:</span>
+            <text-label id="project-info-phase"></text-label>
+            <br><br>
+
+            <span style="font-weight:bold;">Status:</span>
+            <text-label id="project-info-status"></text-label>
+            <br><br>
+
+            <span style="font-weight:bold;">Project Detail:</span><br>
+            <textbox-input id="project-info-details" style="margin-top: 10px; height: 185px; width: 495px; background-color: #f7ff80;" disabled></textbox-input>
+
+            <div style="right: 10px; bottom: 10px; position: absolute;">
+                <push-button id="project-info-ok">Ok</push-button>
+            </div>
+        </popup-body>
+    </popup>
+
+    <popup id="project-description-popup" height="260px" width="530px">
+        <popup-title>Additional Timesheet Information</popup-title>
+        <popup-body>
+            <span style="font-weight:bold;">Description:</span><br>
+            <textbox-input id="project-description" style="margin-top: 10px; height: 185px; width: 495px; background-color: #f7ff80;" disabled></textbox-input>
+
+            <div style="right: 10px; bottom: 10px; position: absolute;">
+                <push-button id="project-description-ok">Ok</push-button>
+            </div>
+        </popup-body>
+    </popup>
+
+    <popup id="edit-entry-popup" height="525px" width="640px;">
+        <popup-title>Edit Timesheet Entry - <text-label id="edit-entry-date"></text-label></popup-title>
+        <popup-body>
+            <div class="dh-grid" style="grid-template-columns: repeat(2, max-content);">
+                <div style="grid-column: 1 / 3;">
+                    <span>Time:</span>
+                    <hr>
+                </div>
+
+                <span>Begin Time:</span>
+                <div>
+                    <time-input id="dh-edit-timeBegin" style="width:60px; text-align: right; margin-right: 10px;" required></time-input>
+                    
+                    <span style="margin-right: 10px;">End Time:</span>
+                    <time-input id="dh-edit-timeEnd" style="width:60px; text-align: right; margin-right: 10px;" required></time-input>
+
+                    <span style="margin-right: 10px;">Hours:</span>
+                    <text-input id="dh-edit-hours" style="width:60px; text-align: right;"></text-input>
+                </div>
+
+                <div style="grid-column: 1 / 3;">
+                    <span>Project:</span>
+                    <hr>
+                </div>
+
+                <span>Quick List:</span>
+                <drop-down id="dh-edit-quickList" style="width: 550px" required></drop-down>
+
+                <span>Project ID:</span>
+                <div>
+                    <text-input id="dh-edit-projectName" style="width:80px; margin-right: 10px; text-align: right;"></text-input>
+                    <text-input id="dh-edit-projectId" hidden></text-input>                    
+                    <push-button id="dh-edit-verify" style="margin-right: 10px;">Verify</push-button>
+                    <span>(Use Verify if typing in Project ID derectly)</span>
+                    <push-button id="dh-edit-choose" style="margin-left: 100px;">Choose</push-button>
+                </div>
+
+                <span>Summary:</span>
+                <text-input id="dh-edit-summary" style="width: 540px;" disabled></text-input>
+
+                <span>Company:</span>
+                <div>
+                    <text-input id="dh-edit-company" style="width:80px; margin-right: 10px;" disabled></text-input>
+                    <span>Billable: </span>
+                    <radio-button group="dh-edit-billable" value="Y">Yes</radio-button>
+                    <radio-button group="dh-edit-billable" value="N">No</radio-button>
+                    <radio-button group="dh-edit-billable" value="U" checked>Unknown</radio-button>
+                </div>   
+                
+                <div style="grid-column: 1 / 3;">
+                    <span>Detail:</span>
+                    <hr>
+                </div>
+
+                <span>Description: </span>
+                <textbox-input style="width: 540px; height: 25px;" id="dh-edit-description"></textbox-input>
+
+                <span>Descriptions: </span>
+                <drop-down id="dh-edit-descriptions" style="width: 550px"></drop-down>
+
+                <span>Private: </span>
+                <textbox-input style="width: 540px; height: 25px;" id="dh-private-description"></textbox-input>
+
+                <div style="grid-column: 1 / 3;">
+                    <span>Rejection:</span>
+                    <hr>
+                </div>
+
+                <span>Reason:</span>
+                <textbox-input style="width: 540px; height: 25px;" id="dh-edit-reason"></textbox-input>
+            </div>
+
+
+        </popup-body>
+        <div style="text-align: right; position: absolute; bottom: 10px; width: 100%">
+            <push-button id="edit-entry-ok" style="margin-right: 10px;">OK</push-button>
+            <push-button id="edit-entry-cancel" style="margin-right: 10px;">Cancel</push-button>
+        </div>
+    </popup>
+
+    <popup id="dh-search-project" width="710px" height="520px">
+        <popup-title>
+            <span>Choose Project</span>
+        </popup-title>
+        <popup-body style="padding: 10px;">
+            <div style="margin-bottom: 10px;">
+                <radio-button group="dh-proj-chooseProject" value="S" checked>Search for a Project</radio-button>
+                <radio-button group="dh-proj-chooseProject" value="A">Use Project Quick List</radio-button>
+            </div>
+    
+            <div>Search Criteria:</div>
+            <hr>
+            
+            <div class="dh-grid" style="margin-top: 8px; display: grid; grid-template-columns: repeat(5, max-content); align-items: center;">
+                <span>ID:</span>
+                <drop-down id="dh-proj-projectNameSearchType" style="width: 95px;"></drop-down>
+                <text-input id="dh-proj-projectName" style="width: 160px"></text-input>
+
+                <span>Category Code:</span>
+                <smart-chooser id="dh-proj-category" outside-width="180"></smart-chooser>  
+                
+                <span>Summary:</span>
+                <drop-down id="dh-proj-summarySearchType" style="width: 95px;"></drop-down>
+                <text-input id="dh-proj-summary" style="width: 160px"></text-input>    
+
+                <span>Type Code:</span>
+                <smart-chooser id="dh-proj-type" outside-width="180"></smart-chooser>  
+
+                <span>Requesting Company:</span>
+                <div style="grid-column: 2 / 4;">
+                    <smart-chooser id="dh-proj-companyId" outside-width="265"></smart-chooser>  
+                </div>
+
+                <span>Status Code:</span>
+                <smart-chooser id="dh-proj-status" outside-width="180"></smart-chooser>                  
+            </div>
+    
+            <div class="btn-bar" style="margin-top: 10px; width: 100%; justify-content: flex-end;">
+                <push-button id="dh-proj-reset">Reset</push-button>
+                <push-button id="dh-proj-search" style="margin-right: unset;">Search</push-button>
+            </div>
+    
+            <div style="margin-top: 10px;">
+                <div>Search Results:</div>
+                <hr>
+            </div>
+    
+            <div id="dh-proj-grid" style="width: 100%; height: 250px;"></div>
+        
+            <div class="vert-input2" style="margin-top: 20px; display: flex; justify-content: space-between; align-items: center;">
+                <text-label id="dh-proj-count" style="margin-left: 10px;">Displaying 0 Projects</text-label>
+    
+                <div>
+                    <push-button id="dh-proj-ok" disabled>OK</push-button>
+                    <push-button id="dh-proj-cancel" style="margin-left: 10px; margin-right: 15px;">Cancel</push-button>
+                </div>
+            </div>
+        </popup-body>
+    </popup>
+
+    <popup id="dh-project-data-search" width="420px" height="465px">
+        <popup-title>
+            <span>Search for Project <text-label id="dh-project-data-search-type"></text-label></span>
+        </popup-title>
+        <popup-body style="padding: 10px;">
+            <div style="margin-bottom: 10px;">
+                <radio-button group="dh-project-specific" value="A">All <text-label id="dh-proj-chooseSpecificLabelAll"></text-label></radio-button>
+                <radio-button group="dh-project-specific" value="S" checked>Search for <text-label id="dh-proj-chooseSpecificLabelSearch"></text-label></radio-button>
+            </div>
+    
+            <div>Search Criteria:</div>
+            <hr>
+            
+            <div class="dh-grid" style="margin-top: 8px; display: grid; grid-template-columns: repeat(3, max-content); align-items: center;">
+                <span>Code:</span>
+                <drop-down id="dh-proj-code-criteria" style="width: 95px;"></drop-down>
+                <text-input id="dh-proj-code-search" style="width: 140px"></text-input>
+                
+                <span>Description</span>
+                <drop-down id="dh-proj-descr-criteria" style="width: 95px;"></drop-down>
+                <text-input id="dh-proj-descr-search" style="width: 140px"></text-input> 
+            </div>
+    
+            <div class="btn-bar" style="margin-top: 10px; width: 100%; justify-content: flex-end;">
+                <push-button id="dh-projD-reset">Reset</push-button>
+                <push-button id="dh-projD-search" style="margin-right: unset;">Search</push-button>
+            </div>
+    
+            <div style="margin-top: 10px;">
+                <div>Search Results:</div>
+                <hr>
+            </div>
+    
+            <div id="dh-projRes-grid" style="width: 100%; height: 250px;"></div>
+        
+            <div class="vert-input2" style="margin-top: 10px; display: flex; justify-content: space-between; align-items: center;">
+                <text-label id="dh-projD-count" style="margin-left: 10px;">Displaying 0 Items</text-label>
+    
+                <div>
+                    <push-button id="dh-projD-ok" disabled>OK</push-button>
+                    <push-button id="dh-projD-cancel" style="margin-left: 10px; margin-right: 15px;">Cancel</push-button>
+                </div>
+            </div>
+        </popup-body>
+    </popup>
+</div>

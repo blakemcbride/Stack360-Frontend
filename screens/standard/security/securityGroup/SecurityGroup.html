@@ -1,0 +1,200 @@
+<!--
+     Copyright 2021 STACK360 LLC
+     All rights reserved.
+
+-->
+
+<div class="kiss">
+
+    <style>
+        div.vert-input2 {
+            display:grid;
+            grid-template-columns: max-content max-content;
+            grid-column-gap:5px;
+            grid-row-gap: 10px;
+            margin-top: 10px;
+        }
+
+        div.vert-input2 span {
+            text-align:right;
+            margin-top: 6px;
+        }
+
+        #as-rp-top {
+            display:grid;
+            grid-template-columns: 60px max-content;
+            grid-column-gap: 5px;
+            grid-row-gap: 5px;
+            margin-top: 5px;
+            margin-left: 0;
+        }
+        #as-rp-top span       { text-align:right; margin-top: 6px; }
+        #as-rp-top span:after { content: ":"; }
+    </style>
+
+    <div style="display: flex; justify-content: space-between; margin-top: 10px;">
+        <div style="width: 25%; height: calc( 100vh - 145px ); position: relative;">
+            <text-label>Security Groups:</text-label>
+            <hr />
+
+            <div id="sg-group-grid" style="width: 100%; height: calc( 100vh - 240px );"></div>
+
+            <div style="position: absolute; bottom: 40px; right: 0;">
+                <push-button id="add" style="margin-left: 10px;">Add</push-button>
+                <push-button id="edit" style="margin-left: 10px;" disabled>Edit</push-button>
+                <push-button id="delete" style="margin-left: 10px;" disabled>Delete</push-button>
+            </div>
+
+            <div style="position: absolute; bottom: 5px; right: 0;">
+                <push-button id="view" disabled>View Members</push-button>
+            </div>
+        </div>
+
+        <div style="width: 37%; height: calc( 100vh - 145px ); position: relative;">
+            <text-label>Rights:</text-label>
+            <hr />
+
+            <div id="sg-right-grid" style="width: 100%; height: calc( 100vh - 240px );"></div>
+
+            <div style="position: absolute; bottom: 40px; right: 0;">
+                <push-button id="associate" style="margin-left: 10px;" disabled>Associate</push-button>
+                <push-button id="disassociate" style="margin-left: 10px;" disabled>Disassociate</push-button>
+            </div>
+
+            <div style="position: absolute; bottom: 5px; right: 0;">
+                <push-button id="edit-access" disabled>Edit Access Level</push-button>
+            </div>
+        </div>
+
+        <div style="width: 37%; height: calc( 100vh - 145px ); position: relative;">
+            <text-label>Effective Rights:</text-label>
+            <hr />
+
+            <div id="sg-effect-right-grid" style="width: 100%; height: calc( 100vh - 240px );"></div>
+        </div>
+    </div>
+
+    <popup id="sg-popup" width="390px" height="166px">
+        <popup-title>
+            <text-label id="sg-title">Add Security Group</text-label>
+        </popup-title>
+
+        <popup-body>
+            <div class="vert-input2">
+                <span>Name: </span>
+                <text-input id="sg-name" style="width: 300px" required maxlength="20"></text-input>
+                <span>Description: </span>
+                <textbox-input id="sg-description" style="width: 300px; height: 58px;" required maxlength="80"></textbox-input>
+            </div>
+            <div style="right: 17px; bottom: 10px; position: absolute;">
+                <push-button id="sg-ok">Ok</push-button>
+                <push-button id="sg-cancel" style="margin-left: 10px;">Cancel</push-button>
+            </div>
+        </popup-body>
+    </popup>
+
+    <popup id="memebers-popup" width="586px" height="332px">
+        <popup-title>
+            <text-label id="mp-title">View Security Group Memebers</text-label>
+        </popup-title>
+
+        <popup-body>
+            <span>Security Group: </span>
+            <text-input id="mp-name" style="width: 154px" readonly></text-input>
+
+            <div id="mp-grid" style="width: 100%; height: 255px; margin-top: 10px;"></div>
+
+            <text-label id="mp-status" style="position: absolute; bottom: 10px; left: 10px;">Displaying 0 Security Group Members</text-label>
+            <div style="right: 17px; bottom: 10px; position: absolute;">
+                <push-button id="mp-close">Close</push-button>
+            </div>
+        </popup-body>
+    </popup>
+
+    <popup id="associate-right-popup" width="392px" height="460px" style="font-size: small;">    
+        <popup-title>Associate Rights</popup-title>
+
+        <popup-body>
+            <div>Search Criteria:</div>
+            <hr />
+
+            <div id="as-rp-top">
+                <span>Name</span>
+                <div>
+                    <drop-down id="as-rp-name-type" style="width: 111px;">
+                        <option value="2" selected>Starts With</option>
+                        <option value="3">Ends With</option>
+                        <option value="4">Contains</option>
+                        <option value="5">Exact Match</option>
+                    </drop-down>
+                    <text-input id="as-rp-name" style="width: 184px;"></text-input>
+                </div>
+
+                <span>Type</span>
+                <div style="display: inline-block; float: left; margin-top: 5px;">
+                    <radio-button group="as-rp-type" value="2">Security Group</radio-button>
+                    <radio-button group="as-rp-type" value="1">Security Token</radio-button>
+                    <radio-button group="as-rp-type" value="0" checked>Both</radio-button>
+                </div>
+
+                <div style="width: 378px; display: flex; justify-content: flex-end; margin-top: 5px;">
+                    <push-button id="as-rp-reset">Reset</push-button>
+                    <push-button id="as-rp-search" style="margin-left: 10px;">Search</push-button>
+                </div>
+            </div>
+
+            <div>Search Results:</div>
+            <hr />
+
+            <div id="as-rp-right-grid" style="height: 248px; width: 100%;"></div>
+
+            <text-label id="as-rp-status" style="position: absolute; bottom: 45px; left: 10px;">Displaying 0 Rights</text-label>
+
+            <div style="position: absolute; bottom: 40px; right: 10px; display: flex; align-items: center;">
+                <span>Use Token Access Level: </span>
+                <div style="margin-left: 5px;">
+                    <drop-down id="as-rp-token-level" style="width: 64px;" disabled>
+                        <option value="0" selected>None</option>
+                        <option value="1">Read</option>
+                        <option value="2">Write</option>
+                    </drop-down>
+                </div>
+            </div>
+
+            <div style="right: 10px; bottom: 10px; position: absolute;">
+                <push-button id="as-rp-ok" disabled>OK</push-button>
+                <push-button id="as-rp-cancel" style="margin-left: 12px;">Cancel</push-button>
+            </div>
+        </popup-body>
+    </popup>
+
+    <popup id="access-popup" width="408px" height="197px">
+        <popup-title>
+            <text-label>Edit Access Level</text-label>
+        </popup-title>
+
+        <popup-body>
+            <div class="vert-input2">
+                <span>Security Token: </span>
+                <text-input id="ac-name" style="width: 300px" readonly></text-input>
+
+                <span>Description: </span>
+                <textbox-input id="ac-description" style="width: 300px; height: 58px;" readonly></textbox-input>
+
+                <span>Access Level: </span>
+                <div style="margin-left: 5px;">
+                    <drop-down id="ac-access-level" style="width: 64px;">
+                        <option value="0" selected>None</option>
+                        <option value="1">Read</option>
+                        <option value="2">Write</option>
+                    </drop-down>
+                </div>
+            </div>
+            <div style="right: 17px; bottom: 10px; position: absolute;">
+                <push-button id="ac-ok">Ok</push-button>
+                <push-button id="ac-cancel" style="margin-left: 10px;">Cancel</push-button>
+            </div>
+        </popup-body>
+    </popup>
+
+</div>

@@ -1,0 +1,136 @@
+<!--
+     Copyright 2021 STACK360 LLC
+     All rights reserved.
+
+-->
+
+<div class="kiss">
+
+    <style>
+        div.vert-input2 {
+            display:grid;
+            grid-template-columns: max-content max-content;
+            grid-column-gap:5px;
+            grid-row-gap: 10px;
+            margin-top: 10px;
+        }
+
+        div.vert-input2 span {
+            text-align:right;
+            margin-top: 6px;
+        }
+
+        div.vert-input3 {
+            display:grid;
+            grid-template-columns: max-content max-content max-content;
+            grid-column-gap:5px;
+            grid-row-gap: 10px;
+            margin-top: 10px;
+        }
+
+    </style>
+
+    <div style="margin-top: 10px; display: flex;justify-content: space-between;" >
+        <div>Prospect Assignment</div>
+    </div>
+    <hr>
+
+    <div class="vert-input2">
+        <span style="width: 68px;">Name:</span>
+        <div>
+            <drop-down id="ps-search-type" style="width: 100px;">
+                <option value="1">Starts With</option>
+                <option value="2">Ends With</option>
+                <option value="3">Contains</option>
+                <option value="4">Exact Match</option>
+            </drop-down>
+            <text-input id="ps-name" style="width: 220px;"></text-input>
+        </div>
+    </div>
+    <div class="vert-input2" style="justify-content: space-between;margin-top: 0;">
+        <div>
+            <div class="vert-input2">
+                <span>Sales Person:</span>
+                <!-- <drop-down id="sales-person" style="width: 335px;"></drop-down> -->
+                <smart-chooser id="sales-person" style="width: 335px" default-option='(all)'></smart-chooser>
+            </div>
+            <div style="float: right; margin-top: 10px;">
+                <push-button id="reset" style="margin-left: 10px;">Reset</push-button>
+                <push-button id="search" style="margin-left: 10px;">Search</push-button>
+            </div>
+        </div>
+        <div class="vert-input2">
+            <span>Assign to Sales Person:</span>
+            <!-- <drop-down id="assign-sales-person" style="width: 220px;" required></drop-down> -->
+            <smart-chooser id="assign-sales-person" style="width: 220px" default-option='(choose)' required></smart-chooser>
+            <span>Contact Date:</span>
+            <native-date-input id="assign-date" style="width: 110px;"></native-date-input>
+        </div>
+    </div>
+
+    <div class="vert-input3">
+        <div style="width: calc(50vw - 120px); position: relative;">
+            <div>Search Results</div>
+            <div id="prospect-grid" style="width: 100%; margin-top: 5px; height: calc(100vh - 322px);"></div>
+            <text-label id="prospect-status" style="position: absolute; bottom: 0; left: 0;">Displaying 0 Prospects</text-label>
+        </div>
+        <div style="display: inline-grid; height: calc(100vh - 288px); align-items: center;">
+            <push-button id="select" disabled>--></push-button>
+        </div>
+        <div style="width: calc(50vw - 120px); position: relative;">
+            <div>Selected Prospects</div>
+            <div id="selected-grid" style="width: 100%; margin-top: 5px; height: calc(100vh - 322px);"></div>
+            <text-label id="selected-status" style="position: absolute; bottom: 0; left: 0;">Displaying 0 Prospects</text-label>
+            <div style="position: absolute; bottom: -15px; right: 0; float: right;">
+                <push-button id="remove" style="margin-left: 10px;" disabled>Remove</push-button>
+                <push-button id="assign" style="margin-left: 10px;" disabled>Assign</push-button>
+            </div>
+        </div>
+    </div>
+
+    <popup id="employee-search">
+        <popup-title>
+            <text-label>Search for Employee</text-label>
+        </popup-title>
+        <popup-body style="padding: 10px;">
+    
+            <div>Search Criteria:</div>
+            <hr>
+            
+            <div class="vert-input2" style="margin-top: 8px;">
+                <label style="width: 65px; margin-right: 10px;margin-top: 8px;">Last Name:</label>
+                <div>
+                    <drop-down id="esp-lname-criteria" style="width: 95px; margin-right: 10px;"></drop-down>
+                    <text-input id="esp-lname-search" style="width: 140px"></text-input>
+                </div>
+                <label style="width: 65px; margin-right: 10px;margin-top: 8px;">First Name:</label>
+                <div>
+                    <drop-down id="esp-fname-criteria" style="width: 95px; margin-right: 10px;"></drop-down>
+                    <text-input id="esp-fname-search" style="width: 140px"></text-input>    
+                </div>
+            </div>
+    
+            <div class="btn-bar" style="margin-top: 8px; width: 100%; justify-content: flex-end;">
+                <push-button id="esp-reset">Reset</push-button>
+                <push-button id="esp-search" style="margin-right: unset;">Search</push-button>
+            </div>
+    
+            <div style="margin-top: 10px;">
+                <div>Search Results:</div>
+                <hr>
+            </div>
+    
+            <div id="esp-grid" style="width: 100%; height: 250px;"></div>
+        
+            <div class="vert-input2" style="text-align: right; margin-top: 20px; justify-content: space-between; align-items: center;">
+                <text-label id="esp-count" style="margin-left: 10px;">Displaying 0 Employees</text-label>
+    
+                <div>
+                    <push-button id="esp-ok" disabled>OK</push-button>
+                    <push-button id="esp-cancel" style="margin-left: 10px; margin-right: 15px;">Cancel</push-button>
+                </div>
+            </div>
+        </popup-body>
+    </popup>
+    
+</div>

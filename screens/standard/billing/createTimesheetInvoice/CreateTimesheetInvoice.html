@@ -1,0 +1,568 @@
+<!--
+     Copyright 2020 STACK360 LLC
+     All rights reserved.
+
+-->
+
+<div class="kiss" style="font-size: small;">
+
+    <style>
+
+        .vert-input2 {
+            display:grid;
+            grid-template-columns: max-content max-content;
+            grid-column-gap:5px;
+            grid-row-gap: 10px;
+            margin-top: 10px;
+            margin-left: 10px;
+        }
+        .vert-input2 label {
+            text-align:right;
+            margin-top: 4px;
+        }
+
+        .vert-input6 {
+            display:grid;
+            grid-template-columns: 100px 90px 100px 90px 100px 90px;
+            grid-column-gap:5px;
+            grid-row-gap: 10px;
+            margin-left: 10px;
+        }
+        .vert-input6 label {
+            text-align:right;
+            margin-top: 5px;
+        }
+        .vert-input6 label:after { content: ":"; }
+
+        .vert-input4 {
+            display:grid;
+            grid-template-columns: 100px 90px 100px 90px;
+            grid-column-gap:5px;
+            grid-row-gap: 10px;
+            margin-left: 10px;
+        }
+        .vert-input4 label {
+            text-align:right;
+            margin-top: 5px;
+        }
+        .vert-input4 label:after { content: ":"; }
+
+        .cols-1-2 {
+            grid-column: 1 / span 2;
+            text-align: right;
+        }
+        .cols-3-4 {
+            grid-column: 3 / span 2;
+            text-align: right;
+        }
+        .cols-5-6 {
+            grid-column: 5 / 7;
+            text-align: right;
+        }
+        .cols-2-6 {
+            grid-column: 2 / 7;
+        }
+        .cols-3-6 {
+            grid-column: 3 / 7;
+        }
+        .title-ul {
+            float: right;
+            width: 160px;
+        }
+    </style>
+
+    <div style="margin-top: 5px;">
+        <span>Available Timesheet Entries for:</span>
+        <smart-chooser id="company-selection" default-option="(choose)" style="width: 270px;"></smart-chooser>
+
+        <span style="margin-left: 70px;">Flag (**) recent billable from date:</span>
+        <native-date-input id="billable-date" style="width: 120px;"></native-date-input>
+    </div>
+
+    <hr>
+
+    <div id="timesheet-grid" style="width: 100%; height: calc(100% * .70 - 90px);"></div>
+
+    <div style="margin-top: 10px; text-align: center;">
+
+        <div style="display: inline-block; float: left;">
+            <push-button id="filter" disabled>Filter</push-button>
+            <text-label id="filter-status">(no filter applied)</text-label>
+        </div>
+
+        <div style="display: inline-block; margin-top: 10px;">
+            <text-label id="record-status">no records</text-label>
+        </div>
+
+        <div style="display: inline-block; float: right;">
+            <push-button id="get-all" disabled>Get All</push-button>
+            <push-button id="add" disabled>Add</push-button>
+            <push-button id="reject" disabled>Reject</push-button>
+            <push-button id="defer" disabled>Defer</push-button>
+            <push-button id="refresh" disabled>Refresh</push-button>
+        </div>
+
+    </div>
+
+    <div style="margin-top: 10px;">
+        <span>Line Items Included in Invoice:</span>
+    </div>
+    <hr>
+
+    <div id="line-grid" style="width: 100%; height: calc(100% * .30 - 70px);"></div>
+
+    <div style="margin-top: 10px;">
+        <span>Original Total:</span>
+        <numeric-input  id="original-total" style="width: 80px;" money show-zero disabled></numeric-input>
+
+        <span style="margin-left: 40px;">Adjusted Total:</span>
+        <numeric-input id="adjusted-total" style="width: 80px;" money show-zero disabled></numeric-input>
+
+        <div style="display: inline-block; float: right;">
+            <push-button id="add-manual-line" disabled>Add Manual Line</push-button>
+            <push-button id="edit-line" disabled>Edit</push-button>
+            <push-button id="remove-line" disabled>Remove</push-button>
+            <push-button id="invoice" disabled>Invoice</push-button>
+        </div>
+    </div>
+
+    <popup id="company-search-popup" width="450px" height="450px">
+        <popup-title>Search for Company</popup-title>
+
+        <popup-body>
+            <div style="margin-top: 5px;">
+                <span>Search Criteria:</span>
+            </div>
+            <hr>
+
+            <div style="margin-top: 10px;">
+                <div style="display: inline-block; width: 70px; text-align: right;">
+                    <span>Name:</span>
+                </div>
+                <drop-down id="cs-name-type" style="width: 90px;">
+                    <option value="2">Starts With</option>
+                    <option value="3">Ends With</option>
+                    <option value="4">Contains</option>
+                    <option value="5">Exact Match</option>
+                </drop-down>
+                <text-input id="cs-name" style="width: 175px;"></text-input>
+            </div>
+
+            <div style="margin-top: 10px;">
+                <div style="display: inline-block; width: 70px; text-align: right;">
+                    <span>ID:</span>
+                </div>
+                <drop-down id="cs-id-type" style="width: 90px;">
+                    <option value="2">Starts With</option>
+                    <option value="3">Ends With</option>
+                    <option value="4">Contains</option>
+                    <option value="5">Exact Match</option>
+                </drop-down>
+                <text-input id="cs-id" style="width: 175px;"></text-input>
+            </div>
+
+            <div style="margin-top: 10px;">
+                <span>Outstanding Billables:</span>
+                <radio-button group="outstanding-billables" value="1">Yes</radio-button>
+                <radio-button group="outstanding-billables" value="2">No</radio-button>
+                <radio-button group="outstanding-billables" value="0" checked>Either</radio-button>
+            </div>
+
+            <div style="text-align: right; margin-top: 10px;">
+                <push-button id="cs-reset">Reset</push-button>
+                <push-button id="cs-search">Search</push-button>
+            </div>
+
+            <div>
+                <span>Search Results:</span>
+            </div>
+            <hr>
+
+            <div id="cs-company-grid" style="width: 100%; height: 225px;"></div>
+
+            <div style="margin-top: 10px;">
+                <text-label id="cs-status"></text-label>
+                <div style="display: inline-block; float: right;">
+                    <push-button id="cs-ok" disabled>OK</push-button>
+                    <push-button id="cs-cancel">Cancel</push-button>
+                </div>
+            </div>
+        </popup-body>
+    </popup>
+
+    <popup id="filter-popup" width="420px" height="200px">
+        <popup-title>Filter Available Timesheet Entries</popup-title>
+        <popup-body>
+            <span>Choose additional filtering values to filter the available timesheets.</span>
+            <div class="vert-input2" style="margin-top: 15px;">
+                <label>Date From:</label>
+                <div>
+                    <native-date-input id="fp-start-date" style="width:120px;"></native-date-input>
+                    <span style="margin-left: 10px;">To:</span>
+                    <native-date-input id="fp-end-date" style="width:120px;"></native-date-input>
+                </div>
+
+                <label>Project ID:</label>
+                <smart-chooser id="project-selection" style="width: 270px;"></smart-chooser>
+
+                <label>Person:</label>
+                <smart-chooser id="person-selection" style="width: 270px;"></smart-chooser>
+
+                <label style="margin-top: 0;">Billable Status:</label>
+                <div>
+                    <radio-button group="fp-billable" value="1">Billable</radio-button>
+                    <radio-button group="fp-billable" value="2">Non-Billable</radio-button>
+                    <radio-button group="fp-billable" value="0">Either</radio-button>
+                </div>
+            </div>
+            <div style="margin-top: 15px;">
+                <push-button id="fp-reset" style="margin-left: 10px;">Reset</push-button>
+                <div style="display: inline-block; float: right;">
+                    <push-button id="fp-ok">OK</push-button>
+                    <push-button id="fp-cancel" style="margin-right: 10px; margin-left: 10px;">Cancel</push-button>
+                </div>
+            </div>
+
+        </popup-body>
+    </popup>
+
+    <popup id="add-invoice-same-popup" width="700px" height="525px">
+        <popup-title>Invoice Line Item</popup-title>
+        <popup-body style="font-size: smaller;">
+            <span>Timesheet Entries Included In Line Item:</span>
+            <hr>
+
+            <div id="ais-line-grid" style="width: 100%; height: 120px; margin-bottom: 10px;"></div>
+            <span>Common Project Summary</span>
+            <hr>
+
+            <div class="vert-input6">
+                <label>Project ID</label>
+                <text-input id="ais-project-id" disabled></text-input>
+
+                <div class="cols-3-6" style="margin-top: 6px;">
+                    <span style="margin-left: 10px;">(this is the primary parent project if sub-projects are included)</span>
+                </div>
+
+                <label>Estimated Hours</label>
+                <numeric-input id="ais-estimated-hours" decimal-places="2" show-zero disabled></numeric-input>
+
+                <label>Invoiced Hours</label>
+                <numeric-input id="ais-invoiced-hours" decimal-places="2" show-zero disabled></numeric-input>
+
+                <label>Remaining Hours</label>
+                <numeric-input id="ais-remaining-hours" decimal-places="2" show-zero disabled></numeric-input>
+            </div>
+
+            <div style="margin-top: 10px;">
+                <span style="margin-left: 10px;">* These numbers are adjusted to include line items of the current invoice (exclusing the current line item)</span>
+            </div>
+
+            <div style="margin-top: 10px;">
+                <span>Line Item Detail:</span>
+            </div>
+            <hr>
+
+            <div class="vert-input6" style="margin-top: 10px;">
+                <div class="cols-1-2">
+                    <div>Original Values from Timesheets</div>
+                    <hr class="title-ul">
+                </div>
+                <div class="cols-3-4">
+                    <div>Remaining Values from Estimate</div>
+                    <hr class="title-ul">
+                </div>
+                <div class="cols-5-6">
+                    <div>Adjusted Line Item Values</div>
+                    <hr class="title-ul">
+                </div>
+            </div>
+            <div class="vert-input6">
+                <label>Hours</label>
+                <numeric-input id="ais-ts-hours" decimal-places="2" show-zero disabled></numeric-input>
+
+                <label>Hours</label>
+                <numeric-input id="ais-remaining-est-hours" show-zero decimal-places="2" disabled></numeric-input>
+
+                <label>Hours</label>
+                <numeric-input id="ais-adj-hours" show-zero decimal-places="2"></numeric-input>
+
+                <label>Rate</label>
+                <numeric-input id="ais-ts-rate" show-zero money disabled></numeric-input>
+
+                <label>Rate</label>
+                <numeric-input id="ais-remaining-est-rate" show-zero money disabled></numeric-input>
+
+                <label>Rate</label>
+                <numeric-input id="ais-adj-rate" show-zero money></numeric-input>
+
+                <label>Amount</label>
+                <numeric-input id="ais-ts-amount" show-zero money disabled></numeric-input>
+
+                <label>Amount</label>
+                <numeric-input id="ais-remaining-est-amount" show-zero money disabled></numeric-input>
+
+                <label>Amount</label>
+                <numeric-input id="ais-adj-amount" show-zero money disabled></numeric-input>
+
+                <label>Service Item</label>
+                <div class="cols-2-6">
+                    <drop-down id="ais-service-items" style="width: 220px;" required></drop-down>
+                    <span style="margin-left: 39px; margin-right: 4px;">GL Expense Account:</span>
+                    <text-input id="ais-expense-account" style="width: 70px;" disabled></text-input>
+                </div>
+            </div>
+
+            <div style="margin-top: 10px;">
+                <label style="margin-left: 53px;">Description:</label>
+                <text-input id="ais-description" style="width: 560px;"></text-input>
+            </div>
+
+            <div style="text-align: right; margin-top: 10px;">
+                <push-button id="ais-ok">OK</push-button>
+                <push-button id="ais-cancel">Cancel</push-button>
+            </div>
+
+        </popup-body>
+    </popup>
+
+    <popup id="add-invoice-project-popup" width="700px" height="525px">
+        <popup-title>Invoice Line Item</popup-title>
+        <popup-body style="font-size: smaller;">
+            <span>Timesheet Entries Included In Line Item:</span>
+            <hr>
+
+            <div id="aip-line-grid" style="width: 100%; height: 120px; margin-bottom: 10px;"></div>
+            <span>Common Project Summary</span>
+            <hr>
+
+            <div class="vert-input6">
+                <label>Project ID</label>
+                <text-input id="aip-project-id" disabled></text-input>
+
+                <div class="cols-3-6" style="margin-top: 6px;">
+                    <span style="margin-left: 10px;">(this is the primary parent project if sub-projects are included)</span>
+                </div>
+
+                <label>Project Amount</label>
+                <numeric-input id="aip-project-amount" decimal-places="2" show-zero money disabled></numeric-input>
+
+                <label>Invoiced Amount</label>
+                <numeric-input id="aip-invoiced-amount" decimal-places="2" show-zero money disabled></numeric-input>
+
+                <label>Remaining Amount</label>
+                <numeric-input id="aip-remaining-amount" decimal-places="2" show-zero money disabled></numeric-input>
+            </div>
+
+            <div style="margin-top: 10px;">
+                <span style="margin-left: 10px;">* These numbers are adjusted to include line items of the current invoice (exclusing the current line item)</span>
+            </div>
+
+            <div style="margin-top: 10px;">
+                <span>Line Item Detail:</span>
+            </div>
+            <hr>
+
+            <div class="vert-input6" style="margin-top: 10px;">
+                <div class="cols-1-2">
+                    <div>Values from Timesheets</div>
+                    <hr class="title-ul">
+                </div>
+                <div class="cols-3-4"></div>
+                <div class="cols-5-6"></div>
+            </div>
+            <div class="vert-input6">
+                <label>Hours</label>
+                <numeric-input id="aip-ts-hours" decimal-places="2" show-zero disabled></numeric-input>
+
+                <span></span>
+                <div></div>
+
+                <span></span>
+                <div></div>
+
+                <label>Rate</label>
+                <numeric-input id="aip-ts-rate" show-zero money disabled></numeric-input>
+
+                <span></span>
+                <div></div>
+
+                <label>Invoice line amount</label>
+                <numeric-input id="aip-line-amount" show-zero money></numeric-input>
+
+                <label>Amount</label>
+                <numeric-input id="aip-ts-amount" show-zero money disabled></numeric-input>
+
+                <span></span>
+                <div></div>
+
+                <span></span>
+                <div></div>
+
+                <label>Service Item</label>
+                <div class="cols-2-6">
+                    <drop-down id="aip-service-items" style="width: 220px;" required></drop-down>
+                    <span style="margin-left: 39px; margin-right: 4px;">GL Expense Account:</span>
+                    <text-input id="aip-expense-account" style="width: 70px;" disabled></text-input>
+                </div>
+            </div>
+
+            <div style="margin-top: 10px;">
+                <label style="margin-left: 53px;">Description:</label>
+                <text-input id="aip-description" style="width: 560px;"></text-input>
+            </div>
+
+            <div style="text-align: right; margin-top: 10px;">
+                <push-button id="aip-ok">OK</push-button>
+                <push-button id="aip-cancel">Cancel</push-button>
+            </div>
+
+        </popup-body>
+    </popup>
+
+    <popup id="add-invoice-different-popup" width="700px" height="505px">
+        <popup-title>Invoice Line Item</popup-title>
+        <popup-body style="font-size: smaller;">
+            <span>Timesheet Entries Included In Line Item:</span>
+            <hr>
+
+            <div id="aid-line-grid" style="width: 100%; height: 140px; margin-bottom: 10px;"></div>
+            <span>Common Project Summary</span>
+            <hr>
+
+            <div style="margin-top: 10px; margin-bottom: 10px;">
+                This section os only available when all projects are the same project or are sub-project billable
+                inside a common parent project.  Additionally, other line items that include projects inside the same
+                common parent project as this line item must not include projects outside of the same common parent project.
+            </div>
+
+            <div style="margin-top: 10px;">
+                <span>Line Item Detail:</span>
+            </div>
+            <hr>
+
+            <div class="vert-input4" style="margin-top: 10px;">
+                <div class="cols-1-2">
+                    <div>Original Values from Timesheets</div>
+                    <hr class="title-ul">
+                </div>
+                <div class="cols-3-4">
+                    <div>Adjusted Line Item Values</div>
+                    <hr class="title-ul">
+                </div>
+            </div>
+            <div class="vert-input4">
+                <label>Hours</label>
+                <numeric-input id="aid-ts-hours" decimal-places="2" show-zero disabled></numeric-input>
+
+                <label>Hours</label>
+                <numeric-input id="aid-adj-hours" show-zero decimal-places="2"></numeric-input>
+
+                <label>Rate</label>
+                <numeric-input id="aid-ts-rate" show-zero money disabled></numeric-input>
+
+                <label>Rate</label>
+                <numeric-input id="aid-adj-rate" show-zero money></numeric-input>
+
+                <label>Amount</label>
+                <numeric-input id="aid-ts-amount" show-zero money disabled></numeric-input>
+
+                <label>Amount</label>
+                <numeric-input id="aid-adj-amount" show-zero money disabled></numeric-input>
+            </div>
+
+            <div style="margin-top: 10px;">
+                <span style="margin-left: 47px;">Service Item:</span>
+                <drop-down id="aid-service-items" style="width: 220px;" required></drop-down>
+                <span style="margin-left: 39px; margin-right: 4px;">GL Expense Account:</span>
+                <text-input id="aid-expense-account" style="width: 70px;" disabled></text-input>
+            </div>
+            <div style="margin-top: 10px;">
+                <label style="margin-left: 52px;">Description:</label>
+                <text-input id="aid-description" style="width: 563px;"></text-input>
+            </div>
+            <div style="text-align: right; margin-top: 10px;">
+                <push-button id="aid-ok">OK</push-button>
+                <push-button id="aid-cancel">Cancel</push-button>
+            </div>
+
+        </popup-body>
+    </popup>
+
+    <popup id="reject-timesheets-popup" width="350px" height="180px">
+        <popup-title>Reject Timesheet(s)</popup-title>
+        <popup-body>
+            <div style="margin-top: 10px; margin-bottom: 10px;">
+                <text-label id="rtp-info"></text-label>
+            </div>
+            <textbox-input id="rtp-reject-reason" style="width: 325px; height: 95px;" required></textbox-input>
+            <div style="position: absolute; bottom: 10px; right: 10px;">
+                <push-button id="rtp-ok">OK</push-button>
+                <push-button id="rtp-cancel">Cancel</push-button>
+            </div>
+        </popup-body>
+    </popup>
+
+    <popup id="manual-line-popup" width="540px" height="230px">
+        <popup-title>Manual Invoice Line Item</popup-title>
+        <popup-body>
+            <div class="vert-input">
+                <label>Hours</label>
+                <numeric-input id="mlp-hours" style="width: 70px;" decimal-places="2" min="0.1"></numeric-input>
+
+                <label>Rate</label>
+                <numeric-input id="mlp-rate" style="width: 70px;" show-zero money min="-100000"></numeric-input>
+
+                <label>Amount</label>
+                <numeric-input id="mlp-amount" style="width: 70px;" money show-zero disabled></numeric-input>
+
+                <label>Service Item</label>
+                <div>
+                    <drop-down id="mlp-service-item" style="width: 150px;" required></drop-down>
+                    <label style="margin-left: 20px;">GL Expense Account</label>
+                    <text-input id="mlp-expense-account" style="width: 100px;" disabled></text-input>
+                </div>
+
+                <label>Description</label>
+                <text-input id="mlp-description" required></text-input>
+            </div>
+            <div style="position: absolute; bottom: 10px; right: 10px;">
+                <push-button id="mlp-ok">OK</push-button>
+                <push-button id="mlp-cancel">Cancel</push-button>
+            </div>
+        </popup-body>
+    </popup>
+
+    <popup id="invoice-popup" width="380px" height="375px">
+        <popup-title>Create Invoice</popup-title>
+        <popup-body>
+            <div class="vert-input">
+                <label>Company</label>
+                <text-input id="ip-company" style="width: 200px;" disabled></text-input>
+
+                <label>Invoice Total</label>
+                <numeric-input id="ip-invoice-total" style="width: 110px;" money disabled></numeric-input>
+
+                <label>Invoice Date</label>
+                <date-input id="ip-invoice-date" style="width: 110px;"></date-input>
+
+                <label>AR Account</label>
+                <drop-down id="ip-ar-account" style="width: 195px;"></drop-down>
+
+                <label>Purchase Order</label>
+                <text-input id="ip-purchase-order" style="width: 195px;"></text-input>
+
+                <label>Payment Terms (days)</label>
+                <numeric-input id="ip-payment-terms" style="width: 40px;"></numeric-input>
+
+                <label>Description</label>
+                <textbox-input id="ip-description" style="width: 195px; height: 95px;"></textbox-input>
+            </div>
+            <div style="position: absolute; bottom: 10px; right: 10px;">
+                <push-button id="ip-ok">OK</push-button>
+                <push-button id="ip-cancel">Cancel</push-button>
+            </div>
+        </popup-body>
+    </popup>
+
+</div>

@@ -1,0 +1,86 @@
+<!--
+     Copyright 2020 STACK360 LLC
+     All rights reserved.
+
+-->
+
+<div class="kiss">
+
+    <style>
+        div.vert-input2 {
+            display:grid;
+            grid-template-columns: max-content max-content;
+            grid-column-gap:5px;
+            grid-row-gap: 10px;
+            margin-top: 10px;
+            margin-left: 10px;
+        }
+
+        div.vert-input2 span {
+            text-align:right;
+            margin-top: 6px;
+        }
+    </style>
+
+    <div style="margin-top: 10px; display: flex;justify-content: space-between;" >
+        <div>Project Detail</div>
+        <div>
+            <text-label id="project-info"></text-label>
+        </div>
+    </div>
+    <hr>
+
+
+    <div style="height: calc(50% - 150px)">
+        <span style="vertical-align: top;">Detail:</span>
+        <textbox-input id="project-detail" style="width: calc(100% - 50px); height: calc(100% - 20px);"></textbox-input>
+    </div>
+
+    <div style="margin-bottom: 5px; margin-top: 10px; text-align: right;">
+        <span>Shift:</span>
+        <drop-down id="shift" style="width: 100px; margin-right: 300px;"></drop-down>
+
+        <push-button id="save" disabled>Save</push-button>
+        <push-button id="reset" disabled style="margin: 0 5px;">Reset</push-button>
+    </div>
+
+    <div>Project Comments:</div>
+    <hr>
+
+    <div id="grid" style="margin-top: 10px; width: 100%; height: 50%;"></div>
+
+    <div style="position: absolute; bottom: 10px; width: 100%;">
+        <text-label id="status"></text-label>
+        <div style="float: right;">
+            <push-button id="add">Add</push-button>
+            <push-button id="edit" style="margin-left: 10px;" disabled>Edit</push-button>
+            <push-button id="delete" style="margin-left: 10px; margin-right: 30px;" disabled>Delete</push-button>
+        </div>
+    </div>
+
+    <popup id="detail-popup">
+        <popup-title>
+            <text-label id="dp-title"></text-label>
+        </popup-title>
+        <popup-body style="padding: 0 20px;">
+            <div class="vert-input2">
+                <span>Date/Time Entered:</span>
+                <div>
+                    <text-input id="dp-date-time" style="width: 130px; margin-right: 10px;" maxlength="30" required></text-input>
+                    <span>Entered By:</span>
+                    <text-input id="dp-entered-by" style="width: 130px; margin-right: 10px;" maxlength="30" required></text-input>
+                    <span></span>
+                    <check-box id="dp-chk-internal">Internal</check-box>
+                </div>
+                <span>Comment:</span>
+                <textbox-input id="dp-comment" style="width: 500px; height: 350px;" required></textbox-input>
+            </div>
+
+            <div style="text-align: right; margin-top: 20px;">
+                <push-button id="dp-ok">OK</push-button>
+                <push-button id="dp-cancel" style="margin-left: 10px; margin-right: 15px;">Cancel</push-button>
+            </div>
+        </popup-body>
+    </popup>
+
+</div>

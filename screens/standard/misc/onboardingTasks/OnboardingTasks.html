@@ -1,0 +1,83 @@
+<!--
+     Copyright 2020 STACK360 LLC
+     All rights reserved.
+
+-->
+
+<div class="kiss">
+    <style>
+        .ot-grid {
+            display: grid;
+            grid-column-gap: 10px;
+            grid-row-gap: 10px;
+            align-items: center;
+        }
+        .ot-grid span {
+            color: #000;
+            align-self: center;
+            text-align: right;
+        }
+    </style>
+
+    <div style="margin-top: 10px; margin-bottom: 10px;">
+        <span>Onboarding Configuration</span>
+        <hr>
+    </div>
+
+    <div style="margin-bottom: 10px;">
+        <span>Configuration:</span>
+        <drop-down id="ot-configurations" style="width: 250px; margin-left: 10px; margin-right: 20px;"></drop-down>
+        <push-button id="configurationsAdd" style="margin-right: 10px;">Add</push-button>
+        <push-button id="configurationsEdit" style="margin-right: 10px;" disabled>Edit</push-button>
+        <push-button id="configurationsDelete" disabled>Delete</push-button>
+    </div>
+
+    <span>Tasks (Drag and Drop to Reorder)</span>
+    
+    <div id="tasksGrid" style="height: calc(100% - 155px); width: 100%; margin-top: 10px; margin-bottom: 15px;"></div>
+    <div style="text-align: right;">
+        <push-button id="add" disabled>Add</push-button>
+        <push-button id="edit" disabled style="margin-left: 10px;">Edit</push-button>
+        <push-button id="delete" disabled style="margin-left: 10px;">Delete</push-button>
+    </div>
+    
+    <popup id="oc-popup" height="65px" width="270px">
+        <popup-title><text-label id="oc-label">Add</text-label> Onboarding Configuration</popup-title>
+        <popup-body>
+            <div class="ot-grid" style="grid-template-columns: repeat(2, max-content);">
+                <span>Name:</span>
+                <text-input id="ot-ocName" style="width: 200px;" maxlength="20" required></text-input>
+            </div>       
+
+            <div style="right: 10px; bottom: 10px; position: absolute;">
+                <push-button id="oc-ok">OK</push-button>
+                <push-button id="oc-cancel">Cancel</push-button>
+            </div>
+        </popup-body>
+    </popup>
+
+    <popup id="task-popup" height="190px" width="310px">
+        <popup-title><text-label id="task-label">Add</text-label> Onboarding Task</popup-title>
+        <popup-body>
+            <div style="margin: 10px 0; grid-template-columns: repeat(2, max-content);" class="ot-grid">
+                <span>Name:</span>
+                <text-input id="ot-taskName" style="width: 200px;" required></text-input>
+
+                <span>Description:</span>
+                <text-input id="ot-taskDescription" style="width: 200px;" required></text-input>
+
+                <span>Complete After</span>
+                <div>
+                    <numeric-input id="ot-taskCompleteAfter" style="width: 30px; margin-right: 10px;" show-zero no-comma min="0"></numeric-input>
+                    <span>Days</span>
+                </div>
+                <span>Screen:</span>
+                <drop-down id="ot-taskScreen" style="width: 215px;" required></drop-down>
+            </div>       
+            <div style="text-align: right;">
+                <push-button id="task-ok">OK</push-button>
+                <push-button id="task-cancel">Cancel</push-button>
+            </div>
+        </popup-body>
+    </popup>
+</div>

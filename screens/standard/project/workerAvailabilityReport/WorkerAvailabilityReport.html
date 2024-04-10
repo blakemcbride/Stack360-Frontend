@@ -1,0 +1,95 @@
+<!--
+     Copyright 2020 STACK360 LLC
+     All rights reserved.
+
+-->
+
+<div class="kiss" style="font-size: small;">
+
+    <style>
+
+        #input {
+            display: grid;
+            grid-template-columns: 130px 330px;
+            grid-column-gap: 5px;
+            grid-row-gap: 20px;
+            margin-top: 20px;
+            margin-left: 10px;
+        }
+
+        #input label, span {
+            text-align: right;
+        }
+
+    </style>
+
+    <div style="display: flex; justify-content: space-between; margin-top: 20px;">
+        <span>Worker Availability Report</span>
+    </div>
+
+    <hr>
+
+    <div>
+        <div style="display: inline-block; vertical-align: top;">
+            <div id="input">
+
+                <label style="margin-top: 5px;">Project:</label>
+                <div class="col-2">
+                    <smart-chooser id="project" style="width: 290px;"></smart-chooser>
+                </div>
+
+                <span></span>
+                <div>- OR -</div>
+
+                <span style="margin-top: 5px;">Zip Code:</span>
+                <text-input id="zip-code" style="width: 50px;" maxlength="5"></text-input>
+
+                <div></div>
+                <div></div>
+
+                <label style="margin-top: 5px;">Travel radius in miles:</label>
+                <numeric-input id="miles" min="0" max="3000" style="width: 50px;"></numeric-input>
+
+                <label>Availability:</label>
+                <div>
+                    <radio-button group="availability" id="available" value="A" checked>Available</radio-button>
+                    <radio-button group="availability" id="busy" value="B">Busy</radio-button>
+                    <radio-button group="availability" id="terminated" value="T">Terminated</radio-button>
+                </div>
+
+                <label>Include training:</label>
+                <div>
+                    <check-box id="training"></check-box>
+                </div>
+            </div>
+
+            <div style="margin-top: 40px; margin-left: 80px;">
+                <push-button id="reset">Reset</push-button>
+                <push-button id="send-email" style="margin-left: 10px;">Email</push-button>
+                <push-button id="report" style="margin-left: 10px;">Report</push-button>
+            </div>
+
+        </div>
+
+        <div style="margin-top: 20px; margin-left: 100px; display: inline-block;">
+            <div>Position(s):</div>
+            <list-box id="position" size="20" multiple style="width: 200px; margin-top: 10px;"></list-box>
+        </div>
+
+    </div>
+
+    <popup id="email-popup" width="600px" height="370px">
+        <popup-title>Email Workers</popup-title>
+        <popup-body>
+            <text-input id="title" style="width: 570px;" required>Message title</text-input>
+            <br><br>
+            <textbox-input id="detail" style="width: 565px; height: 265px;" placeholder="Message Detail" required></textbox-input>
+
+            <div style="display: inline-block; position: absolute; bottom: 20px; right: 20px;">
+                <push-button id="email-cancel" style="margin-left: 15px;">Cancel</push-button>
+                <push-button id="email-ok" style="margin-left: 15px;">Send</push-button>
+            </div>
+        </popup-body>
+
+    </popup>
+</div>

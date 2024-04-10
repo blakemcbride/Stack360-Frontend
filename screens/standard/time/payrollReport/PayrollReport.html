@@ -1,0 +1,42 @@
+<!--
+     Copyright 2020 STACK360 LLC
+     All rights reserved.
+
+-->
+
+<div class="kiss">
+    <style>
+        .pr-grid {
+            display: grid;
+            grid-template-columns: repeat(3, max-content);
+            grid-row-gap: 10px;
+            grid-column-gap: 10px;
+            align-items: center;
+        }
+        .pr-grid > span {
+            text-align: right;
+        }
+    </style>
+
+    <div style="margin-top: 10px;">
+        <span>Payroll Report:</span>
+        <hr>
+        <div class="pr-grid">
+            <span>Start Date:</span>
+            <native-date-input id="from-date" style="width: 110px;" required></native-date-input>
+            <div></div>
+
+            <span>End Date:</span>
+            <native-date-input id="to-date" style="width: 110px;" required></native-date-input>
+            <div></div>
+
+            <div></div>
+            <push-button id="report">Report</push-button>
+            <span>(PDF format)</span>
+
+            <div></div>
+            <push-button id="export">Export</push-button>
+            <span>(CSV format)</span>
+        </div>
+    </div>
+</div>

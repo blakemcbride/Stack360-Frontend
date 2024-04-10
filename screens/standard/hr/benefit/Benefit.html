@@ -1,0 +1,533 @@
+<!--
+     Copyright 2020 STACK360 LLC
+     All rights reserved.
+
+-->
+
+<div class="kiss">
+
+    <style>
+        div.vert-input2 {
+            display:grid;
+            grid-template-columns: max-content max-content;
+            grid-column-gap:5px;
+            grid-row-gap: 10px;
+            margin-top: 10px;
+        }
+        div.vert-input2 span {
+            text-align:right;
+            margin-top: 6px;
+        }
+        .label-width {
+            display: inline-block;
+            text-align: right;
+            margin-top: 7px;
+        }
+        #dp-tab-container {
+            width: 750px;
+        }
+        .tab-height {
+            height: 400px;
+        }
+        .eligibility-days {
+            text-align: right;
+        }
+    </style>
+
+    <div style="width: 750px;">
+        <div style="margin-top: 10px; display: flex;justify-content: space-between;" >
+            <div>Benefit Summary:</div>
+            <div>
+                <text-label id="dp-benefit-name">New Benefit</text-label>
+            </div>
+        </div>
+        <hr>
+
+        <div id="dp-tab-container">
+            <ul class="tab-header">
+                <li id="dp-general-TabButton" class="active">General</li>
+                <li id="dp-detail-TabButton">Detail</li>
+                <li id="dp-eligibility-TabButton">Eligibility</li>
+                <li id="dp-benefit-classes-TabButton">Benefit Classes</li>
+                <li id="dp-wizard-TabButton">Wizard</li>
+                <li id="dp-benefit-replaced-TabButton">Benefits Replaced</li>
+                <li id="dp-riders-TabButton">Riders</li>
+            </ul>
+            
+            <div id="dp-general-TabContent" class="tab-content tab-height">
+                <div  style="display: flex; justify-content: space-between;">
+                    <div>
+                        <div class="vert-input2">
+                            <span>Benefit:</span>
+                            <text-input id="dp-name" maxlength="60" required></text-input>
+                            <span>Category:</span>
+                            <drop-down id="dp-category" required></drop-down>
+                            <span>Active Date:</span>
+                            <div>
+                                <date-input id="dp-active" style="width: 70px;"></date-input>
+                                <span style="margin-left: 35px;">Inactive Date:</span>
+                                <date-input id="dp-inactive" style="width: 70px;"></date-input>
+                            </div>
+                            <span>Benefit Replaced By:</span>
+                            <text-input value="(active - not being replaced)" readonly></text-input>
+                            <span></span>
+                            <div>(edit on the Benefits Replaced tab)</div>
+                            <span>Description:</span>
+                            <textbox-input id="dp-description" maxlength="80" style="height: 60px"></textbox-input>
+                        </div>
+                    </div>
+                    <div>
+                        <div class="vert-input2">
+                            <span>Carrier: </span>
+                            <div>
+                                <smart-chooser id="dp-vendor-smart-chooser" style="width: 200px;"></smart-chooser>
+                            </div>
+                            <span>Policy or Group:</span>
+                            <text-input id="dp-policy-or-group" style="width: 230px;" maxlength="20"></text-input>
+                            <span>Sub Group ID:</span>
+                            <text-input id="dp-sub-group-id" maxlength="20"></text-input>
+                            <span>Plan:</span>
+                            <text-input id="dp-plan" maxlength="20"></text-input>
+                            <span>Plan Name:</span>
+                            <text-input id="dp-plan-name" maxlength="100"></text-input>
+                            <span>Payer ID:</span>
+                            <text-input id="dp-payer-id" maxlength="20"></text-input>
+                            <span>Addtl. Information:</span>
+                            <text-input id="dp-additional-information" maxlength="60"></text-input>
+                            <span>Group Account ID:</span>
+                            <text-input id="dp-group-account-id" maxlength="20"></text-input>
+                            <span>Internal ID:</span>
+                            <text-input id="dp-internal-id" maxlength="20"></text-input>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div id="dp-detail-TabContent" class="tab-content tab-height" hidden>
+                <div style="display: flex;">
+                    <div>
+                        <div class="vert-input2">
+                            <span>Insurance Code:</span>
+                            <text-input id="dp-insurance-code" maxlength="10"></text-input>
+                            <span>Service Item:</span>
+                            <smart-chooser id="dp-service-smart-chooser" style="width: 180px;"></smart-chooser>
+                            <span></span>
+                            <label>(Service Item is used for Employee Billing)</label>
+                            <span>Rule Name:</span>
+                            <drop-down id="dp-rule-name" default-option="(select)"></drop-down>
+                        </div>
+                        <div style="display: flex; margin: 20px 10px;">
+                            <radio-button group="dp-tax-type" value="Y" checked>Pre-Tax</radio-button>
+                            <radio-button group="dp-tax-type" value="N">Post-Tax</radio-button>
+                            <radio-button group="dp-tax-type" value="E">Employee chooses</radio-button>
+                        </div>
+                        <div style="display: flex; margin-left: 20px;">
+                            <div class="vert-input2">
+                                <span>Has Beneficiaries:</span>
+                                <check-box id="dp-chk-has-beneficiaries" style="height: 15px; margin-top: 3px;"></check-box>
+                                <span>Time Related:</span>
+                                <check-box id="dp-chk-time-related" style="height: 15px; margin-top: 3px;"></check-box>
+                                <span>Has Physicians:</span>
+                                <check-box id="dp-chk-has-physicians" style="height: 15px; margin-top: 3px;"></check-box>
+                                <span></span>
+                            </div>
+                            <div class="vert-input2">
+                                <span>Covered Under COBRA:</span>
+                                <check-box id="dp-chk-covered-under-COBRA" style="height: 15px; margin-top: 3px;"></check-box>
+                                <span>Contingent Beneficiaries:</span>
+                                <check-box id="dp-chk-contingent-beneficiaries" style="height: 15px; margin-top: 3px;"></check-box>
+                                <span>Requires Decline:</span>
+                                <check-box id="dp-chk-requires-decline" style="height: 15px; margin-top: 3px;"></check-box>
+                                <span>Auto Assign:</span>
+                                <check-box id="dp-chk-auto-assign" style="height: 15px; margin-top: 3px;"></check-box>
+                            </div>
+                        </div>
+                        <div class="vert-input2">
+                            <span>Cost Calculation Date Type:</span>
+                            <radio-button group="dp-cost-calc-type" value="C" checked>Current Date</radio-button>
+                            <span></span>
+                            <radio-button group="dp-cost-calc-type" value="P">Policy Start Date</radio-button>
+                        </div>
+                    </div>
+                    <div style="margin-left: 20px;">
+                        <div class="vert-input2">
+                            <span>Employer cost model:</span>
+                            <drop-down id="dp-employer-cost-model" default-option="(select)" style="width: 200px;">
+                                <option value="">(select)</option>
+                                <option value="Z">No employer cost</option>
+                                <option value="F">Fixed cost</option>
+                                <option value="A">Age banded fixed cost</option>
+                                <option value="B">Percentage of benefit based on age</option>
+                            </drop-down>
+
+                            <span>Employee cost model:</span>
+                            <drop-down id="dp-employee-cost-model" default-option="(select)">                                
+                                <option value="">(select)</option>
+                                <option value="Z">No employee cost</option>
+                                <option value="F">Fixed cost</option>
+                                <option value="A">Age banded fixed cost</option>
+                                <option value="R">Range (FSA)</option>
+                                <option value="B">Percent of benefit based on age</option>
+                            </drop-down>
+
+                            <span>Coverage amount model:</span>
+                            <drop-down id="dp-benefit-amount-model" default-option="(select)">
+                                <option value="">(select)</option>
+                                <option value="N">N/A</option>
+                                <option value="F">Fixed amount</option>
+                                <option value="R">Incremental</option>
+                                <option value="S">Percent of salary</option>
+                                <option value="M">Multiple of salary</option>
+                            </drop-down>
+                        </div>
+                        <div style="margin-top: 80px; margin-bottom: 20px;">
+                            This Wage Type is only used in certain client-specific instances and has no affect in normal conditions.  It does not limit the benefit to a specific wage type.  Just select any wage type here.
+                        </div>
+                        <div class="vert-input2">
+                            <span>Wage Type:</span>
+                            <drop-down id="dp-wage-type" default-option="(select)" style="width: 270px;" required></drop-down>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div id="dp-eligibility-TabContent" class="tab-content tab-height" hidden>
+                <div class="vert-input2">
+                    <span>Eligibility Days from Hire:</span>
+                    <radio-button group="dp-eligibility-type" value="1" checked>First Day of Employment</radio-button>
+                    <span></span>
+                    <div>
+                        <radio-button  group="dp-eligibility-type" value="2">First of the month following </radio-button>
+                        <text-input id="dp-firstMonth-after-days" class="eligibility-days" type="number" style="width: 30px;" disabled></text-input>
+                        days of employment
+                    </div>
+                    <span></span>
+                    <div>
+                        <radio-button  group="dp-eligibility-type" value="3">First of the month following </radio-button>
+                        <text-input id="dp-firstMonth-after-months" class="eligibility-days" type="number" style="width: 30px;" disabled></text-input>
+                        months of employment
+                    </div>
+                    <span></span>                        
+                    <div>
+                        <radio-button  group="dp-eligibility-type" value="4">After </radio-button>
+                        <text-input id="dp-after-days" class="eligibility-days" type="number" style="width: 30px;" disabled></text-input>
+                        days of employment
+                    </div>
+                    <span></span>                        
+                    <div>
+                        <radio-button  group="dp-eligibility-type" value="5">After </radio-button>
+                        <text-input id="dp-after-months" class="eligibility-days" type="number" style="width: 30px;" disabled></text-input>
+                        days of employment
+                    </div>
+                    <span>Eligibility Age Range:</span>
+                    <div>
+                        Minimum age of
+                        <text-input id="dp-min-age" type="number" style="width: 30px; margin-right: 30px;"></text-input>
+                        Maximum age of
+                        <text-input id="dp-max-age" type="number" style="width: 30px;"></text-input>
+                    </div>
+                    <span>Loss of Dependent Status:</span>
+                    <div>
+                        Occurs at age 
+                        <text-input id="dp-lossOfDependent-status" type="number" style="width: 30px;"></text-input>
+                        unless enrolled as full time student: then at age
+                        <text-input id="dp-lossOfDependent-status-unless" type="number" style="width: 30px;"></text-input>
+                    </div>
+                    <span>Employee Pay Range:</span>
+                    <div>
+                        From:
+                        <text-input id="dp-min-pay" type="number" style="width: 30px; margin-right: 30px;"></text-input>
+                        To:
+                        <text-input id="dp-max-pay" type="number" style="width: 30px; margin-right: 40px;"></text-input>
+                        (annual or hourly amount, 0=no max)
+                    </div>
+                    <span>Minimum Hours Per Week:</span>
+                    <div>
+                        <text-input id="dp-minHours-per-week" type="number" style="width: 30px;"></text-input>
+                    </div>
+                </div>
+                <div class="vert-input2">
+                    <span>Last Date of Coverage Upon Qualifying Event (QE):</span>
+                    <div>
+                        <radio-button group="dp-lastDate-of-coverage" value="1" required>End of the month</radio-button>
+                    </div>
+                    <span></span>
+                    <radio-button group="dp-lastDate-of-coverage" value="2">End of employment date</radio-button>
+                    <span></span>
+                    <div>
+                        <radio-button group="dp-lastDate-of-coverage" value="3">Qualifying event date +</radio-button>
+                        <text-input id="dp-qualifyingEvent-plus-days" type="number" style="width: 30px; text-align: right;" disabled></text-input>
+                        days
+                    </div>
+                </div>
+            </div>
+            <div id="dp-benefit-classes-TabContent" class="tab-content tab-height" hidden>
+                <label style="display: inline-block;margin-top: 15px;">If no Benefit Classes are selected, this Benefit is available to all Employees regardless of their Benefit Class. </label>
+                <div style="display: flex; margin-top: 30px;">
+                    <div id="dp-grid-available-benefit-classes" style="width: 240px; height: 207px;"></div>
+                    <div style="display: flex; flex-direction: column; align-items: center; justify-content: center; margin: 0 10px;">
+                        <push-button id="dp-select-left" disabled> --&gt;</push-button>
+                        <push-button id="dp-select-right" disabled style="margin-top: 10px;"> &lt;-- </push-button>
+                    </div>
+                    <div id="dp-grid-selected-benefit-classes" style="width: 240px; height: 207px;"></div>
+                </div>
+            </div>
+            <div id="dp-wizard-TabContent" class="tab-content tab-height" hidden>
+                <div class="vert-input2">
+                    <span></span>
+                    <check-box id="dp-include-in-openEnrollment">Include in Open Enrollment Wizard</check-box>
+                    <span></span>
+                    <check-box id="dp-include-in-onBoarding">Include in OnBoarding Wizard</check-box>
+                    <span>Avatar Path:</span>
+                    <text-input id="dp-avatar-path" maxlength="60"></text-input>
+                    <span>Avatar Location:</span>
+                    <text-input id="dp-avatar-location" style="width: 30px;" maxlength="2"></text-input>
+                    <span>Open Enrollment Screen:</span>
+                    <div>
+                        <text-input id="dp-screen-enrollment" readonly></text-input>
+                        <push-button id="dp-choose-enrollment">Choose</push-button>
+                        <push-button id="dp-clear-enrollment">Clear</push-button>
+                    </div>
+                    <span>Open Enrollment Screen:</span>
+                    <div>
+                        <text-input id="dp-screen-onBoarding" readonly></text-input>
+                        <push-button id="dp-choose-onBoarding">Choose</push-button>
+                        <push-button id="dp-clear-onBoarding">Clear</push-button>
+                    </div>
+                    <span>Instructions:</span>
+                    <textbox-input id="dp-instructions" style="height: 90px;" maxlength="120"></textbox-input>
+                </div>
+            </div>
+            <div id="dp-benefit-replaced-TabContent" class="tab-content tab-height" hidden>
+                <div class="vert-input2">
+                    <span>This Benefit is being replaced by:</span>
+                    <smart-chooser id="dp-replaced-benefit-smart-chooser" style="width: 200px;"></smart-chooser>
+                </div>
+                <div style="display: flex; margin-top: 30px;">
+                    <div>
+                        <span>Benefits Not Being Replaced (requires inactive date)</span>
+                        <div id="dp-grid-notReplaced" style="width: 310px; height: 207px; margin-top: 10px;"></div>
+                    </div>
+                    <div style="display: flex; flex-direction: column; align-items: center; justify-content: center; margin: 0 10px;">
+                        <push-button id="dp-replace-left" disabled> --&gt;</push-button>
+                        <push-button id="dp-replace-right" disabled style="margin-top: 10px;"> &lt;-- </push-button>
+                    </div>
+                    <div>
+                        <span>Benefits Being Replaced by This Benefit</span>
+                        <div id="dp-grid-replaced" style="width: 320px; height: 207px; margin-top: 10px;"></div>
+                    </div>
+                </div>
+            </div>
+            <div id="dp-riders-TabContent" class="tab-content tab-height" hidden>
+
+                <div id="dp-riders-grid" style="margin-top: 10px; width: 100%; height: 340px;"></div>
+
+                <div style="text-align: right; margin-top: 10px;">
+                    <push-button id="dp-riders-add">Add</push-button>
+                    <push-button id="dp-riders-edit" style="margin-left: 10px;" disabled>Edit</push-button>
+                    <push-button id="dp-riders-delete" style="margin-left: 10px;" disabled>Delete</push-button>
+                </div>
+            </div>
+        </div>
+        
+        <div style="text-align: right; margin-top: 10px;">
+            <push-button id="dp-save" disabled>Save</push-button>
+            <push-button id="dp-reset" style="margin-left: 10px;" disabled>Reset</push-button>
+        </div>
+    </div>
+
+    <popup id="vendor-selection">
+        <popup-title>
+            <text-label>Screen for Vendor</text-label>
+        </popup-title>
+        <popup-body style="padding: 0 10px;">
+            <div style="margin-top: 10px">Search Criteria:</div>
+            <hr />
+
+            <div style="margin-top: 10px;">
+                <div style="display: inline-block; width: 55px; text-align: right;">Name:</div>
+                <drop-down id="vsp-name-type" style="width: 100px;">
+                    <option value="2">Starts With</option>
+                    <option value="3">Ends With</option>
+                    <option value="4">Contains</option>
+                    <option value="5">Exact Match</option>
+                </drop-down>
+                <text-input id="vsp-name" style="width: 200px;"></text-input>
+            </div>
+
+            <div style="margin-top: 10px; text-align: right;">
+                <push-button id="vsp-reset" style="margin-left: 10px;">Reset</push-button>
+                <push-button id="vsp-search" style="margin-left: 10px;">Search</push-button>
+            </div>
+
+            <div style="margin-bottom: 10px;">Search Results:</div>
+            <hr /> 
+            <div id="vsp-grid" style="width: 100%; height: 200px;"></div>
+
+            <div style="text-align: right; margin-top: 20px; display: flex; justify-content: space-between; align-items: center;">
+                <div id="vsp-count" style="margin-left: 10px;">Displaying 0 Vendor</div>
+
+                <div>
+                    <push-button id="vsp-ok">OK</push-button>
+                    <push-button id="vsp-cancel" style="margin-left: 10px; margin-right: 15px;">Cancel</push-button>
+                </div>
+            </div>
+        </popup-body>
+    </popup>
+
+    <popup id="service-selection">
+        <popup-title>
+            <text-label>Screen for Service Item</text-label>
+        </popup-title>
+        <popup-body style="padding: 0 10px;">
+            <div style="margin-top: 10px">Search Criteria:</div>
+            <hr />
+
+            <div style="margin-top: 10px;">
+                <div style="display: inline-block; width: 55px; text-align: right;">ID:</div>
+                <drop-down id="ssp-id-type" style="width: 100px;">
+                    <option value="2">Starts With</option>
+                    <option value="3">Ends With</option>
+                    <option value="4">Contains</option>
+                    <option value="5">Exact Match</option>
+                </drop-down>
+                <text-input id="ssp-id" style="width: 200px;"></text-input>
+            </div>
+            <div style="margin-top: 10px;">
+                <div style="display: inline-block; width: 55px; text-align: right;">Description:</div>
+                <drop-down id="ssp-desc-type" style="width: 100px;">
+                    <option value="2">Starts With</option>
+                    <option value="3">Ends With</option>
+                    <option value="4">Contains</option>
+                    <option value="5">Exact Match</option>
+                </drop-down>
+                <text-input id="ssp-desc" style="width: 200px;"></text-input>
+            </div>
+
+            <div style="margin-top: 10px; text-align: right;">
+                <push-button id="ssp-reset" style="margin-left: 10px;">Reset</push-button>
+                <push-button id="ssp-search" style="margin-left: 10px;">Search</push-button>
+            </div>
+
+            <div style="margin-bottom: 10px;">Search Results:</div>
+            <hr /> 
+            <div id="ssp-grid" style="width: 100%; height: 200px;"></div>
+
+            <div style="text-align: right; margin-top: 20px; display: flex; justify-content: space-between; align-items: center;">
+                <div id="ssp-count" style="margin-left: 10px;">Displaying 0 Service Items</div>
+
+                <div>
+                    <push-button id="ssp-ok">OK</push-button>
+                    <push-button id="ssp-cancel" style="margin-left: 10px; margin-right: 15px;">Cancel</push-button>
+                </div>
+            </div>
+        </popup-body>
+    </popup>
+
+    <popup id="benefit-selection">
+        <popup-title>
+            <text-label>Screen for Benefit</text-label>
+        </popup-title>
+        <popup-body style="padding: 0 10px;">
+            <div style="margin-top: 10px">Search Criteria:</div>
+            <hr />
+
+            <div style="margin-top: 10px;">
+                <div style="display: inline-block; width: 55px; text-align: right;">Name:</div>
+                <drop-down id="bsp-name-type" style="width: 100px;">
+                    <option value="2">Starts With</option>
+                    <option value="3">Ends With</option>
+                    <option value="4">Contains</option>
+                    <option value="5">Exact Match</option>
+                </drop-down>
+                <text-input id="bsp-name" style="width: 200px;"></text-input>
+            </div>
+
+            <div style="margin-top: 10px; text-align: right;">
+                <push-button id="bsp-reset" style="margin-left: 10px;">Reset</push-button>
+                <push-button id="bsp-search" style="margin-left: 10px;">Search</push-button>
+            </div>
+
+            <div style="margin-bottom: 10px;">Search Results:</div>
+            <hr /> 
+            <div id="bsp-grid" style="width: 100%; height: 200px;"></div>
+
+            <div style="text-align: right; margin-top: 20px; display: flex; justify-content: space-between; align-items: center;">
+                <div id="bsp-count" style="margin-left: 10px;">Displaying 0 Benefits</div>
+
+                <div>
+                    <push-button id="bsp-ok">OK</push-button>
+                    <push-button id="bsp-cancel" style="margin-left: 10px; margin-right: 15px;">Cancel</push-button>
+                </div>
+            </div>
+        </popup-body>
+    </popup>
+
+    <popup id="screen-selection">
+        <popup-title>
+            <text-label>Search for Screen</text-label>
+        </popup-title>
+        <popup-body style="padding: 0 10px;">
+
+            <div style="display: flex;">
+                <div>
+                    <div style="margin-top: 10px;">Search Criteria:</div>
+                    <hr>
+
+                    <div style="margin-top: 10px;">
+                        <div style="display: inline-block; width: 90px; text-align: right;">Name:</div>
+                        <drop-down id="psp-name-type" style="width: 100px;">
+                            <option value="2">Starts With</option>
+                            <option value="3">Ends With</option>
+                            <option value="4">Contains</option>
+                            <option value="5">Exact Match</option>
+                        </drop-down>
+                        <text-input id="psp-name" style="width: 200px;"></text-input>
+                    </div>
+                    <div style="margin-top: 10px;">
+                        <div style="display: inline-block; width: 90px; text-align: right;">ID:</div>
+                        <text-input id="psp-id" style="width: 50px;"></text-input>
+                    </div>
+
+                    <div style="margin-top: 10px; text-align: right;">
+                        <push-button id="screenReset" style="margin-left: 10px;">Reset</push-button>
+                        <push-button id="screenSearch" style="margin-left: 10px;">Search</push-button>
+                    </div>
+                </div>
+                <div style="width: 200px">
+                </div>
+            </div>
+
+            <div style="margin-bottom: 10px;">Search Results:</div>
+            <div id="screenGrid" style="width: 100%; height: 200px;"></div>            
+
+            <div style="text-align: right; margin-top: 20px; display: flex; justify-content: space-between; align-items: center;">
+                <div id="scrCount" style="margin-left: 10px;">Displaying 0 Screens</div>
+                <div>
+                    <push-button id="screen-ok" disabled>OK</push-button>
+                    <push-button id="screen-cancel" style="margin-left: 10px; margin-right: 15px;">Cancel</push-button>
+                </div>
+            </div>
+        </popup-body>
+    </popup>
+
+    <popup id="rider-detail">
+        <popup-title>
+            <text-label id="rdp-title"></text-label>
+        </popup-title>
+        <popup-body style="padding: 0 10px;">
+            <div class="vert-input2">
+                <span>Rider benefit:</span>
+                <smart-chooser id="rdp-smart-chooser" style="width: 200px;"></smart-chooser>
+                <span></span>
+                <check-box id="rdp-required">Required</check-box>
+                <span></span>
+                <check-box id="rdp-hidden">Hidden</check-box>
+            </div>                      
+
+            <div style="text-align: right; margin-top: 10px;">
+                <push-button id="rdp-ok">Ok</push-button>
+                <push-button id="rdp-cancel" style="margin-left: 10px; margin-right: 15px;">Cancel</push-button>
+            </div>
+        </popup-body>
+    </popup>
+
+</div>

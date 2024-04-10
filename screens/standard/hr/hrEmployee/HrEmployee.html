@@ -1,0 +1,578 @@
+<style>
+
+    .form-row {
+        margin-bottom: 5px;
+    }
+
+    .form-row > * {
+        margin-right: 8px !important;
+    }
+
+    .form-row > input[type='text']:focus, input[type='date']:focus {
+        margin-right: 7px !important;
+    }
+
+    .form-row > *:last-child {
+        margin-right: 0 !important;
+    }
+
+    .form-row > *:last-child:focus {
+        margin-right: 0 !important;
+    }
+
+    .grid-bg-container {
+        display: grid;
+        grid-column-gap: 25px;
+        grid-template-columns: 390px 320px;
+        grid-template-areas: 'bgLeft bgRight';
+    }
+
+    .grid-bg-left {
+        grid-area: bgLeft;
+    }
+
+    .grid-bg-right {
+        grid-area: bgRight;
+    }
+
+    .grid-misc-container {
+        display: grid;
+        grid-column-gap: 25px;
+        grid-template-columns: 300px 390px;
+        grid-template-rows: 60px 150px auto;
+        grid-template-areas: "miscTopLeft miscTopRight" "miscBotLeft miscBotRight" "miscSpan miscSpan";
+    }
+
+    .grid-misc-top-left {
+        grid-area: miscTopLeft;
+    }
+
+    .grid-misc-top-right {
+        grid-area: miscTopRight;
+    }
+
+    .grid-misc-bot-left {
+        grid-area: miscBotLeft;
+    }
+
+    .grid-misc-bot-right {
+        grid-area: miscBotRight;
+    }
+
+    .grid-misc-span {
+        grid-area: miscSpan;
+    }
+
+    .tab-container {
+        height: calc(100% - 55px);
+    }
+
+    .screen-header {
+        display: flex;
+        justify-content: space-between;
+    }
+
+    .basic-label-style {
+        width: 75px;
+        padding-right: 5px;
+        text-align: right
+    }
+
+    .basic-input-style {
+        width: 150px;
+    }
+
+    .basic-radio-row {
+        margin-top: 10px;
+        margin-bottom: 15px;
+    }
+
+    .basic-radio-row div {
+        margin-left: 10px;
+    }
+
+    .address-label-style {
+        width: 85px;
+        padding-right: 5px;
+        text-align: right;
+    }
+
+    .address-input-style {
+        width: 200px;
+        padding-right: 5px;
+    }
+
+    .position-label-style {
+        width: 100px;
+        padding-right: 5px;
+        text-align: right;
+    }
+
+    .position-label-style-right {
+        width: 150px;
+        padding-right: 5px;
+        text-align: right;
+    }
+
+    .position-radio-row {
+        margin-top: 15px;
+        margin-bottom: 15px;
+    }
+
+    .bg-label-style {
+        width: 100px;
+        padding-right: 5px;
+        text-align: right;
+    }
+
+    .bg-radio-row {
+        margin-top: 10px;
+        margin-bottom: 10px;
+    }
+
+    .bg-text-area-row-style {
+        margin-top: 10px;
+        align-items: baseline;
+    }
+
+    .misc-label-style-top {
+        width: 95px;
+        padding-right: 5px;
+        text-align: right;
+    }
+
+    .misc-label-style-bot {
+        width: 75px;
+        padding-right: 5px;
+        text-align: right;
+    }
+
+    .login-label-style {
+        width: 100px;
+        padding-right: 5px;
+        text-align: right;
+    }
+
+    .login-input-style {
+        width: 150px;
+    }
+
+    .time-numeric-style {
+        width: 60px;
+    }
+
+    .time-checkbox-style {
+        margin-top: 10px;
+    }
+
+    .modal-footer > *:last-child {
+        margin-right: 10px !important;
+    }
+
+    .footer {
+        width: 100%;
+        justify-content: flex-end;
+        margin-top: 10px;
+    }
+</style>
+
+<div class="main-content">
+    <div class="screen-header">
+        <label id="screenTitle">Employee Detail:</label>
+        <label id="screenStatus"></label>
+    </div>
+    <hr>
+
+    <div id="empDetailTabContainer" class="tab-container">
+        <ul class="tab-header">
+            <li id="basicTabButton" class="active">Basic</li>
+            <li id="addressTabButton">Address</li>
+            <li id="posAndStatTabButton">Position and Status</li>
+            <li id="bgTabButton">Background</li>
+            <li id="miscTabButton">Miscellaneous</li>
+            <li id="loginTabButton">Login</li>
+            <li id="timeTabButton">Time</li>
+        </ul>
+
+        <div id="basicTabContent" class="tab-content">
+            <div class="flex-row form-row">
+                <label class="basic-label-style">First Name:</label>
+                <text-input id="firstName" class="basic-input-style" maxlength="30" data-lpignore="true" required></text-input>
+                <label class="basic-label-style">SSN:</label>
+                <text-input id="ssn" style="width: 75px;" maxlength="11" required></text-input>
+            </div>
+            <div class="flex-row form-row">
+                <label class="basic-label-style">Middle Name:</label>
+                <text-input id="middleName" class="basic-input-style" data-lpignore="true" maxlength="20"></text-input>
+                <label class="basic-label-style">Worker ID:</label>
+                <text-input id="workerId" class="basic-input-style" maxlength="11"></text-input>
+            </div>
+            <div class="flex-row form-row">
+                <label class="basic-label-style">Last Name:</label>
+                <text-input id="lastName" class="basic-input-style" data-lpignore="true" maxlength="30" required></text-input>
+                <label class="basic-label-style">Date of Birth:</label>
+                <native-date-input id="dob" style="width: 110px"></native-date-input>
+            </div>
+            <div class="flex-row form-row">
+                <label class="basic-label-style">Nick Name:</label>
+                <text-input id="nickName" class="basic-input-style" maxlength="15"></text-input>
+                <label class="basic-label-style">Email:</label>
+                <text-input id="email" style="width: 190px" maxlength="60"></text-input>
+            </div>
+            <div class="flex-row basic-radio-row">
+                <label class="basic-label-style">Sex:</label>
+                <radio-button id="sexMale" group="sexGrp" value="M" checked>Male</radio-button>
+                <radio-button id="sexFemale" group="sexGrp" value="F">Female</radio-button>
+            </div>
+            <div class="flex-row basic-radio-row">
+                <label class="basic-label-style">Worker Type:</label>
+                <radio-button id="empType" group="workerTypeGrp" value="E" checked>Employee</radio-button>
+                <radio-button id="contrType" group="workerTypeGrp" value="C">Independent Contractor</radio-button>
+            </div>
+        </div>
+
+        <div id="addressTabContent" class="tab-content" style="display: none" hidden>
+            <div class="flex-row form-row">
+                <label class="address-label-style">Address Line 1:</label>
+                <text-input id="addrLine1" class="address-input-style" maxlength="60"></text-input>
+                <label class="address-label-style">Home Phone:</label>
+                <text-input id="homePhone" maxlength="20"></text-input>
+            </div>
+            <div class="flex-row form-row">
+                <label class="address-label-style">Address Line 2:</label>
+                <text-input id="addrLine2" class="address-input-style" maxlength="60"></text-input>
+                <label class="address-label-style">Work Phone:</label>
+                <text-input id="workPhone" maxlength="20"></text-input>
+            </div>
+            <div class="flex-row form-row">
+                <label class="address-label-style">Country:</label>
+                <drop-down id="countries" style="width: 210px"></drop-down>
+                <label class="address-label-style">Mobile Phone:</label>
+                <text-input id="mobilePhone" maxlength="20"></text-input>
+            </div>
+            <div class="flex-row form-row">
+                <label class="address-label-style">City:</label>
+                <text-input id="city" class="address-input-style" maxlength="60"></text-input>
+                <label class="address-label-style">Fax:</label>
+                <text-input id="fax" maxlenth="20"></text-input>
+            </div>
+            <div class="flex-row form-row">
+                <label class="address-label-style">State / Province:</label>
+                <drop-down id="stateDropDown" style="width: 111px;" hidden></drop-down>
+                <text-input id="state" class="address-input-style" maxlength="25" hidden></text-input>
+            </div>
+            <div class="flex-row form-row">
+                <label class="address-label-style">Zip / Postal Code:</label>
+                <text-input id="zipCode" style="width: 100px;" maxlength="10"></text-input>
+            </div>
+            <div class="flex-row form-row">
+                <label class="address-label-style">County:</label>
+                <text-input id="county" class="address-input-style" maxlength="30"></text-input>
+            </div>
+        </div>
+
+        <div id="posAndStatTabContent" class="tab-content" style="display: none" hidden>
+            <div class="flex-row form-row">
+                <label class="position-label-style">Employment Status:</label>
+                <text-input id="status" style="width: 266px" disabled></text-input>
+                <label class="position-label-style-right">Worker's Comp Code:</label>
+                <numeric-input id="compCode" style="width: 50px;"></numeric-input>
+            </div>
+            <div class="flex-row form-row">
+                <label class="position-label-style">Status Date:</label>
+                <text-input id="statusDate" style="width: 90px" disabled></text-input>
+                <label style="margin-left: 50px;">HR Admin:</label>
+                <check-box id="hrAdmin"></check-box>
+                <label class="position-label-style-right" style="width: 135px; margin-left: 41px;">Inherited Benefit Class:</label>
+                <text-input id="inhBenefitClass" style="width: 240px;" readonly></text-input>
+            </div>
+            <div class="flex-row form-row">
+                <label class="position-label-style">Hire Date:</label>
+                <text-input id="hireDate" style="width: 90px;" disabled></text-input>
+                <label style="width: 326px; margin-right: 13px !important;">Benefit Class Override:</label>
+                <drop-down id="benefitClassOverride" style="width: 250px"></drop-down>
+            </div>
+            <div class="flex-row form-row">
+                <label class="position-label-style">Position:</label>
+                <text-input id="position" style="width: 266px" disabled></text-input>
+                <label class="position-label-style-right">Citizen of:</label>
+                <drop-down id="citizenOf" style="width: 250px;"></drop-down>
+            </div>
+            <div class="flex-row form-row">
+                <label class="position-label-style">Job Title:</label>
+                <text-input id="jobTitle" style="width: 266px" maxlength="60"></text-input>
+                <label class="position-label-style-right">Visa:</label>
+                <text-input id="visa" style="width: 240px;" maxlength="10"></text-input>
+            </div>
+            <div class="flex-row form-row">
+                <label class="position-label-style">Wage Type:</label>
+                <text-input id="wageType" style="width: 266px;" disabled></text-input>
+                <label class="position-label-style-right">Visa Status:</label>
+                <native-date-input id="visaStatus" style="width: 110px"></native-date-input>
+            </div>
+            <div class="flex-row form-row">
+                <label class="position-label-style">Wage:</label>
+                <numeric-input id="wage" money style="width: 75px;" disabled></numeric-input>
+                <span id="billingGrp" style="width: 183px; text-align: right;display: none;">
+                </span>
+                <label class="position-label-style-right" style="width: 341px;">Visa Expiration:</label>
+                <native-date-input id="visaExpiration" style="width: 110px"></native-date-input>
+            </div>
+            <div class="flex-row form-row">
+                <label class="position-label-style">Hours per Week:</label>
+                <numeric-input id="hoursPerWeek" style="width: 75px;"></numeric-input>
+            </div>
+            <div class="flex-row form-row position-radio-row">
+                <label class="position-label-style">Medicare:</label>
+                <radio-button id="partA" group="medicareGrp" value="A" style="margin-left: 3px;">Part A</radio-button>
+                <radio-button id="partB" group="medicareGrp" value="B">Part B</radio-button>
+                <radio-button id="partAB" group="medicareGrp" value="2">Part A & Part B</radio-button>
+                <radio-button id="notOnMedicare" group="medicareGrp" value="N">Not on Medicare</radio-button>
+                <radio-button id="unknown" group="medicareGrp" value="U" checked>Unknown</radio-button>
+            </div>
+            <div class="flex-row form-row">
+                <label class="position-label-style">EEO Category:</label>
+                <drop-down id="eeoCat" style="width: 280px"></drop-down>
+            </div>
+            <div class="flex-row form-row">
+                <label class="position-label-style">EEO Race:</label>
+                <drop-down id="eeoRace" style="width: 280px"></drop-down>
+                <label class="position-label-style" style="width: 135px;">HIC Number:</label>
+                <text-input id="hicNumber" style="width:141px;" maxlength="12"></text-input>
+            </div>
+
+            <div style="margin-top: 20px;">
+                <label>I-9 Part 1:</label>
+                <div style="display: inline-block; position: relative; top: 3px;">
+                    <check-box id="i9-part1"></check-box>
+                </div>
+                <span>Confirmation:</span>
+                <text-input id="i9p1-confirmation" style="width: 100px;" maxlength="14"></text-input>
+                <span style="margin-left: 20px;">Last changed by:</span>
+                <text-input id="i9p1-confirm-who" style="width: 150px;" disabled></text-input>
+                <text-input id="i9p1-confirm-when" style="width: 110px; margin-left: 5px;" disabled></text-input>
+            </div>
+
+            <div style="margin-top: 20px;">
+                <label>I-9 Part 2:</label>
+                <div style="display: inline-block; position: relative; top: 3px;">
+                    <check-box id="i9-part2"></check-box>
+                </div>
+                <span>Confirmation:</span>
+                <text-input id="i9p2-confirmation" style="width: 100px;" maxlength="14"></text-input>
+                <span style="margin-left: 20px;">Last changed by:</span>
+                <text-input id="i9p2-confirm-who" style="width: 150px;" disabled></text-input>
+                <text-input id="i9p2-confirm-when" style="width: 110px; margin-left: 5px;" disabled></text-input>
+            </div>
+        </div>
+
+        <div id="bgTabContent" class="tab-content grid-bg-container" style="display: none" hidden>
+            <div class="grid-bg-left">
+                <label>Military</label>
+                <hr>
+                <div class="flex-row form-row">
+                    <label class="bg-label-style">Branch:</label>
+                    <drop-down id="branch" style="width: 275px;"></drop-down>
+                </div>
+                <div class="flex-row form-row">
+                    <label class="bg-label-style">Enlisted From:</label>
+                    <drop-down id="enlistedFrom" style="width: 100px" disabled></drop-down>
+                    <numeric-input id="enlistedFromVal" style="width: 50px;" no-comma disabled></numeric-input>
+                </div>
+                <div class="flex-row form-row">
+                    <label class="bg-label-style">To:</label>
+                    <drop-down id="enlistedTo" style="width: 100px" disabled></drop-down>
+                    <numeric-input id="enlistedToVal" style="width: 50px;" no-comma disabled></numeric-input>
+                </div>
+                <div class="flex-row" style="margin-bottom: 5px;">
+                    <label class="bg-label-style">Rank at Discharge:</label>
+                    <text-input id="rankAtDischarge" style="width: 265px; margin-left: 8px;" maxlength="20" disabled></text-input>
+                </div>
+                <div class="flex-row form-row">
+                    <label class="bg-label-style">Type of Discharge:</label>
+                    <drop-down id="typeOfDischarge" style="width: 275px" disabled></drop-down>
+                </div>
+                <div class="flex-row form-row" style="align-items: center;">
+                    <label style="width: 165px; text-align: right; padding-right: 5px; margin-top: 10px;">
+                        If other than Honourable, explain:
+                    </label>
+                    <textbox-input id="nonHonourableDetails" class="bg-text-area-row-style"
+                                   style="width: 205px; height: 40px;" disabled>
+                    </textbox-input>
+                </div>
+            </div>
+            <div class="grid-bg-right">
+                <label>Criminal</label>
+                <hr style="margin-right: 25px;">
+                <div class="flex-row form-row bg-radio-row">
+                    <label class="bg-label-style">Convicted of Crime:</label>
+                    <radio-button id="crimeYes" group="crimeGrp" value="Y">Yes</radio-button>
+                    <radio-button id="crimeNo" group="crimeGrp" value="N">No</radio-button>
+                    <radio-button id="crimeUnknown" group="crimeGrp" value="U" checked>Unknown</radio-button>
+                </div>
+                <div class="flex-row form-row bg-text-area-row-style" style="align-items: flex-start;">
+                    <label class="bg-label-style">Description:</label>
+                    <textbox-input id="crimeDesc" style="width: 170px; height: 95px;" disabled></textbox-input>
+                </div>
+                <label>Company</label>
+                <hr style="margin-right: 25px;">
+                <div class="flex-row form-row bg-radio-row">
+                    <label>Worked for this Company Before:</label>
+                    <radio-button id="workedForCompany" group="companyGroup" value="Y">Yes</radio-button>
+                    <radio-button id="notForCompany" group="companyGroup" value="N" checked>No</radio-button>
+                </div>
+                <div class="flex-row form-row">
+                    <label class="bg-label-style">If yes, When?</label>
+                    <text-input id="when" style="width: 170px;" maxlength="20" disabled></text-input>
+                </div>
+            </div>
+        </div>
+
+        <div id="miscTabContent" class="tab-content grid-misc-container" style="display: none" hidden>
+            <div class="grid-misc-top-left">
+                <div class="flex-row form-row">
+                    <label>Tobacco Use:</label>
+                    <radio-button id="tobaccoYes" group="tobUseGrp" value="Y">Yes</radio-button>
+                    <radio-button id="tobaccoNo" group="tobUseGrp" value="N">No</radio-button>
+                    <radio-button id="tobaccoUnknown" group="tobUseGrp" value="U" checked>Unknown</radio-button>
+                </div>
+            </div>
+            <div class="grid-misc-top-right">
+                <div class="flex-row form-row">
+                    <label class="misc-label-style-top">Height (in inches):</label>
+                    <numeric-input id="workerHeight" show-zero style="width: 75px;"></numeric-input>
+                </div>
+                <div class="flex-row form-row">
+                    <label class="misc-label-style-top">Weight (in pounds):</label>
+                    <numeric-input id="workerWeight" show-zero style="width: 75px;"></numeric-input>
+                </div>
+            </div>
+            <div class="grid-misc-bot-left" style="margin-top: 10px;">
+                <label>Driver's License:</label>
+                <hr>
+                <div class="flex-row form-row">
+                    <label class="misc-label-style-bot">Number:</label>
+                    <text-input id="driversLicenseNumber" style="width: 200px;" maxlength="20"></text-input>
+                </div>
+                <div class="flex-row form-row">
+                    <label class="misc-label-style-bot">State:</label>
+                    <drop-down id="driversLicenseState" style="width: 75px;"></drop-down>
+                </div>
+                <div class="flex-row form-row">
+                    <label class="misc-label-style-bot">Expires:</label>
+                    <date-input id="driversLicenseExpiry" style="width: 90px;"></date-input>
+                </div>
+            </div>
+            <div class="grid-misc-bot-right" style="margin-top: 10px;">
+                <label>Automotive Insurance:</label>
+                <hr style="margin-right: 25px;">
+                <div class="flex-row" style="margin-bottom: 5px;">
+                    <label class="misc-label-style-bot">Carrier:</label>
+                    <text-input id="autoInsCarrier" style="width: 266px;margin-left: 8px;" maxlength="20"></text-input>
+                </div>
+                <div class="flex-row" style="margin-bottom: 5px;">
+                    <label class="misc-label-style-bot">Policy Number:</label>
+                    <text-input id="autoInsPolicyNo" style="width: 266px;margin-left: 8px;" maxlength="20"></text-input>
+                </div>
+                <div class="flex-row form-row">
+                    <label class="misc-label-style-bot" style="margin-right: 7px !important;">Begins:</label>
+                    <date-input id="autoInsBegin" style="width: 90px; "></date-input>
+                    <label class="misc-label-style-bot" style="width: 52px;">Expires:</label>
+                    <date-input id="autoInsExpire" style="width: 90px;"></date-input>
+                </div>
+                <div class="flex-row" style="margin-bottom: 5px;">
+                    <label class="misc-label-style-bot">Coverage:</label>
+                    <text-input id="autoInsCoverage" style="width: 266px;margin-left: 8px;" maxlength="20"></text-input>
+                </div>
+            </div>
+            <div class="grid-misc-span">
+                <label>Default Project:</label>
+                <hr style="margin-right: 25px;">
+                <div class="flex-row" style="margin-bottom: 5px;">
+                    <label style="width: 125px; text-align: right;">Inherited from Company:</label>
+                    <text-input id="projectInheritedFrom" style="width: 547px; margin-left: 9px;"
+                                readonly></text-input>
+                </div>
+                <div class="flex-row form-row">
+                    <label style="width: 125px; text-align: right;">Employee Override:</label>
+                    <drop-down id="employeeOverride" style="width: 523px;"></drop-down>
+                    <push-button id="empOvrSearch" class="btn-smart-chooser"></push-button>
+                </div>
+            </div>
+        </div>
+
+        <div id="loginTabContent" class="tab-content" style="display: none" hidden>
+            <div class="flex-row form-row">
+                <check-box id="assignLogin" style="margin-right: 25px;">Assign Login</check-box>
+                <push-button id="generateLogin" class="btn-primary" disabled hidden>Generate Login ID & Password
+                </push-button>
+            </div>
+            <div class="flex-row form-row">
+                <label class="login-label-style">Login ID:</label>
+                <text-input id="loginId" class="login-input-style" maxlength="50" disabled></text-input>
+                <label class="login-label-style">Screen Group:</label>
+                <drop-down id="screenGroup" style="width: 280px;" disabled></drop-down>
+                <push-button id="scrGrpSearch" class="btn-smart-chooser" disabled></push-button>
+            </div>
+            <div class="flex-row form-row">
+                <label class="login-label-style">Password:</label>
+                <text-input id="password" class="login-input-style" password maxlength="50" disabled></text-input>
+                <label class="login-label-style">Security Group:</label>
+                <drop-down id="securityGroup" style="width: 280px;" disabled></drop-down>
+                <push-button id="secGrpSearch" class="btn-smart-chooser" disabled></push-button>
+            </div>
+            <div class="flex-row form-row">
+                <label class="login-label-style">Confirm Password:</label>
+                <text-input id="confirmPassword" class="login-input-style" password maxlength="50" disabled></text-input>
+                <label class="login-label-style">Login Status:</label>
+                <radio-button id="loginStatusActive" group="loginStatusGrp" value="true" checked disabled>Active</radio-button>
+                <radio-button id="loginStatusInactive" group="loginStatusGrp" value="false" disabled>Inactive</radio-button>
+            </div>
+            <div class="flex-row form-row" style="margin-top: 10px;">
+                <label style="margin-right: 114px !important;"></label>
+                <label style="margin-right: 170px !important;"></label>
+                <label class="login-label-style">Person Record ID:</label>
+                <text-input id="personId" class="login-input-style" disabled></text-input>
+            </div>
+            <div id="noCompScreenGrpContainer" class="flex-row form-row" style="margin-top: 10px;">
+                <label class="login-label-style" style="width: 380px">No Company Screen Group:</label>
+                <drop-down id="noCompScreenGroup" style="width: 280px;" disabled></drop-down>
+                <push-button id="noCompScreenGrpSearch" class="btn-smart-chooser" disabled></push-button>
+            </div>
+        </div>
+
+        <div id="timeTabContent" class="tab-content" style="display: none;" hidden>
+            <div class="flex-row form-row time-checkbox-style">
+                <check-box id="timeLogCheckBox">Auto clock in/out corresponding to login/out of the system thus
+                    employee's time will correspond to their time logged into the system.
+                </check-box>
+            </div>
+            <div class="flex-row form-row time-checkbox-style">
+                <check-box id="overtimeLogoutCheckBox">Auto overtime logout</check-box>
+            </div>
+            <div id="autoGenGrpContainer" class="flex-row form-row time-checkbox-style" style="display: none;" hidden>
+                <check-box id="timesheetCheckbox">Auto generate timesheets</check-box>
+            </div>
+            <div class="flex-row form-row" style="margin-top: 25px;">
+                <numeric-input id="workHoursNumericTextInput" class="time-numeric-style" show-zero min="0"
+                               decimal-places="2"></numeric-input>
+                <label>Length of Work Day</label>
+            </div>
+            <div class="flex-row form-row">
+                <numeric-input id="breakHoursNumericTextInput" class="time-numeric-style" show-zero min="0"
+                               decimal-places="2"></numeric-input>
+                <label>Length of Breaks</label>
+            </div>
+        </div>
+
+        <div class="footer btn-bar-comp">
+            <text-label id="client-data-changed" style="margin-top: 5px; margin-right: 5px; color: red;" hidden>(data changed)</text-label>
+            <push-button id="save" disabled>Save</push-button>
+            <push-button id="reset" disabled>Reset</push-button>
+        </div>
+
+
+    </div>
+
+
+</div>

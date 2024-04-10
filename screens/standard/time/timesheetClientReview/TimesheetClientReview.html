@@ -1,0 +1,243 @@
+<!--
+     Copyright 2020 STACK360 LLC
+     All rights reserved.
+
+-->
+
+<div class="kiss">
+
+    <style>
+        .ep-grid-layout {
+            display:grid;
+            grid-template-columns: 80px 490px;
+            grid-column-gap: 5px;
+            grid-row-gap: 10px;
+            margin-top: 10px;
+            margin-left: 0;
+        }
+        .ep-grid-layout span       { text-align:right; margin-top: 6px; }
+    </style>
+
+    <div style="margin-top: 10px;">
+        <span>Consultant:</span>
+        <smart-chooser id="worker" style="width: 300px;"></smart-chooser>
+        <div style="display: inline-block; float: right">
+            <span>Timesheets Currently Final For Worker Up To Date:</span>
+            <native-date-input id="finalized-date" style="width: 110px;" disabled></native-date-input>
+        </div>
+    </div>
+
+    <div style="text-align: right; margin-top: 10px;">
+        <span>Add/View Rejected Dates:</span>
+        <push-button id="dates" disabled>Dates</push-button>
+    </div>
+
+    <div style="margin-top: 15px;">
+        Timesheet Entries:
+        <div style="float: right;">
+            <span style="vertical-align: top;">Show:</span>
+            <check-box id="finalized" checked>Finalized</check-box>
+            <check-box id="non-finalized">Non-Finalized</check-box>
+            <check-box id="billable" checked>Billable</check-box>
+            <check-box id="non-billable" checked>Non-Billable</check-box>
+            <check-box id="approved">Approved</check-box>
+            <check-box id="non-approved" checked>Non-Approved</check-box>
+        </div>
+    </div>
+    <hr>
+
+    <div id="grid" style="height: calc(100% - 160px); width: 100%;"></div>
+
+    <div style="position: absolute; bottom: 10px; width: 100%">
+        <text-label id="legend" style="font-weight: bold;">Column Legend</text-label>
+        <span style="margin-left: 100px;">Total Hours:</span>
+        <numeric-input id="total-hours" style="width: 60px;" decimal-places="2" show-zero disabled></numeric-input>
+        <div style="float: right; margin-right: 20px;">
+            <push-button id="reject" disabled>Reject</push-button>
+            <push-button id="approve" style="margin-left: 5px;" disabled>Approve</push-button>
+            <push-button id="edit" style="margin-left: 5px;" disabled>Edit</push-button>
+        </div>
+    </div>
+
+    <popup id="dates-popup" height="200px" width="170px">
+        <popup-title>Add/View Rejected Dates</popup-title>
+        <popup-body>
+            <div style="margin: 5px;">Currently Rejected Dates</div>
+            <list-box id="dp-list" style="width: 100%; height: 140px;"></list-box>
+            <div style="text-align: right; margin-top: 5px;">
+                <push-button id="dp-add">Add</push-button>
+                <push-button id="dp-close">Close</push-button>
+            </div>
+        </popup-body>
+    </popup>
+
+    <popup id="add-reject-date-popup" height="200px" width="300px">
+        <popup-title>Add Rejected Date</popup-title>
+        <popup-body>
+            <div style="margin: 10px;">
+                <div style="display: inline-block; width: 50px; text-align: right;">Date:</div>
+                <date-input id="ard-date" style="width: 110px;" required></date-input>
+            </div>
+
+            <div style="margin: 10px;">
+                <div style="display: inline-block; width: 50px; text-align: right;">Reason:</div>
+                <textbox-input id="ard-reason" style="width: 205px; height: 95px;" required></textbox-input>
+            </div>
+
+            <div style="text-align: right; margin-right: 15px; margin-top: 15px;">
+                <push-button id="ard-ok">OK</push-button>
+                <push-button id="ard-cancel">Cancel</push-button>
+            </div>
+        </popup-body>
+    </popup>
+
+    <popup id="legend-popup" height="400px" width="450px;">
+        <popup-title>Column Legend</popup-title>
+        <popup-body>
+            <textbox-input style="width: 97%; height: 345px;" disabled>
+                <span style="font-weight: bold;">S - Timesheet State</span><br><br>
+                This column represents the current state of the timesheet entry.  Possible values are:
+                <br><br>
+                <ul>
+                    <li>(<span style="font-weight: bold;">N</span>)ew - Timesheet has been newly created</li>
+                    <li>(<span style="font-weight: bold;">R</span>)ejected - Timesheet has been rejected by a supervisor back to the timesheet creator</li>
+                    <li>(<span style="font-weight: bold;">F</span>)ixed - Timesheet has been fixed after being Rejected by a supervisor</li>
+                    <li>(<span style="font-weight: bold;">C</span>)hanged - Timesheet has been changed after the day has by finalized (possible when the day has been Rejected back to the timesheet creator)</li>
+                    <li>(<span style="font-weight: bold;">A</span>)pproved - Timesheet has been approved by a supervisor and is available for accounting</li>
+                    <li>(<span style="font-weight: bold;">P</span>)roblem - Timesheet has been marked as having a problem by accounting</li>
+                    <li>(<span style="font-weight: bold;">D</span>)eferred - Timesheet has been marked as deferred by accounting (won't be invoiced)</li>
+                    <li>(<span style="font-weight: bold;">I</span>)nvoiced - Timesheet has been included in an invoice</li>
+                </ul>
+                <span style="font-weight: bold;">B - Timesheet Billable Status</span><br><br>
+                This column represents the billable status of the timesheet entry.  Possible values are:
+                <ul>
+                    <li>(<span style="font-weight: bold;">Y</span>)es - The timesheet is billable</li>
+                    <li>(<span style="font-weight: bold;">N</span>)o - The timesheet is not billable</li>
+                    <li>(<span style="font-weight: bold;">U</span>)nknown - It is unknown if the timesheet is billable</li>
+                </ul>
+            </textbox-input>
+        </popup-body>
+        <div style="text-align: right; position: absolute; bottom: 10px; width: 100%">
+            <push-button id="legend-close" style="margin-right: 10px;">Close</push-button>
+        </div>
+    </popup>
+
+    <popup id="reject-reason-popup" width="400px" height="200px">
+        <popup-title><text-label id="rr-title"></text-label></popup-title>
+        <popup-body>
+            <span>Reason:</span>
+            <textbox-input id="rr-reason" style="width: 325px; height: 145px;" required></textbox-input>
+            <div style="text-align: right; margin-top: 10px;">
+                <push-button id="rr-ok">OK</push-button>
+                <push-button id="rr-cancel" style="margin-right: 10px;  margin-left: 5px;">Cancel</push-button>
+            </div>
+        </popup-body>
+    </popup>
+
+    <popup id="edit-popup" width="600px" height="500px">
+        <popup-title><text-label id="ep-title"></text-label></popup-title>
+        <popup-body>
+            <div style="margin-top: 5px;">
+                <span>Time:</span>
+            </div>
+            <hr>
+            <div class="ep-grid-layout" style="margin-top: 5px;">
+                <span>Begin Time:</span>
+                <div>
+                    <time-input id="ep-begin-time" style="width: 60px"></time-input>
+                    <span style="margin-left: 25px">End Time:</span>
+                    <time-input id="ep-end-time" style="width: 60px"></time-input>
+                    <span style="margin-left: 25px">Hours:</span>
+                    <numeric-input id="ep-hours" style="width: 50px;" decimal-places="2" required></numeric-input>
+                </div>
+            </div>
+            <div style="margin-top: 10px;">
+                <span>Project:</span>
+            </div>
+            <hr>
+            <div class="ep-grid-layout">
+                <span>Quick List:</span>
+                <drop-down id="ep-quick-list" style="width: 100%;"></drop-down>
+
+                <span>Project ID:</span>
+                <div>
+                    <text-input id="ep-project-id" style="width: 80px;" required></text-input>
+                    <push-button id="ep-verify">Verify</push-button>
+                    <span>(Use Verify if typing in Project ID directly.)</span>
+                    <push-button id="ep-choose" style="margin-left: 30px;">Choose</push-button>
+                </div>
+
+                <span>Summary:</span>
+                <text-input id="ep-summary" style="width: 99%; margin: 0;" disabled></text-input>
+
+                <span>Company:</span>
+                <div>
+                    <text-input id="ep-company" style="width: 235px;" disabled></text-input>
+                    <span style="margin-left: 20px;">Billable:</span>
+                    <radio-button group="ep-billable" value="Y">Yes</radio-button>
+                    <radio-button group="ep-billable" value="N">No</radio-button>
+                    <radio-button group="ep-billable" value="U">Unknown</radio-button>
+                </div>
+            </div>
+            <div style="margin-top: 10px;">
+                <span>Detail:</span>
+            </div>
+            <hr>
+            <div class="ep-grid-layout">
+                <span>Description:</span>
+                <textbox-input id="ep-description" style="width: 99%; height: 50px;"></textbox-input>
+
+                <span>Descriptions:</span>
+                <drop-down id="ep-descriptions" style="width: 100%;"></drop-down>
+            </div>
+            <div style="margin-top: 10px;">
+                <span>Rejection:</span>
+            </div>
+            <hr>
+            <div class="ep-grid-layout">
+                <span>Reason:</span>
+                <textbox-input id="ep-reason" style="width: 99%; height: 50px; background-color: lightgray;" disabled></textbox-input>
+            </div>
+            <div style="float: right; margin-top: 10px;">
+                <push-button id="ep-ok">OK</push-button>
+                <push-button id="ep-cancel" style="margin-right: 10px; margin-left: 10px;">Cancel</push-button>
+            </div>
+        </popup-body>
+    </popup>
+
+    <popup id="project-info-popup" height="400px" width="530px">
+        <popup-title>Project Information</popup-title>
+        <popup-body>
+            <br>
+            <span style="font-weight:bold;">Project ID:</span>
+            <text-label id="project-info-project-id"></text-label>
+            <span style="margin-left: 50px; font-weight:bold;">Requesting Person:</span>
+            <text-label id="project-info-requesting-person"></text-label>
+            <br><br>
+
+            <span style="font-weight:bold;">Project Summary:</span>
+            <text-label id="project-info-summary"></text-label>
+            <br><br>
+
+            <span style="font-weight:bold;">Requesting Company (Group):</span>
+            <text-label id="project-info-requesting-company"></text-label>
+            <br><br>
+
+            <span style="font-weight:bold;">Phase:</span>
+            <text-label id="project-info-phase"></text-label>
+            <br><br>
+
+            <span style="font-weight:bold;">Status:</span>
+            <text-label id="project-info-status"></text-label>
+            <br><br>
+
+            <span style="font-weight:bold;">Project Detail:</span><br>
+            <textbox-input id="project-info-details" style="height: 195px; width: 495px;" disabled></textbox-input>
+
+            <div style="right: 10px; bottom: 10px; position: absolute;">
+                <push-button id="project-info-ok">Ok</push-button>
+            </div>
+        </popup-body>
+    </popup>
+
+</div>

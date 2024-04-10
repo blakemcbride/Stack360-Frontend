@@ -1,0 +1,32 @@
+<!--
+     Copyright 2020 STACK360 LLC
+     All rights reserved.
+
+-->
+
+<div class="kiss">
+
+    <div style="margin-top: 10px; margin-bottom: 10px;">
+        <span>Worker Productivity</span>
+        <hr>
+    </div>
+
+    <span>From:</span>
+    <native-date-input id="fromDate" style="width:110px; margin-left: 10px; margin-right: 20px;"></native-date-input>
+
+    <span>To Date:</span>
+    <native-date-input id="toDate" style="width:110px; margin-left: 10px; margin-right: 20px;"></native-date-input>
+
+    <push-button id="search">Search</push-button>
+
+    <div style="margin-top: 10px; margin-bottom: 10px;">
+        <span>Viewing:</span>
+        <text-label id="viewing"></text-label>
+    </div>
+
+    <div id="viewingGrid" style="height: calc(100% - 145px); width: 500px;"></div>
+
+    <div style="position: absolute; bottom: 10px;">
+        <push-button id="show-all" disabled>&#60;&#60; All </push-button>
+    </div>
+</div>

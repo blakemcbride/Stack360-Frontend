@@ -1,0 +1,21 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    <title>Screen Size</title>
+    <script>
+        function startup() {
+            function resize(event) {
+                const div = document.getElementById('screen-size');
+                div.innerText = window.innerWidth + "x" + window.innerHeight;
+            }
+            window.onresize = resize;
+            resize(null);
+        }
+    </script>
+</head>
+<body onload="startup()" style="font-size: x-large;">
+Screen size: <div id="screen-size" style="display: inline-block;"></div>
+</body>
+</html>

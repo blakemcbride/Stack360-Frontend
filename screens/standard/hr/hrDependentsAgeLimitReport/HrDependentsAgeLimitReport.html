@@ -1,0 +1,59 @@
+<!--
+    Copyright 2020 STACK360 LLC
+    All rights reserved.
+
+-->
+
+<div class="kiss">
+    <style>
+        #options-container {
+            display: grid;
+            grid-template-columns: repeat(2, max-content);
+            grid-row-gap: 10px;
+            grid-column-gap: 10px;
+            align-items: center;
+        }
+        #options-container > span {
+            text-align: right;
+        }
+        #options-container * {
+            margin-left: 0 !important;
+        } 
+    </style>
+    <div style="max-width: 340px; height: 100%;">
+        <div style="margin-top: 10px; margin-bottom: 10px;">
+            <span>Report Options:</span>
+            <hr>
+        </div>
+        <div id="options-container">
+            <span>Show Child Dependents that are turning Age:</span>
+            <div>
+                <numeric-input id="age" style="width: 20px; margin-right: 5px;" value="25" min="0" max="99"></numeric-input>
+
+                <span>in Year:</span>
+                <numeric-input id="year" style="width: 30px; margin-left: 5px;" no-comma min="1000" max="3000"></numeric-input>
+            </div>
+
+            <span>Ignore Dependent Students:</span>
+            <check-box id="excludeStudent" checked></check-box>
+
+            <span>Ignore Dependents with Handicap:</span>
+            <check-box id="excludeHandicap" checked></check-box>
+
+            <span>Ignore Inactive Child Dependents:</span>
+            <check-box id="excludeInactiveChild" checked></check-box>
+
+            <span>Inactive as of:</span>
+            <native-date-input id="inactiveAsOf" style="width: 110px;"></native-date-input>
+
+            <span style="grid-column: 1 / 3;">*Must be Inactive with all Employee Sponsors to be <br> considered Inactive for this report</span>
+        </div>
+        <div style="margin-top: 10px; margin-bottom: 10px;">
+            <span>Show Child Dependents Enrolled in (multiple-selection allowed):</span>
+            <hr>
+        </div>
+        <div id="benefitsGrid" style="height: calc(100% - 290px); margin-bottom: 10px;"></div>
+        <span>*Child Dependents of Inactive Employees are excluded</span>
+        <push-button id="report">Report</push-button>
+    </div>
+</div>

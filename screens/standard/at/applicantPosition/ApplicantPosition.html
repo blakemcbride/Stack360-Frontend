@@ -1,0 +1,212 @@
+<!--
+     Copyright 2020 STACK360 LLC
+     All rights reserved.
+
+-->
+
+<div class="kiss">
+
+    <style>
+        .grid-container {
+            display: grid;
+            grid-column-gap: 5px;
+            grid-row-gap: 10px;
+            grid-template-columns: max-content max-content max-content max-content;
+            margin-top: 5px;
+        }
+
+        .grid-container span {
+            text-align: right;
+            margin-top: 5px;
+        }
+
+        .grid-container2 {
+            display: grid;
+            grid-column-gap: 5px;
+            grid-row-gap: 10px;
+            grid-template-columns: max-content max-content;
+            margin-top: 10px;
+        }
+
+        .grid-container2 span {
+            text-align: right;
+            margin-top: 5px;
+        }
+
+    </style>
+
+
+    <div style="margin-top: 5px;">
+        <span>Applicant Positions</span>
+        <text-label id="worker" style="float: right"></text-label>
+    </div>
+
+    <hr style="margin-top: 0; border-top-color: black; border-bottom-width: 0;">
+
+    <div style="margin-top: 10px;">
+        <span style="margin-left: 105px; vertical-align: top;">Status:</span>
+        <check-box id="new" checked>New</check-box>
+        <check-box id="accepting-applications" checked style="margin-left: 25px;">Accepting Applications</check-box>
+        <check-box id="suspended" style="margin-left: 25px;">Suspended</check-box>
+        <check-box id="filled" style="margin-left: 25px;">Filled</check-box>
+        <check-box id="cancelled" style="margin-left: 25px;">Cancelled</check-box>
+    </div>
+
+    <div class="grid-container">
+        <span>Organizational Group:</span>
+        <drop-down id="organizational-group" style="width: 290px;"></drop-down>
+
+        <span>HR Position:</span>
+        <drop-down id="position" style="width: 290px;"></drop-down>
+
+        <span>Accepting Applications From:</span>
+        <div>
+            <native-date-input id="accepting-applications-from" style="width: 110px;"></native-date-input>
+            <div style="width: 40px; display: inline-block; text-align: right;">To:</div>
+            <native-date-input id="accepting-applications-to" style="width: 110px;"></native-date-input>
+        </div>
+        <span style="margin-left: 30px;">Job Starts:</span>
+        <div>
+            <native-date-input id="job-starts" style="width: 110px;"></native-date-input>
+            <div style="width: 40px; display: inline-block; text-align: right;">To:</div>
+            <native-date-input id="job-to" style="width: 110px;"></native-date-input>
+            <push-button id="reset" style="margin-left: 40px;">Reset</push-button>
+        </div>
+    </div>
+
+    <div id="grid" style="width: 100%; height: calc(100% - 170px); margin-top: 10px;"></div>
+
+    <div style="position: absolute; bottom: 10px; width: 100%;">
+        <div style="display: inline-block;">
+            <text-label id="status"></text-label>
+        </div>
+        <div style="display: inline-block; float: right; margin-right: 30px;">
+            <push-button id="add">Add</push-button>
+            <push-button id="edit" style="margin-left: 10px;" disabled>Edit</push-button>
+            <push-button id="delete" style="margin-left: 10px;" disabled>Delete</push-button>
+            <push-button id="report" style="margin-left: 10px;">Report</push-button>
+        </div>
+    </div>
+
+    <popup id="detail-popup" height="200px" width="700px">
+        <popup-title>
+            <text-label id="dp-title"></text-label>
+        </popup-title>
+        <popup-body>
+            <div style="display: inline-block;">
+                <div class="grid-container2">
+                    <span>Applicant Position:</span>
+                    <text-input id="dp-job-title" width="210px;" maxlength="80" required></text-input>
+
+                    <span>HR Position:</span>
+                    <drop-down id="dp-position" style="width: 320px;" required></drop-down>
+
+                    <span>Organizational Group:</span>
+                    <drop-down id="dp-organizational-group" style="width: 320px;" required></drop-down>
+
+                    <span tyle="margin-left: 10px;">Accepting Applications:</span>
+                    <div>
+                        <native-date-input id="dp-accepting-applications" style="width: 110px;" required></native-date-input>
+                        <span style="margin-left: 25px;">Job start:</span>
+                        <native-date-input id="dp-job-start" style="width: 110px;" required></native-date-input>
+                    </div>
+                </div>
+            </div>
+            <div style="display: inline-block;">
+                <div class="grid-container2">
+                    <span style="margin-left: 40px;">Status:</span>
+                    <radio-button group="dp-status" value="N" style="align-self: end;" checked>New</radio-button>
+
+                    <span></span>
+                    <radio-button group="dp-status" value="A">Accepting Applications</radio-button>
+
+                    <span></span>
+                    <radio-button group="dp-status" value="S">Suspended</radio-button>
+
+                    <span></span>
+                    <radio-button group="dp-status" value="F">Filled</radio-button>
+
+                    <span></span>
+                    <radio-button group="dp-status" value="C">Cancelled</radio-button>
+                </div>
+            </div>
+            <div style="position: absolute; bottom: 10px; right: 15px;">
+                <push-button id="dp-description" style="margin-right: 100px;">Position Description</push-button>
+                <push-button id="dp-offer-letter" style="margin-right: 100px;">Offer Letter</push-button>
+                <push-button id="dp-ok">Ok</push-button>
+                <push-button id="dp-cancel" style="margin-left: 10px;">Cancel</push-button>
+            </div>
+        </popup-body>
+    </popup>
+
+    <popup id="position-information-popup" height="500px" width="680px">
+        <popup-title><text-label id="pip-title"></text-label></popup-title>
+        <popup-body style="margin: 10px;">
+            <div style="margin-top: 10px;">
+                Label:
+                <text-input id="pip-label" style="width: 200px" maxlength="20" required></text-input>
+            </div>
+
+            <div style="margin-top: 10px;">
+                Description:
+            </div>
+
+            <textbox-input id="pip-description" style="width: 630px; height: 390px;" maxlength="2000"></textbox-input>
+
+            <div style="position: absolute; bottom: 10px; right: 15px;">
+                <push-button id="pip-ok">Ok</push-button>
+                <push-button id="pip-cancel" style="margin-left: 10px;">Cancel</push-button>
+            </div>
+        </popup-body>
+    </popup>
+
+    <popup id="offer-letter-popup" height="750px" width="1200px">
+        <popup-title>Edit Position Offer Letter</popup-title>
+        <popup-body>
+            <div id="olp-editor" style="height: 700px; width: 1185px;"></div>
+            <div style="position: absolute; bottom: 10px; right: 15px;">
+                <push-button id="olp-variables" style="margin-right: 400px;">Variables</push-button>
+                <push-button id="olp-ok">Ok</push-button>
+                <push-button id="olp-cancel" style="margin-left: 10px;">Cancel</push-button>
+            </div>
+        </popup-body>
+    </popup>
+
+    <popup id="offer-letter-variables" height="140px" width="825px">
+        <popup-title>Variables</popup-title>
+        <div style="font-size: large; margin: 20px;">
+             The following variables may be used in the offer letter.
+            <ul>
+                <li>
+                    <b>$NAME</b> - the applicant's name
+                </li>
+                <li>
+                    <b>$PAY-RATE</b> - the pay rate being offered
+                </li>
+                <li>
+                    <b>$SIGNATURE</b> - the applicant's signature (blank if they haven't signed it yet)
+                </li>
+                <li>
+                    <b>$DATE</b> - the date the applicant signed the document (blank if they haven't signed it yet)
+                </li>
+            </ul>
+        </div>
+        <popup-body>
+            <div style="position: absolute; bottom: 10px; right: 15px;">
+                <push-button id="olv-ok">Ok</push-button>
+            </div>
+        </popup-body>
+    </popup>
+
+    <popup id="description-popup" height="750px" width="1200px">
+        <popup-title>Edit Position Description</popup-title>
+        <popup-body>
+            <div id="desp-editor" style="height: 700px; width: 1185px;"></div>
+            <div style="position: absolute; bottom: 10px; right: 15px;">
+                <push-button id="desp-ok">Ok</push-button>
+                <push-button id="desp-cancel" style="margin-left: 10px;">Cancel</push-button>
+            </div>
+        </popup-body>
+    </popup>
+
+</div>

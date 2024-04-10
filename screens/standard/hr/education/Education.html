@@ -1,0 +1,139 @@
+<!--
+     Copyright 2021 STACK360 LLC
+     All rights reserved.
+
+-->
+
+<div class="kiss">
+
+    <style>
+        div.vert-input2 {
+            display:grid;
+            grid-template-columns: max-content max-content;
+            grid-column-gap:5px;
+            grid-row-gap: 10px;
+            margin-top: 10px;
+        }
+
+        div.vert-input2 span {
+            text-align:right;
+            margin-top: 6px;
+        }
+
+        div.vert-input2-small {
+            display:grid;
+            grid-template-columns: max-content max-content;
+            grid-column-gap:5px;
+            grid-row-gap: 10px;
+        }
+
+        div.vert-input2-small span {
+            text-align:right;
+            margin-top: 6px;
+        }
+
+        div.vert-input2-graduate {
+            display:flex;
+            align-items: center;
+            justify-content: center;
+            margin-left: 8px;
+        }
+    </style>
+
+    <div style="margin-top: 10px;">
+        <span>Education</span>
+        <text-label id="worker-name" style="float: right;"></text-label>
+    </div>
+    <hr>
+
+    <div id="grid" style="margin-top: 10px; width: 100%; height: calc(100% - 90px);"></div>
+
+    <text-label id="status" style="position: absolute; bottom: 25px; left: 20px;">Displaying 0 Schools</text-label>
+
+    <div style="position: absolute; bottom: 15px; right: 10px;">
+        <push-button id="add" style="margin-left: 10px;">Add</push-button>
+        <push-button id="edit" style="margin-left: 10px;" disabled>Edit</push-button>
+        <push-button id="delete" style="margin-left: 10px;" disabled>Delete</push-button>
+    </div>
+
+    <popup id="education-popup" height="364px" width="374px">
+        <popup-title>
+            <text-label id="ep-title">Add School</text-label>
+        </popup-title>
+        <popup-body>
+            <div class="vert-input2" style="margin-left: 4px;">
+                <span>School:</span>
+                <text-input id="ep-school" style="width: 250px;" required maxlength="80"></text-input>
+                <span>Type:</span>
+                <drop-down id="ep-type" style="width: 260px" required>
+                    <option value="">(Select)</option>
+                    <option value="H">High School</option>
+                    <option value="U">College Undergraduate</option>
+                    <option value="G">College Graduate</option>
+                    <option value="T">Tech / Trade School</option>
+                    <option value="C">Certificate</option>
+                    <option value="O">Other</option>
+                </drop-down>
+                <span></span>
+                <div class="vert-input2-small">
+                    <span>Other: </span>
+                    <text-input id="ep-other" style="width: 215px;" disabled maxlength="15"></text-input>
+                </div>
+                <span>Location:</span>
+                <textbox-input id="ep-location" style="width: 248px; height: 50px;" maxlength="120"></textbox-input>
+                <span>Enrollment From:</span>
+                <div class="vert-input2-small">
+                    <drop-down id="ep-from-month" style="width: 100px">
+                        <option value="">(select)</option>
+                        <option value="1">January</option>
+                        <option value="2">February</option>
+                        <option value="3">March</option>
+                        <option value="4">April</option>
+                        <option value="5">May</option>
+                        <option value="6">June</option>
+                        <option value="7">July</option>
+                        <option value="8">August</option>
+                        <option value="9">September</option>
+                        <option value="10">October</option>
+                        <option value="11">November</option>
+                        <option value="12">December</option>
+                    </drop-down>
+                    <div class="vert-input2-graduate">
+                        <numeric-input id="ep-from-year" style="width: 30px;" min="1940" max="2050" no-comma></numeric-input>
+                        <check-box id="ep-current">Current</check-box>
+                    </div>
+                </div>
+                <span>To:</span>
+                <div class="vert-input2-small">
+                    <drop-down id="ep-to-month" style="width: 100px">
+                        <option value="">(select)</option>
+                        <option value="1">January</option>
+                        <option value="2">February</option>
+                        <option value="3">March</option>
+                        <option value="4">April</option>
+                        <option value="5">May</option>
+                        <option value="6">June</option>
+                        <option value="7">July</option>
+                        <option value="8">August</option>
+                        <option value="9">September</option>
+                        <option value="10">October</option>
+                        <option value="11">November</option>
+                        <option value="12">December</option>
+                    </drop-down>
+                    <div class="vert-input2-graduate">
+                        <numeric-input id="ep-to-year" style="width: 30px;" min="1940" max="2050" no-comma></numeric-input>
+                        <check-box id="ep-graduate">Graduate</check-box>
+                    </div>
+                </div>
+                <span>Major:</span>
+                <text-input id="ep-major" style="width: 250px;" maxlength="80"></text-input>
+                <span>GPA:</span>
+                <numeric-input id="ep-gpa" style="width: 30px;" decimal-places="1" max="5"></numeric-input>
+            </div>
+            <div style="right: 10px; bottom: 7px; position: absolute;">
+                <push-button id="pp-ok">Ok</push-button>
+                <push-button id="pp-cancel" style="margin-left: 10px;">Cancel</push-button>
+            </div>
+        </popup-body>
+    </popup>
+</div>

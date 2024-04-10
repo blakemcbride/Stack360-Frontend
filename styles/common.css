@@ -1,0 +1,496 @@
+/*
+ * Application wide variables.
+ */
+:root {
+    --font-color-light: #fff;
+
+    --outter-bg-color-light: #93a9b4;
+    --outter-bg-color-dark: #93a9b4;
+
+    --outter-bg: linear-gradient(180deg, var(--outter-bg-color-light) 0%, var(--outter-bg-color-dark) 100%);
+
+    --inner-bg-color-light: white;
+    --inner-bg-color-dark: #009fff;
+
+    --inner-bg: linear-gradient(180deg, var(--inner-bg-color-light) 0%, var(--inner-bg-color-dark) 100%);
+
+    --menu-bg-color-light: #828282;
+    --menu-bg-color-dark: #666666;
+
+    --menu-bg: linear-gradient(180deg, var(--menu-bg-color-light) 0%, var(--menu-bg-color-dark) 51%, var(--menu-bg-color-dark) 100%);
+    --menu-shadow: 0 1px 5px 0 var(--menu-bg-color-dark);
+
+    --container-bg-color-dark: #f0f0f0;
+    --container-bg-color-light: white;
+
+    --container-bg: linear-gradient(180deg, var(--container-bg-color-light) 0.5%, var(--container-bg-color-dark), var(--container-bg-color-dark) 100%);
+    --container-shadow: 0 1px 3px 0 var(--menu-bg-color-dark);
+
+    --border-color-light: #abb4b4;
+    --border-color-hover: #009cfe;
+
+    --link-color-dark: #009fff;
+    --link-color-hover: #c7c2ff;
+    --link-color-active: #c6c6c6;
+
+    --tab-color-light: #fefefe;
+    --tab-color-dark: #e3e3e3;
+    --tab-shadow-color: #c6c6c6;
+    --tab-bg: linear-gradient(180deg, var(--tab-color-light) 0%, var(--tab-color-dark) 51%, var(--tab-color-dark) 100%);
+
+    --btn-bg-color-hover-dark: #f7f7f7;
+    --btn-bg-color-active-light: #eeedff;
+    --btn-bg-color-active-dark: #c7c2ff;
+    --btn-bg-hover: linear-gradient(180deg, var(--container-bg-color-light) 0%, var(--btn-bg-color-hover-dark) 51%, var(--btn-bg-color-hover-dark) 100%);
+    --btn-bg-active: linear-gradient(180deg, var(--btn-bg-color-active-light) 0%, var(--btn-bg-color-active-dark) 100%);
+
+    --chk-bg-color: linear-gradient(180deg, var(--menu-bg-color-light) 0%, var(--menu-bg-color-dark) 100%);
+
+    --grid-alternating-color: #f7f7f7;
+    --grid-row-hover-color: #b2e1ff;
+    --grid-row-select-color: #7fceff;
+
+    --error-color: red;
+
+    /*
+     * Font formatting.
+     */
+    font-family: "Arial", sans-serif;
+    font-size: 11px;
+    font-weight: lighter;
+}
+
+.invalid {
+    margin: 1px !important;
+    border: solid 1px var(--error-color) !important;
+}
+
+hr {
+    margin-top: 3px;
+    border: none;
+    height: 1px;
+    color: #000;
+    background-color: #000;
+}
+
+.grid-container {
+    display: grid;
+    /*grid-column-gap: 5px;*/
+}
+
+.play-icon-black {
+    display: inline;
+    height: 10px;
+    width: 10px;
+    padding: 0 10px;
+}
+
+.play-icon {
+    display: inline;
+    height: 10px;
+    width: 10px;
+    padding: 0 10px;
+    filter: invert(100%);
+}
+
+.btn-smart-chooser {
+    display: block;
+    width: 25px;
+    height: 25px;
+    background: var(--btn-bg), url('../assets/SmartChooser.png') no-repeat center !important;
+    background-size: cover;
+    background-blend-mode: multiply;
+}
+
+.btn-smart-chooser:disabled {
+    background: var(--btn-bg), url("../assets/SmartChooser-disabled.png") no-repeat center !important;
+}
+
+.title {
+    position: absolute;
+    z-index: -1;
+    right: 0;
+    left: 10px;
+    margin-top: 5px;
+
+    display: block;
+    background-color: transparent;
+}
+
+.subtitle {
+    position: absolute;
+    top: 60px;
+    left: 120px;
+    font-size: 11px;
+    font-weight: bold;
+    font-style: italic;
+}
+
+.hr-purple, .hr-green {
+    position: absolute;
+    right: 10px;
+    height: 1px;
+}
+
+.hr-purple {
+    background-color: #041c3b;
+    left: 115px;
+    top: 55px;
+}
+
+.hr-green {
+    background-color: #466083;
+    left: 115px;
+    top: 56px;
+}
+
+.logo {
+    width: 275px;
+}
+
+.tab-header:before {
+    z-index: 1;
+}
+
+.tab-header {
+    position: relative;
+    display: flex;
+    list-style: none;
+    margin: 0;
+    padding: 0;
+}
+
+.tab-header li {
+    position: relative;
+    margin: 0;
+    padding: 5px 10px;
+    border: 1px solid var(--border-color-light);
+    border-top-left-radius: 4px;
+    border-top-right-radius: 4px;
+    background: var(--tab-bg);
+    box-shadow: inset 0 -1px 2px 0 var(--tab-shadow-color);
+    font-weight: bold;
+    cursor: default;
+    z-index: 0;
+}
+
+.tab-header li:hover {
+    border-color: var(--border-color-hover);
+    background: var(--container-bg);
+}
+
+.tab-header li.active {
+    background: white;
+    box-shadow: none;
+    z-index: 2;
+    border-bottom: none;
+}
+
+.tab-header li.active:hover {
+    border-color: var(--border-color-light);
+}
+
+.tab-header:after {
+    position: absolute;
+    content: "";
+    width: 100%;
+    bottom: 0;
+    left: 0;
+    border-bottom: 1px solid var(--border-color-light);
+    z-index: 1;
+}
+
+.tab-content {
+    height: calc(100% - 45px);
+    padding: 10px;
+    border-width: 1px;
+    border-style: solid;
+    border-color: var(--border-color-light);
+    border-top: none;
+    background: white;
+}
+
+.alternating-bg {
+    background: var(--grid-alternating-color);
+}
+
+.flex-row {
+    display: flex;
+    flex-direction: row;
+    flex-basis: 100%;
+    align-items: center;
+}
+
+.btn-link {
+    color: white;
+}
+
+.btn-sidebar, .btn-link {
+    display: block;
+    padding: 5px;
+    font-size: 11px;
+    font-weight: bold;
+    border: none;
+    border-radius: 4px;
+    line-height: 1.3;
+ /*   cursor: default !important; */
+}
+
+.btn-sidebar {
+    margin-bottom: 7px;
+    background: var(--menu-bg);
+    box-shadow: var(--menu-shadow);
+    color: white;
+}
+
+.btn-link:hover, .btn-sidebar:hover {
+    background: black;
+}
+
+.btn-link:hover {
+    cursor: pointer;
+}
+
+.btn-sidebar:hover {
+    cursor: pointer;
+}
+
+.btn-bar, .btn-bar-comp {
+    display: inline-flex;
+    flex-direction: row;
+}
+
+.btn-bar > input[type="button"], .btn-bar-comp > input[type="button"] {
+    margin: 0 5px;
+}
+
+.btn-bar-comp > input[type="button"]:first-child {
+    margin-left: 0;
+}
+
+.btn-bar-comp > input[type="button"]:last-child {
+    margin-right: 0;
+}
+
+.modal-content {
+    background: var(--container-bg);
+}
+
+.modal-title {
+    font-size: 12px;
+    font-weight: bold;
+    color: var(--font-color-light);
+    background: var(--menu-bg);
+    padding: 6px;
+
+    border-top-left-radius: 4px;
+    border-top-right-radius: 4px;
+
+    cursor: default;
+}
+
+.bottom-toolbar {
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+    margin: 10px 0 0 0;
+}
+
+label {
+    text-align: right;
+}
+
+.control-label {
+    margin-right: 8px;
+    text-align: right;
+}
+
+.error-label {
+    color: var(--error-color);
+}
+
+.link-label {
+    color: var(--link-color-dark);
+    font-weight: bold;
+    cursor: pointer;
+}
+
+.link-label:hover {
+    color: var(--link-color-hover);
+}
+
+.link-label:active {
+    color: var(--link-color-active);
+}
+
+input[type='date'] {
+    width: 90px;
+}
+
+/**
+ * agGrid styles.
+ */
+.ag-overlay {
+    margin-top: 10px;
+    font-size: 11px;
+    font-family: "Helvetica Neue", sans-serif;
+}
+
+.ag-header-cell-text, .ag-cell {
+    font-size: 11px;
+}
+
+.ag-header-cell-text {
+    font-weight: bold;
+}
+
+.ag-row-selected {
+    background-color: var(--grid-row-select-color) !important;
+}
+
+.ag-row-hover {
+    background-color: var(--grid-row-hover-color) !important;
+}
+
+.ag-cell-focus {
+    border-color: transparent !important;
+}
+
+.popup-background {
+    position: fixed;
+    left: 0;
+    top: 0;
+    width: 100%; /* Full width */
+    height: 100%; /* Full height */
+    overflow: auto; /* Enable scroll if needed */
+    background-color: rgba(0,0,0,0.4); /* Black w/ opacity */
+}
+
+.popup-content {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    padding: 0;
+    border-radius: 4px;
+    background-color: #F3F3F3;
+    box-shadow: 5px 5px 5px rgb(102,102,102);
+    transform: translate(-50%, -50%);
+}
+
+.popup-header {
+    font-weight: bold;
+    font-size: 12px;
+    color: white;
+    background-color: #6A6A6A;
+    border-top-left-radius: 4px;
+    border-top-right-radius: 4px;
+    padding: 6px;
+    line-height: 1;
+}
+
+.popup-body {
+    padding: 6px;
+}
+
+/* The Modal (background) */
+.msg-modal {
+    display: none; /* Hidden by default */
+    position: fixed; /* Stay in place */
+    z-index: 19000; /* Sit on top */
+    padding-top: 100px; /* Location of the box */
+    left: 0;
+    top: 0;
+    width: 100%; /* Full width */
+    height: 100%; /* Full height */
+    overflow: auto; /* Enable scroll if needed */
+    background-color: rgba(0,0,0,0.4); /* Black w/ opacity */
+}
+
+/* Modal Content */
+.msg-modal-content {
+    z-index: 19002; /* Sit on top */
+    position: relative;
+    background-color: white;
+    margin: auto;
+    padding: 0;
+    /*border: 1px solid #888;*/
+    /*display: inline-block; */
+    width: 400px;
+    box-shadow: 0 4px 8px 0 rgba(0,0,0,0.2),0 6px 20px 0 rgba(0,0,0,0.19);
+    /*
+    -webkit-animation-name: animatetop;
+    -webkit-animation-duration: 0.4s;
+    animation-name: animatetop;
+    animation-duration: 0.4s;
+     */
+    border-radius: 4px;
+}
+
+/* Wait Modal Content (animation sometimes causes message not to show) */
+.wmsg-modal-content {
+    z-index: 19001; /* Sit on top */
+    position: relative;
+    background-color: white;
+    margin: auto;
+    padding: 0;
+    /*border: 1px solid #888;*/
+    /*display: inline-block; */
+    width: 400px;
+    box-shadow: 0 4px 8px 0 rgba(0,0,0,0.2),0 6px 20px 0 rgba(0,0,0,0.19);
+    border-radius: 4px;
+}
+
+/* Add Animation */
+@-webkit-keyframes animatetop {
+    from {top:-300px; opacity:0}
+    to {top:0; opacity:1}
+}
+
+@keyframes animatetop {
+    from {top:-300px; opacity:0}
+    to {top:0; opacity:1}
+}
+
+/* The Close Button */
+.msg-close {
+    color: black;
+    float: right;
+    font-size: 28px;
+    font-weight: bold;
+    line-height: 1;
+    margin-right: 5px;
+    margin-top: -4px;
+}
+
+.msg-close:hover,
+.msg-close:focus {
+    color: #000;
+    text-decoration: none;
+    cursor: pointer;
+}
+
+.msg-modal-header {
+    /* padding: 2px 16px; */
+    padding-left: 10px;
+    background-color: #6495ed;
+    color: black;
+    padding-top: 3px;
+    padding-bottom: 1px;
+    line-height: 1;
+    height: 25px;
+    font-size: 15px;
+    border-top-left-radius: 4px;
+    border-top-right-radius: 4px;
+}
+
+.msg-modal-body {
+    padding: 2px 16px;
+    margin-top: 10px;
+    font-size: 14px;
+}
+
+.msg-modal-footer {
+    display: flex;
+    justify-content: center;
+    margin-top: 10px;
+}

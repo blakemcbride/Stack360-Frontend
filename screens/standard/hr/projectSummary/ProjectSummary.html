@@ -1,0 +1,71 @@
+<!--
+     Copyright 2020 STACK360 LLC
+     All rights reserved.
+
+-->
+
+<div class="kiss">
+
+    <style>
+        .ps-grid {
+            display: grid;
+            grid-template-columns: repeat(5, max-content) auto;
+            grid-row-gap: 10px;
+            grid-column-gap: 10px;
+            align-items: center;
+            max-width: 635px;
+        }
+        .ps-grid > span {
+            text-align: right;
+        }
+    </style>
+
+    <div style="margin-top: 10px;">Project Summary:</div>
+    <text-label id="ps-project" style="position: absolute; top: 3px; right: 10px;"></text-label>
+    <hr>
+
+    <div class="ps-grid" style="margin-bottom: 10px;">
+        <span>Employee Name:</span>
+        <div style="grid-column: 2 / 7;">
+            <text-input id="ps-eplName" style="width: 220px; margin-right: 10px;" disabled></text-input>
+    
+            <span>SSN:</span>
+            <text-input id="ps-ssn" style="width: 80px; margin-right: 10px; margin-left: 10px;" disabled></text-input>
+
+            <push-button id="ps-view" disabled>View</push-button>
+            <push-button id="ps-email" style="margin-left: 10px;" disabled>Email Now</push-button>
+        </div>
+
+        <span>Type:</span>
+        <drop-down id="ps-type" style="width: 300px; grid-column: 2 / 7;" required></drop-down>
+
+        <span>Summary:</span>
+        <text-input id="ps-summary" style="width: 513px; grid-column: 2 / 7;" required></text-input>
+
+        <span style="align-self: start;">Detail:</span>
+        <textbox-input id="ps-detail" style="width: 513px; height: 270px; grid-column: 2 / 7;" disabled></textbox-input>
+
+        <span>Request Date:</span>
+        <date-input id="ps-requestDate" style="width: 110px;" disabled></date-input>
+
+        <span>Time:</span>
+        <time-input id="ps-requestTime" class="time-input" disabled></time-input>
+
+        <span>Assigned To:</span>
+        <drop-down id="ps-assignedTo" style="width: 200px;" required></drop-down>
+
+        <span>Completed Date:</span>
+        <native-date-input id="ps-completedDate" style="width: 110px;"></native-date-input>
+
+        <span>Time:</span>
+        <time-input id="ps-completedTime" class="time-input"></time-input>
+
+        <span>Status:</span>
+        <drop-down id="ps-status" style="width: 200px;"></drop-down>
+
+        <div style="text-align: right; grid-column: 1 / 7; width: max-content; justify-self: right;">
+            <push-button id="ps-update" style="margin-right: 10px;" disabled>Update</push-button>
+            <push-button id="ps-reset" style="margin-right: 10px;" disabled>Reset</push-button>
+        </div>
+    </div>
+</div>

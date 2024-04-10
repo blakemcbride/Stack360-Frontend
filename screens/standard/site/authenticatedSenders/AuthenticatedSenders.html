@@ -1,0 +1,65 @@
+<!--
+     Copyright 2021 STACK360 LLC
+     All rights reserved.
+
+-->
+
+<div class="kiss">
+
+    <style>
+        div.vert-input2 {
+            display:grid;
+            grid-template-columns: max-content max-content;
+            grid-column-gap:5px;
+            grid-row-gap: 10px;
+            margin-top: 10px;
+            margin-left: 10px;
+        }
+        div.vert-input2 span {
+            text-align:right;
+            margin-top: 4px;
+        }
+    </style>
+
+    <div style="margin-top: 10px;">Authenticated Senders</div>
+    <hr>
+
+    <div id="grid" style="margin-top: 10px; width: 500px; height: calc(100% - 90px);"></div>
+
+    <div style="position: absolute; bottom: 10px; width: 100%;">
+        <text-label id="status"></text-label>
+        <div style="float: right;">
+            <push-button id="add">Add</push-button>
+            <push-button id="edit" style="margin-left: 10px;" disabled>Edit</push-button>
+            <push-button id="delete" style="margin-left: 10px; margin-right: 20px;" disabled>Delete</push-button>
+        </div>
+    </div>
+
+    <popup id="detail-popup" height="130px" width="350px">
+        <popup-title>
+            <text-label id="dp-title"></text-label>
+        </popup-title>
+        <popup-body style="padding: 0 20px;">
+            <div style="margin-top: 10px; margin-bottom: 10px;">
+                Note that this does not authenticate an address. It merely tells the system which addresses are
+                authenticated.
+            </div>
+            <div class="vert-input2" style="margin-top: 10px;">
+                <span style="margin-top: 0;">Type:</span>
+                <div>
+                    <radio-button group="dp-type" value="D" required>Domain</radio-button>
+                    <radio-button group="dp-type" value="E" required>Email Address</radio-button>
+                </div>
+
+                <span>Address:</span>
+                <text-input id="dp-address" style="width: 250px;" maxlength="50" required></text-input>
+            </div>
+
+            <div style="text-align: right; margin-top: 10px;">
+                <push-button id="dp-ok">OK</push-button>
+                <push-button id="dp-cancel" style="margin-left: 10px;">Cancel</push-button>
+            </div>
+        </popup-body>
+    </popup>
+
+</div>

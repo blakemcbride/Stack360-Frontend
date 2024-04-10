@@ -1,0 +1,222 @@
+<!--
+     Copyright 2021 STACK360 LLC
+     All rights reserved.
+
+-->
+
+<div class="kiss">
+
+    <style>
+        div.vert-input2 {
+            display:grid;
+            grid-template-columns: max-content max-content;
+            grid-column-gap:5px;
+            grid-row-gap: 10px;
+            margin-top: 10px;
+        }
+
+        div.vert-input2 span {
+            text-align:right;
+            margin-top: 6px;
+        }
+
+        div.vert-input3 {
+            display:grid;
+            grid-template-columns: max-content max-content max-content;
+            grid-column-gap:5px;
+            grid-row-gap: 10px;
+            margin-top: 10px;
+        }
+
+        div.vert-input3 span {
+            text-align:right;
+            margin-top: 6px;
+        }
+    </style>
+
+    <div style="margin-top: 10px;">Security Group Access</div>
+    <hr>
+
+    <div class="vert-input2">
+        <span>Security Group:</span>
+        <div style="display: flex;align-items: center;">
+            <drop-down id="security-group" style="width: 210px;" default-option='(choose)'></drop-down>
+            <push-button id="security-group-chooser-btn" class="btn-smart-chooser"></push-button>
+        </div>
+    </div>
+
+    <div class="vert-input2" style="margin-top: 20px;">
+        <div style="width: 400px;margin: 10px; position: relative;">
+            <div>Allowed Security Groups</div>
+
+            <div id="security-grid" style="width: 100%; margin-top: 5px; height: calc(100vh - 280px);"></div>
+
+            <div style="display: flex; justify-content: flex-end; margin-top: 6px;">
+                <push-button id="security-edit" disabled>Edit List</push-button>
+            </div>
+    
+        </div>
+    
+        <div style="width: 400px;margin: 10px; position: relative;">
+            <div>Allowed Screen Groups</div>
+            
+            <div id="screen-grid" style="width: 100%; margin-top: 5px; height: calc(100vh - 280px);"></div>
+
+            <div style="display: flex; justify-content: flex-end; margin-top: 6px;">
+                <push-button id="screen-edit" disabled>Edit List</push-button>
+            </div>
+        </div>
+    </div>
+
+    <popup id="security-group-search-popup" width="392px" height="400px" style="font-size: small;">    
+        <popup-title>Search for Security Group</popup-title>
+
+        <popup-body>
+            <div>Security Group Search Criteria:</div>
+            <hr />
+
+            <div id="sg-sp-top" class="vert-input3">
+                <span>Name:</span>
+                <div>
+                    <drop-down id="sg-sp-name-type" style="width: 111px;">
+                        <option value="2" selected>Starts With</option>
+                        <option value="3">Ends With</option>
+                        <option value="4">Contains</option>
+                        <option value="5">Exact Match</option>
+                    </drop-down>
+                    <text-input id="sg-sp-name" style="width: 212px;"></text-input>
+                </div>
+            </div>
+
+            <div>
+                <div style="width: 378px; display: flex; justify-content: flex-end; margin-top: 5px;">
+                    <push-button id="sg-sp-reset">Reset</push-button>
+                    <push-button id="sg-sp-search" style="margin-left: 10px;">Search</push-button>
+                </div>
+            </div>
+
+            <div>Security Group Search Results:</div>
+            <hr />
+
+            <div id="sg-sp-grid" style="height: 255px; width: 100%;"></div>
+
+            <text-label id="sg-sp-status" style="position: absolute; bottom: 20px; left: 10px;">Displaying 0 Security Groups</text-label>
+
+            <div style="right: 10px; bottom: 10px; position: absolute;">
+                <push-button id="sg-sp-ok" disabled>OK</push-button>
+                <push-button id="sg-sp-cancel" style="margin-left: 12px;">Cancel</push-button>
+            </div>
+        </popup-body>
+    </popup>
+
+    <popup id="edit-security-group-popup" width="424px" height="234px" style="font-size: small;">    
+        <popup-title>Allow Security Groups</popup-title>
+
+        <popup-body>
+
+            <div class="vert-input3">
+            
+                <div id="available-grid" style="height: 180px; width: 170px; padding: 5px;"></div>
+
+                <div style="width: 42px; justify-content: center; align-items: center; display: flex; flex-direction: column;">
+                    <push-button id="es-gp-allow" style="margin-bottom: 10px;" disabled>--></push-button>
+                    <push-button id="es-gp-disallow" disabled><--</push-button>
+                </div>
+
+                <div id="allowed-grid" style="height: 180px; width: 170px; padding: 5px;"></div>
+
+            </div>
+
+            <div style="left: 10px; bottom: 8px; position: absolute;">
+                <push-button id="es-gp-search">Search</push-button>
+            </div>
+
+            <div style="right: 10px; bottom: 8px; position: absolute;">
+                <push-button id="es-gp-ok">OK</push-button>
+                <push-button id="es-gp-cancel" style="margin-left: 12px;">Cancel</push-button>
+            </div>
+        </popup-body>
+    </popup>
+
+    <popup id="screen-group-search-popup" width="392px" height="450px" style="font-size: small;">    
+        <popup-title>Search for Screen Group</popup-title>
+
+        <popup-body>
+            <div>Screen Group Search Criteria:</div>
+            <hr />
+
+            <div id="screen-sp-top" class="vert-input2">
+                <span>Name:</span>
+                <div>
+                    <drop-down id="screen-sp-name-type" style="width: 111px;">
+                        <option value="2" selected>Starts With</option>
+                        <option value="3">Ends With</option>
+                        <option value="4">Contains</option>
+                        <option value="5">Exact Match</option>
+                    </drop-down>
+                    <text-input id="screen-sp-name" style="width: 208px;"></text-input>
+                </div>
+
+                <span>ID:</span>
+                <div>
+                    <text-input id="screen-sp-id" style="width: 102px;"></text-input>
+                </div>
+
+                <span>Include:</span>
+                <div>
+                    <radio-button group="screen-sp-type" id="sp-yes" value="0">All Screen Groups</radio-button>
+                    <radio-button group="screen-sp-type" id="sp-no" value="1" checked>Only Disassociated Screen Groups</radio-button>
+                </div>
+            </div>
+
+            <div>
+                <div style="width: 378px; display: flex; justify-content: flex-end; margin-top: 5px;">
+                    <push-button id="screen-sp-reset">Reset</push-button>
+                    <push-button id="screen-sp-search" style="margin-left: 10px;">Search</push-button>
+                </div>
+            </div>
+
+            <div>Screen Group Search Results:</div>
+            <hr />
+
+            <div id="screen-sp-grid" style="height: 245px; width: 100%;"></div>
+
+            <text-label id="screen-sp-status" style="position: absolute; bottom: 20px; left: 10px;">Displaying 0 Screen Groups</text-label>
+
+            <div style="right: 10px; bottom: 10px; position: absolute;">
+                <push-button id="screen-sp-ok" disabled>OK</push-button>
+                <push-button id="screen-sp-cancel" style="margin-left: 12px;">Cancel</push-button>
+            </div>
+        </popup-body>
+    </popup>
+
+    <popup id="edit-screen-group-popup" width="424px" height="234px" style="font-size: small;">    
+        <popup-title>Allow Screen Groups</popup-title>
+
+        <popup-body>
+
+            <div class="vert-input3">
+            
+                <div id="available-screen-grid" style="height: 180px; width: 170px; padding: 5px;"></div>
+
+                <div style="width: 42px; justify-content: center; align-items: center; display: flex; flex-direction: column;">
+                    <push-button id="es-screen-allow" style="margin-bottom: 10px;" disabled>--></push-button>
+                    <push-button id="es-screen-disallow" disabled><--</push-button>
+                </div>
+
+                <div id="allowed-screen-grid" style="height: 180px; width: 170px; padding: 5px;"></div>
+
+            </div>
+
+            <div style="left: 10px; bottom: 8px; position: absolute;">
+                <push-button id="es-screen-search">Search</push-button>
+            </div>
+
+            <div style="right: 10px; bottom: 8px; position: absolute;">
+                <push-button id="es-screen-ok">OK</push-button>
+                <push-button id="es-screen-cancel" style="margin-left: 12px;">Cancel</push-button>
+            </div>
+        </popup-body>
+    </popup>
+
+</div>

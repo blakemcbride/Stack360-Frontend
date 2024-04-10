@@ -1,0 +1,268 @@
+<!--
+    Copyright 2020 STACK360 LLC
+    All rights reserved.
+
+-->
+
+<div class="kiss">
+    <style>
+        .ehp-grid {
+            display: grid;
+            grid-template-columns: repeat(6, max-content);
+            grid-column-gap: 10px;
+            grid-row-gap: 10px;
+            grid-auto-rows: max-content;
+        }
+        .ehp-grid span {
+            color: #000;
+            align-self: center;
+            text-align: right;
+        }
+        .tab-height {
+            height: calc(100% - 40px);
+            position: relative;
+        }
+        span > strong {
+            font-weight: 800;
+        }
+    </style>
+    <div class="ehp-grid" style="grid-template-columns: repeat(2, 50%); padding-right: 10px; position: relative; height: 100%; grid-template-rows: repeat(2, 50%);">
+        <div style="position: absolute; left: 0; right: 0; top: 10px; grid-column: 1 / 3;">
+            <span style="font-weight: 600; font-size: 18px;">Messages:</span>
+        </div>
+        <div id="ehp-tab-container" style="margin-top: 10px; grid-column: 1 / 3;">
+            <ul class="tab-header">
+                <li id="ehp-received-TabButton" class="active">Received</li>
+                <li id="ehp-sent-TabButton">Sent</li>
+            </ul>
+            
+            <div id="ehp-received-TabContent" class="tab-content tab-height">
+                <push-button id="receivedPreferences">Preferences</push-button>
+                <push-button id="receivedFilter" style="margin-left: 20px; margin-right: 20px;">Filter</push-button>
+                <text-label id="receivedFilter-label">(not filtered)</text-label>
+
+                <div id="receivedGrid" style="margin-top: 10px; height: calc(100% - 75px);"></div>
+
+                <div style="margin-top: 10px; text-align: right;">
+                    <push-button id="receivedNew">New</push-button>
+                    <push-button id="receivedView" style="margin-left: 10px;" disabled>View</push-button>
+                    <push-button id="receivedReply" style="margin-left: 10px;" disabled>Reply</push-button>
+                    <push-button id="receivedDelete" style="margin-left: 10px;" disabled>Delete</push-button>
+                </div>
+            </div>
+    
+            <div id="ehp-sent-TabContent" class="tab-content tab-height" hidden style="display: none;">
+                <push-button id="sentFilter" style="margin-right: 20px;">Filter</push-button>
+                <text-label id="sentFilter-label">(not filtered)</text-label>
+
+                <div id="sentGrid" style="margin-top: 10px; height: calc(100% - 75px);"></div>
+                <div style="margin-top: 10px; text-align: right;">
+                    <push-button id="sentView" disabled>View</push-button>
+                    <push-button id="sentDelete" style="margin-left: 10px;" disabled>Delete</push-button>
+                </div>
+            </div>
+        </div>
+
+        <div>
+            <span>Enrolled Benefits</span>
+            <div id="benefitsGrid" style="height: calc(100% - 70px);"></div>
+            <div style="margin-top: 15px;">
+                <text-label id="benefits-label">Displaying 0 Enrolled Benefits</text-label>
+            </div>
+        </div>
+
+        <div>
+            <span>Assigned Projects</span>
+            <div id="projectsGrid" style="height: calc(100% - 70px);"></div>
+            <div style="margin-top: 15px;">
+                <text-label id="projects-label">Displaying 0 Assigned Projects</text-label>
+
+                <div style="right: 10px; bottom: 10px; position: absolute;">
+                    <push-button disabled id="projectOpen">Open</push-button>
+                </div>
+            </div>
+        </div>
+    </div>      
+
+    <popup id="preferences-popup" width="570px" height="550px">
+        <popup-title>
+            <span><text-label id="preferences-label">Received</text-label> Message Preferences</span>
+        </popup-title>
+        <popup-body style="padding: 10px;">
+            <div style="margin-bottom: 10px;">
+                <span>Additional Actions to Perform when Receiving a Message</span>
+                <hr>
+            </div>
+
+            <check-box id="preferences-sendCopy">Send a Copy of the Received Message by E-mail</check-box>
+            <div class="ehp-grid" style="margin-top: 10px; grid-template-columns: repeat(2, 50%); padding-right: 10px;">
+                <div>
+                    <div id="emailAddressesGrid" style="height: 150px;"></div>
+                    <div style="margin-top: 10px; text-align: right;">
+                        <push-button id="emailAddressesAdd" disabled>Add</push-button>
+                        <push-button id="emailAddressesEdit" style="margin-left: 10px;" disabled>Edit</push-button>
+                        <push-button id="emailAddressesDelete" style="margin-left: 10px;" disabled>Delete</push-button>
+                    </div>
+                </div>
+                
+                <div>
+                    <radio-button disabled group="preferences-messageBody" style="margin-bottom: 10px;" align-vertical value="Y">Include Message Body</radio-button>
+                    <radio-button disabled group="preferences-messageBody" checked align-vertical value="N">Don't Include Message Body (security)</radio-button>
+                </div>
+            </div>
+
+            <div style="margin-top: 10px; margin-bottom: 10px;">
+                <span>Limit Additional Actions for Specific Message Types</span>
+                <hr>
+            </div>
+            <div id="messageTypesGrid" style="height: 200px;"></div>
+
+            <div style="margin-top: 15px; padding-bottom: 10px; position: relative;">
+                <text-label id="messageTypes-label">Displaying 0 Message Types</text-label>
+
+                <div style="right: 0; bottom: 0; position: absolute;">
+                    <push-button disabled id="messageTypesYes">Yes</push-button>
+                    <push-button disabled id="messageTypesNo" style="margin-left: 10px;">No</push-button>
+                </div>
+            </div>
+        
+            <div style="margin-top: 10px; text-align: right;">    
+                <push-button id="preferences-ok">OK</push-button>
+                <push-button id="preferences-cancel" style="margin-left: 10px;">Cancel</push-button>
+            </div>
+        </popup-body>
+    </popup>
+
+    <popup id="emailAddress-popup" width="340px" height="65px">
+        <popup-title>
+            <span><text-label id="emailAddress-label">Add</text-label> E-mail Address</span>
+        </popup-title>
+        <popup-body style="padding: 10px;">
+            <div class="ehp-grid" style="grid-template-columns: max-content auto;">
+                <span>E-mail Address:</span>
+                <text-input id="emailAddress-emailAddress" required></text-input>
+            </div>
+        
+            <div style="margin-top: 10px; text-align: right;">    
+                <push-button id="emailAddress-ok">OK</push-button>
+                <push-button id="emailAddress-cancel" style="margin-left: 10px;">Cancel</push-button>
+            </div>
+        </popup-body>
+    </popup>
+
+    <popup id="message-popup" width="470px" height="250px">
+        <popup-title>
+            <span><text-label id="message-label">New</text-label> Message</span>
+        </popup-title>
+        <popup-body style="padding: 10px;">
+            <div class="ehp-grid" style="grid-template-columns: repeat(2, max-content);">
+                <span>Sender:</span>
+                <text-input id="message-sender" style="width: 300px;" disabled></text-input>
+
+                <span>Receiver:</span>
+                <div>
+                    <text-input id="message-receiver" disabled style="width: 300px; margin-right: 10px;"></text-input>
+                    <text-input id="message-receiverId" required hidden disabled style="width: 300px; margin-right: 10px;"></text-input>
+                    <push-button id="message-choose">Choose</push-button>
+                </div>
+
+                <span>Subject:</span>
+                <text-input id="message-subject" required style="width: 380px;"></text-input>
+
+                <span style="align-self: baseline;">Message:</span>
+                <textbox-input id="message-message" style="height: 90px;"></textbox-input>
+            </div>
+        
+            <div style="margin-top: 10px; text-align: right;">    
+                <push-button id="message-ok">OK</push-button>
+                <push-button id="message-cancel" style="margin-left: 10px;">Cancel</push-button>
+            </div>
+        </popup-body>
+    </popup>
+
+    <popup id="filter-search" width="470px" height="175px">
+        <popup-title>
+            <span>Filter</span>
+        </popup-title>
+        <popup-body style="padding: 10px;">
+            
+            <div class="ehp-grid" style="grid-template-columns: repeat(3, max-content);">
+                <text-label id="filter-person-label">Sender:</text-label>
+                <div style="grid-column: 2 / 4;">
+                    <text-input id="filter-sender" disabled style="width: 240px; margin-right: 10px;"></text-input>
+                    <text-input id="filter-senderId" hidden disabled></text-input>
+
+                    <text-input id="filter-receiver" disabled style="width: 240px; margin-right: 10px;"></text-input>
+                    <text-input id="filter-receiverId" hidden disabled></text-input>
+
+                    <push-button id="filter-any">Any</push-button>
+                    <push-button id="filter-choose">Choose</push-button>
+                </div>
+
+                <span>From Date:</span>
+                <drop-down id="filter-fromDate-criteria" style="width: 95px;"></drop-down>
+                <native-date-input id="filter-fromDate-search" style="width: 110px"></native-date-input>
+
+                <span>To Date:</span>
+                <drop-down id="filter-toDate-criteria" style="width: 95px;"></drop-down>
+                <native-date-input id="filter-toDate-search" style="width: 110px"></native-date-input>
+
+                <span>Subject:</span>
+                <drop-down id="filter-subject-criteria" style="width: 95px;"></drop-down>
+                <text-input id="filter-subject-search" style="width: 265px"></text-input>      
+            </div>
+        
+            <div style="margin-top: 10px; text-align: right;">    
+                <push-button id="filter-reset" style="float: left;">Reset</push-button>
+                <push-button id="filter-ok">OK</push-button>
+                <push-button id="filter-cancel" style="margin-left: 10px;">Cancel</push-button>
+            </div>
+        </popup-body>
+    </popup>
+
+    <popup id="employee-search" width="620px" height="485px">
+        <popup-title>
+            <span>Search for <text-label id="search-label" style="text-transform: capitalize;">Receiver</text-label></span>
+        </popup-title>
+        <popup-body style="padding: 10px;">
+    
+            <div>Search Criteria:</div>
+            <hr>
+            
+            <div class="vert-input" style="margin-top: 8px; display: grid; grid-template-columns: repeat(3, max-content); align-items: center;">
+                <span>Last Name:</span>
+                <drop-down id="esp-lname-criteria" style="width: 95px; margin-right: 10px;"></drop-down>
+                <text-input id="esp-lname-search" style="width: 140px"></text-input>
+                
+                <span>First Name:</span>
+                <drop-down id="esp-fname-criteria" style="width: 95px; margin-right: 10px;"></drop-down>
+                <text-input id="esp-fname-search" style="width: 140px"></text-input>    
+                
+                <span>Login ID:</span>
+                <drop-down id="esp-login-criteria" style="width: 95px; margin-right: 10px;"></drop-down>
+                <text-input id="esp-login-search" style="width: 140px"></text-input>   
+            </div>
+    
+            <div class="btn-bar" style="margin-top: 8px; width: 100%; justify-content: flex-end;">
+                <push-button id="esp-reset">Reset</push-button>
+                <push-button id="esp-search" style="margin-right: unset;">Search</push-button>
+            </div>
+    
+            <div style="margin-top: 10px;">
+                <div>Search Results:</div>
+                <hr>
+            </div>
+    
+            <div id="esp-grid" style="width: 100%; height: 250px;"></div>
+        
+            <div class="vert-input2" style="margin-top: 15px; display: flex; justify-content: space-between; align-items: center;">
+                <text-label id="esp-count" style="margin-left: 10px;">Displaying 0 Employees</text-label>
+    
+                <div>
+                    <push-button id="esp-ok" disabled>OK</push-button>
+                    <push-button id="esp-cancel" style="margin-left: 10px; margin-right: 15px;">Cancel</push-button>
+                </div>
+            </div>
+        </popup-body>
+    </popup>
+</div>

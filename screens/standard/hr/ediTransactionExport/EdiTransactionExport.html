@@ -1,0 +1,58 @@
+<!--
+    Copyright 2020 STACK360 LLC
+    All rights reserved.
+
+-->
+
+<div class="kiss">
+    <style>
+        .ede-grid {
+            display: grid;
+            grid-template-columns: max-content auto;
+            grid-column-gap: 10px;
+            grid-row-gap: 10px;
+        }
+        .ede-grid span {
+            color: #000;
+            align-self: center;
+            text-align: right;
+        }
+        .tab-height {
+            height: calc(100% - 45px);
+            position: relative;
+        }
+    </style>
+    <div style="margin-bottom: 10px; margin-top: 10px;">
+        <span>EDI Transaction Export:</span>
+        <hr>
+    </div>
+
+    <div style="max-width: 320px;">
+        <div style="margin-bottom: 10px; grid-template-columns: repeat(4, max-content);" class="ede-grid">
+            <span>From:</span>
+            <native-date-input id="fromDate" style="width: 110px;" required></native-date-input>
+
+            <span>Transaction Types:</span>
+            <check-box id="typeAdd" style="align-self: center;" checked>Add</check-box>
+
+            <span>To:</span>
+            <native-date-input id="toDate" style="width: 110px;" required></native-date-input>
+
+            <span></span>
+            <check-box id="typeEdit" style="align-self: center;" checked>Edit</check-box>
+
+            <span></span>
+            <span></span>
+            <span></span>
+            <check-box id="typeDelete" style="align-self: center;" checked>Delete</check-box>
+        </div>
+
+        <span>Control + Click to select multiple Vendors</span>
+
+        <div id="vendorsGrid" style="height: 350px; margin-top: 10px;"></div>
+
+        <div style="text-align: right; margin-top: 10px;">
+            <push-button id="export">Export</push-button>
+        </div>
+    </div>
+</div>

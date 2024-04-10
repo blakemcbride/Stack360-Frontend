@@ -1,0 +1,100 @@
+<!--
+     Copyright 2020 STACK360 LLC
+     All rights reserved.
+
+-->
+
+<div class="kiss" style="font-size: small;">
+
+    <style>
+        .rop-margins {
+            margin-top: 10px;
+        }
+    </style>
+
+    <div style="margin-top: 5px;">
+        <span>Invoice Search Criteria:</span>
+    </div>
+    <hr>
+
+    <div style="display: inline-block; vertical-align: bottom;">
+        <div class="vert-input">
+            <label>Client</label>
+            <smart-chooser id="client" style="width: 250px;"></smart-chooser>
+
+            <label>Invoice ID</label>
+            <div>
+                <drop-down id="invoice-id-type" style="width: 120px;">
+                    <option value="2">Starts With</option>
+                    <option value="3">Ends With</option>
+                    <option value="4">Contains</option>
+                    <option value="5" selected>Exact Match</option>
+                </drop-down>
+                <text-input id="invoice-id" style="width: 75px;"></text-input>
+            </div>
+
+            <label>Amount</label>
+            <div>
+                <drop-down id="invoice-amount-type" style="width: 120px;">
+                    <option value="11" selected>Greater Than</option>
+                    <option value="12">Less Than</option>
+                    <option value="13">Equal To</option>
+                    <option value="14">Not Equal To</option>
+                </drop-down>
+                <numeric-input id="invoice-amount" style="width: 75px;" money></numeric-input>
+            </div>
+        </div>
+    </div>
+
+    <div style="display: inline-block; margin-left: 30px;">
+        <div>
+            <span>Invoice dates from:</span>
+            <native-date-input id="invoice-start-date" style="width: 120px;"></native-date-input>
+            <span style="margin-left: 20px;">Invoice dates to:</span>
+            <native-date-input id="invoice-end-date" style="width: 120px;"></native-date-input>
+        </div>
+        <div style="margin-top: 10px;">
+            <span>Invoice status:</span>
+            <radio-button group="invoice-status" value="1">Not yet transmitted</radio-button>
+            <radio-button group="invoice-status" value="2">Transmitted</radio-button>
+            <radio-button group="invoice-status" value="0" checked>Both</radio-button>
+        </div>
+
+        <div style="text-align: right; margin-top: 20px;">
+            <push-button id="reset" style="margin-right: 10px;">Reset</push-button>
+            <push-button id="search">Search</push-button>
+        </div>
+    </div>
+
+    <div style="margin-top: 10px;">
+        <span>Invoice Search Results:</span>
+    </div>
+    <hr>
+
+    <div id="invoice-grid" style="width: 100%; height: calc(100% - 220px);"></div>
+
+
+    <div style="position: absolute; width: 100%; bottom: 10px;">
+        <div style="display: inline-block; float: right;">
+            <push-button id="display" style="margin-right: 10px;" disabled>Display Invoice</push-button>
+            <push-button id="report" style="margin-right: 10px;">Report</push-button>
+            <push-button id="retransmit" style="margin-right: 10px;" disabled>Re-transmit</push-button>
+            <push-button id="delete" style="margin-right: 20px;" disabled>Delete</push-button>
+        </div>
+        <text-label id="status" style="float: left; margin-top: 5px; margin-left: 20px;"></text-label>
+    </div>
+
+    <popup id="display-options-popup" width="250px" height="140px">
+        <popup-title>Display Options</popup-title>
+        <popup-body>
+            <check-box id="rop-include-description" class="rop-margins">Include Invoice Description</check-box>
+            <check-box id="rop-include-line-items" class="rop-margins">Include Invoice Line Items</check-box>
+            <check-box id="rop-include-detail" class="rop-margins">Include Invoice Line Item Detail</check-box>
+            <div style="text-align: right; margin-top: 20px;">
+                <push-button id="rop-ok">OK</push-button>
+                <push-button id="rop-cancel" style="margin-right: 20px;">Cancel</push-button>
+            </div>
+        </popup-body>
+    </popup>
+
+</div>

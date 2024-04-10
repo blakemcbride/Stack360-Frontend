@@ -1,0 +1,366 @@
+<!--
+     Copyright 2020 STACK360 LLC
+     All rights reserved.
+
+-->
+
+<div class="kiss">
+
+    <style>
+        .grid-container {
+            display: grid;
+            grid-column-gap: 5px;
+            grid-row-gap: 10px;
+            grid-template-columns: 70px 440px;
+            margin-top: 15px;
+        }
+
+        .grid-container span {
+            margin-top: 5px;
+            display: flex;
+            justify-content: flex-end;
+        }
+
+        .asp-grid-container {
+            display: grid;
+            grid-column-gap: 5px;
+            grid-row-gap: 10px;
+            grid-template-columns: 70px 440px;
+            margin-top: 15px;
+        }
+
+        .asp-grid-container span {
+            margin-top: 5px;
+            display: flex;
+            justify-content: flex-end;
+        }
+
+    </style>
+
+    <div style="margin-top: 10px;">
+        Screen Group Location:
+    </div>
+    <hr>
+
+    <div>
+        <push-button id="search">Search</push-button>
+        <div id="bread-crumb-2" style="margin-left: 20px; display: inline-block;"></div>
+        <div style="display: inline-block; float: right;">
+            <push-button id="report">Report</push-button>
+        </div>
+    </div>
+
+    <div style="margin-top: 10px;">
+        Associated Screen Units:
+    </div>
+    <hr>
+
+    <div id="grid" style="width: 100%; height: calc(100% - 140px);"></div>
+
+
+    <div style="position: absolute; bottom: 10px; left: 10px;">
+        <push-button id="open" disabled>Open</push-button>
+        <push-button id="up" style="margin-left: 10px;" disabled>Up</push-button>
+
+        <push-button id="add-group" style="margin-left: 50px;">Add Group</push-button>
+        <push-button id="edit" style="margin-left: 10px;" disabled>Edit</push-button>
+        <push-button id="delete" style="margin-left: 10px;" disabled>Delete</push-button>
+        <push-button id="copy" style="margin-left: 10px;" disabled>Copy</push-button>
+
+        <push-button id="associate" style="margin-left: 50px;" disabled>Associate</push-button>
+        <push-button id="disassociate" style="margin-left: 10px;" disabled>Disassociate</push-button>
+
+        <push-button id="move-up" style="margin-left: 50px;" disabled>Move Up</push-button>
+        <push-button id="move-down" style="margin-left: 10px;" disabled>Move Down</push-button>
+
+    </div>
+    
+    <popup id="report-popup" height="160px" width="220px">
+        <popup-title>Reporting Options</popup-title>
+        <popup-body>
+            <div style="margin-top: 5px;"><radio-button group="rp-start" value="1" checked>Start from top level</radio-button></div>
+            <div style="margin-top: 5px;"><radio-button group="rp-start" value="2">Start from current screen group</radio-button></div>
+            <div style="margin-top: 15px;"><check-box id="rp-show-ids" checked>Show IDs</check-box></div>
+            <div style="margin-top: 5px;"><check-box id="rp-show-labels" checked>Show labels</check-box></div>
+            <div style="margin-top: 5px;"><check-box id="rp-show-sub-headers" checked>Show Sub Headers</check-box></div>
+            <div style="float: right; margin-top: 15px; margin-right: 10px;">
+                <push-button id="rp-ok">OK</push-button>
+                <push-button id="rp-cancel" style="margin-left: 10px;">Cancel</push-button>
+            </div>
+        </popup-body>
+    </popup>
+
+    <popup id="screen-group-popup" height="475px" width="550px">
+        <popup-title><text-label id="sgp-title"></text-label></popup-title>
+        <popup-body>
+            <div style="margin-top: 5px;">Group Information:</div>
+            <hr>
+
+            <div class="grid-container">
+                <span>Name:</span>
+                <text-input id="sgp-name" maxlength="100" required></text-input>
+
+                <span>Label:</span>
+                <text-input id="sgp-label" maxlength="100"></text-input>
+
+                <span></span>
+                <span style="margin-top: 0; margin-bottom: 5px;">* Use Label to override the displayed name of the Screen Group in the current location. If Label
+                is left empty, Name will be used for display.</span>
+
+                <span>Group ID:</span>
+                <text-input id="sgp-group-id" style="width: 100px;" disabled>(generated on save)</text-input>
+
+                <span>Description:</span>
+                <textbox-input id="sgp-description" style="height: 50px;" maxlength="2000"></textbox-input>
+
+                <span></span>
+                <div style="float: right;">
+                    Wizard Type:
+                    <radio-button group="sgp-wizard-type" value="N" checked>Not a Wizard</radio-button>
+                    <radio-button group="sgp-wizard-type" value="E">Enrollment</radio-button>
+                    <radio-button group="sgp-wizard-type" value="O">Onboarding</radio-button>
+                </div>
+            </div>
+
+            <div style="margin-top: 15px;">Parent Screen Information:</div>
+            <hr>
+
+            <div class="grid-container">
+                <span>Screen:</span>
+                <div>
+                    <text-input id="sgp-screen" style="width: 290px" disabled></text-input>
+                    <push-button id="sgp-choose">Choose</push-button>
+                    <push-button id="sgp-clear">Clear</push-button>
+                </div>
+
+                <span>ID:</span>
+                <text-input id="sgp-id" style="width: 75px;" disabled></text-input>
+
+                <span></span>
+                <check-box id="sgp-default-screen" disabled>Default Screen for Current Screen Group</check-box>
+
+                <span></span>
+                * Default Screen is only available when this Group has a Parent Screen
+            </div>
+
+
+            <div style="float: right; margin-top: 15px; margin-right: 10px;">
+                <push-button id="sgp-ok">OK</push-button>
+                <push-button id="sgp-cancel" style="margin-left: 10px;">Cancel</push-button>
+            </div>
+
+        </popup-body>
+    </popup>
+
+    <popup id="parent-screen-popup" width="900px;" height="400px">
+        <popup-title>Search for Parent Screen</popup-title>
+        <popup-body>
+            <div style="margin-top: 10px">Search Criteria:</div>
+            <hr>
+
+            <div style="margin-top: 10px;">
+                <div style="display: inline-block; width: 90px; text-align: right;">Name:</div>
+                <drop-down id="psp-name-type" style="width: 100px;">
+                    <option value="2">Starts With</option>
+                    <option value="3">Ends With</option>
+                    <option value="4">Contains</option>
+                    <option value="5">Exact Match</option>
+                </drop-down>
+                <text-input id="psp-name" style="width: 250px;"></text-input>
+            </div>
+            <div style="margin-top: 10px;">
+                <div style="display: inline-block; width: 90px; text-align: right;">ID:</div>
+                <text-input id="psp-id" style="width: 90px;"></text-input>
+            </div>
+            <div style="margin-top: 10px;">
+                <push-button id="psp-reset" style="margin-left: 300px;">Reset</push-button>
+                <push-button id="psp-search" style="margin-left: 10px;">Search</push-button>
+            </div>
+            <div style="margin-bottom: 10px;">Search Results:</div>
+            <div id="psp-grid" style="width: 100%; height: 200px;"></div>
+            <div style="margin-top: 10px;">
+                <text-label id="psp-status">XXX</text-label>
+                <div style="display: inline-block; float: right;">
+                    <push-button id="psp-ok">OK</push-button>
+                    <push-button id="psp-cancel" style="margin-left: 10px; margin-right: 10px;">Cancel</push-button>
+                </div>
+            </div>
+        </popup-body>
+    </popup>
+
+    <popup id="delete-popup" height="140px" width="420px">
+        <popup-title>Delete Screen Group</popup-title>
+        <popup-body>
+            <div style="margin-top: 10px;">
+                Type of delete:
+            </div>
+            <div style="margin-top: 10px;">
+                <radio-button group="dp-delete-type" value="S">Shallow Delete - Delete only the Screen Group</radio-button>
+            </div>
+            <div style="margin-top: 10px;">
+                <radio-button group="dp-delete-type" value="D" checked>Deep Delete - Delete the Screen Group and any Screen Groups inside of it</radio-button>
+            </div>
+            <div style="margin-top: 10px;">
+                NOTE: Sub Screen Groups that are referenced elsewhere will not be deleted.
+            </div>
+            <div style="margin-top: 10px; text-align: right;">
+                <push-button id="dp-ok">OK</push-button>
+                <push-button id="dp-cancel" style="margin-left: 10px; margin-right: 10px;">Cancel</push-button>
+            </div>
+        </popup-body>
+    </popup>
+
+    <popup id="edit-screen-popup" height="190px" width="300px">
+        <popup-title>Edit Screen</popup-title>
+        <popup-body>
+            <div style="margin-top: 5px;">
+                <div style="display: inline-block; width: 40px; text-align: right;">Name:</div>
+                <text-input id="esp-name" style="width: 220px;" disabled></text-input>
+            </div>
+            <div style="margin-top: 5px;">
+                <div style="display: inline-block; width: 40px; text-align: right;">Label:</div>
+                <text-input id="esp-label" style="width: 220px;"></text-input>
+            </div>
+            <div style="margin-top: 5px; padding: 10px;">
+              * Use Label to override the displayed name of the Screen in the current location.  If Label is left empty,
+                Name will be used for display.
+            </div>
+            <div style="margin-top: 5px;">
+                <check-box id="esp-default-screen" style="margin-left: 40px;">Default Screen for Current Screen Group</check-box>
+            </div>
+            <div style="margin-top: 10px; text-align: right;">
+                <push-button id="esp-ok">OK</push-button>
+                <push-button id="esp-cancel" style="margin-left: 10px; margin-right: 10px;">Cancel</push-button>
+            </div>
+        </popup-body>
+    </popup>
+
+    <popup id="copy-group-popup" width="410px" height="180px">
+        <popup-title>Copy Screen Group</popup-title>
+        <popup-body>
+            <div style="margin-top: 5px;">
+                <div style="display: inline-block; width: 150px; text-align: right;">Source Screen Group Name:</div>
+                <text-input id="cgp-old-name" style="width: 220px;" disabled></text-input>
+            </div>
+            <div style="margin-top: 5px;">
+                <div style="display: inline-block; width: 150px; text-align: right;">New Screen Group Name:</div>
+                <text-input id="cgp-new-name" style="width: 220px;" required></text-input>
+            </div>
+            <div style="margin-top: 10px; margin-bottom: 10px;">
+                <check-box id="cgp-deep-copy" checked>Deep Copy</check-box>
+            </div>
+            <div style="margin-top: 5px;">
+                <radio-button group="cgp-level" value="S">Associate New Screen Group at same level as source Screen Group</radio-button>
+            </div>
+            <div style="margin-top: 5px;">
+                <radio-button group="cgp-level" value="D" checked>Leave New Screen Group Disassociated</radio-button>
+            </div>
+            <div style="margin-top: 10px; text-align: right; margin-right: 10px;">
+                <push-button id="cgp-ok">OK</push-button>
+                <push-button id="cgp-cancel">Cancel</push-button>
+            </div>
+
+        </popup-body>
+    </popup>
+
+    <popup id="associate-popup" height="500px" width="800px">
+        <popup-title>Associate Screen or Group</popup-title>
+        <popup-body>
+            <div style="margin-top: 5px;">Search Criteria:</div>
+            <hr>
+
+            <div class="asp-grid-container">
+                <span>Name:</span>
+                <div>
+                    <drop-down id="ap-name-search-type" style="width: 100px">
+                        <option value="2">Starts With</option>
+                        <option value="3">Ends With</option>
+                        <option value="4">Contains</option>
+                        <option value="5">Exact Match</option>
+                    </drop-down>
+                    <text-input id="ap-name" style="width: 200px;"></text-input>
+                </div>
+
+                <span>ID:</span>
+                <text-input id="ap-id" style="width: 90px;"></text-input>
+
+                <div style="display: inline-block; margin-top: -5px; margin-bottom: 5px;"><span>Status:</span></div>
+                <div>
+                    <radio-button group="ap-associated" value="1">Associated</radio-button>
+                    <radio-button group="ap-associated" value="2">Disassociated</radio-button>
+                    <radio-button group="ap-associated" value="0" checked>Both</radio-button>
+                </div>
+
+                <div style="display: inline-block; margin-top: -5px; margin-bottom: 5px;"><span>Type:</span></div>
+                <div>
+                    <radio-button group="ap-type" value="1">Screen</radio-button>
+                    <radio-button group="ap-type" value="2">Screen Group</radio-button>
+                    <radio-button group="ap-type" value="0" checked>Both</radio-button>
+                </div>
+            </div>
+
+            <div>
+                <push-button id="ap-reset" style="margin-left: 450px; margin-right: 10px;">Reset</push-button>
+                <push-button id="ap-search">Search</push-button>
+            </div>
+
+            <div>Search Results:</div>
+            <hr>
+            <div id="ap-grid" style="width: 100%; height: 260px;"></div>
+
+            <div style="margin-top: 10px; text-align: right; margin-right: 10px;">
+                <text-label id="ap-status" style="float: left;">Displaying 0 Screens and Groups</text-label>
+                <push-button id="ap-ok" disabled>OK</push-button>
+                <push-button id="ap-cancel" style="margin-left: 10px;">Cancel</push-button>
+            </div>
+        </popup-body>
+    </popup>
+
+    <popup id="search-popup" height="480px" width="550px">
+        <popup-title>Search For Screen Group</popup-title>
+        <popup-body>
+            <div style="margin-top: 5px;">Search Criteria:</div>
+            <hr>
+
+            <div class="asp-grid-container">
+                <span>Name:</span>
+                <div>
+                    <drop-down id="sp-name-search-type" style="width: 100px">
+                        <option value="2">Starts With</option>
+                        <option value="3">Ends With</option>
+                        <option value="4">Contains</option>
+                        <option value="5">Exact Match</option>
+                    </drop-down>
+                    <text-input id="sp-name" style="width: 200px;"></text-input>
+                </div>
+
+                <span>ID:</span>
+                <text-input id="sp-id" style="width: 90px;"></text-input>
+
+                <div style="display: inline-block; margin-top: -5px; margin-bottom: 5px;"><span>Status:</span></div>
+                <div>
+                    <radio-button group="sp-associated" value="1">Associated</radio-button>
+                    <radio-button group="sp-associated" value="2">Disassociated</radio-button>
+                    <radio-button group="sp-associated" value="0" checked>Both</radio-button>
+                </div>
+
+            </div>
+
+            <div>
+                <push-button id="sp-reset" style="margin-left: 380px; margin-right: 10px;">Reset</push-button>
+                <push-button id="sp-search">Search</push-button>
+            </div>
+
+            <div>Search Results:</div>
+            <hr>
+            <div id="sp-grid" style="width: 100%; height: 260px;"></div>
+
+            <div style="margin-top: 10px; text-align: right; margin-right: 10px;">
+                <text-label id="sp-status" style="float: left;">Displaying 0 Screens and Groups</text-label>
+                <push-button id="sp-ok" disabled>OK</push-button>
+                <push-button id="sp-cancel" style="margin-left: 10px;">Cancel</push-button>
+            </div>
+        </popup-body>
+    </popup>
+
+</div>

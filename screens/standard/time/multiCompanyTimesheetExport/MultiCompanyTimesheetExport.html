@@ -1,0 +1,37 @@
+<!--
+     Copyright 2020 STACK360 LLC
+     All rights reserved.
+
+-->
+
+<div class="kiss">
+    <style>
+         .scte-grid {
+            display: grid;
+            grid-template-columns: repeat(2, max-content);
+            grid-column-gap: 10px;
+            grid-row-gap: 10px;
+            grid-auto-rows: max-content;
+        }
+        .scte-grid span {
+            color: #000;
+            align-self: center;
+            text-align: right;
+        }
+    </style>
+    <div style="margin-top: 10px; margin-bottom: 10px;">
+        <span>Multi-Company Timesheet Export:</span>
+        <hr>
+    </div>
+
+    <div class="scte-grid">
+        <span>Start Date:</span>
+        <native-date-input id="startDate" style="width: 110px;" required></native-date-input>
+
+        <span>End Date:</span>
+        <native-date-input id="endDate" style="width: 110px;" required></native-date-input>
+
+        <span></span>
+        <push-button id="export">Export</push-button>
+    </div>
+</div>

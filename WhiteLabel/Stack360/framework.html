@@ -1,0 +1,262 @@
+<body>
+
+<style rel="stylesheet">
+
+    body {
+ /*       background: var(--inner-bg);  */
+        background: white;
+    }
+
+    .kiss {
+        height: calc(100% - 10px);
+        padding:0 10px 0 10px;
+        position: relative;  /* this is so we can position internal elements relative to the main div  */
+    }
+
+    .kiss span, .kiss label, .kiss h1, .kiss h2, .kiss h3, .kiss h4, .kiss h5, .kiss h6, .kiss p, .kiss div {
+        font-family: Arial, serif;
+    }
+
+    .kiss input[type=button] {
+        padding-left: 12px;
+        padding-right: 12px;
+        padding-top: 6px;
+        padding-bottom: 4px;
+        border-width: 1px;
+        border-color: #a5a5a5;
+        border-style: solid;
+        font-family: Arial, serif;
+        font-size: 12px;
+        display: inline;
+        vertical-align: middle;
+    }
+
+    .kiss input[type=text] {
+        height: 20px;
+    }
+
+    .kiss select {
+        padding: 0;
+        border: 1px solid rgb(169, 169, 169);
+        font-family: Arial, serif;
+        font-size: 11px;
+        height: 24px;
+    }
+
+    .main-content {
+        height: calc(100% - 20px);
+        padding: 10px;
+        border-radius: 4px;
+    }
+
+    div.userInfo {
+        position: absolute;
+        top: 10px;
+        right: 0;
+    }
+
+    div.container {
+        height: calc(100% - 45px);
+        width: calc(100% - 20px);
+        padding: 34px 10px 10px;
+        display: grid;
+        grid-template-columns: 140px auto 220px;
+        grid-template-rows: 45px auto;
+        grid-template-areas: ". header-left header-right " "sidebar main main";
+    }
+
+    .about-memory {
+        display: grid;
+        grid-template-columns: max-content max-content;
+        grid-column-gap: 20px;
+    }
+
+    .header {
+        display: flex;
+        flex-direction: row;
+        align-items: center;
+        height: 30px;
+        padding: 0 5px;
+        background: white;
+        border-style: solid;
+/*        border-radius: 5px;  */
+        border-width: thin;
+    }
+
+    div.header-left {
+        margin: 5px 15px 10px 20px;
+        grid-area: header-left;
+    }
+
+    div.header-right {
+        margin: 5px 10px 5px -10px;
+        grid-area: header-right;
+    }
+
+    div.header-right:hover {
+        color: white;
+        border-color: black;
+    }
+
+    div.sidebar {
+        grid-area: sidebar;
+        background-color: transparent;
+    }
+
+    div.main {
+        grid-area: main;
+        margin-left: 10px;
+    }
+
+    .hr-purple {
+        background-color: #041c3b;
+        left: 150px;
+        top: 55px;
+    }
+
+    .hr-green {
+        background-color: #466083;
+        left: 150px;
+        top: 56px;
+    }
+
+    .btn-sidebar-stack360 {
+        display: block;
+        padding: 5px;
+        font-size: 11px;
+        font-weight: bold;
+        border: none;
+        border-radius: 4px;
+        line-height: 1.3;
+        cursor: pointer;
+
+        margin-bottom: 7px;
+/*        background: #888A85;  */
+        background: #8085A5;
+/*        box-shadow: var(--menu-shadow);  */
+        color: white;
+    }
+
+    .btn-link-stack360 {
+        display: block;
+        padding: 5px;
+        font-size: 11px;
+        font-weight: bold;
+        border: none;
+        border-radius: 4px;
+        line-height: 1.3;
+        color: black;
+        cursor: pointer;
+    }
+
+    .btn-link-stack360:hover, .btn-sidebar-stack360:hover {
+        background-color: #1C0642;
+        color: white !important;
+    }
+
+    input[type="button"], input[type="date"], input[type="radio"], input[type="checkbox"], input[type="color"], select {
+        cursor: pointer !important;
+    }
+
+    .tab-header li {
+        cursor: pointer !important;
+    }
+</style>
+
+<!--
+     Copyright 2022 STACK360 LLC
+     All rights reserved.
+
+-->
+
+
+<div id="full-screen-btn2" style="border-radius: 15px; font-size: 15px; cursor: pointer;
+                           position: absolute; left: 180px; top: 10px; text-align: center; z-index: 20001; background-color: #f0f0f0;
+                           padding: 2px 5px 2px 5px;">
+    Full Screen
+</div>
+
+<div class="title modal-bg" style="">
+    <img id="framework-logo" alt="Stack360 Logo" style="height: 58px; width: auto; position: relative; top: 10px; left: 20px; cursor: pointer;"  src="stack360-dots3-24.png">
+
+    <div class="userInfo" id="user-info">
+        <div>User info</div>
+    </div>
+</div>
+
+<div class="container modal-bg">
+
+    <div class="header header-left" id="bread-crumb">
+        Bread crumbs
+    </div>
+
+    <div class="header header-right">
+        <div id="header-about-btn" class="btn-link-stack360" style="margin-left: 5px;" onclick="Framework.about();">About</div>
+        <div id="header-preferences-btn" class="btn-link-stack360" onclick="Framework.preferences();">Preferences</div>
+        <div id="header-help-btn" class="btn-link-stack360" onclick="Framework.help();">Help</div>
+        <div id="header-logout-btn" class="btn-link-stack360" onclick="Framework.logout();">Logout</div>
+    </div>
+
+    <div class="sidebar" id="selector-pane" style="margin-top: 10px;">
+        Selector Pane
+    </div>
+
+    <div class="main" id="data-pane" style="height: 100%;">
+        Loading...
+    </div>
+</div>
+
+<popup id="about-popup" width="550px" height="440px">
+    <popup-title>About</popup-title>
+    <popup-body>
+        <h3>Stack360 Business Management System</h3>
+        This system is Copyright &copy; <span id="about-popup-current-year"></span> STACK360 LLC<br>
+        All rights reserved.<br><br>
+        Information about this system is at: <a href="https://stack360.io" target="_blank">stack360.io</a><br><br>
+        Current screen: <span id="about-popup-current-screen"></span><br><br>
+        
+        Current screen ID: <span id="about-popup-current-screen-id"></span><br>
+        Application Path: <span id="about-popup-application-path"></span><br>
+        Front-end Path: <span id="about-popup-frontend-path"></span><br>
+        Back-end Path: <span id="about-popup-backend-path"></span><br>
+        Build Date: <span id="about-popup-build-date"></span><br>
+        Source Code Revision: <span id="about-popup-source-code-revision"></span><br>
+        Source Code Path: <span id="about-popup-source-code-path"></span><br>
+        Database: <span id="about-popup-database"></span><br><br>
+
+        <div class="about-memory">
+            <span>Max OS Memory:</span>
+            <div style="display: inline-block; width: 75px; text-align: right;" id="about-max-memory"></div>
+
+            <span>Current OS Memory:</span>
+            <div style="display: inline-block; width: 75px; text-align: right;" id="about-total-memory"></div>
+
+            <span>Used Java Memory:</span>
+            <div style="display: inline-block; width: 75px; text-align: right;" id="about-used-memory"></div>
+
+            <span>Free Java Memory:</span>
+            <div style="display: inline-block; width: 75px; text-align: right;" id="about-free-memory"></div>
+
+            <span>Min Used:</span>
+            <div style="display: inline-block; width: 75px; text-align: right;" id="about-min-used"></div>
+
+            <span>Max Used:</span>
+            <div style="display: inline-block; width: 75px; text-align: right;" id="about-max-used"></div>
+
+            <span>Current Min:</span>
+            <div style="display: inline-block; width: 75px; text-align: right;" id="about-working-min"></div>
+
+            <span>Current Max:</span>
+            <div style="display: inline-block; width: 75px; text-align: right;" id="about-working-max"></div>
+
+            <span>Next Reset:</span>
+            <div style="display: inline-block; width: 75px; text-align: right;" id="about-next-reset"></div>
+        </div>
+        <br>
+        Display size: <span id="about-popup-display-size"></span><br><br>
+        Browser window size: <span id="about-popup-screen-size"></span><br><br>
+        <input type="button" id="about-popup-ok" style="position: fixed; bottom: 10px; right: 10px;" value="Ok">
+    </popup-body>
+</popup>
+
+</body>

@@ -1,0 +1,120 @@
+<!--
+     Copyright 2020 STACK360 LLC
+     All rights reserved.
+
+-->
+
+<div class="kiss">
+
+    <style>
+        .es-grid {
+            display: grid;
+            grid-template-columns: repeat(2, max-content);
+            grid-row-gap: 10px;
+            grid-column-gap: 10px;
+            align-items: center;
+        }
+        .es-grid > span {
+            text-align: right;
+        }
+        .es-grid * {
+            margin-left: 0 !important;
+        } 
+    </style>
+
+    <div style="margin-top: 10px;">Employee Evaluation Statuses</div>
+    <hr>
+
+    <div style="margin-top: 10px;" class="es-grid">
+        <span>Supervisor:</span>
+        <smart-chooser id="es-supervisorId" outside-width="260"></smart-chooser>  
+
+        <span>Evaluation Date From:</span>
+        <div>
+            <native-date-input id="es-fromDate" style="width:110px;"></native-date-input>
+
+            <span>To:</span>
+            <native-date-input id="es-toDate" style="width:110px;"></native-date-input>
+        </div>
+
+        <div style="margin-top: 5px; text-align: right; grid-column: 1 / 3;">
+            <push-button id="search">Search</push-button>
+        </div>
+    </div>
+
+    <div style="text-align: right;">
+        <check-box id="es-finalized" checked>Include Finalized</check-box>
+    </div>
+
+    <div id="searchResGrid" style="width: 100%; height: calc(100% - 190px);"></div>
+
+    <div style="margin-top: 15px;">
+        <text-label id="es-count">Displaying 0 Employee Evaluations</text-label>
+    </div>
+
+    <popup id="info-popup" height="400px" width="530px">
+        <popup-title>Additional Information</popup-title>
+        <popup-body>
+            <div class="es-grid" style="grid-template-columns: min-content max-content;">
+                <span style="font-weight:bold;">Comments:</span>
+                <textbox-input id="es-info-comments" style="height: 100px; width: 430px;" disabled></textbox-input>
+
+                <span style="font-weight:bold;">Employee Comments:</span>
+                <textbox-input id="es-info-employeeComments" style="height: 100px; width: 430px;" disabled></textbox-input>
+
+                <span style="font-weight:bold;">Hidden Comments:</span>
+                <textbox-input id="es-info-privateComments" style="height: 100px; width: 430px;" disabled></textbox-input>
+            </div>           
+
+            <div style="right: 10px; bottom: 10px; position: absolute;">
+                <push-button id="info-ok">Ok</push-button>
+            </div>
+        </popup-body>
+    </popup>
+
+    <popup id="employee-search" width="620px" height="455px">
+        <popup-title>
+            <text-label>Search for Employee</text-label>
+        </popup-title>
+        <popup-body style="padding: 10px;">
+    
+            <div>Search Criteria:</div>
+            <hr>
+            
+            <div class="vert-input" style="margin-top: 8px; display: grid; grid-template-columns: repeat(3, max-content); align-items: center;">
+                <span>Last Name:</span>
+                <drop-down id="esp-lname-criteria" style="width: 95px; margin-right: 10px;"></drop-down>
+                <text-input id="esp-lname-search" style="width: 140px"></text-input>
+                
+                <span>First Name:</span>
+                <drop-down id="esp-fname-criteria" style="width: 95px; margin-right: 10px;"></drop-down>
+                <text-input id="esp-fname-search" style="width: 140px"></text-input>   
+                
+                <span>SSN:</span>
+                <text-input id="esp-ssn-search" style="width: 95px"></text-input>   
+                
+            </div>
+    
+            <div class="btn-bar" style="margin-top: 8px; width: 100%; justify-content: flex-end;">
+                <push-button id="esp-reset">Reset</push-button>
+                <push-button id="esp-search" style="margin-right: unset;">Search</push-button>
+            </div>
+    
+            <div style="margin-top: 10px;">
+                <div>Search Results:</div>
+                <hr>
+            </div>
+    
+            <div id="esp-grid" style="width: 100%; height: 250px;"></div>
+        
+            <div class="vert-input2" style="margin-top: 20px; display: flex; justify-content: space-between; align-items: center;">
+                <text-label id="esp-count" style="margin-left: 10px;">Displaying 0 Employees</text-label>
+    
+                <div>
+                    <push-button id="esp-ok" disabled>OK</push-button>
+                    <push-button id="esp-cancel" style="margin-left: 10px; margin-right: 15px;">Cancel</push-button>
+                </div>
+            </div>
+        </popup-body>
+    </popup>
+</div>

@@ -1,0 +1,43 @@
+<!--
+     Copyright 2020 STACK360 LLC
+     All rights reserved.
+
+-->
+
+<div class="kiss" style="font-size: medium;">
+
+    <h2 style="margin-left: 110px;">Send Text Messages To Workers Assigned To Project</h2>
+
+    <div><text-label id="project-description" style="margin-left: 10px;"></text-label></div>
+    <div style="margin-top: 10px;"><text-label id="prefix" style="margin-left: 10px;"></text-label></div>
+    <div><text-label id="suffix" style="margin-left: 10px;"></text-label></div>
+
+    <style>
+        #x36a3b226-4fef-40d0-9562-c98f7f34c579 {
+            display:grid;
+            grid-template-columns: 300px 570px;
+            grid-column-gap: 5px;
+            grid-row-gap: 10px;
+            margin-top: 10px;
+            margin-left: 10px;
+        }
+    </style>
+
+    <div id="x36a3b226-4fef-40d0-9562-c98f7f34c579" style="margin-top: 30px;">
+
+        <span>Workers (* = missing mobile phone)</span>
+        <span></span>
+
+        <list-box id="workers" size="14" style="width: 250px; font-size: medium;" disabled></list-box>
+        <textbox-input id="detail" style="width: 560px;" placeholder="Message Detail" required></textbox-input>
+
+        <div style="margin-top: 20px;">
+            <span>Shift:</span>
+            <drop-down id="shift" style="width: 100px;"></drop-down>
+        </div>
+        <div style="margin-top: 20px;">
+            <push-button id="send">Send</push-button>
+        </div>
+    </div>
+
+</div>

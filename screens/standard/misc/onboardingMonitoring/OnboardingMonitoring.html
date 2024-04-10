@@ -1,0 +1,147 @@
+<!--
+     Copyright 2020 STACK360 LLC
+     All rights reserved.
+
+-->
+
+<div class="kiss">
+    <style>
+        .om-grid {
+            display: grid;
+            grid-column-gap: 10px;
+            grid-row-gap: 10px;
+            align-items: center;
+        }
+        .om-grid span {
+            color: #000;
+            align-self: center;
+            text-align: right;
+        }
+        input[type="color"] {
+            width: 30px;
+            height: 30px;
+            border: none;
+            vertical-align: middle;
+            box-sizing: border-box;
+        }
+    </style>
+
+    <div style="margin-top: 10px; margin-bottom: 10px;">
+        <span>Onboarding Monitoring Center</span>
+        <hr>
+    </div>
+    <div class="om-grid" style="height: calc(100% - 40px); grid-template-columns: 250px auto 300px; grid-template-rows: max-content max-content auto max-content;">
+        <div style="text-align: right;">
+            <push-button id="refresh" style="float: left;">Refresh</push-button>
+            <div>
+                <span>Highlight Color:</span>
+                <input type="color" id="om-highlightColor" value="#cdffc1">
+            </div>
+        </div>
+
+        <div style="text-align: right;">
+            <check-box id="om-showInProgress" style="vertical-align: middle; margin-right: 10px;" checked>Show In-Progress</check-box>
+            <check-box id="om-showCompleted" style="vertical-align: middle;" checked>Show Completed</check-box>
+        </div>
+
+        <div style="text-align: right;">
+            <span>Refresh Rate:</span>
+            <drop-down id="om-refreshRate" style="width: 150px; margin-left: 10px;">
+                <option value="10000">10 seconds</option>
+                <option value="15000">15 seconds</option>
+                <option value="30000">30 seconds</option>
+                <option value="60000">1 minute</option>
+                <option value="240000">5 minutes</option>
+                <option value="600000">10 minutes</option>
+                <option value="1800000">30 minutes</option>
+            </drop-down>
+        </div>
+
+        <div>
+            <span>Employees</span>
+            <hr>
+        </div>
+        
+        <div>
+            <span>Tasks</span>
+            <hr>
+        </div>
+        
+        <div>
+            <span>Messages</span>
+            <hr>
+        </div>
+
+        <div id="employeesGrid" style="height: 100%; width: 100%;"></div>
+        <div id="tasksGrid" style="height: 100%; width: 100%;"></div>
+
+        <div id="om-tab-container" style="grid-row: 3 / 5; grid-column: 3 / 4; height: 100%;">
+            <ul class="tab-header">
+                <li id="om-received-TabButton" class="active">Received</li>
+                <li id="om-sent-TabButton">Sent</li>
+            </ul>
+            
+            <div id="om-received-TabContent" class="tab-content tab-height">
+                <div id="messagesReceivedGrid" style="height: calc(100% - 40px); width: 100%;"></div>
+
+                <div style="text-align: right; margin-top: 10px;">
+                    <push-button id="messageReceivedNew">New</push-button>
+                    <push-button id="messageReceivedView" disabled style="margin-left: 10px;">View</push-button>
+                    <push-button id="messageReceivedReply" disabled style="margin-left: 10px;">Reply</push-button>
+                    <push-button id="messageReceivedDelete" disabled style="margin-left: 10px;">Delete</push-button>
+                </div>
+            </div>
+    
+            <div id="om-sent-TabContent" class="tab-content tab-height" hidden style="display: none;">
+                <div id="messagesSentGrid" style="height: calc(100% - 40px); width: 100%;"></div>
+
+                <div style="text-align: right; margin-top: 10px;">
+                    <push-button id="messageSentView" disabled style="margin-left: 10px;">View</push-button>
+                    <push-button id="messageSentDelete" disabled style="margin-left: 10px;">Delete</push-button>
+                </div>
+            </div>
+        </div>
+        
+
+        <div style="text-align: right;">
+            <push-button id="employeeView" disabled>View</push-button>
+            <push-button id="employeeMessage" disabled style="margin-left: 10px;">Message</push-button>
+        </div>
+
+        <div style="text-align: right;">
+            <push-button id="taskView" disabled>View</push-button>
+            <push-button id="taskEdit" disabled style="margin-left: 10px;">Edit</push-button>
+            <push-button id="taskDelete" disabled style="margin-left: 10px;">Delete</push-button>
+        </div>
+    </div>
+
+    <popup id="message-popup" width="470px" height="250px">
+        <popup-title>
+            <span><text-label id="message-label">New</text-label> Message</span>
+        </popup-title>
+        <popup-body style="padding: 10px;">
+            <div class="om-grid" style="grid-template-columns: repeat(2, max-content);">
+                <span>Sender:</span>
+                <text-input id="message-sender" style="width: 300px;" disabled></text-input>
+
+                <span>Receiver:</span>
+                <div>
+                    <text-input id="message-receiver" disabled style="width: 300px; margin-right: 10px;"></text-input>
+                    <text-input id="message-receiverId" required hidden disabled style="width: 300px; margin-right: 10px;"></text-input>
+                    <push-button id="message-choose">Choose</push-button>
+                </div>
+
+                <span>Subject:</span>
+                <text-input id="message-subject" required style="width: 380px;"></text-input>
+
+                <span style="align-self: baseline;">Message:</span>
+                <textbox-input id="message-message" style="height: 90px;"></textbox-input>
+            </div>
+        
+            <div style="margin-top: 10px; text-align: right;">    
+                <push-button id="message-ok">OK</push-button>
+                <push-button id="message-cancel" style="margin-left: 10px;">Cancel</push-button>
+            </div>
+        </popup-body>
+    </popup>
+</div>

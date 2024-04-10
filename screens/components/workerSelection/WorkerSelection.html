@@ -1,0 +1,24 @@
+<popup id="component-worker-selection" height="400px" width="800px" style="font-size: small;">
+
+    <popup-title>
+        Worker Selection
+    </popup-title>
+    <popup-body>
+        <div style="margin-top: 10px;">
+            <label for="cm-sw-lname-start" style="margin-left: 10px;">Start of last name:</label>
+            <text-input id="cm-sw-lname-start"></text-input>
+            <radio-button group="cm-sw-search-type" value="all" style="margin-left: 60px;">All</radio-button>
+            <radio-button group="cm-sw-search-type" value="active" checked>Active</radio-button>
+            <radio-button group="cm-sw-search-type" value="inactive">Inactive</radio-button>
+            <push-button id='cm-sw-worker-search' style="margin-left: 40px;">Search</push-button>
+        </div>
+
+        <div id="cm-sw-worker-grid" style="margin-top: 20px; margin-left: 10px; height: 303px; width: 767px;"></div>
+
+        <div style="right: 18px; bottom: 10px; position: absolute;">
+            <push-button id="cm-sw-worker-ok">OK</push-button>
+            <push-button id="cm-sw-worker-cancel" style="margin-left: 12px;">Cancel</push-button>
+        </div>
+    </popup-body>
+
+</popup>

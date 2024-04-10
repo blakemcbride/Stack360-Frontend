@@ -1,0 +1,119 @@
+<!--
+     Copyright 2021 STACK360 LLC
+     All rights reserved.
+
+-->
+
+<div class="kiss">
+
+    <style>
+        div.vert-input2 {
+            display:grid;
+            grid-template-columns: max-content max-content;
+            grid-column-gap:5px;
+            grid-row-gap: 8px;
+            margin-top: 10px;
+        }
+
+        div.vert-input2 span {
+            text-align:right;
+            margin-top: 6px;
+        }
+
+        div.vert-input2-benefit {
+            display:grid;
+            grid-template-columns: max-content max-content;
+            grid-column-gap:5px;
+            grid-row-gap: 8px;
+            align-items: center;
+            margin-left: 8px;
+        }
+
+        div.vert-input2-benefit-right {
+            display:grid;
+            grid-template-columns: max-content max-content;
+            grid-column-gap:5px;
+            grid-row-gap: 8px;
+            align-items: center;
+            justify-content: flex-end;
+            margin-left: 8px;
+        }
+
+    </style>
+
+    <div style="margin-top: 10px;">
+        <span>Employee Accrued Time Off:</span>
+        <text-label id="worker-name" style="float: right;"></text-label>
+    </div>
+    <hr>
+
+    <div class="vert-input2-benefit">
+        <div class="vert-input2-benefit">
+            <span>Show Accrued Time Off for Benefit:</span>
+            <div class="vert-input2-benefit">
+                <drop-down style="width: 172px;margin-right: 8px;" id="accrued-benefit" required></drop-down>
+                <label>Starting Date:</label>
+            </div>
+        </div>
+        <native-date-input id="start-date" style="width:120px;margin-left: 8px;"></native-date-input>
+        <div class="vert-input2-benefit-right">
+            <radio-button group="date-range" value="1" checked>Show Entries for Entire Period</radio-button>
+            <radio-button group="date-range" value="2">Show Entries up to Ending Date:</radio-button>
+        </div>
+        <div class="vert-input2-benefit">
+            <native-date-input id="ending-date" style="width:120px;" disabled></native-date-input>
+            <push-button id="show" style="margin-left: 10px;" disabled>Show</push-button>
+        </div>
+    </div>
+
+    <check-box id="show-time-off" style="position: absolute; right: 12px; top: 75px;">Show Time Off Requests</check-box>
+
+    <div id="grid" style="margin-top: 10px; width: 100%; height: calc(100% - 150px);"></div>
+
+    <text-label id="status" style="position: absolute; bottom: 20px; left: 10px;">Displaying 0 Employee Accrued Time Off Entries</text-label>
+
+    <div id="bottom-bar" style="position: absolute; bottom: 10px; right: 10px;">
+        <div style="display: flex; flex-direction: row; align-items: center;">
+            <span style="margin-left: 10px;">Remaining Accrued Time Off:</span>
+            <text-input id="total" style="margin-left: 5px;width: 80px;text-align: right;" readonly></text-input>
+            <push-button id="add" style="margin-left: 10px;" disabled>Add</push-button>
+            <push-button id="report" style="margin-left: 10px;">Report</push-button>
+        </div>
+    </div>
+
+    <div id="approved-requests" style="margin-top: 50px;display: none;">
+        <div style="margin-top: 10px;">
+            <span>Approved Time Off Requests (Not Yet Entered):</span>
+        </div>
+        <hr />
+
+        <div id="request-grid" style="margin-top: 10px; width: 100%; height: 145px;"></div>
+        <push-button id="mark" style="position: absolute; bottom: 10px; right: 10px;" disabled>Mark Entered</push-button>
+    </div>
+
+    <popup id="add-popup" height="180px" width="266px">
+        <popup-title>
+            <text-label id="ap-title">Add Accrued Time Off Entry</text-label>
+        </popup-title>
+        <popup-body>
+            <div class="vert-input2" style="margin-left: 4px;">
+                <span>Description:</span>
+                <text-input id="ap-description" style="width: 170px;" required maxlength="80"></text-input>
+                <span>Date:</span>
+                <native-date-input id="ap-date" style="width:120px;"></native-date-input>
+                <span>Hours:</span>
+                <text-input id="ap-hours" style="width: 60px; text-align: right;" maxlength="20"></text-input>
+                <span></span>
+                <div style="display: flex;flex-direction: row;align-items: center;">
+                    <radio-button group="ap-type" value="1" checked>Use Hours</radio-button>
+                    <radio-button group="ap-type" value="2">Add Hours</radio-button>
+                </div>
+            </div>
+            <div style="right: 10px; bottom: 7px; position: absolute;">
+                <push-button id="ap-ok">Ok</push-button>
+                <push-button id="ap-cancel" style="margin-left: 10px;">Cancel</push-button>
+            </div>
+        </popup-body>
+    </popup>
+
+</div>

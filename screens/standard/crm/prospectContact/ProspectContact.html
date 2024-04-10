@@ -1,0 +1,176 @@
+<!--
+     Copyright 2020 STACK360 LLC
+     All rights reserved.
+-->
+
+<div class="kiss">
+
+    <style>
+        div.vert-input2 {
+            display:grid;
+            grid-template-columns: max-content max-content;
+            grid-column-gap:5px;
+            grid-row-gap: 10px;
+            margin-top: 10px;
+        }
+
+        div.vert-input2 span {
+            text-align:right;
+            margin-top: 6px;
+        }
+
+        .tab-height {
+            height: 330px;
+        }
+    </style>
+
+    <div style="margin-top: 10px; display: flex;justify-content: space-between;" >
+        <div>Prospect Contact:</div>
+        <div>
+            <text-label id="prospect-name">Prospect Name</text-label>
+        </div>
+    </div>
+    <hr>
+
+    <div class="vert-input2">
+        <span>Organizational Group:</span>
+        <smart-chooser id="org-group" style="width: 210px;"></smart-chooser>
+    </div>
+
+    <div id="grid" style="margin-top: 10px; width: 100%; height: calc(100% - 120px);"></div>
+
+    <text-label id="status" style="position: absolute; bottom: 25px; left: 20px;">Displaying 0 Prospect Contact</text-label>
+
+    <div style="position: absolute; bottom: 15px; right: 10px;">
+        <push-button id="add" style="margin-left: 10px;">Add</push-button>
+        <push-button id="edit" style="margin-left: 10px;" disabled>Edit</push-button>
+        <push-button id="delete" style="margin-left: 10px;" disabled>Delete</push-button>
+        <push-button id="report" style="margin-left: 10px;">Report</push-button>
+    </div>
+
+    <popup id="detail-popup" height="430px">
+        <popup-title>
+            <text-label id="dp-title">Add Contact</text-label>
+        </popup-title>
+        <popup-body style="padding: 5px; width: 670px;">
+
+            <div id="detailTabContainer" class="tab-container">
+                <ul class="tab-header">
+                    <li id="summaryTabButton" class="active">Summary</li>
+                    <li id="detailTabButton">Detail</li>
+                </ul>
+
+                <div id="summaryTabContent" class="tab-content tab-height">
+                    <text-label>Basic:</text-label>
+                    <hr>
+                    <div style="display: flex;" style="margin-left: 20px;" >
+                        <div>
+                            <div class="vert-input2">
+                                <span>* First Name:</span>
+                                <text-input id="dp-fname" maxlength="30" style="width: 170px;" required></text-input>
+                                <span>* Last Name:</span>
+                                <text-input id="dp-lname" maxlength="30" style="width: 170px;" required></text-input>
+                                <span>* Type:</span>
+                                <drop-down id="dp-type" required default-option="(select)">
+                                    <option value="">(select)</option>
+                                    <option value="1">Decision Maker</option>
+                                    <option value="2">Department Head</option>
+                                    <option value="3">User</option>
+                                    <option value="4">Consultant / Other Employee</option>
+                                    <option value="5">Unknown</option>
+                                </drop-down>
+                            </div>
+                        </div>
+                        <div style="margin-left: 20px;">
+                            <div class="vert-input2">
+                                <span>Job Title:</span>
+                                <text-input id="dp-job-title" maxlength="60" style="width: 170px;"></text-input>
+                                <span>E-mail:</span>
+                                <text-input id="dp-email" maxlength="60" style="width: 170px;"></text-input>
+                                <span></span>
+                                <check-box id="dp-primary" style="float: right;">Primary</check-box>
+                            </div>
+                        </div>
+                    </div>
+                    <text-label>Address:</text-label>
+                    <hr>
+                    <div style="display: flex;" style="margin-left: 20px;" >
+                        <div>
+                            <div class="vert-input2">
+                                <span>Street 1:</span>
+                                <text-input id="dp-street1" style="width: 170px;" maxlength="60"></text-input>
+                                <span>Street 2:</span>
+                                <text-input id="dp-street2" style="width: 170px;" maxlength="60"></text-input>
+                                <span>Country</span>
+                                <drop-down id="dp-country" style="width: 170px;"></drop-down>
+                                <span>City:</span>
+                                <text-input id="dp-city" style="width: 170px;" maxlength="60"></text-input>
+                                <span>State:</span>
+                                <div>
+                                    <drop-down id="dp-state-drop-down" style="width: 70px;" hidden></drop-down>
+                                    <text-input id="dp-state" style="width: 70px;" hidden maxlength="20"></text-input>
+                                    <span style="margin-left: 32px;">Zip:</span>
+                                    <text-input id="dp-zip" maxlength="10" style="width: 70px;"></text-input>
+                                </div>
+                            </div>
+                        </div>
+                        <div style="margin-left: 20px;">
+                            <div class="vert-input2">
+                                <span>Work Phone:</span>
+                                <text-input id="dp-work-phone" maxlength="20" style="width: 100px;"></text-input>
+                                <span>Mobile Phone:</span>
+                                <text-input id="dp-mobile-phone" maxlength="20" style="width: 100px;"></text-input>
+                                <span>LinkedIn:</span>
+                                <div>
+                                    <text-input id="dp-linkedin" maxlength="80" style="width: 250px;"></text-input>
+                                    <push-button id="dp-go-linkedin">*</push-button>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div id="detailTabContent" class="tab-content tab-height" style="display: none;" hidden>
+                    <div id="dp-qus-grid" style="width: 100%; height: 280px;"></div>
+        
+                    <div style="text-align: right; margin-top: 20px; display: flex; justify-content: space-between; align-items: center;">
+                        <text-label id="dp-qus-count" style="margin-left: 10px;">Displaying 0 Contact Questions</text-label>
+            
+                        <div>
+                            <push-button id="dp-qus-edit" style="margin-right: 15px;">Edit</push-button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div style="float: right; margin-top: 15px;">
+                <push-button id="dp-ok">OK</push-button>
+                <push-button id="dp-cancel" style="margin-left: 10px; margin-right: 15px;">Cancel</push-button>
+            </div>
+        </popup-body>
+    </popup>
+
+    <popup id="question-edit" width="440px">
+        <popup-title>
+            <text-label>Enter Contact Question Detail</text-label>
+        </popup-title>
+        <popup-body style="margin-left: 10px;">
+            <div class="vert-input2" style="">
+                <span>Entered:</span>
+                <text-input id="qep-entered" readonly></text-input>
+
+                <span>Question:</span>
+                <text-input id="qep-question" readonly style="width: 330px;"></text-input>
+
+                <span>Response:</span>
+                <textbox-input id="qep-response" style="width: 330px; height: 140px;"></textbox-input>
+            </div>
+
+            <div style="float: right; margin-top: 10px;">
+                <push-button id="qep-ok">OK</push-button>
+                <push-button id="qep-cancel" style="margin-left: 10px; margin-right: 15px;">Cancel</push-button>
+            </div>
+        </popup-body>
+    </popup>
+
+</div>

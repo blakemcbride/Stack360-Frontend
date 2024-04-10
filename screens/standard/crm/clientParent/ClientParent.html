@@ -1,0 +1,350 @@
+<!--
+     Copyright 2020 STACK360 LLC
+     All rights reserved.
+
+-->
+
+<div class="kiss">
+
+    <style>
+        div.vert-input2 {
+            display:grid;
+            grid-template-columns: 50px 130px 170px 200px 130px 170px;
+            grid-column-gap: 5px;
+            grid-row-gap: 10px;
+            margin-top: 10px;
+            margin-left: 10px;
+        }
+        div.vert-input2 label {
+            text-align:right;
+            margin-top: 4px;
+        }
+
+        .drop-down-width {
+            width: 120px;
+        }
+
+        .entry-field {
+            width: 150px;
+        }
+
+        div.vert-input2 span:nth-child(1n) {
+            display: flex;
+            justify-content: flex-end;
+            align-items: center;
+        }
+
+        .popup-space {
+            margin-top: 10px;
+        }
+
+        div.client-detail-tab-1 {
+            display:grid;
+            grid-template-columns: 70px 200px 150px 270px;
+            grid-column-gap: 5px;
+            grid-row-gap: 5px;
+        }
+
+        div.client-detail-tab-1 label {
+            text-align:right;
+            margin-top: 4px;
+        }
+
+        div.client-detail-tab-1 .col-width {
+            width: 150px;
+        }
+
+        div.client-detail-tab-2 {
+            display:grid;
+            grid-template-columns: 70px 200px 100px 270px;
+            grid-column-gap: 5px;
+            grid-row-gap: 10px;
+            margin-top: 10px;
+        }
+
+        div.client-detail-tab-2 label {
+            text-align:right;
+            margin-top: 4px;
+        }
+
+        div.client-detail-tab-3 {
+            display:grid;
+            grid-template-columns: 100px 150px 150px 270px;
+            grid-column-gap: 5px;
+            grid-row-gap: 10px;
+        }
+
+        div.client-detail-tab-3 label {
+            text-align:right;
+            margin-top: 4px;
+        }
+
+    </style>
+
+    <div style="margin-top: 5px;">Recently Selected Clients:</div>
+    <hr>
+
+    <div style="margin-top: 10px;">
+        <div style="display: inline-block; width: 60px; text-align: end; margin-right: 5px;">Client:</div>
+        <drop-down id="client-history" style="width: 500px;"></drop-down>
+        <push-button id="edit-history">Edit</push-button>
+    </div>
+
+    <div style="margin-top: 10px;">
+        Client Search Criteria:
+        <hr>
+    </div>
+
+    <div class="vert-input2">
+        <span>Name:</span>
+        <drop-down id="name-search-type" class="drop-down-width">
+            <option value="2">Starts With</option>
+            <option value="3">Ends With</option>
+            <option value="4">Contains</option>
+            <option value="5">Exact Match</option>
+        </drop-down>
+        <text-input id="name" class="entry-field"></text-input>
+        <span>Primary Contact First Name:</span>
+        <drop-down id="first-name-type" class="drop-down-width">
+            <option value="2">Starts With</option>
+            <option value="3">Ends With</option>
+            <option value="4">Contains</option>
+            <option value="5">Exact Match</option>
+        </drop-down>
+        <text-input id="contact-first-name" class="entry-field"></text-input>
+
+        <span>ID:</span>
+        <drop-down id="id-search-type" class="drop-down-width">
+            <option value="2">Starts With</option>
+            <option value="3">Ends With</option>
+            <option value="4">Contains</option>
+            <option value="5" selected>Exact Match</option>
+        </drop-down>
+        <text-input id="id" class="entry-field"></text-input>
+        <span>Primary Contact Last Name:</span>
+        <drop-down id="last-name-type" class="drop-down-width">
+            <option value="2">Starts With</option>
+            <option value="3">Ends With</option>
+            <option value="4">Contains</option>
+            <option value="5">Exact Match</option>
+        </drop-down>
+        <text-input id="contact-last-name" class="entry-field"></text-input>
+    </div>
+
+    <div style="margin-top: 10px;">
+        <div style="display: inline-block; width: 60px; text-align: end; margin-right: 5px;">Status:</div>
+        <radio-button group="login-status" value="1" checked>Active</radio-button>
+        <radio-button group="login-status" value="2">Inactive</radio-button>
+        <radio-button group="login-status" value="0">Any</radio-button>
+        <push-button id="reset" style="margin-left: 460px;">Reset</push-button>
+        <push-button id="search" style="margin-left: 10px;">Search</push-button>
+    </div>
+
+    <div style="margin-top: 10px;">
+        Client Search Results:
+    </div>
+    <hr>
+
+    <div id="grid" style="width: 100%; height: calc(100% - 270px);"></div>
+
+
+    <div style="position: absolute; bottom: 10px; width: 100%; left: 0;">
+        <div style="margin-top: 5px; display: inline-block; margin-left: 10px;">
+            <text-label id="status"></text-label>
+        </div>
+        <div style="display: inline-block; float: right;">
+            <push-button id="add">Add</push-button>
+            <push-button id="edit" style="margin-left: 10px;" disabled>Edit</push-button>
+            <push-button id="delete" style="margin-left: 10px; margin-right: 10px;" disabled>Delete</push-button>
+        </div>
+    </div>
+
+    <popup id="add-type-popup" height="160px" width="400px">
+        <popup-title>Add Client</popup-title>
+        <popup-body>
+            <div class="popup-space"><radio-button group="atp-add-type" value="N" checked>Add a New Client</radio-button></div>
+            <div class="popup-space"><radio-button group="atp-add-type" value="P">Promote an existing Prospect to a Client</radio-button></div>
+            <div class="popup-space"><smart-chooser id="atp-prospect" style="width: 350px;" required disabled></smart-chooser></div>
+            <div class="popup-space">Note: Promoting a Prospect to a Client cannot be un-done.</div>
+            <div style="text-align: right; margin-top: 20px; margin-right: 10px;">
+                <push-button id="atp-ok">OK</push-button>
+                <push-button id="atp-cancel" style="margin-left: 10px;">Cancel</push-button>
+            </div>
+        </popup-body>
+    </popup>
+
+    <popup id="add-client-popup" height="300px" width="750px">
+        <popup-title>Add New Client</popup-title>
+        <popup-body>
+
+            <div id="acp-tab-container">
+                <ul class="tab-header">
+                    <li id="acp-client-detail-TabButton" class="active">Client Detail</li>
+                    <li id="acp-contact-detail-TabButton">Primary Contact Detail</li>
+                    <li id="acp-login-detail-TabButton">Primary Contact Login Detail</li>
+                </ul>
+
+                <div id="acp-client-detail-TabContent" class="tab-content" style="height: 210px;">
+                    <div class="client-detail-tab-1">
+                        <label>* Name:</label>
+                        <text-input id="acp-name" maxlength="60" required></text-input>
+                        <label>ID:</label>
+                        <text-input id="acp-id" maxlength="20" class="col-width"></text-input>
+
+                        <label>Street 1:</label>
+                        <text-input id="acp-street-1" maxlength="60"></text-input>
+                        <label>Federal Employer ID:</label>
+                        <text-input id="acp-fei" maxlength="11" class="col-width"></text-input>
+
+                        <label>Street 2:</label>
+                        <text-input id="acp-street-2" maxlength="60"></text-input>
+                        <label>GL Sales Account</label>
+                        <drop-down id="acp-sales-account" class="col-width"></drop-down>
+
+                        <label>City:</label>
+                        <text-input id="acp-city" maxlength="60"></text-input>
+                        <label>Billing Rate:</label>
+                        <numeric-input id="acp-billing-rate" style="width: 90px;" dollar></numeric-input>
+
+                        <label>State:</label>
+                        <div>
+                            <drop-down id="acp-state" style="width: 80px;">
+                                <option value="">(select)</option>
+                                <option value="AL">AL</option>
+                                <option value="AK">AK</option>
+                                <option value="AS">AS</option>
+                                <option value="AZ">AZ</option>
+                                <option value="AR">AR</option>
+                                <option value="CA">CA</option>
+                                <option value="CO">CO</option>
+                                <option value="CT">CT</option>
+                                <option value="DE">DE</option>
+                                <option value="DC">DC</option>
+                                <option value="FM">FM</option>
+                                <option value="FL">FL</option>
+                                <option value="GA">GA</option>
+                                <option value="GU">GU</option>
+                                <option value="HI">HI</option>
+                                <option value="ID">ID</option>
+                                <option value="IL">IL</option>
+                                <option value="IN">IN</option>
+                                <option value="IA">IA</option>
+                                <option value="KS">KS</option>
+                                <option value="KY">KY</option>
+                                <option value="LA">LA</option>
+                                <option value="ME">ME</option>
+                                <option value="MH">MH</option>
+                                <option value="MD">MD</option>
+                                <option value="MA">MA</option>
+                                <option value="MI">MI</option>
+                                <option value="MN">MN</option>
+                                <option value="MS">MS</option>
+                                <option value="MO">MO</option>
+                                <option value="MT">MT</option>
+                                <option value="NE">NE</option>
+                                <option value="NV">NV</option>
+                                <option value="NH">NH</option>
+                                <option value="NJ">NJ</option>
+                                <option value="NM">NM</option>
+                                <option value="NY">NY</option>
+                                <option value="NC">NC</option>
+                                <option value="ND">ND</option>
+                                <option value="MP">MP</option>
+                                <option value="OH">OH</option>
+                                <option value="OK">OK</option>
+                                <option value="OR">OR</option>
+                                <option value="PW">PW</option>
+                                <option value="PA">PA</option>
+                                <option value="PR">PR</option>
+                                <option value="RI">RI</option>
+                                <option value="SC">SC</option>
+                                <option value="SD">SD</option>
+                                <option value="TN">TN</option>
+                                <option value="TX">TX</option>
+                                <option value="UT">UT</option>
+                                <option value="VT">VT</option>
+                                <option value="VI">VI</option>
+                                <option value="VA">VA</option>
+                                <option value="WA">WA</option>
+                                <option value="WV">WV</option>
+                                <option value="WI">WI</option>
+                                <option value="WY">WY</option>
+                            </drop-down>
+                            <label style="margin-left: 11px;">Zip:</label>
+                            <text-input id="acp-zip" maxlength="10" style="width: 70px;"></text-input>
+                        </div>
+                        <label>Default Billing Rate:</label>
+                        <text-input id="acp-default-billing-rate" style="width: 90px;" disabled></text-input>
+
+                        <label>Phone:</label>
+                        <text-input id="acp-phone" maxlength="20"></text-input>
+                        <label>* Client Status:</label>
+                        <drop-down id="acp-client-status" class="col-width" required></drop-down>
+
+                        <label>Fax:</label>
+                        <text-input id="acp-fax" maxlength="20"></text-input>
+                        <label>Contract Date:</label>
+                        <div>
+                            <date-input id="acp-contract-date" style="width: 70px;"></date-input>
+                            <label style="margin-left: 30px;">Inactive Date:</label>
+                            <date-input id="acp-inactive-date" style="width: 70px;"></date-input>
+                        </div>
+                    </div>
+                </div>
+                <div id="acp-contact-detail-TabContent" class="tab-content" style="height: 210px;" hidden>
+                    <div class="client-detail-tab-2">
+                        <label>First Name:</label>
+                        <text-input id="acp-contact-first-name" maxlength="30"></text-input>
+                        <label>Job Title:</label>
+                        <text-input id="acp-contact-job-title" maxlength="60"></text-input>
+
+                        <label>Last Name:</label>
+                        <text-input id="acp-contact-last-name" maxlength="30"></text-input>
+                        <label>Phone:</label>
+                        <text-input id="acp-contact-phone" maxlength="20"></text-input>
+
+                        <label>E-mail:</label>
+                        <text-input id="acp-contact-email" maxlength="60"></text-input>
+                        <label>Fax:</label>
+                        <text-input id="acp-contact-fax" maxlength="20"></text-input>
+                    </div>
+                </div>
+                <div id="acp-login-detail-TabContent" class="tab-content" style="height: 210px;" hidden>
+                    <div style="margin-top: 10px; margin-bottom: 10px;"><check-box id="acp-login-assign-login">Assign Login</check-box></div>
+                    <div class="client-detail-tab-3">
+                        <label>Login ID:</label>
+                        <text-input id="acp-login-id" maxlength="50" disabled></text-input>
+                        <label>Screen Group:</label>
+                        <drop-down id="acp-login-screen-group" style="width: 250px;" disabled></drop-down>
+
+                        <label>Password:</label>
+                        <text-input id="acp-login-password" maxlength="64" disabled></text-input>
+                        <label>Security Group:</label>
+                        <drop-down id="acp-login-security-group" style="width: 250px;" disabled></drop-down>
+
+                        <label>Confirm Password:</label>
+                        <text-input id="acp-login-confirm-password" maxlength="64" disabled></text-input>
+                        <label>Login Status:</label>
+                        <div style="margin-top: 5px;">
+                            <radio-button group="acp-login-status" checked disabled>Active</radio-button>
+                            <radio-button group="acp-login-status" disabled>Inactive</radio-button>
+                        </div>
+
+                    </div>
+                </div>
+            </div>
+
+            <div style="position: absolute; bottom: 10px; width: 100%; left: 0;">
+                <div style="margin-top: 5px; display: inline-block; margin-left: 10px;">
+                    <check-box checked>Open Client detail when this pop-up closes</check-box>
+                </div>
+                <div style="display: inline-block; float: right;">
+                    <push-button id="acp-ok">OK</push-button>
+                    <push-button id="acp-cancel" style="margin-left: 10px; margin-right: 10px;">Cancel</push-button>
+                </div>
+            </div>
+        </popup-body>
+    </popup>
+
+
+</div>

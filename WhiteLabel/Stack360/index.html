@@ -1,0 +1,186 @@
+<!DOCTYPE html>
+<html lang="en">
+
+
+<!--
+     Copyright 2022 STACK360 LLC
+     All rights reserved.
+     See stack360.io
+
+
+     System built utilizing the Kiss Web Development Framework (kissweb.org)
+-->
+
+
+<head>
+    <title>Stack360</title>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+
+    <link rel='shortcut icon' href='Stack360_tab-icon-13.png?nocache=20230811' type='image/x-icon'/>
+    <link rel="stylesheet" href="vendor/css/normalize.css?nocache=20230811" type="text/css"/>
+    <link rel="stylesheet" href="styles/common.css?nocache=20230811" type="text/css"/>
+    <link rel="stylesheet" href="styles/global.css?nocache=20230811" type="text/css"/>
+
+    <script src="vendor/js/ckeditor.js?nocache=20230811"></script>
+
+    <!-- ng-Grid dependencies -->
+    <script src="vendor/js/ag-grid-community.min.noStyle.js?nocache=20230811"></script>
+    <link rel="stylesheet" href="vendor/css/ag-grid.css?nocache=20230811">
+    <link rel="stylesheet" href="vendor/css/ag-theme-balham.css?nocache=20230811">
+    <link rel="stylesheet" href="kiss/theme/default-theme.css?nocache=20230811"/>
+
+    <!-- <script src="vendor/tinymce/tinymce.min.js" referrerpolicy="origin"></script>  -->
+
+    <style>
+        html, body {
+            height: 100%;
+            background-repeat: no-repeat;
+            font-weight: normal;
+        }
+
+        .ck-powered-by {
+            display: none;
+        }
+    </style>
+
+    <!-- Load the necessary scripts -->
+    <script>
+        // cache control
+        const softwareVersion = "XXXXXXXXX";   // version of the entire system
+        const releaseDate = "";
+        const controlCache = false;    // normally true but use false during debugging
+
+        /**
+         * Load a JavaScript file
+         */
+        function getScript(url) {
+            return new Promise(function (resolve, reject) {
+                const head = document.getElementsByTagName("head")[0];
+                const script = document.createElement("script");
+                script.type = "text/javascript";
+                script.src = url + (controlCache ? '?ver=' + softwareVersion : '');
+
+                // Handle Script loading
+                {
+                    let done = false;
+
+                    // Attach handlers for all browsers
+                    script.onload = script.onreadystatechange = function () {
+                        if (!done && (!this.readyState ||  this.readyState === "loaded" || this.readyState === "complete")) {
+                            done = true;
+                            // Handle memory leak in IE
+                            script.onload = script.onreadystatechange = null;
+                            resolve();
+                        } else {
+                            console.log("getScript:  error loading " + url);
+                            reject();
+                        }
+                    };
+                    script.onerror = function () {
+                        console.log("getScript: error loading " + url);
+                        reject();
+                    };
+                }
+                head.appendChild(script);
+            });
+        }
+
+        /**
+         * Load the login UI.
+         */
+        function startup() {
+
+            const afterLoad = function () {
+                Utils.softwareVersion = softwareVersion;
+                Utils.controlCache = controlCache;
+                loadScript("framework.js", function () {
+                    loadScript("index.js", () => {
+                        //console.log("`index.js` loaded...")
+                    });
+                });
+            };
+
+            let numLoaded = 0;
+
+            const loadScript = function (script, fun) {
+                if (fun)
+                    getScript(script).then(fun);
+                else {
+                    numLoaded++;
+                    //console.log('numLoaded++');
+                    getScript(script).then(function () {
+                        //console.log('numLoaded--');
+                        if (!--numLoaded) {
+                            //console.log("running afterLoad");
+                            afterLoad();
+                        }
+                    });
+                }
+            };
+
+            const loadUtils = function () {
+                loadScript("scripts/Utils.js");
+                loadScript("kiss/DateUtils.js");
+                loadScript("kiss/DateTimeUtils.js");
+                loadScript("kiss/TimeUtils.js");
+                loadScript("kiss/NumberUtils.js");
+                loadScript("kiss/AGGrid.js");
+                loadScript("kiss/Editor.js");
+                loadScript("scripts/Server.js");
+
+                loadScript("vendor/js/xml2js.min.js");
+                loadScript("scripts/AWS.js");
+                loadScript("scripts/ADWS.js");
+                loadScript("scripts/Grid.js");
+                loadScript("scripts/TabContainer.js");
+                loadScript("scripts/TreeView.js");
+                loadScript("scripts/app.js");
+            };
+
+            // Utilize browser cache to the fullest when version hasn't changed.
+            $.ajaxSetup({cache: controlCache});
+
+            const getURLParameter = function (sParam) {
+                const sPageURL = window.location.search.substring(1);
+                const sURLVariables = sPageURL.split('&');
+                for (let i = 0; i < sURLVariables.length; i++) {
+                    let sParameterName = sURLVariables[i].split('=');
+                    if (sParameterName[0] === sParam)
+                        return sParameterName[1];
+                }
+            };
+
+            if (controlCache) {
+                const now = getURLParameter("now");
+                let urlArgs = window.location.search.substring(1);
+                if (now) {
+                    const diff = Math.abs(((new Date()).getTime() - Number(now)) / 1000);
+                    if (diff > 30) {
+                        window.onbeforeunload = null;
+                        urlArgs = urlArgs.replaceAll(/now=[^&]*&*/g, '');
+                        window.location.href = 'index.html?now=' + (new Date()).getTime() + (urlArgs ? '&' + urlArgs : '');
+                    } else {
+                        loadUtils();
+                    }
+                } else {
+                    window.onbeforeunload = null;
+                    window.location.href = 'index.html?now=' + (new Date()).getTime() + (urlArgs ? '&' + urlArgs : '');
+                }
+            } else
+                loadUtils();
+        }
+
+    </script>
+</head>
+
+<body onload="startup()">
+
+<!--scripts-->
+
+<script src="vendor/js/jquery-3.4.1.min.js"></script>
+
+</body>
+
+</html>

@@ -1,0 +1,80 @@
+<!--
+     Copyright 2020 STACK360 LLC
+     All rights reserved.
+
+-->
+
+<div class="kiss">
+
+    <style>
+        .pc-grid {
+            display: grid;
+            grid-template-columns: max-content auto;
+            grid-row-gap: 10px;
+            grid-column-gap: 10px;
+            align-items: center;
+        }
+        .pc-grid > span {
+            text-align: right;
+        }
+    </style>
+
+    <div style="margin-top: 10px;">Project Detail:</div>
+    <text-label id="pc-project" style="position: absolute; top: 3px; right: 10px;"></text-label>
+    <hr>
+
+    <div class="pc-grid" style="margin-bottom: 10px;">
+        <span>Employee Name:</span>
+        <div>
+            <text-input id="pc-eplName" style="width: 220px; margin-right: 10px;" disabled></text-input>
+    
+            <span>SSN:</span>
+            <text-input id="pc-ssn" style="width: 80px; margin-right: 10px; margin-left: 10px;" disabled></text-input>
+
+            <push-button id="pc-view">View</push-button>
+        </div>
+
+        <span>Summary:</span>
+        <text-input id="pc-summary" style="width: 600px;" disabled></text-input>
+
+        <span>Detail:</span>
+        <textbox-input id="pc-detail" style="width: calc(100% - 15px); height: 70px; align-items: start;" disabled></textbox-input>
+    </div>
+
+    <span>Project Comments:</span>
+    <hr>
+
+    <div id="commentsGrid" style="margin-top: 10px; width: 100%; height: calc(100% - 275px);"></div>
+
+    <text-label id="pc-status" style="position: absolute; bottom: 20px; left: 10px;">Displaying 0 Project Comments</text-label>
+
+    <div style="text-align: right; position: absolute; bottom: 10px; width: 100%; right: 0;">
+        <push-button id="pc-add" style="margin-right: 10px;">Add</push-button>
+        <push-button id="pc-edit" style="margin-right: 10px;" disabled>Edit</push-button>
+        <push-button id="pc-delete"style="margin-right: 10px;" disabled>Delete</push-button>
+    </div>
+
+    <popup id="pc-popup" width="620px" height="290px">
+        <popup-title>
+            <span><text-label id="pc-action"></text-label> Project  Comment</span>
+        </popup-title>
+        <popup-body style="padding: 10px;">
+            <div class="pc-grid" style="grid-template-columns: max-content auto;">
+                <span>Date/Time Entered:</span>
+                <div>
+                    <text-input id="pc-dateTimeEntered" style="width: 120px; margin-right: 10px;" disabled></text-input>
+            
+                    <span>Entered By:</span>
+                    <text-input id="pc-enteredBy" style="width: 120px; margin-left: 10px;" disabled></text-input>
+                </div>
+                <span>Comment:</span>
+                <textbox-input id="pc-comment" style="width: calc(100% - 15px); height: 200px; align-items: start;" required></textbox-input>
+            </div>
+
+            <div style="text-align: right; margin-top: 10px;">
+                <push-button id="pc-save">Save</push-button>
+                <push-button id="pc-cancel" style="margin-left: 10px;">Cancel</push-button>
+            </div>
+        </popup-body>
+    </popup>
+</div>

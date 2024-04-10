@@ -1,0 +1,174 @@
+<!--
+     Copyright 2020 STACK360 LLC
+     All rights reserved.
+
+-->
+
+<div class="kiss">
+
+    <style>
+        #page-body {
+            display:grid;
+            grid-template-columns: 390px 390px;
+            grid-column-gap: 40px;
+            grid-row-gap: 10px;
+            margin-top: 0;
+            margin-left: 10px;
+        }
+        .page-body span       { text-align:right; margin-top: 6px; }
+
+        .page-left {
+            display:grid;
+            grid-template-columns: 110px 270px;
+            grid-column-gap: 5px;
+            grid-row-gap: 10px;
+            margin-top: 10px;
+            margin-left: 10px;
+            align-content: start;
+        }
+        .page-left span       { text-align:right; margin-top: 6px; }
+
+        .page-left-span {
+            grid-column: 1 / span 2;
+        }
+
+        .page-right {
+            display:grid;
+            grid-template-columns: 110px 270px;
+            grid-column-gap: 5px;
+            grid-row-gap: 10px;
+            margin-top: 10px;
+            margin-left: 10px;
+            align-content: start;
+        }
+        .page-right span       { text-align:right; margin-top: 6px; }
+
+        .field-width {
+            width: 200px;
+        }
+
+        .vert-space {
+            margin-top: 10px;
+        }
+
+        .grid2 {
+            display:grid;
+            grid-template-columns: max-content max-content;
+            grid-column-gap: 5px;
+            grid-row-gap: 10px;
+            margin-top: 10px;
+            margin-left: 10px;
+            align-content: start;
+        }
+
+        .grid2 span {
+            text-align:right;
+            margin-top: 6px;
+        }
+    </style>
+
+    <div style="margin-top: 10px;">
+        <span>Project Billing:</span>
+        <text-label id="project-info" style="float: right;" maxlength="80" required></text-label>
+    </div>
+    <hr style="margin-left: 0;">
+
+    <div id="page-body">
+
+        <div class="page-left">
+            <span style="margin-top: 0;">Billable:</span>
+            <div>
+                <radio-button group="billable" value="Y" checked>Yes</radio-button>
+                <radio-button group="billable" value="N">No</radio-button>
+                <radio-button group="billable" value="U">Unknown</radio-button>
+            </div>
+
+            <span id="billing-type-label">Billing Type:</span>
+            <div id="billing-type-div" style="margin-top: 6px;">
+                <radio-button group="billing-type" value="H" checked>Hourly</radio-button>
+                <radio-button group="billing-type" value="F" style="margin-left: 20px;">Fixed Price</radio-button>
+            </div>
+
+            <span id="billing-rate-label">Billing Rate:</span>
+            <numeric-input id="billing-rate" style="width: 70px;" money></numeric-input>
+
+            <span id="dollar-cap-label">Dollar Cap:</span>
+            <numeric-input id="dollar-cap" style="width: 70px;" money></numeric-input>
+
+            <span id="fixed-price-label">Fixed Price:</span>
+            <numeric-input id="fixed-price" style="width: 70px;" money></numeric-input>
+
+            <div style="margin-top: 20px; display: inline-block;"></div>
+            <div style="margin-top: 20px; display: inline-block;"></div>
+
+            <span style="margin-top: 0;">Budgeted Total Man Hours:</span>
+            <div style="display: inline-block;">
+                <numeric-input id="budget-man-hours" style="width: 70px;"></numeric-input>
+                <push-button id="calculate">Calculate</push-button>
+            </div>
+
+            <span>Actual Man Hours:</span>
+            <numeric-input id="actual-man-hours" style="width: 70px;" disabled></numeric-input>
+
+            <span style="margin-top: 0;">Remaining Man Hours:</span>
+            <numeric-input id="remaining-man-hours" style="width: 70px;" disabled></numeric-input>
+
+            <span>Total Work Days:</span>
+            <numeric-input id="project-days" style="width: 70px;"></numeric-input>
+        </div>
+
+        <div class="page-right">
+            <span>Rate Type:</span>
+            <drop-down id="rate-type" required></drop-down>
+
+            <span id="default-billing-rate-label">Default Billing Rate:</span>
+            <numeric-input id="default-billing-rate" style="width: 70px;" money disabled></numeric-input>
+
+            <span>Purchase Order:</span>
+            <text-input id="purchase-order" style="width: 170px;" maxlength="15"></text-input>
+
+            <span>Default Service Item:</span>
+            <drop-down id="service-items" required></drop-down>
+
+            <span>Billable If Hourly:</span>
+            <numeric-input id="actual-billable" style="width: 70px; margin-top: 0;" disabled show-zero decimal-places="2"></numeric-input>
+
+            <span>Non-Billable If Hourly:</span>
+            <numeric-input id="actual-non-billable" style="width: 70px;" disabled show-zero decimal-places="2"></numeric-input>
+
+            <span></span>
+            <div style="margin-top: 30px;">
+                <push-button id="save" disabled>Save</push-button>
+                <push-button id="reset" style="margin-left: 10px;" disabled>Reset</push-button>
+            </div>
+        </div>
+
+    </div>
+
+    <popup id="calc-popup" width="230px;">
+        <popup-title>
+            Man Hours Calculation
+        </popup-title>
+        <popup-body>
+            <div class="grid2">
+                <span>Total number of weeks:</span>
+                <numeric-input id="cp-number-of-weeks" style="width: 50px;"></numeric-input>
+
+                <span>Number hours per week:</span>
+                <numeric-input id="cp-hours-per-week" style="width: 50px;"></numeric-input>
+
+                <span>Total number of workers:</span>
+                <numeric-input id="cp-number-of-workers" style="width: 50px;"></numeric-input>
+
+                <span>Total Man Hours:</span>
+                <numeric-input id="cp-total-man-hours" style="width: 50px;" disabled></numeric-input>
+            </div>
+            <div style="text-align: right; margin-top: 20px;">
+                <push-button id="cp-cancel">Cancel</push-button>
+                <push-button id="cp-ok" style="margin-right: 15px; margin-left: 10px;">Ok</push-button>
+            </div>
+        </popup-body>
+    </popup>
+
+
+</div>

@@ -1,0 +1,203 @@
+<!--
+     Copyright 2020 STACK360 LLC
+     All rights reserved.
+
+-->
+
+<div class="kiss">
+
+    <style>
+        #page-body {
+            display:grid;
+            grid-template-columns: 390px 390px;
+            grid-column-gap: 40px;
+            grid-row-gap: 10px;
+            margin-top: 0;
+            margin-left: 10px;
+        }
+        .page-body span       { text-align:right; margin-top: 6px; }
+
+        .page-left {
+            display:grid;
+            grid-template-columns: 110px 270px;
+            grid-column-gap: 5px;
+            grid-row-gap: 5px;
+            margin-top: 10px;
+            margin-left: 10px;
+            align-content: start;
+        }
+        .page-left span       { text-align:right; margin-top: 6px; }
+
+        .page-left-span {
+            grid-column: 1 / span 2;
+        }
+
+        .page-right {
+            display:grid;
+            grid-template-columns: 110px 270px;
+            grid-column-gap: 5px;
+            grid-row-gap: 5px;
+            margin-top: 10px;
+            margin-left: 10px;
+            align-content: start;
+        }
+        .page-right span       { text-align:right; margin-top: 6px; }
+
+        .field-width {
+            width: 200px;
+        }
+
+        .vert-space {
+            margin-top: 10px;
+        }
+    </style>
+
+    <div style="margin-top: 10px;">
+        <span>Project Billing & Estimate:</span>
+        <text-label id="project-info" style="float: right;" maxlength="80" required></text-label>
+    </div>
+    <hr style="margin-left: 0;">
+
+    <div style="margin-top: 10px;">
+        <span style="margin-left: 10px;">Billing:</span>
+    </div>
+    <hr style="margin-left: 10px; width: 820px;">
+
+    <div id="page-body">
+
+        <div class="page-left">
+            <span style="margin-top: 0;">Billable:</span>
+            <div>
+                <radio-button group="billable" value="Y">Yes</radio-button>
+                <radio-button group="billable" value="N">No</radio-button>
+                <radio-button group="billable" value="U">Unknown</radio-button>
+            </div>
+
+            <span>Billing Rate:</span>
+            <numeric-input id="billing-rate" style="width: 70px;" money></numeric-input>
+
+            <span>Dollar Cap:</span>
+            <numeric-input id="dollar-cap" style="width: 70px;" money></numeric-input>
+
+            <span>Default Service Item:</span>
+            <drop-down id="service-items"></drop-down>
+
+        </div>
+
+        <div class="page-right">
+            <span>Rate Type:</span>
+            <drop-down id="rate-type" required></drop-down>
+
+            <span>Default Billing Rate:</span>
+            <numeric-input id="default-billing-rate" style="width: 70px;" money disabled></numeric-input>
+
+            <span>Purchase Order:</span>
+            <text-input id="purchase-order" style="width: 170px;" maxlength="15"></text-input>
+        </div>
+
+        <span>Estimate:</span>
+        <span>Estimate Approval:</span>
+
+        <hr style="width: 100%; margin-top: -7px;">
+        <hr style="width: 100%; margin-top: -7px;">
+
+        <div class="page-left" style="margin-top: 0; position: relative;">
+            <span>Estimated Billable:</span>
+            <div>
+                <numeric-input id="estimated-billable" style="width: 70px;" decimal-places="2"></numeric-input>
+                <drop-down id="billable-units" style="width: 70px;">
+                    <option value="1">Hours</option>
+                    <option value="2">Days</option>
+                    <option value="3">Weeks</option>
+                    <option value="4">Months</option>
+                </drop-down>
+                <div style="display: inline-block; vertical-align: top; margin-left: 10px;">
+                    <div>8 hours / day</div>
+                    <div>5 days / week</div>
+                    <div>4 weeks / month</div>
+                </div>
+            </div>
+
+            <span style="margin-top: -3px;">Actual Billable:</span>
+            <numeric-input id="actual-billable" style="width: 70px; margin-top: -8px;" decimal-places="2" disabled show-zero></numeric-input>
+
+            <span>Actual Non-Billable:</span>
+            <numeric-input id="actual-non-billable" style="width: 70px;" decimal-places="2" disabled show-zero></numeric-input>
+
+            <span>Estimated Time Span:</span>
+            <div>
+                <numeric-input id="estimated-time-span" style="width: 70px;" decimal-places="2"></numeric-input>
+                <drop-down id="estimated-time-units" style="width: 70px;">
+                    <option value="1">Hours</option>
+                    <option value="2">Days</option>
+                    <option value="3">Weeks</option>
+                    <option value="4">Months</option>
+                </drop-down>
+            </div>
+
+            <span>Estimated on:</span>
+            <date-input id="estimated-on" style="width: 80px;"></date-input>
+
+            <span>Promised Date:</span>
+            <date-input id="date-promised" style="width: 80px;"></date-input>
+
+        </div>
+
+        <div class="page-right" style="margin-top: 0;">
+            <span>Approved By:</span>
+            <text-input id="approved-by" disabled></text-input>
+
+            <span>Approval Entered By:</span>
+            <text-input id="approval-entered-by" disabled></text-input>
+
+            <span>Approval Date:</span>
+            <div>
+                <date-input id="approval-date" style="width: 80px;" disabled></date-input>
+                <span style="margin-left: 25px;">Time:</span>
+                <time-input id="approval-time" disabled style="width: 50px;"></time-input>
+            </div>
+
+            <span></span>
+            <push-button id="approve-estimate">Approve Estimate</push-button>
+
+            <span></span>
+            <div style="margin-top: 30px;">
+                <push-button id="save" disabled>Save</push-button>
+                <push-button id="reset" style="margin-left: 10px;" disabled>Reset</push-button>
+            </div>
+        </div>
+
+    </div>
+
+    <popup id="approval-popup" height="90px" width="300px">
+        <popup-title>Approve Estimate</popup-title>
+        <popup-body>
+            <div style="margin-top: 10px;">
+                <span style="margin-left: 10px;">Approved By:</span>
+                <text-input id="approval-popup-approved-by" maxlength="30" style="width: 180px;" required></text-input>
+            </div>
+            <div style="right: 17px; bottom: 10px; position: absolute;">
+                <push-button id="approval-popup-ok">Ok</push-button>
+                <push-button id="approval-popup-cancel" style="margin-left: 10px;">Cancel</push-button>
+            </div>
+        </popup-body>
+    </popup>
+
+    <popup id="billing-status-change-popup" height="170px" width="350px">
+        <popup-title>Change Timesheets Billing Status</popup-title>
+        <popup-body>
+            <span style="font-size: medium;">
+                There are existing timesheets in the system for this project.
+                Do you wish to change the billable state of these timesheets,
+                leave them in their current billable state, or cancel the project information save all together?
+            </span>
+            <div style="margin-top: 10px;">
+                <push-button id="billing-status-change-true">Yes, Change Timesheets</push-button>
+                <push-button id="billing-status-change-false">Do Not Change Timesheets</push-button>
+                <push-button id="billing-status-change-cancel">Cancel Project Save</push-button>
+            </div>
+        </popup-body>
+    </popup>
+
+
+</div>

@@ -1,0 +1,417 @@
+
+<!--
+     Copyright 2020 STACK360 LLC
+     All rights reserved.
+
+-->
+
+
+<div class="kiss">
+    <style>
+        #project-status-screen {
+            display:grid;
+            grid-template-columns: 250px 220px 270px 250px;
+            grid-column-gap: 20px;
+            grid-row-gap: 5px;
+            margin-left: 10px;
+        }
+
+        #project-right {
+            display:grid;
+            grid-template-columns: 100px 80px;
+            grid-column-gap: 5px;
+            grid-row-gap: 5px;
+            margin-left: 10px;
+        }
+        #project-right span       { text-align:right; margin-top: 6px; }
+        #project-right span:after { content: ":"; }
+
+        #project-right2 {
+            display:grid;
+            grid-template-columns: 100px 150px;
+            grid-column-gap: 5px;
+            grid-row-gap: 5px;
+            margin-left: 10px;
+        }
+        #project-right2 span       { text-align:right; margin-top: 6px; }
+        #project-right2 span:after { content: ":"; }
+
+        #project-right3 {
+            display:grid;
+            grid-template-columns: 90px 180px;
+            grid-column-gap: 5px;
+            grid-row-gap: 5px;
+            margin-left: 10px;
+        }
+        #project-right3 span       { text-align:right; margin-top: 6px; }
+        #project-right3 span:after { content: ":"; }
+
+        .project-general {
+            display:grid;
+            grid-template-columns: 50px 150px;
+            grid-column-gap: 5px;
+            grid-row-gap: 5px;
+            margin-left: 10px;
+        }
+        .project-general span       { text-align:right; margin-top: 6px; }
+        .project-general span:after { content: ":"; }
+
+        #assigned-people-sections {
+            display:grid;
+            grid-template-columns: 360px 360px;
+            grid-column-gap: 25px;
+            grid-row-gap: 5px;
+            margin-top: 10px;
+            margin-left: 10px;
+        }
+
+        #unassignment-reason-body {
+            display:grid;
+            grid-template-columns: 90px 270px;
+            grid-column-gap: 5px;
+            grid-row-gap: 5px;
+            margin-top: 10px;
+            margin-left: 10px;
+        }
+        #unassignment-reason-body span       { text-align:right; margin-top: 6px; }
+        #unassignment-reason-body span:after { content: ":"; }
+
+        .popup-label {
+            display: inline-block;
+            text-align: end;
+            width: 110px;
+        }
+
+        .numeric-width {
+            width: 55px;
+        }
+
+        .two-column {
+            display:grid;
+            grid-template-columns: max-content max-content;
+            grid-column-gap: 10px;
+            grid-row-gap: 10px;
+            margin-top: 10px;
+            margin-left: 10px;
+        }
+        .two-column span       { text-align:right; margin-top: 6px; }
+
+        div.vert-input2 {
+            display:grid;
+            grid-template-columns: max-content max-content;
+            grid-column-gap:5px;
+            grid-row-gap: 10px;
+            margin-top: 10px;
+            margin-left: 10px;
+        }
+        div.vert-input2 span {
+            text-align:right;
+            margin-top: 4px;
+        }
+    </style>
+
+    <div style="margin-top: 10px;">
+        <span>Project Type & Assignments:</span>
+        <text-label id="project-info" style="float: right;"></text-label>
+    </div>
+    <hr style="margin-left: 0;">
+
+    <div id="project-status-screen" style="margin-top: 20px;">
+
+        <div class="project-general">
+            <span>Category</span>
+            <drop-down id="category-code" required></drop-down>
+
+            <span>Type</span>
+            <drop-down id="type-code" required></drop-down>
+
+            <span>Sub-type</span>
+            <drop-down id="sub-type" required></drop-down>
+        </div>
+        <div id="project-right">
+            <span>Required Workers</span>
+            <numeric-input id="required-workers" style="width: 50px;"></numeric-input>
+
+            <span>Workers Assigned</span>
+            <numeric-input id="assigned-workers" style="width: 50px;" disabled></numeric-input>
+
+            <span>Workers Needed</span>
+            <numeric-input id="workers-needed" style="width: 50px;" disabled></numeric-input>
+        </div>
+
+        <div id="project-right2">
+            <span>Project first date</span>
+            <text-input id="project-first-date" style="width: 120px;" disabled></text-input>
+
+            <span>Project last date</span>
+            <text-input id="project-last-date" style="width: 120px;" disabled></text-input>
+
+            <span>Project length</span>
+            <text-input id="project-length" style="width: 120px;" disabled></text-input>
+        </div>
+
+        <div>
+            <span>Shift:</span>
+            <drop-down id="shift" style="width: 100px;"></drop-down>
+        </div>
+
+        <!--
+        <div id="project-right3">
+            <span>Project Status</span>
+            <drop-down id="project-status" style="width: 150px;"></drop-down>
+        </div>
+        -->
+
+     </div>
+
+    <div style="margin-top: 20px;">
+        Assigned People:
+        <div style="float: right; display: inline-block;">
+            (A blank Start Date means they start at the beginning of the project.)
+        </div>
+    </div>
+    <hr style="width: 100%; margin-top: 0;">
+
+
+    <div id="assigned-people-grid" style="width: 100%; height: calc(100% - 230px);"></div>
+    <div style="margin-top: 15px; margin-bottom: 10px;">
+
+        <push-button id="edit-worker" style="margin-left: 10px;" disabled>HR</push-button>
+        <push-button id="edit" style="margin-left: 10px;" disabled>Edit</push-button>
+        <push-button id="assignments" style="margin-left: 10px;">Assignments</push-button>
+        <!--
+        <push-button id="confirmation" style="margin-left: 10px;" disabled>Confirmation</push-button>
+        <push-button id="verification" style="margin-left: 10px;" disabled>Verification</push-button>
+        -->
+        <div style="float: right;">
+            <push-button id="save" disabled>Save</push-button>
+            <push-button id="reset" style="margin-left: 10px;">Reset</push-button>
+        </div>
+
+    </div>
+
+    <popup id="assigned-people-popup" height="510px" width="790px">
+        <popup-title>Assigned People</popup-title>
+        <popup-body>
+            <div id="assigned-people-sections">
+
+                <span style="margin-top: 10px;">Unassigned People:</span>
+                <span style="margin-top: 10px;">Assigned People:</span>
+
+                <hr style="width: 100%; margin-top: 0;">
+                <hr style="width: 100%; margin-top: 0;">
+
+                <div style="position: relative;">
+                    <div>
+                        <div style="width: 65px; display: inline-block; text-align: right;">Last Name:</div>
+                        <drop-down id="assigned-people-lname-type" style="width: 90px;">
+                            <option value="2">Starts With</option>
+                            <option value="3">Ends With</option>
+                            <option value="4">Contains</option>
+                            <option value="5">Exact Match</option>
+                        </drop-down>
+                        <text-input id="assigned-people-lname" style="width: 180px;"></text-input>
+                    </div>
+                    <div style="margin-top: 5px;">
+                        <div style="width: 65px; display: inline-block; text-align: right;">First Name:</div>
+                        <drop-down id="assigned-people-fname-type" style="width: 90px;">
+                            <option value="2">Starts With</option>
+                            <option value="3">Ends With</option>
+                            <option value="4">Contains</option>
+                            <option value="5">Exact Match</option>
+                        </drop-down>
+                        <text-input id="assigned-people-fname" style="width: 180px;"></text-input>
+                    </div>
+                    <div style="margin-top: 10px; text-align: right;">
+                        <push-button id="assigned-people-reset" style="">Reset</push-button>
+                        <push-button id="assigned-people-search" style="margin-left: 10px; margin-right: 7px;">Search</push-button>
+                    </div>
+
+                    <div id="assigned-people-unassigned-grid" style="height: 286px; width: 355px; margin-top: 10px;"></div>
+
+                    <div>
+                        <div style="display: inline-block; margin-top: 20px;"><text-label id="assigned-people-unassigned-status"></text-label></div>
+                        <push-button id="assigned-people-assign" style="float: right; margin-right: 5px; margin-top: 10px;" disabled>Assign</push-button>
+                    </div>
+
+                </div>
+
+                <div>
+                    <div id="assigned-people-assigned-grid" style="height: 370px; width: 355px;"></div>
+                    <div style="display: inline-block; margin-top: 20px;"><text-label id="assigned-people-assigned-status" style="margin-top: 20px;"></text-label></div>
+                    <push-button id="assigned-people-unassign" style="float: right; margin-right: 5px; margin-top: 10px;" disabled>Unassign</push-button>
+                </div>
+            </div>
+
+            <div style="text-align: right; margin-top: -10px;">
+                <span>Start date:</span>
+                <native-date-input id="assigned-people-start-date" style="width: 110px; margin-right: 58px;"></native-date-input>
+                <push-button id="assigned-people-ok">Ok</push-button>
+                <push-button id="assigned-people-cancel" style="margin-left: 10px; margin-right: 26px;">Cancel</push-button>
+            </div>
+            <div style="margin-left: 200px;">
+                (Start date - new assignments only, leave blank if starting on first day of project)
+            </div>
+        </popup-body>
+    </popup>
+
+    <popup id="unassignment-reason-popup" height="230px" width="400px">
+        <popup-title>Reason for unassignment</popup-title>
+        <popup-body>
+            <div id="unassignment-reason-body">
+                <span>Date unassigned</span>
+                <date-input id="unassignment-reason-date" style="width: 90px;" required></date-input>
+
+                <span>Time unassigned</span>
+                <time-input id="unassignment-reason-time" style="width: 90px;" required></time-input>
+
+                <span>Reason</span>
+                <drop-down id="unassignment-reason-reason" required>
+                    <option value="">(choose)</option>
+                    <option value="No-show">No-show</option>
+                    <option value="Non-productive">Non-productive</option>
+                    <option value="Insubordinate">Insubordinate</option>
+                    <option value="Client Request">Client Request</option>
+                    <option value="Employee Request">Employee Request</option>
+                    <option value="Other">Other</option>
+                </drop-down>
+
+                <span>Comments</span>
+                <textbox-input id="unassignment-reason-comments" style="width: 255px; height: 75px;"></textbox-input>
+            </div>
+            <div style="right: 17px; bottom: 10px; position: absolute;">
+                <push-button id="unassignment-reason-ok">Ok</push-button>
+                <push-button id="unassignment-reason-cancel" style="margin-left: 10px;">Cancel</push-button>
+            </div>
+        </popup-body>
+    </popup>
+
+    <popup id="company-search-popup" height="390px" width="420px">
+        <popup-title>Search for Company</popup-title>
+        <popup-body>
+            <div>
+                <span>Search Criteria:</span><br>
+                <hr>
+            </div>
+            <div>
+                <span style="margin-left: 15px; margin-right: 5px;">Name:</span>
+                <drop-down id="company-search-search-type" style="width: 100px;">
+                    <option value="2" selected>Starts With</option>
+                    <option value="3">Ends With</option>
+                    <option value="4">Contains</option>
+                    <option value="5">Exact Match</option>
+                </drop-down>
+                <text-input id="company-search-text" style="width: 230px;"></text-input>
+            </div>
+            <div style="text-align: end; margin-top: 10px;">
+                <push-button id="company-search-reset">Reset</push-button>
+                <push-button id="company-search-search">Search</push-button>
+            </div>
+            <div>
+                <span>Search Results:</span><br>
+                <hr>
+            </div>
+            <div id="company-search-grid" style="height: 240px; width: 407px;"></div>
+            <div style="left: 10px; bottom: 20px; position: absolute;">
+                <text-label id="company-search-message"></text-label>
+            </div>
+            <div style="right: 10px; bottom: 10px; position: absolute;">
+                <push-button id="company-search-ok">Ok</push-button>
+                <push-button id="company-search-cancel">Cancel</push-button>
+            </div>
+        </popup-body>
+    </popup>
+
+    <popup id="billable-status-popup" height="150px"  width="550px">
+        <popup-title>Billable Status Unknown</popup-title>
+        <popup-body>
+            <div style="margin-top: 10px;">
+                The Billable status is currently Unknown.  The Billable status must be set prior to changing assignments.
+            </div>
+            <div style="margin-top: 10px;">
+                <div class="popup-label">Billable:</div>
+                <radio-button group="bs-billable" value="Y">Yes</radio-button>
+                <radio-button group="bs-billable" value="N">No</radio-button>
+                <radio-button group="bs-billable" value="U" checked>Unknown</radio-button>
+                <div id="bs-estimated-hours" style="display: inline-block; width: 140px; text-align: end;">Estimated Hours:</div>
+                <numeric-input id="bs-estimated-hours" class="numeric-width" decimal-places="2"></numeric-input>
+            </div>
+            <div style="margin-top: 10px;">
+                <div class="popup-label">Billing Rate:</div>
+                <numeric-input id="bs-billing-rate" class="numeric-width" money disabled></numeric-input>
+            </div>
+            <div style="margin-top: 10px;">
+                <div class="popup-label">Default Billing Rate:</div>
+                <numeric-input id="bs-default-billing-rate" class="numeric-width" money disabled></numeric-input>
+                <push-button id="bs-ok" style="margin-left: 140px;">OK</push-button>
+                <push-button id="bs-cancel" style="margin-left: 10px;">Cancel</push-button>
+            </div>
+        </popup-body>
+    </popup>
+
+    <popup id="edit-worker-popup" width="320px">
+        <popup-title>Edit Worker Assignment</popup-title>
+        <popup-body>
+            <div class="vert-input2">
+                <span>Worker:</span>
+                <text-input id="ew-worker" style="width: 200px;" disabled></text-input>
+
+                <span>Start date:</span>
+                <native-date-input id="ew-start-date" style="width: 110px"></native-date-input>
+
+                <span>Shift:</span>
+                <drop-down id="ew-shift" style="width: 110px"></drop-down>
+
+                <span>Manager:</span>
+                <check-box id="ew-manager" style="display: inline; margin-top: 4px;"></check-box>
+
+                <span>Reports Hours:</span>
+                <check-box id=ew-reports-hours" style="display: inline; margin-top: 4px;"></check-box>
+            </div>
+            <div style="text-align: right; margin-top: 15px;">
+                <push-button id="ew-cancel" style="margin-right: 10px;">Cancel</push-button>
+                <push-button id="ew-ok" style="margin-right: 10px;">OK</push-button>
+            </div>
+        </popup-body>
+    </popup>
+
+    <popup id="confirmation-popup" width="300px">
+        <popup-title>Worker Confirmation</popup-title>
+        <popup-body>
+            <div class="two-column">
+                <span style="margin-top: 0;">Confirmed:</span>
+                <check-box id="cp-confirmed" style="height: max-content;"></check-box>
+
+                <span>Date:</span>
+                <text-input id="cp-date" style="width: 120px;" disabled></text-input>
+
+                <span>Person:</span>
+                <text-input id="cp-person" style="width: 200px;" disabled></text-input>
+            </div>
+            <div style="text-align: right;margin-top: 15px;">
+                <push-button id="cp-cancel">Cancel</push-button>
+                <push-button id="cp-ok" style="margin-right: 10px;">OK</push-button>
+            </div>
+        </popup-body>
+    </popup>
+
+    <popup id="verification-popup" width="300px">
+        <popup-title>Worker Verification</popup-title>
+        <popup-body>
+            <div class="two-column">
+                <span style="margin-top: 0;">Verified:</span>
+                <check-box id="vp-verified" style="height: max-content;"></check-box>
+
+                <span>Date:</span>
+                <text-input id="vp-date" style="width: 120px;" disabled></text-input>
+
+                <span>Person:</span>
+                <text-input id="vp-person" style="width: 200px;" disabled></text-input>
+            </div>
+            <div style="text-align: right;margin-top: 15px;">
+                <push-button id="vp-cancel">Cancel</push-button>
+                <push-button id="vp-ok" style="margin-right: 10px;">OK</push-button>
+            </div>
+        </popup-body>
+    </popup>
+</div>

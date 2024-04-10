@@ -1,0 +1,119 @@
+<!--
+     Copyright 2021 STACK360 LLC
+     All rights reserved.
+
+-->
+
+<div class="kiss">
+
+    <style>
+        div.vert-input3 {
+            display:grid;
+            grid-template-columns: max-content max-content max-content;
+            grid-column-gap: 40px;
+            grid-row-gap: 10px;
+            margin-top: 10px;
+            margin-left: 0;
+        }
+
+        div.vert-input3 span {
+            text-align:right;
+            margin-top: 6px;
+        }
+
+        div.vert-input2 {
+            display:grid;
+            grid-template-columns: max-content max-content;
+            grid-column-gap: 5px;
+            grid-row-gap: 10px;
+            margin-top: 10px;
+            margin-left: 10px;
+        }
+
+        div.vert-input2 span {
+            text-align:right;
+            margin-top: 6px;
+        }
+    </style>
+
+    <div style="margin-top: 5px;">Reminders:</div>
+    <hr>
+
+    <div class="vert-input3" style="margin-top: 20px;">
+
+        <div style="display: inline-block;">
+            <span>Remind:</span>
+            <radio-button group="remind-who" value="M" checked>Me</radio-button>
+            <radio-button group="remind-who" value="A">Anyone</radio-button>
+            <radio-button group="remind-who" value="E">Employee</radio-button>
+        </div>
+
+        <div style="display: inline-block;">
+            <span>About Person:</span>
+            <smart-chooser id="about-person" inside-width="200" default-option="(no particular person)"></smart-chooser>
+        </div>
+
+        <push-button id="search">Search</push-button>
+
+        <div style="display: inline-block;">
+            <span>Remind Person:</span>
+            <smart-chooser id="for-person" inside-width="200" disabled></smart-chooser>
+        </div>
+
+        <div style="display: inline-block;">
+            <span>About Project:</span>
+            <smart-chooser id="about-project" inside-width="310" default-option="(no particular project)"></smart-chooser>
+        </div>
+
+        <push-button id="reset">Reset</push-button>
+    </div>
+
+    <div id="grid" style="margin-top: 20px; width: 100%; height: calc(100% - 170px);"></div>
+
+    <div style="text-align: right; margin-top: 10px;">
+        <div id="status" style="display: inline-block; float: left; margin-top: 6px;"></div>
+        <push-button id="add" style="margin-left: 5px;">Add</push-button>
+        <push-button id="view" style="margin-left: 5px;" disabled>View</push-button>
+        <push-button id="edit" style="margin-left: 5px;" disabled>Edit</push-button>
+        <push-button id="inactivate" style="margin-left: 5px;" disabled>Inactivate</push-button>
+    </div>
+
+    <popup id="detail-popup" width="500px">
+        <popup-title>
+            <text-label id="dp-title"></text-label>
+        </popup-title>
+        <popup-body>
+            <div class="vert-input2">
+                <span style="margin-top: 0;">Remind:</span>
+                <div style="display: inline-block;">
+                    <radio-button group="dp-remind-who" value="M" checked>Me</radio-button>
+                    <radio-button group="dp-remind-who" value="A">Anyone</radio-button>
+                    <radio-button group="dp-remind-who" value="E">Employee</radio-button>
+                </div>
+
+                <span>Remind Person:</span>
+                <smart-chooser id="dp-for-person" inside-width="250"></smart-chooser>
+
+                <span>Due Date:</span>
+                <native-date-input id="dp-due-date" style="width: 110px;"></native-date-input>
+
+                <span>About Person:</span>
+                <smart-chooser id="dp-about-person" inside-width="250" default-option="(no particular person)"></smart-chooser>
+
+                <span>About Project:</span>
+                <smart-chooser id="dp-about-project" outside-width="370" default-option="(no particular project)"></smart-chooser>
+
+                <span>Summary:</span>
+                <text-input id="dp-summary" style="width: 370px;" max-length="80" required></text-input>
+
+                <span>Detail:</span>
+                <textbox-input id="dp-detail" style="height: 200px; width: 370px;" max-length="4096"></textbox-input>
+            </div>
+            <div style="text-align: right; margin-top: 15px; margin-bottom: 5px;">
+                <push-button id="dp-cancel">Cancel</push-button>
+                <push-button id="dp-ok" style="margin-left: 10px; margin-right: 20px;">Ok</push-button>
+            </div>
+        </popup-body>
+    </popup>
+
+</div>

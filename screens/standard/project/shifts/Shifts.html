@@ -1,0 +1,50 @@
+<div class="kiss">
+
+    <style>
+        .popup-grid {
+            display:grid;
+            grid-template-columns: max-content max-content;
+            grid-column-gap: 5px;
+            grid-row-gap: 10px;
+            margin-left: 10px;
+            margin-top: 10px;
+        }
+        .popup-grid span       { text-align:right; margin-top: 6px; }
+    </style>
+
+    <div style="margin-top: 10px;">
+        <span>Project Shifts:</span>
+        <text-label id="project-info" style="float: right;" maxlength="80" required></text-label>
+    </div>
+    <hr style="margin-left: 0;">
+
+    <div id="shift-grid" style="width: 640px; height: calc(100% - 100px);"></div>
+    <div style="margin-top: 15px; margin-bottom: 10px;">
+        <push-button id="add" style="margin-left: 10px;">Add</push-button>
+        <push-button id="edit" style="margin-left: 10px;" disabled>Edit</push-button>
+        <push-button id="delete" style="margin-left: 10px;" disabled>Delete</push-button>
+    </div>
+
+    <popup id="shift-popup" height="170px" width="350px">
+        <popup-title><text-label id="sp-title"></text-label></popup-title>
+        <popup-body style="margin-left: 10px;">
+            <div class="popup-grid">
+                <span>Description:</span>
+                <text-input id="sp-description" style="width: 200px;" maxlength="60" required></text-input>
+
+                <span>Shift start:</span>
+                <time-input id="sp-shift-start" style="width: 60px;" required></time-input>
+
+                <span>Required workers:</span>
+                <numeric-input id="sp-required-workers" style="width: 40px;"></numeric-input>
+            </div>
+
+            <div style="margin-top: 20px; text-align: right; margin-right: 10px;">
+                <push-button id="sp-ok">Ok</push-button>
+                <push-button id="sp-cancel" style="margin-left: 10px;">Cancel</push-button>
+            </div>
+        </popup-body>
+    </popup>
+
+
+</div>

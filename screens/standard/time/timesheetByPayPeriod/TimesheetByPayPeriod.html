@@ -1,0 +1,148 @@
+<!--
+    Copyright 2020 STACK360 LLC
+    All rights reserved.
+
+-->
+
+<div class="kiss">
+    <style>
+        .tbpp-grid {
+            display: grid;
+            grid-template-columns: repeat(6, max-content);
+            grid-column-gap: 10px;
+            grid-row-gap: 10px;
+            grid-auto-rows: max-content;
+        }
+        .tbpp-grid span {
+            color: #000;
+            align-self: center;
+            text-align: right;
+        }
+        .tab-height {
+            height: calc(100% - 40px);
+            position: relative;
+        }
+        input[type="color"] {
+            width: 30px;
+            height: 30px;
+            border: none;
+            vertical-align: middle;
+            box-sizing: border-box;
+        }
+        #timesheetsGrid > div {
+            width: 100%;
+        }
+    </style>
+    <div style="margin-bottom: 10px; margin-top: 10px;">
+        <span>Timesheet By Pay Period:</span>
+        <hr>
+    </div>
+
+    <div class="tbpp-grid" style="grid-template-columns: repeat(4, max-content);">
+        <span>Organizational Group:</span>
+        <smart-chooser id="tbpp-orgGroupId" outside-width="250"></smart-chooser>
+
+        <span>Person:</span>
+        <smart-chooser id="tbpp-personId" outside-width="250" disabled></smart-chooser>
+
+        <span></span>
+        <check-box id="tbpp-includeSubGroups" style="align-self: center;" checked>Include Sub Groups</check-box>
+
+        <span>From:</span>
+        <div>
+            <native-date-input id="tbpp-fromDate" style="width:110px; margin-right: 50px;"></native-date-input>
+
+            <span>To:</span>
+            <native-date-input id="tbpp-toDate" style="width:110px; margin-left: 10px;"></native-date-input>
+        </div>
+
+        <span>Pay Period:</span>
+        <drop-down id="tbpp-payPeriod" style="width: 260px;" disabled></drop-down>
+    </div>
+
+    <div id="tbpp-tab-container" style="height: calc(100% - 150px); margin-top: 10px; grid-column: 1 / 5;">
+        <ul class="tab-header">
+            <li id="tbpp-timesheets-TabButton" class="active">Timesheets</li>
+            <li id="tbpp-accruals-TabButton">Accruals</li>
+        </ul>
+        
+        <div id="tbpp-timesheets-TabContent" class="tab-content tab-height">
+            <div style="margin-bottom: 10px;">
+                <radio-button group="tbpp-timesheetsType" value="0" style="margin-right: 20px;" checked>All Timesheets</radio-button>
+                <radio-button group="tbpp-timesheetsType" value="1" style="margin-right: 20px;">Totals Only</radio-button>
+                <radio-button group="tbpp-timesheetsType" value="2" style="margin-right: 20px;">Period Totals Only</radio-button>
+                
+                <div style="display: inline-block; float: right;">
+                    <span>Daily Totals:</span>
+                    <input type="color" id="tbpp-dailyTotals-color" value="#afd3ff" style="margin-left: 10px; margin-right: 30px;">
+
+                    <span>Period Totals:</span>
+                    <input type="color" id="tbpp-periodTotals-color" value="#709ed2" style="margin-left: 10px;">
+                </div>
+            </div>
+            
+
+            <div id="timesheetsGrid" style="height: calc(100% - 60px);"></div>
+            <div style="margin-top: 15px;">        
+                <div style="right: 10px; bottom: 10px; position: absolute;">
+                    <span>(Report runs for entire group)</span>
+                    <push-button disabled id="timesheetsReport" style="margin-left: 10px;">Report</push-button>
+                </div>
+            </div>
+        </div>
+
+        <div id="tbpp-accruals-TabContent" class="tab-content tab-height" hidden style="display: none;">
+            <div id="accrualsGrid" style="margin-top: 10px; height: calc(100% - 45px);"></div>
+            <div style="margin-top: 15px;">        
+                <div style="right: 10px; bottom: 10px; position: absolute;">
+                    <push-button disabled id="companyView">View</push-button>
+                </div>
+            </div>
+        </div>
+    </div>
+    <popup id="ogpl-data-search" width="620px" height="455px">
+        <popup-title>
+            <span>Search for <text-label id="ogpl-data-search-type"></text-label></span>
+        </popup-title>
+        <popup-body style="padding: 10px;">
+            <div style="margin-bottom: 10px;">
+                <radio-button group="ogpl-chooseSpecific" value="A">All <text-label id="ogpl-chooseSpecificLabelAll"></text-label></radio-button>
+                <radio-button group="ogpl-chooseSpecific" value="S" checked>Search for <text-label id="ogpl-chooseSpecificLabelSearch"></text-label></radio-button>
+            </div>
+    
+            <div>Search Criteria:</div>
+            <hr>
+            
+            <div class="tbpp-grid" style="margin-top: 8px; display: grid; grid-template-columns: repeat(3, max-content); align-items: center;">
+                <text-label id="ogpl-first-label"></text-label>
+                <drop-down id="ogpl-first-criteria" style="width: 95px;"></drop-down>
+                <text-input id="ogpl-first-search" style="width: 140px"></text-input>
+                
+                <text-label id="ogpl-second-label"></text-label>
+                <drop-down id="ogpl-second-criteria" style="width: 95px;"></drop-down>
+                <text-input id="ogpl-second-search" style="width: 140px"></text-input>                    
+            </div>
+    
+            <div class="btn-bar" style="margin-top: 10px; width: 100%; justify-content: flex-end;">
+                <push-button id="ogpl-reset">Reset</push-button>
+                <push-button id="ogpl-search" style="margin-right: unset;">Search</push-button>
+            </div>
+    
+            <div style="margin-top: 10px;">
+                <div>Search Results:</div>
+                <hr>
+            </div>
+    
+            <div id="ogpl-grid" style="width: 100%; height: 250px;"></div>
+        
+            <div class="vert-input2" style="margin-top: 20px; display: flex; justify-content: space-between; align-items: center;">
+                <text-label id="ogpl-count" style="margin-left: 10px;">Displaying 0 Employees</text-label>
+    
+                <div>
+                    <push-button id="ogpl-ok" disabled>OK</push-button>
+                    <push-button id="ogpl-cancel" style="margin-left: 10px; margin-right: 15px;">Cancel</push-button>
+                </div>
+            </div>
+        </popup-body>
+    </popup>
+</div>

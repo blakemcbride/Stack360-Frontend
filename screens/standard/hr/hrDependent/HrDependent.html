@@ -1,0 +1,190 @@
+<!--
+     Copyright 2020 STACK360 LLC
+     All rights reserved.
+
+-->
+
+<div class="kiss">
+    <style>
+        .dep-popup-grid {
+            display: grid;
+            grid-template-columns: repeat(4, max-content);
+            grid-column-gap: 10px;
+            grid-row-gap: 10px;
+            margin-bottom: 10px;
+        }
+        .dep-popup-grid span {
+            color: #000;
+            align-self: center;
+            text-align: right;
+        }
+        #eventGrid {
+            overflow-x: scroll;
+            margin-top: 10px;
+            max-width: calc(100vw - 195px);
+        }
+        #eventGrid > .ag-root-wrapper {
+            width: 2000px;
+        }
+        #eventGrid.ag-theme-balham .ag-cell {
+            padding: 0;
+        }
+        #viewResults {
+            height: calc(100% - 85px);
+        }
+    </style>
+    <div style="margin-top: 10px; margin-bottom: 10px;">
+        <span>Employee Dependents:</span>
+        <text-label id="worker-name" style="float: right;"></text-label>
+        <hr>
+    </div>
+
+    <div id="dependentsGrid" style="width: 100%; height: calc( 70% - 85px ); margin-bottom: 10px;"></div>
+
+    <div style="margin-bottom: 10px;">
+        <text-label id="dep-length">Displaying 0 Employee Dependents</text-label>
+        <div style="float: right; height: 10px;">
+            <push-button id="add">Add</push-button>
+            <push-button id="edit" style="margin-left: 10px;" disabled>Edit</push-button>
+            <push-button id="delete" style="margin-left: 10px;" disabled>Delete</push-button>
+            <push-button id="dep-report" style="margin-left: 10px;">Report</push-button>
+        </div>
+    </div>
+
+    <div style="margin-top: 20px; margin-bottom: 10px;">
+        <span>Employee sponsoring <text-label id="employee-name"></text-label> as a Dependent:</span>
+        <hr>
+    </div>
+
+    <div id="sponsoringGrid" style="width: 100%; height: calc(30% - 65px); margin-bottom: 10px;"></div>
+
+    <div>
+        <text-label id="emp-length">Displaying 0 Employees</text-label>
+        <div style="float: right; height: 10px;">
+            <push-button id="emp-report" style="margin-left: 10px;">Report</push-button>
+        </div>
+    </div>
+
+    <popup id="dep-popup" width="560px" height="355px">
+        <popup-title>
+            <text-label id="dep-title">Add Dependent</text-label>
+        </popup-title>
+        <popup-body id="dep-body">
+            <div style="margin-top: 10px; margin-bottom: 10px;">
+                <text-label id="dep-isEmpl" style="vertical-align: super;">If this Dependent already exists in the system (same SSN), you can load that person.</text-label>
+                <push-button id="dep-load_person" style="margin-left: 10px; margin-bottom: 10px;">Load Person</push-button>
+                
+                <text-label id="dep-employeeStatus-label" hidden style="margin-left: 60px; vertical-align: super;">Employee Status:</text-label>
+                <text-input id="dep-employeeStatus" size="30" style="width: 180px; margin-bottom: 10px; vertical-align: super;" hidden disabled></text-input>
+                <hr>
+            </div>
+
+            <div class="dep-popup-grid">
+                <span>First Name:</span>
+                <text-input size="80" id="dep-firstName" style="width: 180px;" required></text-input>
+
+                <span>Relationship:</span>
+                <drop-down id="dep-relationshipType" style="width: 190px" required>
+                    <option value="">(select)</option>
+                    <option value="S">Spouse</option>
+                    <option value="C">Child</option>
+                    <option value="O">Other</option>
+                </drop-down>
+
+                <span>Middle Name:</span>
+                <text-input size="80" id="dep-middleName" style="width: 180px;"></text-input>
+
+                <span>Other:</span>
+                <text-input size="40" id="dep-relationship" style="width: 180px;" disabled></text-input>
+
+                <span>Last Name:</span>
+                <text-input size="40" id="dep-lastName" style="width: 180px;" required></text-input>
+
+                <span>SSN:</span>
+                <text-input size="20" id="dep-ssn" style="width: 110px;" required></text-input>
+
+                <span>Sex:</span>
+                <div>
+                    <radio-button group="dep-sex" value="M" style="margin-right: 10px; margin-top: 5px;" checked>Male</radio-button>
+                    <radio-button group="dep-sex" value="F" style="margin-right: 10px; margin-top: 5px;">Female</radio-button>
+                </div>
+
+                <span>Date of Birth:</span>
+                <native-date-input id="dep-dob" style="width:110px;"></native-date-input>
+            </div>
+
+            <div style="margin-top: 10px; margin-bottom: 10px;">
+                <span>Other:</span>
+                <hr>
+            </div>
+
+            <div class="dep-popup-grid">
+                <span>Student:</span>
+                <check-box id="dep-student"></check-box>
+
+                <span>Handicap:</span>
+                <check-box id="dep-handicap" style="margin-left: 0;"></check-box>
+
+                <span style="align-self: baseline;">Academic Calendar:</span>
+                <div>
+                    <radio-button group="dep-accalendar" style="margin-bottom: 10px;" align-vertical value="NA" checked disabled>N/A</radio-button>
+                    <radio-button group="dep-accalendar" style="margin-bottom: 10px;" align-vertical value="Q" disabled>Quarters</radio-button>
+                    <radio-button group="dep-accalendar" align-vertical value="S" disabled>Semesters</radio-button>
+                </div>
+
+                <span style="align-self: baseline;">Final Active Date:</span>
+                <native-date-input id="dep-inactiveDate" style="width:110px;"></native-date-input>
+            </div>
+
+            <div style="margin-top: 10px; text-align: right;">
+                <push-button id="dep-ok">OK</push-button>
+                <push-button id="dep-cancel" style="margin-left: 10px;">Cancel</push-button>
+            </div>
+        </popup-body>
+    </popup>
+
+    <popup id="dep-search" width="620px" height="475px">
+        <popup-title>
+            <span>Search for Person</span>
+        </popup-title>
+        <popup-body style="padding: 10px;">
+    
+            <div>Search Criteria:</div>
+            <hr>
+            
+            <div class="vert-input" style="margin-top: 8px; display: grid; grid-template-columns: repeat(3, max-content); align-items: center;">
+                <span>Last Name:</span>
+                <drop-down id="esp-first-criteria" style="width: 105px; margin-right: 10px;"></drop-down>
+                <text-input id="esp-first-search" style="width: 140px"></text-input>
+                
+                <span>First Name:</span>
+                <drop-down id="esp-second-criteria" style="width: 105px; margin-right: 10px;"></drop-down>
+                <text-input id="esp-second-search" style="width: 140px"></text-input>    
+
+                <span>SSN:</span>
+                <text-input id="esp-third-search" style="width: 95px"></text-input>    
+            </div>
+    
+            <div class="btn-bar" style="margin-top: 8px; width: 100%; justify-content: flex-end;">
+                <push-button id="esp-reset">Reset</push-button>
+                <push-button id="esp-search" style="margin-right: unset;">Search</push-button>
+            </div>
+    
+            <div style="margin-top: 10px;">
+                <div>Search Results:</div>
+                <hr>
+            </div>
+    
+            <div id="esp-grid" style="width: 100%; height: 250px;"></div>
+        
+            <div class="vert-input2" style="margin-top: 15px;">
+                <text-label id="esp-count" style="margin-left: 10px;">Displaying 0 Employees</text-label>
+    
+                <div style="float: right; margin-top: -5px;">
+                    <push-button id="esp-ok" disabled>OK</push-button>
+                    <push-button id="esp-cancel" style="margin-left: 10px; margin-right: 15px;">Cancel</push-button>
+                </div>
+            </div>
+        </popup-body>
+    </popup>
+</div>

@@ -1,0 +1,68 @@
+<!--
+    Copyright 2020 STACK360 LLC
+    All rights reserved.
+
+-->
+
+<div class="kiss">
+    <style>
+        #wrapper {
+            max-width: 550px;
+        }
+        #options-container {
+            display: grid;
+            grid-template-columns: repeat(3, max-content);
+            grid-row-gap: 10px;
+            grid-column-gap: 10px;
+            align-items: center;
+        }
+        #options-container > span {
+            text-align: right;
+        }
+    </style>
+    <div id="wrapper">
+        <div style="margin-bottom: 10px; margin-top: 10px;">
+            <span>Report Options:</span>
+            <hr>
+        </div>
+        <div style="margin-bottom: 10px;">
+            <radio-button group="reportBy" style="margin-bottom: 10px;" checked align-vertical value="M">Report By Month</radio-button>
+            <radio-button group="reportBy" align-vertical value="D">Report By Dates</radio-button>
+        </div>
+        <div id="options-container" style="margin-bottom: 10px;">
+            <text-label id="fromDate-label" hidden>From Date:</text-label>
+            <native-date-input id="fromDate" style="width: 110px; grid-column: 2 / 4;" hidden required></native-date-input>
+
+            <text-label id="toDate-label" hidden>To Date:</text-label>
+            <native-date-input id="toDate" style="width: 110px; grid-column: 2 / 4;" hidden required></native-date-input>
+
+            <text-label id="month-label" style="margin-top: 33px;">Month:</text-label>
+            <drop-down id="month" style="width: 200px; margin-top: 33px; grid-column: 2 / 4;" default-option="(select)" required>
+                <option value="">(select)</option>
+                <option value="0">January</option>
+                <option value="1">February</option>
+                <option value="2">March</option>
+                <option value="3">April</option>
+                <option value="4">May</option>
+                <option value="5">June</option>
+                <option value="6">July</option>
+                <option value="7">August</option>
+                <option value="8">September</option>
+                <option value="9">October</option>
+                <option value="10">November</option>
+                <option value="11">December</option>
+            </drop-down>
+
+            <span style="align-self: baseline;">Filter by Employee Status:</span>
+            <div id="availableEmployeeStatusesGrid" style="width: 200px; height: 200px;"></div>
+            <div id="selectedEmployeeStatusesGrid" style="width: 200px; height: 200px;"></div>
+
+            <span></span>
+            <push-button id="add" style="margin-left: auto; width: max-content;" disabled>Add</push-button>
+            <push-button id="remove" style="margin-left: auto; width: max-content;" disabled>Remove</push-button>
+        </div>
+        <div style="margin-top: 10px; text-align: right;">
+            <push-button id="report">Report</push-button>
+        </div>
+    </div>
+</div>

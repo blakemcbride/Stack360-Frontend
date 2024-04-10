@@ -1,0 +1,78 @@
+<!--
+     Copyright 2020 STACK360 LLC
+     All rights reserved.
+
+-->
+
+<div class="kiss">
+    <style>
+        .pi-grid {
+            display: grid;
+            grid-template-columns: max-content max-content;
+            grid-column-gap: 10px;
+            grid-row-gap: 10px;
+            align-self: baseline;
+        }
+        .pi-grid span {
+            color: #000;
+            align-self: center;
+            text-align: right;
+        }
+        #pi-pf_file_label,
+        #pi-af_file_label {
+            padding: 6px 12px 4px;
+            border: 1px solid #a5a5a5;
+            font-family: Arial;
+            font-size: 12px;
+            display: inline;
+            background: var(--btn-bg);
+            font-weight: bold;
+            border-radius: 4px;
+            line-height: 1.3;
+            cursor: default;
+            -webkit-appearance: button;
+            vertical-align: bottom;
+        }
+        #pi-pf_file_label:hover,
+        #pi-af_file_label:hover {
+            background: var(--btn-bg-hover);
+            border: 1px solid var(--btn-border-color-hover);
+        }
+        #pi-pf_file_label:active,
+        #pi-af_file_label:active {
+            background: var(--btn-bg-active);
+            padding: 3px 11px;
+            border: 2px solid var(--btn-border-color-active);
+        }
+    </style>
+    <div style="margin-top: 10px; margin-bottom: 10px;">
+        <span>Prospect Import</span>
+        <hr>
+    </div>
+    <div style="display: flex;">
+        <div class="pi-grid" style="margin-right: 20px;">
+            <span>Prospect File:</span>
+            <div>
+                <text-input id="pi-pf_file_name" maxlength="200" disabled style="width: 200px;"></text-input>
+                <file-upload id="pi-pf_file" required accept=".csv" style="display: none;">Prospect File</file-upload>
+                <text-label for="pi-pf_file" id="pi-pf_file_label">Browse</text-label>    
+            </div>
+    
+            <push-button id="pi-pf_import" style="grid-column: 1 / 3; width: fit-content; margin-left: auto;">Import</push-button>
+        </div>
+        <div class="pi-grid">
+            <span>Activity File:</span>
+            <div>
+                <text-input id="pi-af_file_name" maxlength="200" disabled style="width: 200px;"></text-input>
+                <file-upload id="pi-af_file" required accept=".csv" style="display: none;">Activity File</file-upload>
+                <text-label for="pi-af_file" id="pi-af_file_label">Browse</text-label>    
+            </div>
+    
+            <push-button id="pi-af_import" style="grid-column: 1 / 3; width: fit-content; margin-left: auto;">Import</push-button>
+
+            <span style="grid-column: 1 / 3; max-width: 350px; font-size: medium; margin-top: 10px;">
+                Note: Prospects and Sales People referenced in the activity file MUST exist prior to importing the activity file.
+            </span>
+        </div>
+    </div>
+</div>

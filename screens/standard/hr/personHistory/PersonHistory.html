@@ -1,0 +1,65 @@
+<!--
+     Copyright 2020 STACK360 LLC
+     All rights reserved.
+
+-->
+
+<div class="kiss">
+    <style>
+        .ph-grid {
+            display: grid;
+            grid-column-gap: 10px;
+            grid-row-gap: 10px;
+            align-items: center;
+        }
+        .ph-grid span {
+            color: #000;
+            align-self: center;
+            text-align: right;
+        }
+        input[type="color"] {
+            width: 30px;
+            height: 30px;
+            border: none;
+            vertical-align: middle;
+            box-sizing: border-box;
+        }
+    </style>
+
+    <div style="margin-top: 10px; margin-bottom: 10px;">
+        <span>Person History:</span>
+        <text-label id="ph-employee" style="float: right;"></text-label>
+        <hr>
+    </div>
+
+    <span>From Date:</span>
+    <native-date-input id="ph-fromDate" style="width:110px; margin-left: 10px; margin-right: 20px;"></native-date-input>
+
+    <span>To Date:</span>
+    <native-date-input id="ph-toDate" style="width:110px; margin-left: 10px; margin-right: 20px;"></native-date-input>
+
+    <push-button id="search">Search</push-button>
+    
+    <div id="personHistoryGrid" style="height: calc(100% - 120px); width: 100%; margin-top: 10px; margin-bottom: 15px;"></div>
+
+    <text-label id="ph-status">Displaying 0 Person History Records</text-label>
+    <div style="position: absolute; right: 10px; bottom: 10px; text-align: right;">
+        <push-button id="view" disabled>View</push-button>
+    </div>
+    
+    <popup id="view-popup" height="500px" width="500px">
+        <popup-title>View Person History</popup-title>
+        <popup-body>
+            <div style="text-align: right;">
+                <span style="margin-right: 10px;">Changed Fields Color</span>
+                <input type="color" id="ph-fieldsColor">
+            </div>         
+
+            <div id="viewGrid" style="height: calc(100% - 80px); width: 100%; margin-top: 10px;"></div>
+
+            <div style="right: 10px; bottom: 10px; position: absolute;">
+                <push-button id="view-ok">Ok</push-button>
+            </div>
+        </popup-body>
+    </popup>
+</div>

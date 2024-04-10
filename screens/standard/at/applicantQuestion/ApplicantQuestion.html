@@ -1,0 +1,117 @@
+<!--
+     Copyright 2020 STACK360 LLC
+     All rights reserved.
+
+-->
+
+<div class="kiss">
+
+    <style>
+        div.vert-input2 {
+            display:grid;
+            grid-template-columns: max-content max-content;
+            grid-column-gap:5px;
+            grid-row-gap: 15px;
+            margin-top: 10px;
+            margin-left: 10px;
+        }
+        div.vert-input2 span {
+            text-align:right;
+            margin-top: 6px;
+        }
+    </style>
+
+    <div style="margin-top: 10px;">Applicant Questions:</div>
+    <hr>
+
+    <div style="margin-top: 10px;">
+        <span>Position:</span>
+        <drop-down id="position" style="width: 200px;"></drop-down>
+        <span style="margin-left: 40px;">Show:</span>
+        <radio-button group="show" value="1" checked>Active</radio-button>
+        <radio-button group="show" value="2">Inactive</radio-button>
+        <radio-button group="show" value="3">Both</radio-button>
+    </div>
+
+    <div id="grid" style="margin-top: 10px; width: 100%; height: calc(100% - 120px);"></div>
+
+
+    <div style="position: absolute; bottom: 10px; width: 100%;">
+        <text-label id="status"></text-label>
+        <div style="display: inline-block; float: right;">
+            <push-button id="add">Add</push-button>
+            <push-button id="edit" style="margin-left: 10px;" disabled>Edit</push-button>
+            <push-button id="delete" style="margin-left: 10px;" disabled>Delete</push-button>
+            <push-button id="move-up" style="margin-left: 10px;" disabled>Move Up</push-button>
+            <push-button id="move-down" style="margin-left: 10px;" disabled>Move Down</push-button>
+            <push-button id="report" style="margin-left: 10px; margin-right: 30px;">Report</push-button>
+        </div>
+    </div>
+
+    <popup id="detail-popup" height="220px" width="480px">
+        <popup-title>
+            <text-label id="dp-title"></text-label>
+        </popup-title>
+        <popup-body>
+            <div class="vert-input2">
+                <span>Position:</span>
+                <drop-down id="dp-position" style="width: 280px;" required></drop-down>
+
+                <span>Question:</span>
+                <textbox-input id="dp-question" style="width: 360px; height: 40px;" maxlength="80" required></textbox-input>
+
+                <span style="margin-top: 0;">Answer Type:</span>
+                <div>
+                    <radio-button group="dp-answer-type" value="S" required>Text</radio-button>
+                    <radio-button group="dp-answer-type" value="N" required>Numeric</radio-button>
+                    <radio-button group="dp-answer-type" value="D" required>Date</radio-button>
+                    <radio-button group="dp-answer-type" value="Y" required>Yes/No/Unknown</radio-button>
+                    <radio-button group="dp-answer-type" value="L" required>List</radio-button>
+                </div>
+
+            </div>
+            <div id="dp-list-fields" style="display: none;">
+                <div class="vert-input2">
+                    <span>List Answers:</span>
+                    <list-box id="dp-list-answers" style="height: 140px; width: 374px;"></list-box>
+                </div>
+
+                <div style="float: right; margin-top: 5px; margin-right: 13px;">
+                    <push-button id="dp-add">Add</push-button>
+                    <push-button id="dp-edit" style="margin-left: 5px;" disabled>Edit</push-button>
+                    <push-button id="dp-delete" style="margin-left: 5px;" disabled>Delete</push-button>
+                </div>
+            </div>
+            <div style="position: absolute; bottom: 10px; width: 100%;">
+                <div class="vert-input2">
+                    <span>Inactive Date:</span>
+                    <div style="margin-top: 0;">
+                        <native-date-input id="dp-inactive-date" style="width: 110px;"></native-date-input>
+                        <check-box id="dp-internal-use" style="margin-left: 50px;" checked>Internal Use</check-box>
+                    </div>
+
+                </div>
+
+                <div style="text-align: right; margin-top: 10px;">
+                    <push-button id="dp-ok">OK</push-button>
+                    <push-button id="dp-cancel" style="margin-left: 10px; margin-right: 15px;">Cancel</push-button>
+                </div>
+            </div>
+        </popup-body>
+    </popup>
+
+    <popup id="list-answer-popup" height="70px" width="450px">
+        <popup-title><text-label id="lap-title"></text-label></popup-title>
+        <popup-body>
+            <div>
+                <span style="margin-left: 10px;">Answer:</span>
+                <text-input id="lap-answer" style="width: 360px;" maxlength="60" required></text-input>
+            </div>
+            <div style="text-align: right; margin-top: 10px;">
+                <push-button id="lap-ok">OK</push-button>
+                <push-button id="lap-cancel" style="margin-left: 10px; margin-right: 15px;">Cancel</push-button>
+            </div>
+        </popup-body>
+    </popup>
+
+</div>

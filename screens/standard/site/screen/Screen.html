@@ -1,0 +1,122 @@
+<!--
+     Copyright 2020 STACK360 LLC
+     All rights reserved.
+
+-->
+
+<div class="kiss">
+
+    <style>
+        .grid-container {
+            display: grid;
+            grid-column-gap: 5px;
+            grid-row-gap: 10px;
+            grid-template-columns: 80px 480px;
+            margin-top: 15px;
+        }
+
+        .grid-container span {
+            margin-top: 5px;
+            display: flex;
+            justify-content: flex-end;
+        }
+
+        .common-width {
+        }
+    </style>
+
+    <div style="margin-top: 10px;">
+        Screens Search Criteria:
+    </div>
+    <hr>
+
+    <div style="margin-top: 10px;">
+        <div style="display: inline-block; width: 70px; text-align: right;">Name:</div>
+        <drop-down id="name-type" style="width: 100px;">
+            <option value="2">Starts With</option>
+            <option value="3">Ends With</option>
+            <option value="4">Contains</option>
+            <option value="5">Exact Match</option>
+        </drop-down>
+        <text-input id="name" style="width: 150px;"></text-input>
+        <span style="margin-left: 20px;">Screen Type:</span>
+        <div style="display: inline-block; vertical-align: middle;">
+            <check-box id="normal" checked>Normal</check-box>
+            <check-box id="parent" checked>Parent</check-box>
+            <check-box id="child" checked>Child</check-box>
+            <check-box id="wizard" checked>Wizard</check-box>
+            <check-box id="wizard-page" checked>Wizard Page</check-box>
+        </div>
+    </div>
+
+    <div style="margin-top: 10px;">
+        <div style="display: inline-block; width: 70px; text-align: right;">File Name:</div>
+        <drop-down id="file-name-type" style="width: 100px;">
+            <option value="2">Starts With</option>
+            <option value="3">Ends With</option>
+            <option value="4" selected>Contains</option>
+            <option value="5">Exact Match</option>
+        </drop-down>
+        <text-input id="file-name" style="width: 600px;"></text-input>
+        <span style="margin-left: 20px;">ID:</span>
+        <text-input id="id" style="width: 75px;"></text-input>
+    </div>
+
+    <div style="margin-top: 10px;">
+        <push-button id="reset" style="margin-left: 300px;">Reset</push-button>
+        <push-button id="search" style="margin-left: 10px;">Search</push-button>
+    </div>
+
+    <div>Screen Search Results:</div>
+    <hr>
+
+    <div id="grid" style="width: 100%; height: calc(100% - 210px);"></div>
+
+    <div style="position: absolute; bottom: 10px; right: 10px;">
+        <push-button id="add">Add</push-button>
+        <push-button id="edit" style="margin-left: 10px;" disabled>Edit</push-button>
+        <push-button id="delete" style="margin-left: 10px;" disabled>Delete</push-button>
+    </div>
+
+    <popup id="detail-popup" height="320px" width="590px">
+        <popup-title><text-label id="dp-title"></text-label></popup-title>
+        <popup-body>
+            <div class="grid-container">
+                <span>Name:</span>
+                <text-input id="dp-name" class="common-width" maxlength="100" required></text-input>
+
+                <span>Type:</span>
+                <div style="display: inline-block;" class="common-width">
+                    <drop-down id="dp-type" style="width: 90px" required>
+                        <option value="">(select)</option>
+                        <option value="1">Normal</option>
+                        <option value="2">Parent</option>
+                        <option value="3">Child</option>
+                        <option value="4">Wizard</option>
+                        <option value="5">Wizard Page</option>
+                    </drop-down>
+                    <div style="display: inline-block; float: right;">
+                        ID:
+                        <text-input id="dp-id" style="width: 100px;" disabled>(generated on save)</text-input>
+                    </div>
+                </div>
+
+                <span>Description:</span>
+                <textbox-input id="dp-description" class="common-width" style="height: 100px;" maxlength="2000" required></textbox-input>
+
+                <span>File Name:</span>
+                <text-input id="dp-file-name" class="common-width" maxlength="255" required></text-input>
+
+                <span>Avatar Path:</span>
+                <text-input id="dp-avatar-path" class="common-width" maxlength="256"></text-input>
+            </div>
+
+            <div style="text-align: right; margin-top: 10px;">
+                <push-button id="dp-ok">OK</push-button>
+                <push-button id="dp-cancel" style="margin-left: 10px; margin-right: 14px;">Cancel</push-button>
+            </div>
+        </popup-body>
+    </popup>
+
+
+</div>

@@ -1,0 +1,163 @@
+<!--
+     Copyright 2020 STACK360 LLC
+     All rights reserved.
+
+-->
+
+<div class="kiss">
+    <style>
+        .ps-grid {
+            display: grid;
+            grid-column-gap: 10px;
+            grid-row-gap: 10px;
+            align-items: center;
+        }
+        .ps-grid span {
+            color: #000;
+            align-self: center;
+            text-align: right;
+        }
+        input[type="color"] {
+            width: 30px;
+            height: 30px;
+            border: none;
+            vertical-align: middle;
+            box-sizing: border-box;
+        }
+    </style>
+
+    <div style="margin-top: 10px;">
+        <span>Pay Schedules:</span>
+        <drop-down id="ps-paySchedules" style="width: 250px; margin-left: 10px; margin-right: 20px;"></drop-down>
+        <push-button id="paySchedulesAdd" style="margin-right: 10px;">Add</push-button>
+        <push-button id="paySchedulesEdit" style="margin-right: 10px;" disabled>Edit</push-button>
+        <push-button id="paySchedulesDelete" disabled>Delete</push-button>
+    </div>
+
+    <div style="margin-top: 10px; margin-bottom: 10px;">
+        <span>Pay Periods:</span>
+        <hr>
+    </div>
+
+    <span>Show Pay Periods From:</span>
+    <native-date-input id="ps-fromDate" style="width:110px; margin-left: 10px; margin-right: 20px;"></native-date-input>
+
+    <span>To:</span>
+    <native-date-input id="ps-toDate" style="width:110px; margin-left: 10px;"></native-date-input>
+    
+    <div id="paySchedulesGrid" style="height: calc(100% - 155px); width: 100%; margin-top: 10px; margin-bottom: 15px;"></div>
+
+    <text-label id="ps-status">Displaying 0 Pay Periods</text-label>
+    <div style="position: absolute; right: 10px; bottom: 10px; text-align: right;">
+        <push-button id="generate" disabled>Generate</push-button>
+        <push-button id="add" disabled style="margin-left: 10px;">Add</push-button>
+        <push-button id="edit" disabled style="margin-left: 10px;">Edit</push-button>
+        <push-button id="delete" disabled style="margin-left: 10px;">Delete</push-button>
+        <push-button id="report" disabled style="margin-left: 10px;">Report</push-button>
+    </div>
+    
+    <popup id="pay-schedule-popup" height="135px" width="290px">
+        <popup-title><text-label id="pay-schedule-label">Add</text-label> Pay Schedule</popup-title>
+        <popup-body>
+            <div class="ps-grid" style="grid-template-columns: repeat(2, max-content);">
+                <span>Name:</span>
+                <text-input id="ps-payScheduleName" style="width: 200px;" maxlength="20" required></text-input>
+
+                <span>Description:</span>
+                <textbox-input id="ps-payScheduleDescription" style="height: 60px; width: 210px; box-sizing: border-box;" maxlength="80"></textbox-input>
+            </div>       
+
+            <div style="right: 10px; bottom: 10px; position: absolute;">
+                <push-button id="pay-schedule-ok">OK</push-button>
+                <push-button id="pay-schedule-cancel">Cancel</push-button>
+            </div>
+        </popup-body>
+    </popup>
+
+    <popup id="generate-per-periods-popup" height="265px" width="400px">
+        <popup-title>Generate Pay Periods</popup-title>
+        <popup-body>
+            <div style="margin: 10px 0;">
+                <span>From Date:</span>
+                <native-date-input id="ps-periodsFromDate" style="width:110px; margin-left: 10px; margin-right: 20px;"></native-date-input>
+
+                <span>To Date:</span>
+                <native-date-input id="ps-periodsToDate" style="width:110px; margin-left: 10px;"></native-date-input>
+            </div>       
+
+            <span>Period Type:</span>
+
+            <div style="margin-top: 10px;">
+                <radio-button group="ps-periodType" value="1" checked>Every</radio-button>
+                <drop-down id="ps-periodTypeEvery" style="width: 100px; margin-left: 10px;" required>
+                    <option value="">(select)</option>
+                    <option value="1">Sunday</option>
+                    <option value="2">Monday</option>
+                    <option value="3">Tuesday</option>
+                    <option value="4">Wednesday</option>
+                    <option value="5">Thursday</option>
+                    <option value="6">Friday</option>
+                    <option value="7">Saturday</option>
+                </drop-down>
+            </div>
+
+            <div style="margin-top: 10px;">
+                <radio-button group="ps-periodType" value="2">Every Other</radio-button>
+                <drop-down id="ps-periodTypeEveryOther" style="width: 100px; margin-left: 10px;" disabled required>
+                    <option value="">(select)</option>
+                    <option value="1">Sunday</option>
+                    <option value="2">Monday</option>
+                    <option value="3">Tuesday</option>
+                    <option value="4">Wednesday</option>
+                    <option value="5">Thursday</option>
+                    <option value="6">Friday</option>
+                    <option value="7">Saturday</option>
+                </drop-down>
+            </div>
+
+            <div style="margin-top: 10px;">
+                <radio-button group="ps-periodType" value="3">Every</radio-button>
+                <numeric-input id="ps-periodTypeEveryOf" show-zero style="width: 10px; margin-left: 10px; margin-right: 10px;" disabled required></numeric-input>
+                <span>of the Month</span>
+            </div>
+
+            <div style="margin-top: 10px;">
+                <radio-button group="ps-periodType" value="4">Every</radio-button>
+                <numeric-input id="ps-periodTypeEveryOfAnd1" show-zero style="width: 10px; margin-left: 10px; margin-right: 10px;" disabled required></numeric-input>
+                <span>and</span>
+                <numeric-input id="ps-periodTypeEveryOfAnd2" show-zero style="width: 10px; margin-left: 10px; margin-right: 10px;" disabled required></numeric-input>
+                <span>of the Month</span>
+            </div>
+
+            <div style="margin-top: 10px;">
+                <span>Set First Generated Pay Period to First Pay Period of Year:</span>
+                <check-box id="ps-setPayPeriodYear" style="vertical-align: middle; margin-left: 10px;" checked></check-box>
+            </div>
+            <div style="right: 10px; bottom: 10px; position: absolute;">
+                <push-button id="generate-per-periods-ok">OK</push-button>
+                <push-button id="generate-per-periods-cancel">Cancel</push-button>
+            </div>
+        </popup-body>
+    </popup>
+
+    <popup id="pey-period-popup" height="95px" width="405px">
+        <popup-title><text-label id="pay-period-label">Add</text-label> Pay Period</popup-title>
+        <popup-body>
+            <div style="margin: 10px 0;">
+                <span>Last Date:</span>
+                <native-date-input id="ps-periodLastDate" style="width:110px; margin-left: 10px; margin-right: 20px;" required></native-date-input>
+
+                <span>Pay Date:</span>
+                <native-date-input id="ps-periodPayDate" style="width:110px; margin-left: 10px;" required></native-date-input>
+            </div>       
+
+            <div style="margin-top: 10px; text-align: center;">
+                <check-box id="ps-payPeriodYear" style="vertical-align: middle;">First Pay Period of Year</check-box>
+            </div>
+            <div style="right: 10px; bottom: 10px; position: absolute;">
+                <push-button id="pey-period-ok">OK</push-button>
+                <push-button id="pey-period-cancel">Cancel</push-button>
+            </div>
+        </popup-body>
+    </popup>
+</div>

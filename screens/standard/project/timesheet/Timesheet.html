@@ -1,0 +1,86 @@
+<!--
+     Copyright 2020 STACK360 LLC
+     All rights reserved.
+
+-->
+
+<div class="kiss">
+
+    <div style="margin-top: 10px;">
+        <span>Project Timesheets:</span>
+        <text-label id="project-info" style="float: right;" maxlength="80" required></text-label>
+    </div>
+    <hr style="margin-left: 0;">
+
+    <div>
+        <div style="margin-left: 15px; width: 450px; margin-top: 10px; display: inline-block;">
+            <div>
+                <span style="position: relative; top: -4px;">Timesheet Entry Status:</span>
+                <check-box id="not-yet-approved" checked>Not Yet Approved</check-box>
+                <check-box id="approved" checked>Approved</check-box>
+                <check-box id="invoiced">Invoiced</check-box>
+            </div>
+        </div>
+        <div style="display: inline-block; position: relative; top: -5px;">
+            <div style="display: inline-block; width: 250px; text-align: right; margin-right: 5px;">Timesheet Entry Dates Starting On or After:</div>
+            <native-date-input id="start-date" style="width: 110px;"></native-date-input>
+        </div>
+        
+        <div style="margin-left: 75px; display: inline-block;">
+            <span style="margin-right: 5px;">Shift:</span>
+            <drop-down id="shift" style="width: 100px;"></drop-down>
+        </div>
+
+    </div>
+
+    <div style="margin-left: 15px; width: 450px; display: inline-block;"></div>
+    <div style="display: inline-block;">
+        <div style="display: inline-block; width: 250px; text-align: right; margin-right: 5px;">Timesheet Entry Dates Ending On or Before:</div>
+        <native-date-input id="end-date" style="width: 110px;"></native-date-input>
+    </div>
+
+    <div id="grid" style="margin-top: 10px; width: 100%; height: calc(100% - 160px);"></div>
+
+    <div style="position: absolute; bottom: 10px; text-align: center; width: 100%;">
+        <text-label id="status" style="float: left;"></text-label>
+        <div style="display: inline-block; float: right; margin-right: 20px;">
+            <span>Total Hours:</span>
+            <numeric-input id="total-hours" decimal-places="2" style="width: 60px; margin-right: 20px;" disabled></numeric-input>
+            <push-button id="report">Report</push-button>
+        </div>
+        <text-label id="legend" style="font-weight: bold;">Column Legend</text-label>
+    </div>
+
+    <popup id="legend-popup" height="400px" width="450px;">
+        <popup-title>Column Legend</popup-title>
+        <popup-body>
+            <textbox-input style="width: 97%; height: 345px;" disabled>
+                <span style="font-weight: bold;">S - Timesheet State</span><br><br>
+                This column represents the current state of the timesheet entry.  Possible values are:
+                <br><br>
+                <ul>
+                    <li>(<span style="font-weight: bold;">N</span>)ew - Timesheet has been newly created</li>
+                    <li>(<span style="font-weight: bold;">R</span>)ejected - Timesheet has been rejected by a supervisor back to the timesheet creator</li>
+                    <li>(<span style="font-weight: bold;">F</span>)ixed - Timesheet has been fixed after being Rejected by a supervisor</li>
+                    <li>(<span style="font-weight: bold;">C</span>)hanged - Timesheet has been changed after the day has by finalized (possible when the day has been Rejected back to the timesheet creator)</li>
+                    <li>(<span style="font-weight: bold;">A</span>)pproved - Timesheet has been approved by a supervisor and is available for accounting</li>
+                    <li>(<span style="font-weight: bold;">P</span>)roblem - Timesheet has been marked as having a problem by accounting</li>
+                    <li>(<span style="font-weight: bold;">D</span>)eferred - Timesheet has been marked as deferred by accounting (won't be invoiced)</li>
+                    <li>(<span style="font-weight: bold;">I</span>)nvoiced - Timesheet has been included in an invoice</li>
+                </ul>
+                <span style="font-weight: bold;">B - Timesheet Billable Status</span><br><br>
+                This column represents the billable status of the timesheet entry.  Possible values are:
+                <ul>
+                    <li>(<span style="font-weight: bold;">Y</span>)es - The timesheet is billable</li>
+                    <li>(<span style="font-weight: bold;">N</span>)o - The timesheet is not billable</li>
+                    <li>(<span style="font-weight: bold;">U</span>)nknown - It is unknown if the timesheet is billable</li>
+                </ul>
+            </textbox-input>
+        </popup-body>
+        <div style="text-align: right; position: absolute; bottom: 10px; width: 100%">
+            <push-button id="legend-close" style="margin-right: 10px;">Close</push-button>
+        </div>
+    </popup>
+
+</div>
+

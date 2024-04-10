@@ -1,0 +1,48 @@
+<!--
+     Copyright 2020 STACK360 LLC
+     All rights reserved.
+
+-->
+
+<div class="kiss" style="font-size: small;">
+
+    <!-- the following is needed in order to make the grid auto-resize vertically  -->
+    <style>
+
+        label {
+            text-align: right;
+            margin-top: 5px;
+        }
+
+        label:after {
+            content: ":";
+        }
+
+        .grid-container {
+            display: grid;
+            grid-column-gap: 5px;
+            grid-row-gap: 10px;
+            grid-template-columns: 250px 145px;
+            margin-top: 40px;
+        }
+
+    </style>
+
+
+    <h1 style="margin-left: 50px;">Project Net Income Report</h1>
+
+    <div class="grid-container">
+
+        <label>Projects with worker time from date</label>
+        <native-date-input id="beginning-date" style="width: 120px;" required></native-date-input>
+
+        <label>Projects with worker time to date</label>
+        <native-date-input id="ending-date" style="width: 120px;" required></native-date-input>
+    </div>
+
+    <div style="margin-top: 50px; margin-left: 50px;">
+        <push-button id="run-export">Run Export</push-button>
+        <push-button id="run-report" style="margin-left: 30px;">Run Report</push-button>
+    </div>
+
+</div>

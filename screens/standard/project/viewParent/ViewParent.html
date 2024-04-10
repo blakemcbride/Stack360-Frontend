@@ -1,0 +1,220 @@
+
+<!--
+     Copyright 2020 STACK360 LLC
+     All rights reserved.
+
+-->
+
+
+<div class="kiss">
+
+    <style>
+        .pb-style {
+            width: 100%;
+            margin-top: 10px;
+        }
+
+        .pb-style2 {
+            width: 100%;
+            margin-top: 25px;
+        }
+
+        .ip-lstyle {
+            display: inline-block;
+            width: 70px;
+            text-align: right;
+        }
+
+    </style>
+
+    <div style="display: inline-block; width: 150px; vertical-align: top; margin-right: 10px;">
+        <div style="margin-top: 10px;">
+            <span>Location:</span>
+            <hr>
+        </div>
+        <div id="location-grid" style="height: calc(100vh - 210px); width: 100%;"></div>
+        <push-button id="open-location" style="margin-top: 10px;" disabled>Open</push-button>
+    </div>
+
+    <div style="display: inline-block; width: calc(100vw - 498px); vertical-align: top;">
+        <div style="margin-top: 10px;">
+            <span>Content:</span>
+            <hr>
+        </div>
+        <div id="content-grid" style="height: calc(100vh - 339px); width: 100%;"></div>
+        <div style="margin-top: 10px;">
+            <text-label id="status"></text-label>
+            <text-label id="cut-status" style="margin-left: 150px; background-color: lightpink;"></text-label>
+            <div style="float: right;">
+                <push-button id="back" disabled>Back</push-button>
+                <push-button id="open-content" style="margin-left: 10px;" disabled>Open</push-button>
+                <push-button id="report" style="margin-left: 10px;">Report</push-button>
+            </div>
+        </div>
+        <div style="margin-top: 10px;"><text-label id="description-text">Description:</text-label></div>
+        <hr>
+        <textbox-input id="description" style="height: 100px; width: calc(100vw - 511px);"></textbox-input>
+        <div style="margin-top: 10px; text-align: center;">
+            <push-button id="save" disabled>Save</push-button>
+            <push-button id="reset" style="margin-left: 10px;" disabled>Reset</push-button>
+        </div>
+    </div>
+
+    <div style="display: inline-block; width: 100px; vertical-align: top; margin-left: 20px;">
+        <push-button id="quick-add" class="pb-style">Quick Add</push-button>
+        <push-button id="add" class="pb-style" disabled>Add</push-button>
+        <push-button id="edit" class="pb-style" disabled>Edit</push-button>
+        <push-button id="remove" class="pb-style" disabled>Remove</push-button>
+        <push-button id="remove-all" class="pb-style" disabled>Remove All</push-button>
+        <push-button id="cut" class="pb-style2" disabled>Cut</push-button>
+        <push-button id="copy" class="pb-style" disabled>Copy</push-button>
+        <push-button id="paste" class="pb-style" disabled>Paste</push-button>
+        <push-button id="cancel" class="pb-style" disabled>Cancel</push-button>
+        <push-button id="move-up" class="pb-style2" disabled>Move Up</push-button>
+        <push-button id="move-down" class="pb-style" disabled>Move Down</push-button>
+        <push-button id="import" class="pb-style2">Import</push-button>
+        <push-button id="export" class="pb-style">Export</push-button>
+    </div>
+
+    <popup id="add-folder-popup" width="600px" height="410px">
+        <popup-title>Add Folder</popup-title>
+        <popup-body>
+            <div style="margin-top: 15px;">
+                <div style="display: inline-block; width: 80px; text-align: right;">Summary:</div>
+                <text-input id="app-summary" style="width: 480px;" maxlength="250" required></text-input>
+            </div>
+            <div style="margin-top: 15px;">
+                <div style="display: inline-block; width: 80px; text-align: right; vertical-align: top;">Description:</div>
+                <textbox-input id="app-description" style="width: 480px; height: 300px;" maxlength="3000"></textbox-input>
+            </div>
+            <div style="position: absolute; bottom: 10px; right: 20px;">
+                <push-button id="app-ok">OK</push-button>
+                <push-button id="app-cancel" style="margin-left: 10px;">Cancel</push-button>
+            </div>
+
+        </popup-body>
+    </popup>
+
+    <popup id="add-type-popup" height="130px" width="440px">
+        <popup-title>Folder Add Specifications</popup-title>
+        <popup-body>
+            <div style="margin-top: 10px;">
+                <div style="display: inline-block; width: 50px; text-align: right;">Type:</div>
+                <radio-button group="atp-type" value="F" checked>Folder</radio-button>
+                <radio-button group="atp-type" value="P">Project</radio-button>
+            </div>
+            <div style="margin-top: 10px;">
+                <div style="display: inline-block; width: 50px; text-align: right;">Position:</div>
+                <radio-button value="1" group="atp-position">Beginning</radio-button>
+                <radio-button value="2" group="atp-position" id="atp-before">Before</radio-button>
+                <radio-button value="3" group="atp-position" id="atp-after">After</radio-button>
+                <radio-button value="4" group="atp-position">End</radio-button>
+            </div>
+            <div style="margin-top: 10px;">
+                <text-input id="atp-item" style="margin-left: 50px; width: 350px;" disabled></text-input>
+            </div>
+            <div style="text-align: right; margin-top: 10px;">
+                <push-button id="atp-ok">OK</push-button>
+                <push-button id="atp-cancel" style="margin-left: 10px; margin-right: 20px;">Cancel</push-button>
+            </div>
+        </popup-body>
+    </popup>
+
+    <popup id="paste-popup" width="600px;" height="110px">
+        <popup-title>Paste Item</popup-title>
+        <popup-body>
+            <div style="margin-top: 10px; margin-left: 10px;">
+                Position:
+                <radio-button value="1" group="pp-position">Top</radio-button>
+                <radio-button id="pp-before" value="2" group="pp-position">Before</radio-button>
+                <radio-button id="pp-after" value="3" group="pp-position">After</radio-button>
+                <radio-button group="pp-position" value="4" checked>Bottom</radio-button>
+            </div>
+            <div style="margin-top: 10px; margin-left: 60px;">
+                <text-input id="pp-summary" style="width: 500px;" disabled></text-input>
+            </div>
+            <div style="text-align: right; margin-top: 10px;">
+                <push-button id="pp-ok">OK</push-button>
+                <push-button id="pp-cancel" style="margin-left: 10px; margin-right: 20px;">Cancel</push-button>
+            </div>
+        </popup-body>
+    </popup>
+
+    <popup id="paste-popup2" width="600px;" height="190px">
+        <popup-title>Paste Item</popup-title>
+        <popup-body>
+            <div style="margin-top: 10px;">Please choose copy type:</div>
+            <div style="margin-top: 10px;">
+                <radio-button group="pp2-copy-type" value="1" checked>Create a copy of the folder(s) with the same detail and contents</radio-button>
+            </div>
+            <div style="margin-top: 10px;">
+                <radio-button group="pp2-copy-type" value="2">Paste the same folder(s) here (changes to one folder affects the other)</radio-button>
+            </div>
+            <div style="margin-top: 20px; margin-left: 10px;">
+                Position:
+                <radio-button value="1" group="pp2-position">Top</radio-button>
+                <radio-button id="pp2-before" value="2" group="pp2-position">Before</radio-button>
+                <radio-button id="pp2-after" value="3" group="pp2-position">After</radio-button>
+                <radio-button group="pp2-position" value="4" checked>Bottom</radio-button>
+            </div>
+            <div style="margin-top: 10px; margin-left: 60px;">
+                <text-input id="pp2-summary" style="width: 500px;" disabled></text-input>
+            </div>
+            <div style="text-align: right; margin-top: 10px;">
+                <push-button id="pp2-ok">OK</push-button>
+                <push-button id="pp2-cancel" style="margin-left: 10px; margin-right: 20px;">Cancel</push-button>
+            </div>
+        </popup-body>
+    </popup>
+
+    <popup id="import-popup" width="600px;" height="170px">
+        <popup-title>Import</popup-title>
+        <popup-body>
+            <div style="margin-top: 10px; margin-left: 10px;">
+                <div class="ip-lstyle">Position:</div>
+                <radio-button value="1" group="ip-position">Top</radio-button>
+                <radio-button id="ip-before" value="2" group="ip-position">Before</radio-button>
+                <radio-button id="ip-after" value="3" group="ip-position">After</radio-button>
+                <radio-button group="ip-position" value="4" checked>Bottom</radio-button>
+            </div>
+            <div style="margin-top: 10px; margin-left: 10px;">
+                <div class="ip-lstyle"></div>
+                <text-input id="ip-summary" style="width: 480px;" disabled></text-input>
+            </div>
+
+            <div style="margin-top: 10px; margin-left: 10px;">
+                <div class="ip-lstyle">Import File:</div>
+                <file-upload id="ip-file" accept=".opml,.xml" style="width: 350px;" required></file-upload>
+            </div>
+            <div style="margin-top: 10px; margin-left: 10px;">
+                <div class="ip-lstyle">Import Type:</div>
+                <drop-down id="ip-import-type" style="width: 280px;" required>
+                    <option value="1">Outline Processor Markup Language (OPML)</option>
+                    <option value="2">Pocket Mindmap</option>
+                </drop-down>
+            </div>
+            <div style="text-align: right; margin-top: 10px;">
+                <push-button id="ip-ok">OK</push-button>
+                <push-button id="ip-cancel" style="margin-left: 10px; margin-right: 20px;">Cancel</push-button>
+            </div>
+        </popup-body>
+    </popup>
+
+    <popup id="export-popup" width="390px;" height="90px">
+        <popup-title>Export</popup-title>
+        <popup-body>
+            <div style="margin-top: 10px; margin-left: 10px;">
+                <div style="display: inline-block; margin-left: 5px;">Export Type:</div>
+                <drop-down id="ep-export-type" style="width: 280px;" required>
+                    <option value="1">Outline Processor Markup Language (OPML)</option>
+                    <option value="2">Pocket Mindmap</option>
+                </drop-down>
+            </div>
+            <div style="text-align: right; margin-top: 15px;">
+                <push-button id="ep-ok">OK</push-button>
+                <push-button id="ep-cancel" style="margin-left: 10px; margin-right: 20px;">Cancel</push-button>
+            </div>
+        </popup-body>
+    </popup>
+
+</div>

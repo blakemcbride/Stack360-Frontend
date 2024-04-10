@@ -1,0 +1,36 @@
+<div id="securityGroupSelection" class="modal" hidden>
+    <div id="securityGroupSelectionContent" class="modal-content" style="width: 350px; height: 400px;">
+        <div id="securityGroupSelectionTitle" class="modal-title">Search for Security Group</div>
+
+        <div class="modal-body">
+            <div>Search Criteria:</div>
+            <hr>
+
+            <div class="flex-row" style="margin-top: 8px;">
+                <label style="width: 40px; margin-right: 10px;">Name:</label>
+                <drop-down id="securityGroupNameCriteria" style="width: 135px; margin-right: 10px;"></drop-down>
+                <text-input id="securityGroupNameSearch" style="width: 185px"></text-input>
+            </div>
+
+            <div class="btn-bar" style="margin-top: 8px; width: 100%; justify-content: flex-end;">
+                <push-button id="searchSecurityGroupReset">Reset</push-button>
+                <push-button id="searchSecurityGroupSearch" style="margin-right: unset;">Search</push-button>
+            </div>
+
+            <div style="margin-top: 10px;">
+                <div>Search Results:</div>
+                <hr>
+            </div>
+
+            <div id="searchSecurityGroupsResultsGrid" style="width: 100%; background: bisque; height: 205px;"></div>
+        </div>
+
+        <div class="modal-footer" style="display: flex; align-items: center; justify-content: space-between;">
+            <div id="secGrpCount" style="margin-left: 10px;">Displaying 0 Security Groups</div>
+            <div class="btn-bar-comp">
+                <push-button id="searchSecurityGroupOK" class="btn-primary" disabled>OK</push-button>
+                <push-button id="searchSecurityGroupCancel" class="btn-primary">Cancel</push-button>
+            </div>
+        </div>
+    </div>
+</div>

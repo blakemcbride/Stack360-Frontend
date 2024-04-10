@@ -1,0 +1,218 @@
+
+<!--
+     Copyright 2021 STACK360 LLC
+     All rights reserved.
+
+-->
+
+
+<div class="kiss">
+
+    <style>
+        .pb-style {
+            width: 100%;
+            margin-top: 10px;
+        }
+
+        .pb-style2 {
+            width: 100%;
+            margin-top: 25px;
+        }
+
+        .ip-lstyle {
+            display: inline-block;
+            width: 70px;
+            text-align: right;
+        }
+
+        div.vert-input2 {
+            display:grid;
+            grid-template-columns: max-content max-content;
+            grid-column-gap:5px;
+            grid-row-gap: 10px;
+            margin-top: 10px;
+        }
+
+        div.vert-input2 span {
+            text-align:right;
+            margin-top: 6px;
+        }
+
+        div.vert-input4 {
+            display:grid;
+            grid-template-columns: max-content max-content max-content max-content;
+            grid-column-gap:15px;
+            grid-row-gap: 10px;
+            margin-top: 10px;
+            margin-left: 10px;
+        }
+
+        div.vert-input4 span {
+            text-align:right;
+            margin-top: 6px;
+        }
+
+    </style>
+
+    <div style="margin-top: 10px;" >
+        <span>Dcoument Management:</span>
+    </div>
+    <hr>
+
+    <div style="display: inline-flex;">
+        <div style="display: inline-block; width: 290px; vertical-align: top; margin-right: 10px;">
+            <div style="margin-top: 10px;">
+                <span>Folder Hierachy</span>
+            </div>
+            <div id="folder-tree" style="height: calc(100vh - 260px); width: 100%;background-color: white;margin-top: 2px;border: solid 1px; border-color: #bdc3c7;overflow: scroll;"></div>
+            <div style="margin-top: 10px;">
+                <div style="float: right;">
+                    <span>Folder Operations:</span>
+                    <push-button id="folder-add" style="margin-left: 3px;">Add</push-button>
+                    <push-button id="folder-edit" style="margin-left: 3px;" disabled>Edit</push-button>
+                    <push-button id="folder-delete" style="margin-left: 3px;" disabled>Delete</push-button>
+                </div>
+            </div>
+            <div style="margin-top: 45px;">
+                <div style="float: right;">
+                    <span>Document Operations:</span>
+                    <push-button id="doc-cut" style="margin-left: 3px;" disabled>Cut</push-button>
+                    <push-button id="doc-copy" style="margin-left: 3px;" disabled>Copy</push-button>
+                    <push-button id="doc-paste" style="margin-left: 3px;" disabled>Paste</push-button>
+                </div>
+            </div>
+        </div>
+
+        <div style="display: inline-block; vertical-align: top; margin-left: 8px;">
+            <div style="margin-top: 10px;">
+                <span>Documents</span>
+            </div>
+            <div id="documents-grid" style="height: 200px; width: 100%;margin-top: 2px;"></div>
+            <div style="margin-top: 10px;">
+                <div style="float: right;">
+                    <push-button id="doc-view" disabled>View</push-button>
+                    <push-button id="doc-add" style="margin-left: 30px;" disabled>Add</push-button>
+                    <push-button id="doc-edit" style="margin-left: 10px;" disabled>Edit</push-button>
+                    <push-button id="doc-delete" style="margin-left: 10px;" disabled>Delete</push-button>
+                </div>
+            </div>
+            <div class="vert-input2" style="margin-top: 50px;">
+                <span>Associated Company:</span>
+                <text-input id="associated-company" style="width: 150px;" readonly></text-input>
+            </div>
+            <div style="margin-top: 10px;">
+                <text-label style="margin-bottom: 2px;">Org Groups</text-label>
+            </div>
+            <div id="org-group-grid" style="height: calc(100vh - 525px); width: calc(100vw - 500px);margin-top: 2px;"></div>
+            <div style="margin-top: 10px;">
+                <div style="float: right;">
+                    <push-button id="org-associate" style="margin-left: 10px;" disabled>Associate</push-button>
+                    <push-button id="org-disassociate" style="margin-left: 10px;" disabled>Disassociate</push-button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <popup id="add-folder-popup" width="230px" height="75px">
+        <popup-title>
+            <text-label id="afp-title">Add Folder</text-label>
+        </popup-title>
+        <popup-body>
+            <div class="vert-input2">
+                <span>Folder Name:</span>
+                <text-input id="folder-name" style="width: 132px;" maxlength="250" required></text-input>
+            </div>
+            <div style="position: absolute; bottom: 10px; right: 10px;">
+                <push-button id="afp-ok">OK</push-button>
+                <push-button id="afp-cancel" style="margin-left: 10px;">Cancel</push-button>
+            </div>
+
+        </popup-body>
+    </popup>
+
+    <popup id="add-document-popup" height="376px" width="416px">
+        <popup-title>
+            <text-label id="adp-title">
+                Add Document
+            </text-label>
+        </popup-title>
+        <popup-body>
+            <div class="vert-input2">
+                <span>Code:</span>
+                <drop-down id="doc-code" style="width: 150px;" required></drop-down>
+                <span>Description:</span>
+                <text-input id="doc-description" style="width: 302px;" readonly></text-input>
+                <text-label id="form-label">Form:</text-label>
+                <file-upload id="doc-form" required></file-upload>
+                <span>First Active Date:</span>
+                <native-date-input id="doc-first-date" style="width: 110px;"></native-date-input>
+                <span>Last Active Date</span>
+                <native-date-input id="doc-last-date" style="width: 110px;"></native-date-input>
+                <span>Comments:</span>
+                <textbox-input id="doc-comments" style="width: 298px; height: 142px;" maxlength="3000" required></textbox-input>
+            </div>
+            <div style="text-align: right; margin-top: 10px;">
+                <push-button id="adp-ok">OK</push-button>
+                <push-button id="adp-cancel" style="margin-left: 10px;margin-right: 4px;">Cancel</push-button>
+            </div>
+        </popup-body>
+    </popup>
+
+    <popup id="associate-org-group" height="400px" width="800px">
+        <popup-title>Associate Org Group</popup-title>
+        <popup-body>
+            <div class="vert-input4">
+                <div>
+                    <span>Location:</span>
+                    <hr/>
+                    <div id="org-location-grid" style="width: 149px; height: 326px;"></div>
+                    <div style="display: inline-block; margin-top: 10px;">
+                        <push-button id="location-open" style="margin-right: 10px;" disabled>Open</push-button>
+                        <push-button id="location-up">Up</push-button>
+                    </div>
+                </div>
+                <div>
+                    <span>Org Groups:</span>
+                    <hr/>
+                    <div class="vert-input2" style="margin-top: 8px;">
+                        <label style="width: 65px; margin-right: 10px;margin-top: 8px;">Name:</label>
+                        <div>
+                            <drop-down id="aop-name-criteria" style="width: 95px; margin-right: 10px;">
+                                <option value="0">(select)</option>
+                                <option value="2">Starts With</option>
+                                <option value="3">Ends With</option>
+                                <option value="4">Contains</option>
+                                <option value="5">Exact Match</option>
+                            </drop-down>
+                            <text-input id="aop-name-search" style="width: 152px"></text-input>
+                        </div>
+                    </div>
+            
+                    <div class="btn-bar" style="margin-top: 8px; width: 100%; justify-content: flex-end;">
+                        <push-button id="aop-reset">Reset</push-button>
+                        <push-button id="aop-search" style="margin-right: unset;">Search</push-button>
+                    </div>
+                    <div id="org-group-popup-grid" style="width: 354px; height: 242px;margin-top: 20px;"></div>
+                    <div style="width: 100%; display: inline-flex; margin-top: 10px; justify-content: space-between;">
+                        <text-label id="opg-group-popup-status">Displaying 1 Org Group</text-label>
+                        <push-button id="org-group-open">Open</push-button>
+                    </div>
+                </div>
+                <div style="width: 42px; justify-content: center; align-items: center; display: flex; flex-direction: column;">
+                    <push-button id="org-group-associate" style="margin-bottom: 10px;" disabled>--></push-button>
+                    <push-button id="org-group-disassociate" disabled><--</push-button>
+                </div>
+                <div>
+                    <span>Selected Org Groups:</span>
+                    <hr/>
+                    <div id="org-selected-group-grid" style="width: 178px; height: 326px;"></div>
+                    <div style="width: 100%; display: inline-flex; justify-content: flex-end; margin-top: 10px;">
+                        <push-button id="aop-ok" style="margin-right: 10px;">Ok</push-button>
+                        <push-button id="aop-cancel">Cancel</push-button>
+                    </div>
+                </div>
+            </div>
+        </popup-body>
+    </popup>
+
+</div>

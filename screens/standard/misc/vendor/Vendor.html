@@ -1,0 +1,418 @@
+<!--
+     Copyright 2020 STACK360 LLC
+     All rights reserved.
+
+-->
+
+<div class="kiss">
+
+    <style>
+        div.vert-input2 {
+            display:grid;
+            grid-template-columns: max-content max-content;
+            grid-column-gap:5px;
+            grid-row-gap: 10px;
+            margin-top: 10px;
+            margin-left: 10px;
+        }
+
+        div.vert-input2 span {
+            text-align:right;
+            margin-top: 6px;
+        }
+
+        .vert-input6 {
+            display:grid;
+            grid-template-columns: max-content max-content max-content max-content max-content max-content;
+            grid-column-gap:5px;
+            grid-row-gap: 10px;
+            margin-top: 10px;
+            margin-left: 10px;
+        }
+
+        .vert-input6 span {
+            text-align:right;
+            margin-top: 6px;
+        }
+
+        .more-space {
+            margin-left: 20px;
+        }
+
+        .span-2-3 {
+            grid-column: 2 / 4;
+        }
+
+        div.answer-detail {
+            display: none;
+        }
+
+        div.tab-height {
+            height: 460px;
+        }
+
+        .form-row {
+            margin-bottom: 5px;
+        }
+
+        .form-row > * {
+            margin-right: 8px !important;
+        }
+
+        .form-row > input[type='text']:focus, input[type='date']:focus {
+            margin-right: 7px !important;
+        }
+
+        .form-row > *:last-child {
+            margin-right: 0 !important;
+        }
+
+        .login-label-style {
+            width: 100px;
+            padding-right: 5px;
+            text-align: right;
+        }
+
+        .login-input-style {
+            width: 150px;
+        }
+    </style>
+
+    <div style="margin-top: 10px;">Vendor Search Criteria:</div>
+    <hr>
+
+    <div class="vert-input6">
+        <span>Vendor Name:</span>
+        <drop-down id="filter-name-type" style="width: 100px;">
+            <option value="2">Starts With</option>
+            <option value="3">Ends With</option>
+            <option value="4">Contains</option>
+            <option value="5">Exact Match</option>
+        </drop-down>
+        <text-input id="filter-name" style="width: 120px;" data-lpignore="true"></text-input>
+
+        <span class="more-space">Main Contact First Name:</span>
+        <drop-down id="filter-contract-first-name-type" style="width: 100px;">
+            <option value="2">Starts With</option>
+            <option value="3">Ends With</option>
+            <option value="4">Contains</option>
+            <option value="5">Exact Match</option>
+        </drop-down>
+        <text-input id="filter-contract-first-name" style="width: 120px;" data-lpignore="true"></text-input>
+
+        <span>Vendor ID:</span>
+        <drop-down id="filter-id-type" style="width: 100px;">
+            <option value="2">Starts With</option>
+            <option value="3">Ends With</option>
+            <option value="4">Contains</option>
+            <option value="5">Exact Match</option>
+        </drop-down>
+        <text-input id="filter-id" style="width: 120px;" data-lpignore="true"></text-input>
+
+        <span>Main Contact Last Name:</span>
+        <drop-down id="filter-contract-last-name-type" style="width: 100px;">
+            <option value="2">Starts With</option>
+            <option value="3">Ends With</option>
+            <option value="4">Contains</option>
+            <option value="5">Exact Match</option>
+        </drop-down>
+        <text-input id="filter-contract-last-name" style="width: 120px;" data-lpignore="true"></text-input>
+
+        <span>GL Expense Account:</span>
+        <div class="span-2-3">
+            <drop-down id="filter-sales-account" style="width: 230px;"></drop-down>
+        </div>
+
+        <span>Account Number:</span>
+        <drop-down id="filter-account-number-type" style="width: 100px;">
+            <option value="2">Starts With</option>
+            <option value="3">Ends With</option>
+            <option value="4">Contains</option>
+            <option value="5">Exact Match</option>
+        </drop-down>
+        <text-input id="filter-account-number" style="width: 120px;" data-lpignore="true"></text-input>
+    </div>
+
+    <div style="margin-left: 560px; margin-top: 10px;">
+        <push-button id="filter-reset">Reset</push-button>
+        <push-button id="filter-search" style="margin-left: 10px;">Search</push-button>
+    </div>
+
+    <div style="margin-top: 5px;">Vendor Search Results:</div>
+    <hr>
+
+    <div id="vendor-data-grid" style="width: 100%; height: calc(100% - 250px);"></div>
+
+    <div style="text-align: right; margin-top: 10px;">
+        <div id="vendor-count" style="margin-left: 10px; float: left;">Displaying 0 Vendors</div>
+
+        <div>
+            <push-button id="vendor-group-detail" disabled>Group Detail</push-button>
+            <push-button id="vendor-add" style="margin-left: 40px;">Add</push-button>
+            <push-button id="vendor-edit" style="margin-left: 10px;" disabled>Edit</push-button>
+            <push-button id="vendor-delete" style="margin-left: 10px;" disabled>Delete</push-button>
+        </div>
+    </div>
+
+    <div style="clear: both;">&nbsp;</div>
+
+    <popup id="group-detail">
+        <popup-title>
+            <text-label>Vendor Group Details</text-label>
+        </popup-title>
+        <popup-body style="width: 400px; padding: 5px;">
+
+            <div id="gdp-grid" style="width: 100%; height: 200px;"></div>
+
+            <div style="text-align: right; margin-top: 10px; width: 100%;">
+                <push-button id="gdp-add">Add</push-button>
+                <push-button id="gdp-edit" style="margin-left: 10px;" disabled>Edit</push-button>
+                <push-button id="gdp-delete" style="margin-left: 10px; margin-right: 15px;" disabled>Delete</push-button>
+            </div>
+        
+            <div style="text-align: right; margin-top: 10px; width: 100%;">
+                <push-button id="gdp-close" style="margin-left: 10px; margin-right: 15px;">Close</push-button>
+            </div>
+        </popup-body>
+    </popup>
+
+    <popup id="edit-group-detail">
+        <popup-title>
+            <text-label id="egd-title">Add Group Detail</text-label>
+        </popup-title>
+        <popup-body style="padding: 5px;">
+
+            <div class="vert-input2">
+                <span>Organizational Group:</span>
+                <smart-chooser id="egd-org-group" default-option="(choose)" style="width: 200px;" required></smart-chooser>
+                <span>Group Vendor ID:</span>
+                <text-input id="egd-vendor-id" required></text-input>
+            </div>
+        
+            <div style="text-align: right; margin-top: 10px; width: 100%;">
+                <push-button id="egd-ok">Ok</push-button>
+                <push-button id="egd-cancel" style="margin-left: 10px; margin-right: 15px;">Cancel</push-button>
+            </div>
+        </popup-body>
+    </popup>
+
+    <popup id="detail-popup" height="560px">
+        <popup-title>
+            <text-label id="dp-title">Add Vendor</text-label>
+        </popup-title>
+        <popup-body style="padding: 5px">
+            <div id="dp-tab-container" style="margin-top: 10px;">
+                <ul class="tab-header">
+                    <li id="dp-vendor-detail-TabButton" class="active">Vendor Detail</li>
+                    <li id="dp-contact-detail-TabButton">Main Contact Detail</li>
+                    <li id="dp-contact-login-TabButton">Main Contact Login Detail</li>
+                    <li id="dp-edi-detail-TabButton">EDI Detail</li>
+                </ul>
+                
+                <div id="dp-vendor-detail-TabContent" class="tab-content tab-height">
+                    <div style="display: flex; justify-content: space-between;">
+                        <div>
+                            <div class="vert-input2">
+                                <span>Vendor Name:</span>
+                                <text-input id="dp-vendor-name" required maxlength=""></text-input>
+                                <span>Street 1:</span>
+                                <text-input id="dp-street1" maxlength="60"></text-input>
+                                <span>Street 2:</span>
+                                <text-input id="dp-street2" maxlength="60"></text-input>
+                                <span>City:</span>
+                                <text-input id="dp-city"></text-input>
+                                <span>State:</span>
+                                <div>
+                                    <drop-down id="dp-states" style="width: 60px;"></drop-down>
+                                    <span>Zip:</span>
+                                    <text-input id="dp-zip" maxlength="10" style="width: 60px;"></text-input>
+                                </div>
+                                <span>Phone:</span>
+                                <text-input id="dp-phone" maxlength="20" style="width: 60px;"></text-input>
+                                <span>Fax:</span>
+                                <text-input id="dp-fax" maxlength="20" style="width: 60px;"></text-input>
+                            </div>
+                        </div>
+                        <div style="margin-left: 20px;">
+                            <div class="vert-input2">
+                                <span>Vendor ID: </span>
+                                <text-input id="dp-id" style="width: 140px;" maxlength="20"></text-input>
+                                <span>Federal Employer ID:</span>
+                                <text-input id="dp-federal-employer-id"></text-input>
+                                <span>GL Expense Account:</span>
+                                <drop-down id="dp-sales-account"></drop-down>
+                                <span>Billing Rate:</span>
+                                <numeric-input id="dp-billing-rate" style="width: 80px;"></numeric-input>
+                                <span>Account:</span>
+                                <text-input id="dp-account"></text-input>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div id="dp-contact-detail-TabContent" class="tab-content tab-height" hidden>
+                    <div style="display: flex; justify-content: space-between;">
+                        <div>
+                            <div class="vert-input2">
+                                <span>First Name:</span>
+                                <text-input id="dp-contract-first-name" style="width: 180px;"></text-input>
+                                <span>Last Name:</span>
+                                <text-input id="dp-contract-last-name"></text-input>
+                                <span>E-mail:</span>
+                                <text-input id="dp-contract-email"></text-input>
+                            </div>
+                        </div>
+                        <div style="margin-left: 20px;">
+                            <div class="vert-input2">
+                                <span>Job Title:</span>
+                                <text-input id="dp-contract-job-title" style="width: 180px;"></text-input>
+                                <span>Phone:</span>
+                                <text-input id="dp-contract-phone"></text-input>
+                                <span>Fax:</span>
+                                <text-input id="dp-contract-fax"></text-input>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div id="dp-contact-login-TabContent" class="tab-content tab-height" hidden>
+                    <div class="flex-row form-row">
+                        <check-box id="assignLogin" style="margin-right: 25px;">Assign Login</check-box>
+                    </div>
+                    <div class="flex-row form-row">
+                        <label class="login-label-style">Login ID:</label>
+                        <text-input id="loginId" class="login-input-style" disabled required></text-input>
+                        <label class="login-label-style">Screen Group:</label>
+                        <drop-down id="screenGroup" style="width: 140px;" disabled></drop-down>
+                    </div>
+                    <div class="flex-row form-row">
+                        <label class="login-label-style">Password:</label>
+                        <text-input id="password" class="login-input-style" password="true" disabled required></text-input>
+                        <label class="login-label-style" style="width: 170px;">ID:</label>
+                        <text-input id="screenId" readonly class="login-input-style" style="width: 60px;" disabled required></text-input>
+                    </div>
+                    <div class="flex-row form-row">
+                        <label class="login-label-style">Confirm Password:</label>
+                        <text-input id="confirmPassword" class="login-input-style" password="true" disabled></text-input>
+                        <label class="login-label-style">Security Group:</label>
+                        <drop-down id="securityGroup" style="width: 140px;" disabled></drop-down>
+                    </div>
+                    <div class="flex-row form-row" style="margin-top: 10px;">
+                        <label class="login-label-style" style="margin-right: 50px !important;"></label>
+                        <check-box id="showPasswords" disabled>Show Passwords</check-box>
+                        <label class="login-label-style">Login Status:</label>
+                        <radio-button id="loginStatusActive" group="loginStatusGrp" value="true" checked disabled>Active
+                        </radio-button>
+                        <radio-button id="loginStatusInactive" group="loginStatusGrp" value="false" disabled>Inactive
+                        </radio-button>
+                    </div>
+                </div>
+                <div id="dp-edi-detail-TabContent" class="tab-content tab-height" hidden>
+                    <div style="display: flex; justify-content: space-between; margin-bottom: 10px;">
+                        <div>
+                            <div class="vert-input2">
+                                <span>Application Sender ID:</span>
+                                <text-input id="dp-application-sender-id"></text-input>
+                                <span>Application Receiver ID:</span>
+                                <text-input id="dp-application-receiver-id"></text-input>
+                            </div>
+                        </div>
+                        <div>
+                            <div class="vert-input2">
+                                <span>Interchange Sender ID:</span>
+                                <text-input id="dp-interchange-sender-id"></text-input>
+                                <span>Interchange Receiver ID:</span>
+                                <text-input id="dp-interchange-receiver-id"></text-input>
+                            </div>
+                        </div>
+                    </div>
+                    <text-label>Transfer:</text-label>
+                    <hr>
+                    <div class="vert-input2">
+                        <span>Interface:</span>
+                        <div>
+                            <drop-down id="dp-interface" style="width: 230px;"></drop-down>
+                            <span>Username:</span>
+                            <text-input id="dp-user-name" disabled></text-input>
+                        </div>
+                        <span>Scheme:</span>
+                        <div>
+                            <div>
+                                <drop-down id="dp-scheme" style="width: 140px;"></drop-down>
+                                <span style="margin-left: 93px;">Password:</span>
+                                <text-input id="dp-password" disabled></text-input>
+                            </div>
+                        </div>
+                        <span>Host:</span>
+                        <text-input id="dp-host" style="width: 140px;" disabled></text-input>
+                        <span>Port:</span>
+                        <div>
+                            <numeric-input id="dp-port" style="width: 60px;" disabled></numeric-input>
+                            <span style="margin-left: 20px;">Directory:</span>
+                            <text-input id="dp-directory" style="width: 270px;" disabled></text-input>
+                        </div>
+                        <span>Encryption:</span>
+                        <div>
+                            <text-input id="dp-encryption" disabled></text-input>
+                            <push-button id="dp-edit-key" disabled>Edit Key</push-button>
+                        </div>
+                        <span>Transmission Active:</span>
+                        <div>
+                            <radio-button  group="dp-transmission-active" value="Y"style="margin-top: 5px;">Yes</radio-button>
+                            <span style="margin-left: 60px;">Day(s) to Transmit:</span>
+                            <check-box id="dp-sunday">Sunday</check-box>
+                            <check-box id="dp-thursday">Thursday</check-box>
+                        </div>
+                        <span></span>
+                        <div>
+                            <radio-button group="dp-transmission-active" value="N" checked>No</radio-button>
+                            <check-box id="dp-monday" style="margin-left: 167px">Monday</check-box>
+                            <check-box id="dp-friday">Friday</check-box>
+                        </div>
+                        <span>Interface Status:</span>
+                        <div>
+                            <radio-button  group="dp-interface-status" value="P" style="margin-top: 5px;">Production</radio-button>
+                            <check-box id="dp-tuesday" style="margin-left: 129px">Tuesday</check-box>
+                            <check-box id="dp-saturday">Saturday</check-box>
+                        </div>
+                        <span></span>
+                        <div>
+                            <radio-button group="dp-interface-status" value="T" checked>Test</radio-button>
+                            <check-box id="dp-wednesday" style="margin-left: 161px">Wednesday</check-box>
+                        </div>
+                        <span>File Type:</span>
+                        <radio-button group="dp-transmission-type" value="F" checked style="margin-top: 5px;">Full</radio-button>
+                        <span></span>
+                        <div>
+                            <radio-button group="dp-transmission-type" value="C" style="margin-top: 5px;">Change</radio-button>
+                            <span style="margin-left: 50px;">Time to Transmit:</span>
+                            <date-input id="dp-time-to-transmit" style="width: 110px;" disabled></date-input>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div style="text-align: right; margin-top: 10px; width: 100%;">
+                <push-button id="dp-ok">Ok</push-button>
+                <push-button id="dp-cancel" style="margin-left: 10px; margin-right: 15px;">Cancel</push-button>
+            </div>
+        </popup-body>
+    </popup>
+
+    <popup id="edit-public-key">
+        <popup-title>
+            <text-label>Edit Receiver's Public Key</text-label>
+        </popup-title>
+        <popup-body style="width: 350px; padding: 5px;">
+            <div class="vert-input2">
+                <span>Public Key ID(Hexadecimal):</span>
+                <text-input id="epk-key-id" required></text-input>
+            </div>
+            <div style="margin-left: 10px;">
+                <text-label>Public Key Text:</text-label>
+                <textbox-input id="epk-key-text" required style="margin-top: 5px; width: 90%; height: 200px;"></textbox-input>
+            </div>
+            <div style="text-align: right; margin-top: 10px; width: 100%;">
+                <push-button id="epk-ok">Ok</push-button>
+                <push-button id="epk-cancel" style="margin-left: 10px; margin-right: 15px;">Cancel</push-button>
+            </div>
+        </popup-body>
+    </popup>
+</div>

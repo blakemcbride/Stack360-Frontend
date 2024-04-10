@@ -1,0 +1,156 @@
+<!--
+     Copyright 2020 STACK360 LLC
+     All rights reserved.
+
+-->
+
+<div class="kiss">
+    <style>
+        #torr-popup-grid {
+            display: grid;
+            grid-template-columns: max-content max-content max-content max-content;
+            grid-column-gap: 10px;
+            grid-row-gap: 5px;
+            margin-bottom: 10px;
+        }
+        #torr-popup-grid span {
+            color: #000;
+            align-self: center;
+            text-align: right;
+        }
+        #eventGrid {
+            overflow-x: scroll;
+            margin-top: 10px;
+            max-width: calc(100vw - 195px);
+        }
+        #eventGrid > .ag-root-wrapper {
+            width: 2000px;
+        }
+        #eventGrid.ag-theme-balham .ag-cell {
+            padding: 0;
+        }
+        #viewResults {
+            height: calc(100% - 85px);
+        }
+    </style>
+    <div style="margin-top: 10px; margin-bottom: 10px;">
+        <span>Requested Time Off:</span>
+        <hr>
+    </div>
+
+    <div style="margin-bottom: 10px; margin-top: 10px; height: 10px;">
+        <div style="float: right;">
+            <span style="margin-left: 20px;">Include Approved (Not Yet Entered) Requests</span>
+            <check-box id="torr-include" style="vertical-align: text-top; margin-left: 10px;"></check-box>
+        </div>
+    </div>
+
+    <div id="requestsGrid" style="width: 100%; height: calc( 50% - 85px ); margin-bottom: 10px;"></div>
+
+    <div style="margin-bottom: 10px;">
+        <text-label id="status">Displaying 0 Requests</text-label>
+        <div style="float: right; height: 10px;">
+            <push-button id="mark-entered" style="display: none;" disabled>Mark Entered</push-button>
+            <push-button id="approve" style="margin-left: 10px;" disabled>Approve</push-button>
+            <push-button id="reject" style="margin-left: 10px;" disabled>Reject</push-button>
+            <push-button id="view" style="margin-left: 10px;" disabled>View</push-button>
+            <push-button id="report" style="margin-left: 10px;">Report</push-button>
+        </div>
+    </div>
+
+    <hr style="margin-top: 25px;">
+
+    <div>
+        <span style="vertical-align: middle; margin-right: 10px;">Date:</span>
+        <native-date-input id="torr-event_day" style="width: 110px; vertical-align: middle; margin-right: 10px;"></native-date-input>
+        <push-button id="torr-prev_day" style="vertical-align: middle; margin-right: 10px;">&lt;</push-button>
+        <push-button id="torr-next_day" style="vertical-align: middle;">&gt;</push-button>
+
+        <span style="float: right; margin-top: 10px;">Showing All Employees with Time Off Requests on this Date</span>
+    </div>
+
+    <div id="eventGrid" style="width: 100%; height: calc(50% - 85px); margin-bottom: 10px;"></div>
+
+    <popup id="torr-popup" width="350px" height="260px">
+        <popup-title>
+            <text-label id="torr-title"></text-label>
+        </popup-title>
+        <popup-body id="torr-body">
+            <span>Reviewer Comments:</span>
+            <hr>
+            <textbox-input maxlength="300" id="torr-comment_review" style="width: 100%; height: calc(100% - 75px); margin-top: 10px; box-sizing: border-box;"></textbox-input>
+
+            <div style="margin-top: 10px; text-align: right;">
+                <push-button id="torr-approve" style="margin-right: 10px;">Approve</push-button>
+                <push-button id="torr-cancel">Close</push-button>
+            </div>
+        </popup-body>
+    </popup>
+
+    <popup id="torr-veiw_popup" width="570px" height="500px">
+        <popup-title>
+            <text-label id="torr-view_title">View Time Off Request</text-label>
+        </popup-title>
+        <popup-body id="torr-view_body">
+            <div id="torr-popup-grid">
+                <span>Requestor:</span>
+                <text-input size="40" disabled id="torr_view-requestor" style="width: 200px;"></text-input>
+
+                <span>Requested On:</span>
+                <date-input disabled id="torr_view-on" style="width: 60px; vertical-align: middle;"></date-input>
+
+                <span>Time Off Type (Project): </span>
+                <text-input size="40" disabled id="torr_view-tot" style="width: 200px;" disabled></text-input>
+
+                <span>Status:</span>
+                <text-input size="40" disabled id="torr_view-status" style="width: 100px;" disabled></text-input>
+
+                <span>Requested First Day Off:</span>
+                <date-input disabled id="torr_view-firstDay" style="width: 60px; vertical-align: middle;"></date-input>
+
+                <span>Starting Time:</span>
+                <time-input maxLength="10" id="torr_view-startTime" style="width: 100px;" disabled></time-input>
+
+                <span>Requested Last Day Off:</span>
+                <date-input disabled id="torr_view-lastDay" style="width: 60px; vertical-align: middle;"></date-input>
+
+                <span>Ending Time:</span>
+                <time-input maxLength="10" id="torr_view-endTime" style="width: 100px;" disabled></time-input>
+            </div>
+
+            <span>Requestor Comments:</span>
+            <hr>
+            <textbox-input disabled maxlength="300" id="torr_view-comment_request" style="width: 100%; height: calc(100% - 375px); margin-bottom: 10px; margin-top: 10px; box-sizing: border-box;"></textbox-input>
+            
+            <span>Reviewer Comments:</span>
+            <hr>
+            <textbox-input maxlength="300" id="torr_view-comment_review" style="width: 100%; height: calc(100% - 375px); margin-top: 10px; box-sizing: border-box;"></textbox-input>
+
+            <div style="margin-top: 10px; display: flex;">
+                <push-button id="torr_view-view" style="margin-left: 0;">View Accrued</push-button>
+                <push-button id="torr_view-mark-entered" style="display: none; margin: auto;" disabled>Mark Entered</push-button>
+                <push-button id="torr_view-approve" style="margin-left: auto; margin-right: 5px;">Approve</push-button>
+                <push-button id="torr_view-reject" style="margin-right: auto; margin-left: 5px;">Reject</push-button>
+                <push-button id="torr_view-cancel">Close</push-button>
+            </div>
+        </popup-body>
+    </popup>
+
+    <popup id="torr-veiw-accured_popup" width="290px" height="280px">
+        <popup-title>
+            <text-label id="torr-veiw-accured_title"></text-label>
+        </popup-title>
+        <popup-body id="torr-veiw-accured-body">
+            <div id="viewResults"></div>
+
+            <text-label id="torr-veiw-accured_status" style="margin-top: 10px; display: block;">
+                Those totals include only Entered Time Off Requests. Time Off Requests That are Approved but not yet Entered 
+                are not reflected in these totals.
+            </text-label>
+
+            <div style="margin-top: 10px; text-align: right;">
+                <push-button id="torr-veiw-accured_cancel">Close</push-button>
+            </div>
+        </popup-body>
+    </popup>
+</div>

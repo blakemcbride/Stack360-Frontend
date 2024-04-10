@@ -1,0 +1,242 @@
+
+<!--
+     Copyright 2020 STACK360 LLC
+     All rights reserved.
+
+-->
+
+
+<div class="kiss">
+
+    <style>
+        #project-parent-screen {
+            display:grid;
+            grid-template-columns: 60px 100px 320px 75px 240px 65px 240px;
+            grid-column-gap: 5px;
+            grid-row-gap: 5px;
+            margin-top: 10px;
+            margin-left: 10px;
+        }
+        #project-parent-screen span       { text-align:right; margin-top: 6px; }
+
+        #project-parent-screen .span67 { grid-column: 6/8 }
+
+        #add-project-popup-grid {
+            display: grid;
+            grid-template-columns: 80px 510px;
+            grid-column-gap: 5px;
+            grid-row-gap: 5px;
+            margin-top: 10px;
+            margin-left: 10px;
+        }
+        #add-project-popup-grid span       { text-align:right; margin-top: 6px; }
+
+        .eyeball-spacing {
+            margin-top: 10px;
+        }
+
+    </style>
+
+
+    <div style="margin-top: 10px;">
+        <span>Recently Selected Projects:</span>
+    </div>
+    <hr width="800px" style="margin-left: 0;">
+    <label for="recent-projects" style="margin-left: 30px;">Project:</label>
+    <drop-down id="recent-projects" style="width: 680px;"></drop-down>
+    <push-button id="edit-previous-project">Edit</push-button>
+    <br>
+
+    <div style="margin-top: 10px;">
+        <span>Project Search Criteria:</span>
+    </div>
+    <hr width="1030px" style="margin-left: 0;">
+
+    <div id="project-parent-screen">
+        <span>Summary:</span>
+        <drop-down id="summary-select-type">
+            <option value="2">Starts With</option>
+            <option value="3">Ends With</option>
+            <option value="4" selected>Contains</option>
+            <option value="5">Exact Match</option>
+        </drop-down>
+        <text-input id="summary-search"></text-input>
+        <span>Client:</span>
+        <smart-chooser id="client-select" style="width: 205px;"></smart-chooser>
+
+        <div class="span67" style="margin-left: 40px; margin-top: 5px;">
+            <radio-button group="date-type" value="A" checked>Active</radio-button>
+            <radio-button group="date-type" value="S">Start</radio-button>
+        </div>
+
+        <span>ID:</span>
+        <drop-down id="id-select-type">
+            <option value="2">Starts With</option>
+            <option value="3">Ends With</option>
+            <option value="4">Contains</option>
+            <option value="5" selected>Exact Match</option>
+        </drop-down>
+        <div>
+            <text-input id="id-search" style="width: 100px;"></text-input>
+            <span style="margin-left: 10px;">Sort:</span>
+            <radio-button group="sort-type" value="F" checked>First Date</radio-button>
+            <radio-button group="sort-type" value="L">Last Date</radio-button>
+        </div>
+
+        <!--
+        <span>Category:</span>
+        <drop-down id="category-select" style="width: 205px;"></drop-down>
+        -->
+        <span>Sub-Type:</span>
+        <drop-down id="subtype-select" style="width: 205px;"></drop-down>
+
+
+        <span>From:</span>
+        <native-date-input id="from-date" style="width: 110px;"></native-date-input>
+
+
+        <span>Reference:</span>
+        <drop-down id="reference-select-type">
+            <option value="2" selected>Starts With</option>
+            <option value="3">Ends With</option>
+            <option value="4">Contains</option>
+            <option value="5">Exact Match</option>
+        </drop-down>
+        <text-input id="reference-search" style="width: 100px;"></text-input>
+
+        <!--
+        <span>Type:</span>
+        <drop-down id="type-select" style="width: 205px;"></drop-down>
+        -->
+        <span></span>
+        <span style="width: 205px;"></span>
+
+        <span>To:</span>
+        <native-date-input id="to-date" style="width: 110px;"></native-date-input>
+
+    </div>
+
+    <div style="margin-top: 8px;">
+        <span style="margin-left: 36px;">Status:</span>
+        <radio-button group="status-type" value="1" checked>Active</radio-button>
+        <radio-button group="status-type" value="2">Inactive</radio-button>
+        <radio-button group="status-type" value="0">Any</radio-button>
+        <radio-button group="status-type" value="3">Specific:</radio-button>
+        <drop-down id="status-select" style="width: 253px;" disabled></drop-down>
+
+        <span style="margin-left: 246px;">Work Date:</span>
+        <native-date-input id="work-date" style="width: 110px;"></native-date-input>
+    </div>
+
+    <div style="margin-top: -10px;">
+        <push-button id="reset" style="margin-left:670px;">Reset</push-button>
+        <push-button id="search">Search</push-button>
+    </div>
+
+    <div style="margin-top: -5px;">
+        <span>Project Search Results:</span>
+        <hr style="margin-left: 0;">
+    </div>
+
+    <div id="project-grid" style="width: 100%; height: calc(100% - 300px);"></div>
+
+    <text-label id="info" style="position: absolute; bottom: 23px; left: 20px;"></text-label>
+    <div style="position: absolute; bottom: 10px; right: 10px;">
+        <push-button id="export-list">Export List</push-button>
+        <push-button id="add-project">Add Project</push-button>
+        <push-button id="add-sub-project">Add Sub-Project</push-button>
+        <push-button id="edit">Edit</push-button>
+        <push-button id="delete" disabled>Delete</push-button>
+        <push-button id="report">Report</push-button>
+    </div>
+
+    <popup id="add-project-popup" height="440px" width="650px">
+        <popup-title><text-label id="add-project-title"></text-label></popup-title>
+        <popup-body>
+            <div id="add-project-popup-grid">
+                <span>* Summary:</span>
+                <text-input id="add-project-summary" disabled></text-input>
+
+                <span>* Client:</span>
+                <smart-chooser id="add-project-client" style="width: 300px;" required></smart-chooser>
+
+                <span>* Retailer:</span>
+                <text-input id="add-project-retailer" minlength="2" maxlength="14" style="width: 150px;" required></text-input>
+
+                <span>* Store Number:</span>
+                <div>
+                    <text-input id="add-project-store" minlength="2" maxlength="8" size="8" upcase required></text-input>
+                    <span style="margin-left: 20px;">* Shift:</span>
+                    <text-input id="add-project-shift" minlength="2" maxlength="3" size="3" upcase required></text-input>
+                </div>
+
+                <span>* City:</span>
+                <div>
+                    <text-input id="add-project-city" minlength="2" maxlength="60" width="300px;" required></text-input>
+                    <span style="margin-left: 20px;">* State:</span>
+                    <text-input id="add-project-state" minlength="2" maxlength="2" upcase size="2" required></text-input>
+                    <span style="margin-left: 20px;">* Zip:</span>
+                    <text-input id="add-project-zipcode" minlength="5" maxlength="10" upcase size="12" required></text-input>
+                </div>
+
+                <span>* Category:</span>
+                <drop-down id="add-project-category" style=" width: 300px;" required></drop-down>
+
+                <span>* Type:</span>
+                <drop-down id="add-project-type" style="width: 300px;" required></drop-down>
+
+                <span>* Sub-type:</span>
+                <drop-down id="add-project-subtype" style="width: 300px;" required></drop-down>
+
+                <span>Detail:</span>
+                <textbox-input id="add-project-detail" style="height: 100px;"></textbox-input>
+
+                <span></span>
+                <check-box id="add-project-open-project" checked>Open Project detail when this pop-up closes</check-box>
+            </div>
+
+            <div style="right: 10px; bottom: 10px; position: absolute;">
+                <push-button id="add-project-ok">Ok</push-button>
+                <push-button id="add-project-cancel">Cancel</push-button>
+            </div>
+        </popup-body>
+    </popup>
+
+    <popup id="project-info-popup" height="370px" width="525px">
+        <popup-title>Project Information</popup-title>
+        <popup-body>
+            <div>
+                <span style="font-weight:bold;">Project ID:</span>
+                <text-label id="project-info-project-id"></text-label>
+            </div>
+            <div class="eyeball-spacing">
+                <span style="font-weight:bold;">Project Summary:</span>
+                <text-label id="project-info-summary"></text-label>
+            </div>
+            <div class="eyeball-spacing">
+                <span style="font-weight:bold;">Requesting Person:</span>
+                <text-label id="project-info-requesting-person"></text-label>
+            </div>
+            <div class="eyeball-spacing">
+                <span style="font-weight:bold;">Status:</span>
+                <text-label id="project-info-status"></text-label>
+            </div>
+            <div class="eyeball-spacing">
+                <span style="font-weight:bold;">Site Manager:</span>
+                <text-label id="project-info-site-manager"></text-label>
+            </div>
+            <div class="eyeball-spacing">
+                <span style="font-weight:bold;">Manager Phone:</span>
+                <text-label id="project-info-manager-phone"></text-label>
+            </div>
+            <div class="eyeball-spacing">
+                <span style="font-weight:bold;">Project Detail:</span><br>
+                <textbox-input id="project-info-details" style="height: 175px; width: 495px;" disabled></textbox-input>
+            </div>
+            <div style="right: 10px; bottom: 10px; position: absolute;">
+                <push-button id="project-info-ok">Ok</push-button>
+            </div>
+        </popup-body>
+    </popup>
+
+</div>

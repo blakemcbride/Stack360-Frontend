@@ -1,0 +1,35 @@
+<!--
+     Copyright 2020 STACK360 LLC
+     All rights reserved.
+
+-->
+
+<div class="kiss">
+
+    <div style="margin-top: 10px;">
+        <span>Worker Hours:</span>
+        <text-label id="project-info" style="float: right;" maxlength="80" required></text-label>
+    </div>
+    <hr style="margin-left: 0;">
+
+    <div style="margin-top: 10px;">
+        <span>Date:</span>
+        <native-date-input id="date" style="width: 110px;"></native-date-input>
+        <check-box id="only-zero" style="margin-left: 200px;">Show only zero hour projects</check-box>
+    </div>
+
+    <div id="grid" style="margin-top: 10px; width: 100%; height: calc(100% - 115px);"></div>
+
+
+    <div style="position: absolute; bottom: 10px; width: 100%;">
+        <span style="margin-left: 30px;">Number Of Workers:</span>
+        <numeric-input id="assigned-workers" style="width: 40px;" show-zero disabled></numeric-input>
+        <span style="margin-left: 40px;">Workers with hours:</span>
+        <numeric-input id="workers-with-hours" style="width: 40px;" show-zero disabled></numeric-input>
+        <span style="margin-left: 40px;">Workers without hours:</span>
+        <numeric-input id="workers-without-hours" style="width: 40px;" show-zero disabled></numeric-input>
+        <span style="margin-left: 40px;">Total man-hours worked:</span>
+        <numeric-input id="total-hours-worked" style="width: 50px;" decimal-places="2" show-zero disabled></numeric-input>
+    </div>
+
+</div>

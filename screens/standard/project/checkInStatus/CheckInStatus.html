@@ -1,0 +1,200 @@
+<!--
+     Copyright 2020 STACK360 LLC
+     All rights reserved.
+
+-->
+
+<div class="kiss">
+
+    <style>
+        .drop-down-width {
+            width: 220px;
+        }
+
+        .space-between {
+            margin-left: 30px;
+        }
+
+        .filter-form-row > * {
+            margin-right: 8px !important;
+        }
+
+        .btn-bar:last-child {
+            margin-right: 5px;
+        }
+
+        div.vert-input2 {
+            display: grid;
+            grid-template-columns: max-content max-content;
+            grid-column-gap: 5px;
+            grid-row-gap: 10px;
+            margin-top: 10px;
+            margin-left: 10px;
+        }
+
+        div.vert-input2 span {
+            text-align: right;
+            margin-top: 5px;
+        }
+    </style>
+
+
+    <div style="margin-top: 10px;">Check In Status</div>
+    <hr>
+
+    <div style="margin-top: 10px;">
+        <span>Project:</span>
+        <smart-chooser id="project" style="width: 270px;"></smart-chooser>
+        <span class="space-between">Worker:</span>
+        <smart-chooser id="worker" class="drop-down-width"></smart-chooser>
+
+        <radio-button group="checked-in" value="A" style="margin-left: 20px;" checked>All</radio-button>
+        <radio-button group="checked-in" value="Y">Checked in</radio-button>
+        <radio-button group="checked-in" value="N">Not checked in</radio-button>
+
+        <push-button id="reset" class="space-between">Reset</push-button>
+        <push-button id="search" style="margin-left: 10px;">Search</push-button>
+        <span style="margin-left: 100px;">All times in</span>
+        <text-label id="timezone"></text-label>
+    </div>
+
+    <div id="grid" style="margin-top: 10px; width: 100%; height: calc(100% - 135px);"></div>
+
+    <div style="margin-top: 10px; margin-left: 10px;">
+        * = manual check in
+    </div>
+
+    <div style="margin-top: 15px;">
+        <span style="margin-left: 40px;">Projects:</span>
+        <numeric-input id="number-of-projects" style="width: 40px;" show-zero disable></numeric-input>
+        <span style="margin-left: 20px;">Workers:</span>
+        <numeric-input id="number-of-workers" style="width: 40px;" show-zero disable></numeric-input>
+        <span style="margin-left: 20px;">Checked in:</span>
+        <numeric-input id="number-of-workers-checked-in" style="width: 40px;" show-zero disable></numeric-input>
+        <span style="margin-left: 20px;">Not checked in:</span>
+        <numeric-input id="number-of-workers-not-checked-in" style="width: 40px;" show-zero disable></numeric-input>
+
+        <push-button id="manual-checkin" style="margin-left: 100px;" disabled>Manual Check-in</push-button>
+        <push-button id="view-manual-checkin" style="margin-left: 20px;" disabled>View Manual Check-in</push-button>
+        <push-button id="message" style="margin-left: 20px;" disabled>Message</push-button>
+    </div>
+
+    <popup id="checkin-popup" height="240px" width="400px">
+        <popup-title>Manual Check In</popup-title>
+        <popup-body>
+            <div style="margin-top: 10px;">
+                Worker:
+                <text-label id="cp-worker"></text-label>
+            </div>
+            <div style="margin-top: 10px;">
+                Project:
+                <text-label id="cp-project"></text-label>
+            </div>
+            <div style="margin-top: 10px;">
+                Notes:
+            </div>
+            <div>
+                <textbox-input id="cp-notes" style="width: 370px; height: 100px;"></textbox-input>
+            </div>
+            <div style="position: absolute; bottom: 20px; right: 20px;">
+                <push-button id="cp-cancel">Cancel</push-button>
+                <push-button id="cp-ok" style="margin-left: 10px;">Ok</push-button>
+            </div>
+        </popup-body>
+    </popup>
+
+    <popup id="view-checkin-popup" height="285px" width="400px">
+        <popup-title>Manual Check In</popup-title>
+        <popup-body>
+            <div style="margin-top: 10px;">
+                Worker:
+                <text-label id="vcp-worker"></text-label>
+            </div>
+            <div style="margin-top: 10px;">
+                Project:
+                <text-label id="vcp-project"></text-label>
+            </div>
+            <div style="margin-top: 10px;">
+                Checked in by:
+                <text-label id="vcp-supervisor"></text-label>
+            </div>
+            <div style="margin-top: 10px;">
+                Date checked in:
+                <text-label id="vcp-check-in-time"></text-label>
+            </div>
+            <div style="margin-top: 10px;" disabled>
+                Notes:
+            </div>
+            <div>
+                <textbox-input id="vcp-notes" style="width: 370px; height: 100px;" disabled></textbox-input>
+            </div>
+            <div style="position: absolute; bottom: 20px; right: 20px;">
+                <push-button id="vcp-ok" style="margin-left: 10px;">Ok</push-button>
+            </div>
+        </popup-body>
+    </popup>
+
+    <popup id="message-popup" width="1000px" height="530px">
+        <popup-title>
+            <text-label id="messageModalTitle"></text-label>
+        </popup-title>
+        <popup-body>
+            <div class="vert-input2">
+                <span>From:</span>
+                <div>
+                    <text-input id="messageSender" style="width: 275px" disabled></text-input>
+                    <!-- <check-box id="messageInternalCB" style="margin-left: 15px;" checked disabled>Internal</check-box> -->
+                    <check-box id="messageEmailCB" style="margin-left: 15px;">Email</check-box>
+                    <check-box id="messageTextCB" style="margin-left: 15px;">Text</check-box>
+                </div>
+
+                <span>To:</span>
+                <div>
+                    <text-input id="messageReceiver" style="width: 910px" required disabled></text-input>
+                    <!-- <push-button id="chooseReceiver" class="btn-primary">Choose</push-button> -->
+                </div>
+<!--
+                <span>Cc:</span>
+                <div>
+                    <text-input id="messageCC" style="width: 840px" disabled></text-input>
+                    <push-button id="chooseCC" class="btn-primary">Choose</push-button>
+                </div>
+
+                <span>Bcc:</span>
+                <div>
+                    <text-input id="messageBCC" style="width: 840px" disabled></text-input>
+                    <push-button id="chooseBCC" class="btn-primary">Choose</push-button>
+                </div>
+-->
+                <span>Subject:</span>
+                <text-input id="messageSubject" maxlength="80" style="width: 910px" required></text-input>
+
+                <span>Message:</span>
+                <div id="messageText" style="width: 918px; margin-left: 1px; margin-top: -5px; height: 367px;"></div>
+            </div>
+            <div class="modal-footer btn-bar">
+                <!--
+                <text-label id="messageHasAttachments" style="margin-right: 30px; margin-top: 5px;" hidden>Has Attachments</text-label>
+                <push-button id="attachments" class="btn-primary" style="margin-left: 63px;">Attachments</push-button>
+                -->
+                <push-button id="messageOK" class="btn-primary">Send</push-button>
+                <push-button id="messageCancel" class="btn-primary" style="margin-right: 15px;">Cancel</push-button>
+            </div>
+        </popup-body>
+    </popup>
+
+    <popup id="missing-popup" height="305px" width="280px">
+        <popup-title><text-label id="missingTitle"></text-label></popup-title>
+        <popup-body>
+            <div style="margin: 10px 0 10px 0;"><text-label id="missingText"></text-label></div>
+            <div><list-box id="missing-list" style="width: 160px; height: 200px;" disabled></list-box></div>
+            <div><text-label id="missingFooter"></text-label></div>
+            <div style="margin: 10px 0 10px 0;">Do wish to continue anyway?</div>
+            <div>
+                <push-button id="missingOK" class="btn-primary">Yes</push-button>
+                <push-button id="missingCancel" class="btn-primary" style="margin-left: 15px;">No</push-button>
+            </div>
+        </popup-body>
+    </popup>
+
+</div>

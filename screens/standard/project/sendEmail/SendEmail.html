@@ -1,0 +1,51 @@
+<!--
+     Copyright 2020 STACK360 LLC
+     All rights reserved.
+
+-->
+
+<div class="kiss" style="font-size: medium;">
+
+    <h2 style="margin-left: 210px;">Send Email To Workers Assigned To Project</h2>
+
+    <span id="project-description" style="margin-left: 10px;"></span>
+
+    <style>
+        #x36a3b226-4fef-40d0-9562-c98f7f34c579 {
+            display:grid;
+            grid-template-columns: 300px 570px;
+            grid-column-gap: 5px;
+            grid-row-gap: 10px;
+            margin-top: 10px;
+            margin-left: 10px;
+        }
+    </style>
+
+    <div id="x36a3b226-4fef-40d0-9562-c98f7f34c579" style="margin-top: 30px;">
+
+        <span>Workers (* = missing email)</span>
+        <text-input id="title" style="width: 570px;" required>Email title</text-input>
+
+        <list-box id="workers" size="14" style="width: 250px; font-size: medium;" disabled></list-box>
+        <textbox-input id="detail" style="width: 565px;" placeholder="Message Detail" required></textbox-input>
+
+        <div style="height: 20px;"></div>
+        <div></div>
+
+        <div>
+            <span>Shift:</span>
+            <drop-down id="shift" style="width: 100px;"></drop-down>
+        </div>
+        <div>
+            <file-upload id="select-file" multiple></file-upload>
+            <push-button id="send" style="margin-left: 100px;">Send</push-button>
+        </div>
+    </div>
+
+
+    <div style="margin-top: 20px; margin-left: 350px;">
+
+    </div>
+
+
+</div>

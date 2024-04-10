@@ -1,0 +1,41 @@
+<!--
+     Copyright 2020 STACK360 LLC
+     All rights reserved.
+
+-->
+
+<div class="kiss">
+    <style>
+        .rg-grid {
+            display: grid;
+            grid-column-gap: 10px;
+            grid-row-gap: 10px;
+            align-items: center;
+            grid-template-columns: max-content 200px max-content;
+        }
+        .rg-grid span {
+            color: #000;
+            align-self: center;
+            text-align: right;
+        }
+    </style>
+
+    <div class="rg-grid" style="margin-top: 10px;">
+        <span>Report Title:</span>
+        <text-input id="rg-title"></text-input> 
+        <div style="grid-row: 1 / 4; grid-column: 3 / 4; align-self: baseline;">
+            <radio-button group="rg-orientation" value="P" style="margin-bottom: 10px;" align-vertical checked>Portrait</radio-button>
+            <radio-button group="rg-orientation" value="L" align-vertical>Landscape</radio-button>
+        </div>
+
+        <span>Report Name:</span>
+        <text-input id="rg-name"></text-input> 
+
+        <span>Report Body:</span>
+        <textbox-input id="rg-body" style="height: 300px; box-sizing: border-box;"></textbox-input>
+    </div>
+
+    <div style="position: absolute; right: 10px; bottom: 10px; text-align: right;">
+        <push-button id="generate">Generate</push-button>
+    </div>
+</div>

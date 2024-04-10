@@ -1,0 +1,116 @@
+<!--
+     Copyright 2020 STACK360 LLC
+     All rights reserved.
+
+-->
+
+<div class="kiss">
+    <style>
+        .drp-grid {
+            display: grid;
+            grid-column-gap: 10px;
+            grid-row-gap: 10px;
+            align-items: center;
+        }
+        .drp-grid span {
+            color: #000;
+            align-self: center;
+            text-align: right;
+        }
+    </style>
+
+    <div style="margin-top: 10px; margin-bottom: 10px;">
+        <span>Dynamic Report Selection</span>
+        <hr>
+    </div>
+
+    <div class="drp-grid" style="grid-template-columns: max-content repeat(2, 100px);">
+        <span>Report Type:</span>
+        <drop-down id="drp-reportType" style="grid-column: 2 / 4;" default-option="(select)">
+            <option value="0">(select)</option>
+            <option value="1">Benefit Enrollment</option>
+        </drop-down>
+
+        <span>Report Name:</span>
+        <drop-down id="drp-reportName-criteria"></drop-down>
+        <text-input id="drp-reportName"></text-input>    
+
+        <div style="text-align: right; grid-column: 1 / 4;">
+            <push-button id="search">Search</push-button>
+        </div>
+    </div>
+
+    <div>
+        <span>Search Results</span>
+        <hr>
+    </div>
+    
+    <div id="reportsGrid" style="height: calc(100% - 210px); width: 100%; margin-top: 10px; margin-bottom: 20px;"></div>
+
+    <text-label id="drp-reportsCount">Displaying 0 Dynamic Reports</text-label>
+
+    <div style="position: absolute; right: 10px; bottom: 10px; text-align: right;">
+        <push-button id="report" style="margin-right: 10px;" disabled>Report</push-button>
+        <push-button id="export" style="margin-right: 50px;" disabled>Export</push-button>
+
+        <push-button id="add" style="margin-right: 10px;">Add</push-button>
+        <push-button id="clone" style="margin-right: 10px;" disabled>Clone</push-button>
+        <push-button id="edit" style="margin-right: 10px;" disabled>Edit</push-button>
+        <push-button id="delete" disabled>Delete </push-button>
+    </div>
+
+    <popup id="copy-report-popup" height="100px" width="280px">
+        <popup-title>Copy Dynamic Report</popup-title>
+        <popup-body>
+            <span>New Report Name:</span>
+            <text-input id="drp-copyReportName"></text-input>    
+            
+            <div style="right: 10px; bottom: 10px; position: absolute;">
+                <push-button id="drp-copy-report-ok">Ok</push-button>
+                <push-button id="drp-copy-report-cancel">Cancel</push-button>
+            </div>
+        </popup-body>
+    </popup>
+
+    <popup id="new-report-popup" width="500px" height="350px">
+        <popup-title>
+            <span>New Dynamic Report</span>
+        </popup-title>
+        <popup-body style="padding: 10px;">            
+            <div class="drp-grid" style="grid-template-columns: repeat(5, max-content);">
+                <span>Report Name</span>
+                <text-input id="drp-newReportName" style="grid-column: 2 / 6; width: 200px;" required></text-input>    
+
+                <span>Report Type:</span>
+                <drop-down id="drp-newReportType" style="grid-column: 2 / 6;" default-option="(select)" required>
+                    <option value="0">(select)</option>
+                    <option value="1">Benefit Enrollment</option>
+                </drop-down>
+
+                <span>Description:</span>
+                <textbox-input id="drp-newDescription" style="height: 70px; box-sizing: border-box; grid-column: 2 / 6;" required></textbox-input>
+
+                <span style="grid-row: 4 / 7; grid-column: 1 / 2; align-self: baseline;">Page Orientation:</span>
+                <div style="grid-row: 4 / 7; grid-column: 2 / 3; align-self: baseline;">
+                    <radio-button group="drp-orientation" value="P" style="margin-bottom: 10px;" align-vertical checked>Portrait</radio-button>
+                    <radio-button group="drp-orientation" value="L" align-vertical>Landscape</radio-button>
+                </div>
+
+                <span>Page Offset Left:</span>
+                <numeric-input id="drp-offsetLeft" decimal-places="2" style="width: 50px;" required></numeric-input>
+                <span>(inches)</span>
+
+                <span>Page Offset Top:</span>
+                <numeric-input id="drp-offsetTop" decimal-places="2" style="width: 50px;" required></numeric-input>
+                <span>(inches)</span>
+
+                <span>Default Font Size:</span>
+                <numeric-input id="drp-fontSize" style="width: 50px;" required></numeric-input>
+            </div>
+            <div style="right: 10px; bottom: 10px; position: absolute;">
+                <push-button id="drp-add-ok" enable>OK</push-button>
+                <push-button id="drp-add-cancel" style="margin-left: 10px;">Cancel</push-button>
+            </div>
+        </popup-body>
+    </popup>
+</div>

@@ -1,0 +1,84 @@
+<!--
+     Copyright 2020 STACK360 LLC
+     All rights reserved.
+
+-->
+
+<div class="kiss">
+
+    <style>
+        div.vert-input2 {
+            display: grid;
+            grid-template-columns: max-content max-content;
+            grid-column-gap: 5px;
+            grid-row-gap: 10px;
+            margin-top: 10px;
+            margin-left: 10px;
+        }
+
+        div.vert-input2 span {
+            text-align: right;
+            margin-top: 6px;
+        }
+    </style>
+
+    <div style="margin-top: 10px;">
+        <span>Worker Current Assignments:</span>
+        <text-label id="worker-name" style="float: right;"></text-label>
+    </div>
+    <hr style="margin-left: 0;">
+    <div id="grid" style="width: 100%; height: calc(100% - 90px);"></div>
+
+    <text-label id="status" style="position: absolute; bottom: 25px; left: 20px;">STATUS</text-label>
+    <div style="position: absolute; bottom: 15px; right: 10px;">
+        <push-button id="move" disabled>Move</push-button>
+        <push-button id="start-date" style="margin-left: 10px;" disabled>Start Date</push-button>
+        <push-button id="remove" style="margin-left: 10px;" disabled>Remove</push-button>
+        <push-button id="add" style="margin-left: 10px;">Add</push-button>
+    </div>
+
+    <popup id="assignment-popup" height="130px" width="400px">
+        <popup-title><text-label id="ap-title"></text-label></popup-title>
+        <popup-body>
+            <div>Choose Project:</div>
+            <div style="margin-top: 10px;">
+                <smart-chooser id="ap-project" style="width: 357px;" required></smart-chooser>
+            </div>
+            <div style="margin-top: 10px;">
+                <span>Worker Start Date (if different from project start date):</span>
+                <native-date-input id="ap-start-date" style="width: 110px;"></native-date-input>
+            </div>
+            <div style="text-align: right; margin-top: 15px; margin-right: 10px;">
+                <push-button id="ap-ok">Ok</push-button>
+                <push-button id="ap-cancel" style="margin-left: 10px;">Cancel</push-button>
+            </div>
+        </popup-body>
+    </popup>
+
+    <popup id="start-date-popup" height="200px" width="500px">
+        <popup-title>Edit Start Date</popup-title>
+        <popup-body>
+            <div class="vert-input2">
+                <span>Project:</span>
+                <text-input id="sdp-project" style="width: 350px;" disabled></text-input>
+
+                <span>Project Start Date:</span>
+                <text-input id="sdp-project-start-date" style="width: 70px;" disabled></text-input>
+
+                <span>Project End Date:</span>
+                <text-input id="sdp-project-end-date" style="width: 70px;" disabled></text-input>
+
+                <span>Worker Start Date:</span>
+                <div>
+                    <native-date-input id="sdp-start-date" style="width: 110px;"></native-date-input>
+                    <span style="margin-left: 10px;">(if different from project start date)</span>
+                </div>
+            </div>
+            <div style="text-align: right; margin-top: 15px; margin-right: 10px;">
+                <push-button id="sdp-ok">Ok</push-button>
+                <push-button id="sdp-cancel" style="margin-left: 10px;">Cancel</push-button>
+            </div>
+        </popup-body>
+    </popup>
+
+</div>

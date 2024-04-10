@@ -1,0 +1,56 @@
+<?xml version="1.0"?>
+<project name="Stack360Frontend" basedir="." default="build">
+  
+  <target name="builder">
+    <javac sourcepath="builder" srcdir="builder/builder" classpath="builder/libs/commons-compress-1.20.jar:" includeantruntime="false">
+    </javac>
+  </target>
+  
+  <target name="build" depends="builder">
+    <exec executable="java">
+      <arg value="-cp"/>
+      <arg value="builder:builder/libs/*"/>
+      <arg value="builder.BuildUtils"/>
+      <arg value="${ant.project.invoked-targets}"/>
+    </exec>
+  </target>
+
+  <target name="clean" depends="builder">
+    <exec executable="java">
+      <arg value="-cp"/>
+      <arg value="builder:builder/libs/*"/>
+      <arg value="builder.BuildUtils"/>
+      <arg value="${ant.project.invoked-targets}"/>
+    </exec>
+  </target>
+
+  <target name="configVeteranBase" depends="builder">
+    <exec executable="java">
+      <arg value="-cp"/>
+      <arg value="builder:builder/libs/*"/>
+      <arg value="builder.BuildUtils"/>
+      <arg value="${ant.project.invoked-targets}"/>
+    </exec>
+  </target>
+
+  <target name="configStack360" depends="builder">
+    <exec executable="java">
+      <arg value="-cp"/>
+      <arg value="builder:builder/libs/*"/>
+      <arg value="builder.BuildUtils"/>
+      <arg value="${ant.project.invoked-targets}"/>
+    </exec>
+  </target>
+
+  <!-- Config the interface and update the WayToGo server  -->
+  <target name="updateWayToGo" depends="builder">
+  <exec executable="java">
+    <arg value="-cp"/>
+    <arg value="builder:builder/libs/*"/>
+    <arg value="builder.BuildUtils"/>
+    <arg value="${ant.project.invoked-targets}"/>
+  </exec>
+  </target>
+
+
+</project>

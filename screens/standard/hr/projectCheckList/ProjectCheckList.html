@@ -1,0 +1,81 @@
+<!--
+     Copyright 2020 STACK360 LLC
+     All rights reserved.
+
+-->
+
+<div class="kiss">
+
+    <style>
+        .pcl-grid {
+            display: grid;
+            grid-template-columns: repeat(2, max-content);
+            grid-row-gap: 10px;
+            grid-column-gap: 10px;
+            align-items: center;
+        }
+        .pcl-grid > span {
+            text-align: right;
+        }
+    </style>
+
+    <div style="margin-top: 10px;">Call Log Check List Details:</div>
+    <text-label id="pcl-project" style="position: absolute; top: 10px; right: 10px;"></text-label>
+    <hr>
+
+    <span>Route Stop (Route Stop Owner):</span>
+    <drop-down id="pcl-routeStopOwner" style="width: 560px;"></drop-down>
+
+
+    <div id="checkListGrid" style="margin-top: 10px; width: 100%; height: calc(100% - 115px);"></div>
+
+    <text-label id="pcl-status" style="position: absolute; bottom: 20px; left: 10px;">Displaying 0 Check List Details</text-label>
+
+    <div style="text-align: right; position: absolute; bottom: 10px; width: 100%; right: 0;">
+        <push-button id="pcl-view" style="margin-right: 10px;" disabled>View</push-button>
+        <push-button id="pcl-report" style="margin-right: 10px;">Report</push-button>
+    </div>
+
+    <popup id="pcl-popup" width="620px" height="590px">
+        <popup-title>
+            <span>View Check List Detail</span>
+        </popup-title>
+        <popup-body style="padding: 10px;">
+            <div class="pcl-grid" style="grid-template-columns: max-content auto;">
+                <span>Summary:</span>
+                <div>
+                    <text-input id="pcl-summary" style="width: 400px; margin-right: 10px;" disabled></text-input>
+
+                    <span>Required:</span>
+                    <text-input id="pcl-required" style="width: 20px; margin-left: 10px;" disabled></text-input>
+                </div>
+
+                <span>Detail:</span>
+                <textbox-input id="pcl-detail" style="width: calc(100% - 15px); height: 200px; align-items: start;" disabled></textbox-input>
+
+                <span>Completed By:</span>
+                <div>
+                    <text-input id="pcl-completedBy" style="width: 180px; margin-right: 10px;" disabled></text-input>
+
+                    <span>Completed Date:</span>
+                    <date-input id="pcl-completedDate" style="width: 80px; margin-left: 10px;" disabled></date-input>
+                </div>
+
+                <span>Comments:</span>
+                <textbox-input id="pcl-comment" style="width: calc(100% - 15px); height: 200px; align-items: start;" disabled></textbox-input>
+
+                <span>Entered By:</span>
+                <div>
+                    <text-input id="pcl-enteredBy" style="width: 180px; margin-right: 10px;" disabled></text-input>
+
+                    <span>Completed Date:</span>
+                    <text-input id="pcl-enteredDate" style="width: 105px;" disabled></text-input>
+                </div>
+            </div>
+
+            <div style="text-align: right; margin-top: 10px;">
+                <push-button id="pcl-close" style="margin-left: 10px;">Close</push-button>
+            </div>
+        </popup-body>
+    </popup>
+</div>

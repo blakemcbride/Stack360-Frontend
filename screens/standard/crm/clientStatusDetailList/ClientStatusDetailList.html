@@ -1,0 +1,49 @@
+<!--
+     Copyright 2020 STACK360 LLC
+     All rights reserved.
+
+-->
+
+<div class="kiss">
+
+    <div style="margin-top: 5px;">
+        Client Status Details
+    </div>
+    <hr>
+
+    <div id="grid" style="height: calc(100% - 80px); width: 100%;"></div>
+
+
+    <div style="position: absolute; bottom: 10px; right: 10px;">
+        <push-button id="edit" style="margin-left: 50px;" disabled>Edit</push-button>
+        <push-button id="report" style="margin-left: 10px;">Report</push-button>
+    </div>
+
+    <popup id="status-popup" height="400px" width="620px">
+        <popup-title>Edit Client Status</popup-title>
+        <popup-body>
+            <div class="vert-input">
+                <span>Client:</span>
+                <div>
+                    <text-input id="sp-client" style="width: 300px;" disabled></text-input>
+                    <span style="margin-left: 30px;">Last Contact:</span>
+                    <native-date-input id="sp-last-contact" style="width: 110px"></native-date-input>
+                </div>
+
+                <span>Status:</span>
+                <drop-down id="sp-status" style="width: 310px" required></drop-down>
+
+                <span>Comment:</span>
+                <textbox-input id="sp-comment" style="width: 520px; height: 260px"></textbox-input>
+            </div>
+
+            <div style="margin-top: 10px; text-align: right;">
+                <push-button id="sp-ok">Ok</push-button>
+                <push-button id="sp-cancel" style="margin-left: 10px; margin-right: 10px;">Cancel</push-button>
+            </div>
+
+        </popup-body>
+    </popup>
+
+
+</div>

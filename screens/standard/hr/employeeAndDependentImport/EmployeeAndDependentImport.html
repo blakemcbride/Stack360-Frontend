@@ -1,0 +1,81 @@
+<!--
+     Copyright 2020 STACK360 LLC
+     All rights reserved.
+
+-->
+
+<div class="kiss">
+    <style>
+        #eadi-grid {
+            display: grid;
+            grid-template-columns: max-content max-content;
+            grid-column-gap: 10px;
+            grid-row-gap: 10px;
+            align-self: baseline;
+        }
+        #eadi-grid span {
+            color: #000;
+            align-self: center;
+            text-align: right;
+        }
+        #eadi-empl_file_label,
+        #eadi-dep_file_label {
+            padding: 6px 12px 4px;
+            border: 1px solid #a5a5a5;
+            font-family: Arial;
+            font-size: 12px;
+            display: inline;
+            vertical-align: middle;
+            background: var(--btn-bg);
+            font-weight: bold;
+            border-radius: 4px;
+            line-height: 1.3;
+            cursor: default;
+            -webkit-appearance: button;
+            vertical-align: bottom;
+        }
+        #eadi-empl_file_label:hover,
+        #eadi-dep_file_label:hover {
+            background: var(--btn-bg-hover);
+            border: 1px solid var(--btn-border-color-hover);
+        }
+        #eadi-empl_file_label:active,
+        #eadi-dep_file_label:active {
+            background: var(--btn-bg-active);
+            padding: 3px 11px;
+            border: 2px solid var(--btn-border-color-active);
+        }
+    </style>
+    <div style="margin-top: 10px; margin-bottom: 10px;">
+        <span>Employee and Dependent Import:</span>
+        <hr>
+    </div>
+    <div style="display: flex;">
+        <div id="eadi-grid" style="margin-right: 20px;">
+            <span>Employee File:</span>
+            <div>
+                <text-input id="eadi-empl_file_name" maxlength="200" disabled style="width: 200px;"></text-input>
+                <file-upload id="eadi-empl_file" required accept=".csv" style="display: none;">Employee File</file-upload>
+                <text-label for="eadi-empl_file" id="eadi-empl_file_label">Browse</text-label>    
+            </div>
+    
+            <span>Screen Group:</span>
+            <drop-down id="eadi-screen_group" style="width: 285px;" required></drop-down>
+    
+            <span>Security Group:</span>
+            <drop-down id="eadi-security_group" style="width: 285px;" required></drop-down>
+    
+            <push-button id="eadi-empl_import" style="grid-column: 1 / 3; width: fit-content; margin-left: auto;">Import</push-button>
+        </div>
+        <div id="eadi-grid">
+            <span>Dependent File:</span>
+            <div>
+                <text-input id="eadi-dep_file_name" maxlength="200" disabled style="width: 200px;"></text-input>
+                <file-upload id="eadi-dep_file" required accept=".csv" style="display: none;">Employee File</file-upload>
+                <text-label for="eadi-dep_file" id="eadi-dep_file_label">Browse</text-label>    
+            </div>
+    
+            <push-button id="eadi-dep_import" style="grid-column: 1 / 3; width: fit-content; margin-left: auto;">Import</push-button>
+        </div>
+    </div>
+</div>

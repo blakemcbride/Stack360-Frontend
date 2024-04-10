@@ -1,0 +1,122 @@
+<div class="kiss">
+
+    <style>
+        .vert-input2 {
+            display: grid;
+            grid-template-columns: max-content max-content;
+            grid-column-gap: 5px;
+            grid-row-gap: 10px;
+            margin-top: 10px;
+            margin-left: 10px;
+        }
+
+        .vert-input2 span {
+            text-align: right;
+            margin-top: 4px;
+        }
+    </style>
+
+    <div style="margin-top: 10px;">
+        <span>My Tasks:</span>
+        <text-label id="worker-name" style="float: right;"></text-label>
+    </div>
+    <hr style="margin-left: 0;">
+
+    <div style="margin-top: 10px; margin-bottom: 10px;">
+        Work date:
+        <native-date-input id="date" style="width: 110px;"></native-date-input>
+    </div>
+
+    <div id="grid" style="width: 100%; height: calc(100% - 120px);"></div>
+
+    <text-label id="status" style="position: absolute; bottom: 25px; left: 20px;"></text-label>
+
+    <div style="position: absolute; bottom: 15px; left: 10px; display: inline-block;">
+        <text-label id="status"></text-label>
+    </div>
+
+    <div style="position: absolute; bottom: 15px; right: 10px;">
+        <push-button id="edit" style="margin-left: 10px;" disabled>Edit</push-button>
+    </div>
+
+
+    <popup id="task-detail-popup" height="550px" width="785px">
+        <popup-title>
+            <text-label id="tdp-title"></text-label>
+        </popup-title>
+        <popup-body>
+            <div style="display: inline-block;">
+                <div class="vert-input2">
+                    <span>Task:</span>
+                    <text-input id="tdp-task" style="width: 250px;" disabled></text-input>
+
+                    <span>Description:</span>
+                    <textbox-input id="tdp-description" style="width: 250px; height: 200px;" disabled></textbox-input>
+
+                    <span>Comments:</span>
+                    <textbox-input id="tdp-comments" style="width: 250px; height: 200px;"></textbox-input>
+                </div>
+            </div>
+            <div style="display: inline-block;">
+                <div class="vert-input2">
+                    <span style="width: 110px;">Status:</span>
+                    <drop-down id="tdp-status" style="width: 200px;">
+                        <option value="0" selected>Open</option>
+                        <option value="1">Complete</option>
+                        <option value="2">Cancelled</option>
+                        <option value="3">Incomplete: Time</option>
+                        <option value="4">Incomplete: Missing Items</option>
+                        <option value="5">Incomplete: Reassigned</option>
+                        <option value="6">Incomplete: See Comments</option>
+                    </drop-down>
+
+                    <span>Date Assigned:</span>
+                    <date-input id="tdp-date-assigned" style="width: 70px;" disabled></date-input>
+
+                    <span>Date Completed:</span>
+                    <date-input id="tdp-date-completed" style="width: 70px;" no-placeholder disabled></date-input>
+
+                    <span>Assigned:</span>
+                    <div>
+                        <numeric-input id="tdp-assigned" style="width: 40px;" disabled></numeric-input>
+                        <check-box id="tdp-recurring" style="margin-left: 110px;" disabled>Recurring</check-box>
+                    </div>
+
+                    <span></span>
+                    <push-button id="tdp-assignments">Assignments</push-button>
+
+                    <span>Missing Items:</span>
+                    <textbox-input id="tdp-missing-items" style="width: 250px; height: 200px;"></textbox-input>
+<!--
+                    <span></span>
+                    <push-button id="tdp-upload-image">Upload Image</push-button>
+
+                    <span></span>
+                    <push-button id="tdp-view-images">View Images</push-button>
+                    -->
+                </div>
+            </div>
+            <div style="right: 17px; bottom: 10px; position: absolute;">
+                <push-button id="tdp-ok">Ok</push-button>
+                <push-button id="tdp-cancel" style="margin-left: 10px;">Cancel</push-button>
+            </div>
+        </popup-body>
+    </popup>
+
+    <popup id="task-assignments-popup" height="500px" width="615px">
+        <popup-title>Task Assignments</popup-title>
+        <popup-body>
+            <div style="margin-top: 15px; margin-bottom: 20px; margin-left: 10px; font-size: medium;">
+                <span>Task:</span>
+                <text-label id="tap-task" style="width: 200px;"></text-label>
+            </div>
+            <div id="tap-grid" style="height: 400px; width: 600px;"></div>
+            <div style="left: 17px; bottom: 30px; position: absolute; display: inline-block;">
+                * Total hours with company
+            </div>
+            <div style="right: 17px; bottom: 10px; position: absolute;">
+                <push-button id="tap-cancel" style="margin-left: 10px;">Done</push-button>
+            </div>
+        </popup-body>
+    </popup>
+</div>

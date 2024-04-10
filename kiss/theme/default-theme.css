@@ -1,0 +1,338 @@
+/**
+ * Default theme. based on Arahant styles, for Kiss framework.
+ */
+:root {
+    --input-border-color-focus: #8dccf3;
+
+    --btn-bg-color-dark: #f0f0f0;
+    --btn-bg-color-light: white;
+    --btn-border-color: #abb4b4;
+
+    --btn-bg-color-hover-dark: #f7f7f7;
+    --btn-bg-color-hover-light: white;
+    --btn-border-color-hover: #009fff;
+
+    --btn-bg-color-active-light: #eeedff;
+    --btn-bg-color-active-dark: #c7c2ff;
+    --btn-border-color-active: #009fff;
+
+    --btn-border-color-focus: #009fff;
+
+    --btn-bg: linear-gradient(180deg, var(--btn-bg-color-light) 0.5%, var(--btn-bg-color-dark) 51%, var(--btn-bg-color-dark) 100%);
+    --btn-bg-hover: linear-gradient(180deg, var(--btn-bg-color-hover-light) 0%, var(--btn-bg-color-hover-dark) 51%, var(--btn-bg-color-hover-dark) 100%);
+    --btn-bg-active: linear-gradient(180deg, var(--btn-bg-color-active-light) 0%, var(--btn-bg-color-active-dark) 100%);
+
+    --input-border-color-light: #c4cdcd;
+    --input-border-color-dark: #abb4b4;
+    --input-borer: linear-gradient(180deg, var(--input-border-color-dark) 0.5%, var(--input-border-color-light) 100%);
+
+    --modal-content-bg-color-dark: #f0f0f0;
+    --modal-content-bg-color-light: white;
+    --modal-content-shadow-color: #666666;
+
+    --modal-content-bg: linear-gradient(180deg, var(--modal-content-bg-color-light) 0.5%, var(--modal-content-bg-color-dark), var(--modal-content-bg-color-dark) 100%);
+    --modal-content-shadow: 0 1px 5px 0 var(--modal-content-shadow-color);
+
+    --modal-title-color: #fff;
+    --modal-title-bg-color-light: #828282;
+    --modal-title-bg-color-dark: #666666;
+
+    --modal-title-bg: linear-gradient(180deg, var(--modal-title-bg-color-light) 0%, var(--modal-title-bg-color-dark) 51%, var(--modal-title-bg-color-dark) 100%);
+
+    --input-disabled-bg-color: #dddddd;
+
+    /**
+     * Font formatting.
+     */
+    font-family: "Arial", sans-serif;
+    font-size: 11px;
+    font-weight: lighter;
+}
+
+/**
+ * Start of component styling.
+ */
+
+input[type="text"], input[type="password"], input[type="date"] {
+    height: 20px;
+    margin: 1px;
+    padding-left: 4px;
+    padding-right: 4px;
+    border-width: 1px;
+    border-image-source: var(--input-borer);
+    border-image-slice: 1;
+
+    background-color: #fff;
+    box-shadow: inset 0 1px 3px rgba(0, 0, 0, 0.1);
+}
+
+input[type="text"]:read-only, input[type="password"]:read-only, input[type="date"]:read-only {
+    /*cursor: none;*/
+}
+
+input[type="text"]:disabled, input[type="password"]:disabled, input[type="date"]:disabled {
+    background-color: var(--input-disabled-bg-color);
+}
+
+input[type="text"]:focus, input[type="password"]:focus, input[type="date"]:focus {
+    margin: 0;
+    border: 2px solid var(--input-border-color-focus);
+}
+
+input[type="button"], select {
+/*    display: block;  */
+    padding: 5px;
+    font-size: 11px;
+    font-weight: bold;
+    border: none;
+    border-radius: 4px;
+    line-height: 1.3;
+    cursor: default;
+}
+
+input[type="date"] {
+    padding-right: 5px;
+    background: #fff url('../assets/icons/calendar.png') 97% 50% no-repeat;
+    background-size: auto;
+    padding-top: 0;
+    padding-bottom: 0;
+    -moz-padding-end: 5px;
+}
+
+input[type="date"]::-webkit-inner-spin-button {
+    display: none;
+}
+
+input[type="date"]::-webkit-calendar-picker-indicator {
+    opacity: 0;
+}
+
+.time-input {
+    width: 50px;
+    text-align: right;
+}
+
+.btn-popup {
+    min-width: 70px;
+    height: 23px !important;
+}
+
+input[type="button"], select, .btn-popup {
+    background: var(--btn-bg);
+    padding: 4px 12px;
+    border-width: 1px;
+    border-style: outset;
+    border-color: var(--btn-border-color);
+}
+
+input[type="button"]:hover, select:hover, .btn-popup:hover {
+    background: var(--btn-bg-hover);
+    border-style: solid;
+    border-color: var(--btn-border-color-hover);
+}
+
+input[type="button"]:active, select:active, .btn-popup:active {
+    background: var(--btn-bg-active);
+    padding: 3px 11px;
+    border-style: solid;
+    border-width: 2px;
+    border-color: var(--btn-border-color-active);
+}
+
+input[type="button"]:focus, select:focus, .btn-popup:focus {
+    padding: 3px 11px;
+    border-style: solid;
+    border-width: 2px;
+    border-color: var(--btn-border-color-focus);
+}
+
+input[type="button"]:disabled {
+    border-style: outset;
+    background: var(--btn-bg);
+    border-color: var(--btn-border-color);
+}
+
+input[type="checkbox"] {
+    -webkit-appearance: none;
+    border: 1px solid gray;
+    position: relative;
+    padding: 6px;
+    display: inline-block;
+    vertical-align: bottom;
+    margin-right: 5px;
+}
+
+input[type="checkbox"]:checked {
+    background: white;
+}
+
+input[type="checkbox"]:checked:after {
+    content: '\2713';
+    font-size: 11px;
+    position: absolute;
+    top: 0;
+    left: 2px;
+}
+
+input[type="radio"] {
+    -webkit-appearance: none;
+    color: gray;
+    border: 1px solid gray;
+    padding: 6px;
+    border-radius: 50px;
+    display: inline-block;
+    position: relative;
+    vertical-align: bottom;
+    margin-right: 5px;
+}
+
+input[type="radio"]:checked {
+    background: white;
+}
+
+input[type="radio"]:checked:after {
+    content: '\25CF';
+    border-radius: 50px;
+    position: absolute;
+    top: 0;
+    left: 3px;
+    font-size: 10px;
+}
+
+input[type="radio"]:disabled {
+    background-color: transparent;
+}
+
+input[type="radio"]:disabled + label {
+    color: var(--border-color-light);
+}
+
+textarea {
+    line-height: 1.5;
+}
+
+select {
+    padding: 3px 5px;
+    margin: 1px;
+}
+
+select:focus {
+    padding: 2px 4px;
+}
+
+select::selection {
+    color: red;
+    background: yellow;
+}
+
+/**
+ * End of component styling.
+ */
+
+/**
+ * Start of pop-up modal styling.
+ */
+
+.modal {
+    position: fixed;
+    left: 0;
+    top: 0;
+    width: 100%;
+    height: 100%;
+    overflow: auto;
+    background-color: rgba(255, 255, 255, 0.5);
+    -webkit-font-smoothing: subpixel-antialiased;
+}
+
+.modal-content {
+    background: var(--modal-content-bg);
+    min-width: 275px;
+    position: fixed;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%) !important;
+    border-radius: 4px;
+    box-shadow: var(--modal-content-shadow);
+}
+
+.modal-title {
+    font-size: 12px;
+    font-weight: bold;
+    color: var(--modal-title-color);
+    background: var(--modal-title-bg);
+    padding: 6px;
+
+    border-top-left-radius: 4px;
+    border-top-right-radius: 4px;
+
+    cursor: default;
+}
+
+.modal-body {
+    padding: 10px;
+}
+
+.modal-footer {
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    width: 100%;
+    padding-bottom: 10px;
+    padding-top: 10px;
+
+    display: flex;
+    flex-direction: row;
+    justify-content: flex-end;
+}
+
+#popup-content {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    padding: 10px;
+}
+
+#popup-msg-block {
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    align-self: flex-start;
+    padding: 5px 15px;
+}
+
+#popup-btn-block {
+    display: flex;
+    flex-direction: row;
+}
+
+#popup-btn-block > .btn-popup {
+    margin-left: 5px;
+    margin-right: 5px;
+}
+
+#popup-msg {
+    padding-left: 10px;
+    line-height: 1.5;
+}
+
+div.vert-input {
+    display:grid;
+    grid-template-columns: max-content max-content;
+    grid-column-gap:5px;
+    grid-row-gap: 10px;
+    margin-top: 10px;
+    margin-left: 10px;
+}
+div.vert-input label {
+    text-align:right;
+    margin-top: 4px;
+}
+div.vert-input span {
+    text-align:right;
+    margin-top: 4px;
+}
+div.vert-input label:after { content: ":"; }
+
+/**
+ * End of pop=up modal styling.
+ */
