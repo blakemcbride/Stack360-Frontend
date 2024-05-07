@@ -62,8 +62,9 @@ to contribute to and benefit from this powerful tool.
 
 ### Full System Documentation
 
-Through [Amazon](https://amazon.com/dp/B0D1245Q1F), we published the "Stack360
-System Manual".  This manual documents the architecture of the system,
+Through Amazon, we published the 
+[Stack360 System Manual](https://amazon.com/dp/B0D1245Q1F).  
+This manual documents the architecture of the system,
 acts as a developer guide, and covers system configuration.
 
 ### Docker Image
