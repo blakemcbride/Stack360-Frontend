@@ -76,6 +76,11 @@ up and running for evaluation purposes.  However, these images are not
 intended to be of value for development or production use.  This repo
 is for that.
 
+### Getting Started
+
+This front-end requires the back-end which is located at 
+[https://github.com/blakemcbride/Stack360-Backend](https://github.com/blakemcbride/Stack360-Backend).
+Full instructions are available there.
 
 ### Commercial Support and Licensing:
 
@@ -84,10 +89,6 @@ don't hesitate to reach out. We're here to assist you in integrating
 Stack360 into your business seamlessly.  See our website at
 [stack360.io](https://stack360.io)
 
-### Getting Started
-
-See the file named *Stack360-build-guide.pdf* in the Stack360 back-end repo located at
-[https://github.com/blakemcbride/Stack360-Backend](https://github.com/blakemcbride/Stack360-Backend)
 
 ### Join the Stack360 Community
 
