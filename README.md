@@ -4,21 +4,26 @@
 
 Comprehensive Business Process Software for Service-oriented Organizations.
 
-We're excited to share Stack360, our robust web-based business process
-software! Stack360 has been a reliable solution in production for over
-a decade, offering a suite of integrated functions tailored for
-service-oriented organizations. This comprehensive system streamlines
-various business operations, including:
+****This repository contains a snapshot of the source code as it existed on May 7, 2024 (excluding customer-specific code).
+A book detailing the system's internals has also been published on Amazon.
+Since that date, the system has undergone many enhancements and is in production use on a daily basis.
+However, due to lower-than-anticipated interest in the open-source code, a decision has been made, at least 
+for the time being, not to update this repository.
+Please feel free to contact me if you would like the latest version of the system or require support.**
 
-* Applicant Tracking: Automate your hiring process.
-* HR (Human Resources Management): Efficiently manage your workforce.
-* Project Management: Keep your projects on track and within budget.
-* Worker Time Tracking: Worker time flows to payroll and client billing.
-* CRM (Customer Relationship Management): Manage sales prospects and clients.
-* Client Invoicing: Streamline client billing.
-* Employee Benefit Administration: Manage employee health benefits, insurance, time off, etc.
-* and a lot more...
+We are pleased to introduce Stack360, our robust web-based business process software. 
+Stack360 has been a trusted solution in production for over a decade, providing a suite of integrated functions 
+specifically designed for service-oriented organizations. This comprehensive system optimizes various business 
+operations, including:
 
+* Applicant Tracking: Automate your recruitment process.
+* Human Resources Management: Effectively manage your workforce.
+* Project Management: Ensure your projects remain on schedule and within budget.
+* Worker Time Tracking: Seamlessly integrate worker hours with payroll and client billing.
+* Customer Relationship Management: Oversee sales prospects and client relationships.
+* Client Invoicing: Optimize the client billing process.
+* Employee Benefit Administration: Administer employee health benefits, insurance, time-off, and more.
+* And much more...
 
 Stack360 is also described at [Stack360.io](https://stack360.io)
 
@@ -42,23 +47,20 @@ Stack360 also utilizes the KISS Open-source Web Development Framework [kissweb.o
 
 ### System Scale:
 
-Approximately 10,000 classes, 300 HTML screens, and 270+ SQL tables
-make up the extensive infrastructure of Stack360.  There are no
-practical limits to the size of your organization this system will
-support.
+Stack360's extensive infrastructure comprises more than 8,000 Java and Groovy classes, 300 HTML screens, 
+and 270 SQL tables. This system can support organizations of nearly any size.
 
 ### Communications:
 
-Stack360 can send and receive email and text messages.  Stack360 also
-has several bidirectional interfaces including REST, XML, CSV, EDI,
-SFTP, SOAP, etc. and can easily be made to communicate with any
-external system.
+Stack360 is capable of sending and receiving both email and text messages. 
+Additionally, Stack360 features several bidirectional interfaces, including REST, XML, CSV, EDI, SFTP, 
+and SOAP, enabling seamless communication with any external system.
 
 ### Open-Source Licensing:
 
 The complete source code of Stack360 is now available under the GNU
 General Public License Version 3, inviting developers and businesses
-to contribute to and benefit from this powerful tool.
+to contribute to and benefit from this robust tool.
 
 ### Full System Documentation
 
@@ -69,13 +71,12 @@ acts as a developer guide, and covers system configuration.
 
 ### Docker Image
 
-We also have the full system available as a docker image at
+We also offer the complete system as a Docker image, which can be accessed at the following link:
 [https://hub.docker.com/r/blake1024/stack360](https://hub.docker.com/r/blake1024/stack360)
 
-These images are convenient for a quick and easy way to get the system
-up and running for evaluation purposes.  However, these images are not
-intended to be of value for development or production use.  This repo
-is for that.
+These images provide a convenient and efficient method for quickly deploying the system for evaluation purposes. 
+However, please note that these images are not designed for development or production use. This repository serves 
+that purpose.
 
 ### Getting Started
 
@@ -85,10 +86,9 @@ Full instructions are available there.
 
 ### Commercial Support and Licensing:
 
-For those seeking commercial support or a commercial license, please
-don't hesitate to reach out. We're here to assist you in integrating
-Stack360 into your business seamlessly.  See our website at
-[stack360.io](https://stack360.io)
+If you are interested in commercial support or special licensing, please feel free to contact us.  We are committed to 
+assisting you in the seamless integration of Stack360 into your business.  For more information, please visit our 
+website at [stack360.io](https://stack360.io)
 
 
 ### Join the Stack360 Community
@@ -99,14 +99,14 @@ insights and contributions can help shape the future of
 Stack360. Together, let's drive innovation and excellence in business
 process management.
 
-Please help fund this project at
+Please consider supporting this project at
 [https://www.gofundme.com/stack360](https://www.gofundme.com/stack360)
 
-For more information, contact:
+For more information, please contact:
 
 Blake McBride
 Email: blake@stack360.io
 
 Join us in this exciting new chapter for Stack360!
 
-Home for this project is [https://github.com/blakemcbride/Stack360-Frontend](https://github.com/blakemcbride/Stack360-Frontend)
+The home for this project is [https://github.com/blakemcbride/Stack360-Frontend](https://github.com/blakemcbride/Stack360-Frontend)
