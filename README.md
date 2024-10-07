@@ -1,4 +1,4 @@
-![](stack360-dots3-24.png)
+[![](stack360-dots3-24.png)](https://stack360.io)
 
 # STACK360 Web-based Business Process Software
 
